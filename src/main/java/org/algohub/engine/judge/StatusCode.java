@@ -1,8 +1,5 @@
 package org.algohub.engine.judge;
 
-/**
- * Status code.
- */
 public enum StatusCode {
   PENDING(0),
   RUNNING(1),
@@ -23,7 +20,7 @@ public enum StatusCode {
 
   private final int code;
 
-  private StatusCode(int code) {
+  StatusCode(int code) {
     this.code = code;
   }
 

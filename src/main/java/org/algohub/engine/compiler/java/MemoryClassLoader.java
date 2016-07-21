@@ -13,7 +13,6 @@ import java.util.StringTokenizer;
 /**
  * ClassLoader that loads .class bytes from memory.
  */
-@SuppressWarnings({"PMD.ShortVariable"})
 final class MemoryClassLoader extends URLClassLoader {
   /** ClassName -> bytecode. */
   private transient Map<String, byte[]> classBytes;
@@ -74,7 +73,6 @@ final class MemoryClassLoader extends URLClassLoader {
     return classes;
   }
 
-  /** @{inheritDoc}. */
   protected Class findClass(final String className) throws ClassNotFoundException {
     final byte[] buf = classBytes.get(className);
     if (buf == null) {

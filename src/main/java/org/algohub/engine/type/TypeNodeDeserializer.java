@@ -7,15 +7,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 import java.io.IOException;
 
-
-/**
- * TypeNode JSON deserializer.
- */
-@SuppressWarnings({"PMD.ShortVariable"}) public class TypeNodeDeserializer
+public class TypeNodeDeserializer
     extends JsonDeserializer<TypeNode> {
-  /**
-   * {@inheritDoc}.
-   */
+
   public TypeNode deserialize(final JsonParser p, final DeserializationContext ctxt)
       throws IOException {
     final JsonNode jsonNode = p.readValueAsTree();

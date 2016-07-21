@@ -5,7 +5,7 @@ import com.google.common.io.Files;
 import com.google.common.io.Resources;
 import org.algohub.engine.JudgeEngine;
 import org.algohub.engine.pojo.JudgeResult;
-import org.algohub.engine.pojo.Question;
+import org.algohub.engine.pojo.Problem;
 import org.algohub.engine.util.ObjectMapperInstance;
 
 import java.io.File;
@@ -43,12 +43,12 @@ public final class JudgeEngineTestUtil {
     try {
       final String questionStr =
           Resources.toString(Resources.getResource(questionPath), Charsets.UTF_8);
-      final Question question =
-          ObjectMapperInstance.INSTANCE.readValue(questionStr, Question.class);
+      final Problem problem =
+          ObjectMapperInstance.INSTANCE.readValue(questionStr, Problem.class);
       final String pythonCode =
           Resources.toString(Resources.getResource(solutionPath), Charsets.UTF_8);
 
-      final JudgeResult result = JUDGE_ENGINE.judge(question, pythonCode);
+      final JudgeResult result = JUDGE_ENGINE.judge(problem, pythonCode);
       assertEquals(StatusCode.ACCEPTED.toInt(), result.getStatusCode());
     } catch (InterruptedException | IOException e) {
       fail(e.getMessage());

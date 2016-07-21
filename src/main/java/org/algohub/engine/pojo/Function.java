@@ -8,12 +8,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.algohub.engine.type.TypeNode;
 import org.algohub.engine.type.TypeNodeDeserializer;
 
-
-/**
- * Function metadata.
- */
-@SuppressWarnings({"PMD.BeanMembersShouldSerialize", "PMD.UnusedPrivateField", "PMD.SingularField",
-    "PMD.ArrayIsStoredDirectly"}) @JsonIgnoreProperties(ignoreUnknown = true) public
+@JsonIgnoreProperties(ignoreUnknown = true) public
 class Function {
 
   /**

@@ -24,7 +24,7 @@ import java.util.Set;
 /**
  * Convert JSON to Java Object.
  */
-@SuppressWarnings({"PMD.CommentRequired"}) public interface Deserializer {
+public interface Deserializer {
   ImmutableMap<IntermediateType, Class> JAVA_CLASS_MAP =
       ImmutableMap.<IntermediateType, Class>builder().put(IntermediateType.BOOL, boolean.class)
           .put(IntermediateType.STRING, String.class).put(IntermediateType.DOUBLE, double.class)

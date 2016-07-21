@@ -15,8 +15,7 @@ import java.util.Optional;
  *
  * <p> elementType will be empty if value is not a container type. </p>
  */
-@SuppressWarnings({"PMD.UnusedPrivateField", "PMD.BeanMembersShouldSerialize", "PMD.SingularField",
-    "PMD.ShortVariable"}) public class TypeNode {
+public class TypeNode {
   /**
    * type.
    */

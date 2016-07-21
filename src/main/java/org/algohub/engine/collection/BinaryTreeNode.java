@@ -4,7 +4,6 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 /** Binary Tree Node. */
-@SuppressWarnings({"PMD.BeanMembersShouldSerialize", "PMD.CommentRequired", "PMD.ShortVariable"})
 public class BinaryTreeNode<E> {
   public E value;
   public BinaryTreeNode<E> left;

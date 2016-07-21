@@ -23,7 +23,7 @@ public enum IntermediateType {
    */
   private final String text;
 
-  private IntermediateType(final String text) {
+  IntermediateType(final String text) {
     this.text = text;
   }
 

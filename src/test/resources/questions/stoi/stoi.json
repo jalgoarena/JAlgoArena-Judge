@@ -1,18 +1,7 @@
 {
   "id": "stoi",
-  "title": {
-    "de": "",
-    "en": "String to Integer (atoi)",
-    "es": "",
-    "fr": "",
-    "ja": "",
-    "pt-BR": "",
-    "ru": "",
-    "zh-CN": ""
-  },
-  "description": {
-    "en": "Implement `std::stoi()` to convert a string to an integer.\n\n**Hint**: Carefully consider all possible input cases. If you want a challenge, please do not see below and ask yourself what are the possible input cases.\n\n**Notes**: It is intended for this problem to be specified vaguely (ie, no given input specs). You are responsible to gather all the input requirements up front."
-  },
+  "title": "String to Integer (atoi)",
+  "description": "Implement `std::stoi()` to convert a string to an integer.\n\n**Hint**: Carefully consider all possible input cases. If you want a challenge, please do not see below and ask yourself what are the possible input cases.\n\n**Notes**: It is intended for this problem to be specified vaguely (ie, no given input specs). You are responsible to gather all the input requirements up front.",
   "category": "algorithm",
   "tags": [
     "String"

@@ -1,7 +1,6 @@
 package org.algohub.engine.collection;
 
 /** Singly linked list node. */
-@SuppressWarnings({"PMD.BeanMembersShouldSerialize", "PMD.CommentRequired", "PMD.ShortVariable"})
 public class LinkedListNode<E> {
   public E value;
   public LinkedListNode<E> next;
