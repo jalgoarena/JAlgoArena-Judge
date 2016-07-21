@@ -9,12 +9,10 @@ import static org.algohub.engine.codegenerator.Indentation.append;
 /**
  * Generate function declaration for display.
  */
-@SuppressWarnings({"PMD.InsufficientStringBufferDeclaration", "PMD.ConsecutiveLiteralAppends",
-        "PMD.InefficientStringBuffering", "PMD.UseUtilityClass", "PMD.ConsecutiveAppendsShouldReuse"})
-public class FunctionGenerator {
+class FunctionGenerator {
 
-    public static String generateParameterDeclaration(final TypeNode type,
-                                                      final String parameterName) {
+    private static String generateParameterDeclaration(final TypeNode type,
+                                                       final String parameterName) {
         final StringBuilder result = new StringBuilder();
         final String typeDeclaration = generateTypeDeclaration(type);
 
@@ -22,7 +20,7 @@ public class FunctionGenerator {
         return result.toString();
     }
 
-    public static String generateTypeDeclaration(final TypeNode type) {
+    static String generateTypeDeclaration(final TypeNode type) {
         if (!type.isContainer()) {
             return TypeMap.JAVA_TYPE_MAP.get(type.getValue());
         }
@@ -42,8 +40,8 @@ public class FunctionGenerator {
         }
     }
 
-    public static String generateFunction(final Function function,
-                                          final int indent) {
+    static String generateFunction(final Function function,
+                                   final int indent) {
         final StringBuilder result = new StringBuilder();
 
         functionComment(function, indent, result);
@@ -63,7 +61,7 @@ public class FunctionGenerator {
     private static void functionBody(Function function, int indent, StringBuilder result) {
         append(result, "public ", indent);
         result.append(generateTypeDeclaration(function.getReturn_().getType()));
-        result.append(" " + function.getName() + "(");
+        result.append(" ").append(function.getName()).append("(");
         for (final Function.Parameter p : function.getParameters()) {
             result.append(generateParameterDeclaration(p.getType(), p.getName()))
                     .append(", ");

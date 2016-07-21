@@ -4,24 +4,15 @@ import org.algohub.engine.pojo.Function;
 import org.algohub.engine.pojo.Question;
 import org.algohub.engine.serde.Deserializer;
 
-
-/**
- * Internal test case, deserialized.
- */
-@SuppressWarnings({"PMD.CommentRequired", "PMD.UnusedPrivateField",
-    "PMD.BeanMembersShouldSerialize", "PMD.SingularField"}) public class InternalTestCase {
+public class InternalTestCase {
   private final Object[] input;
   private final Object output;
 
-  /** Constructor. */
   public InternalTestCase(final Object[] input, final Object output) {
     this.input = input;
     this.output = output;
   }
 
-  /**
-   * Constructor.
-   */
   public InternalTestCase(final Question.TestCase testCase, final Function function) {
     final Function.Parameter[] parameters = function.getParameters();
     assert (parameters.length == testCase.getInput().size());

@@ -7,7 +7,6 @@ import org.algohub.engine.type.IntermediateType;
 /**
  * Map intermediate types to language related types.
  */
-@SuppressWarnings({"PMD.AvoidDuplicateLiterals"})
 final class TypeMap {
   /**
    * Map intermediate types to Java types.

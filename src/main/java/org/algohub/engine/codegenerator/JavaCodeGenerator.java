@@ -9,12 +9,11 @@ import org.algohub.engine.type.TypeNode;
 /**
  * Generate compilable and runnable Java code.
  */
-@SuppressWarnings({"PMD.InsufficientStringBufferDeclaration"})
-public final class JavaCodeGenerator {
+final class JavaCodeGenerator {
   /**
    * Map intermediate types to real java classes.
    */
-  public static final ImmutableMap<IntermediateType, String> JAVA_CLASS_MAP =
+  private static final ImmutableMap<IntermediateType, String> JAVA_CLASS_MAP =
       ImmutableMap.<IntermediateType, String>builder().put(IntermediateType.BOOL, "Boolean")
           .put(IntermediateType.STRING, "String").put(IntermediateType.DOUBLE, "Double")
           .put(IntermediateType.INT, "Integer").put(IntermediateType.LONG, "Long").build();

@@ -1,9 +1,5 @@
 package org.algohub.engine.bo;
 
-/**
- * The result of a subprocess.
- */
-@SuppressWarnings({"PMD.UnusedPrivateField", "PMD.CommentRequired"})
 public class ProcessResult {
   private int exitCode;
   private String stdout;
