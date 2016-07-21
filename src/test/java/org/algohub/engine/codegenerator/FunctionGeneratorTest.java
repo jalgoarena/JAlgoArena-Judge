@@ -2,7 +2,6 @@ package org.algohub.engine.codegenerator;
 
 
 import org.algohub.engine.pojo.Function;
-import org.algohub.engine.type.LanguageType;
 import org.algohub.engine.type.TypeNode;
 import org.junit.Test;
 
@@ -28,30 +27,13 @@ public class FunctionGeneratorTest {
   @Test public void generateTypeDeclarationTest() {
     final TypeNode arrayInt = TypeNode.fromString("array<int>");
     final String arrayIntJavaDeclaration =
-        FunctionGenerator.generateTypeDeclaration(arrayInt, LanguageType.JAVA);
-    final String arrayIntCppDeclaration =
-        FunctionGenerator.generateTypeDeclaration(arrayInt, LanguageType.CPLUSPLUS);
-    final String arrayIntPythonDeclaration =
-        FunctionGenerator.generateTypeDeclaration(arrayInt, LanguageType.PYTHON);
-    final String arrayIntRubyDeclaration =
-        FunctionGenerator.generateTypeDeclaration(arrayInt, LanguageType.RUBY);
+        FunctionGenerator.generateTypeDeclaration(arrayInt);
+
     assertEquals("int[]", arrayIntJavaDeclaration);
-    assertEquals("vector<int>", arrayIntCppDeclaration);
-    assertEquals("int[]", arrayIntPythonDeclaration);
-    assertEquals("Fixnum[]", arrayIntRubyDeclaration);
 
     final TypeNode complexType = TypeNode.fromString("list<map<string, array<int>>>");
     final String complexJavaTypeDeclaration =
-        FunctionGenerator.generateTypeDeclaration(complexType, LanguageType.JAVA);
-    final String complexCppTypeDeclaration =
-        FunctionGenerator.generateTypeDeclaration(complexType, LanguageType.CPLUSPLUS);
-    final String complexPythonTypeDeclaration =
-        FunctionGenerator.generateTypeDeclaration(complexType, LanguageType.PYTHON);
-    final String complexRubyTypeDeclaration =
-        FunctionGenerator.generateTypeDeclaration(complexType, LanguageType.RUBY);
+        FunctionGenerator.generateTypeDeclaration(complexType);
     assertEquals("ArrayList<HashMap<String,int[]>>", complexJavaTypeDeclaration);
-    assertEquals("vector<unordered_map<string,vector<int>>>", complexCppTypeDeclaration);
-    assertEquals("dict<string,int[]>[]", complexPythonTypeDeclaration);
-    assertEquals("Hash<String,Fixnum[]>[]", complexRubyTypeDeclaration);
   }
 }

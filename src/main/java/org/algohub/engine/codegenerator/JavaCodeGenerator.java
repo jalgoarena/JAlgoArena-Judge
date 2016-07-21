@@ -4,7 +4,6 @@ import com.google.common.collect.ImmutableMap;
 
 import org.algohub.engine.pojo.Function;
 import org.algohub.engine.type.IntermediateType;
-import org.algohub.engine.type.LanguageType;
 import org.algohub.engine.type.TypeNode;
 
 /**
@@ -71,6 +70,6 @@ public final class JavaCodeGenerator {
    */
   static String generateEmptyFunction(final Function function) {
     return "public class Solution {\n"
-        + FunctionGenerator.generateFunction(function, LanguageType.JAVA, 1) + "}\n";
+        + FunctionGenerator.generateFunction(function, 1) + "}\n";
   }
 }
