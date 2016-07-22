@@ -1,6 +1,5 @@
 package org.algohub.engine.compiler.java;
 
-
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -17,30 +16,22 @@ final class MemoryClassLoader extends URLClassLoader {
   /** ClassName -> bytecode. */
   private transient Map<String, byte[]> classBytes;
 
-  /** Constructor. */
-  public MemoryClassLoader(final Map<String, byte[]> classBytes, final String classPath,
+    public MemoryClassLoader(final Map<String, byte[]> classBytes, final String classPath,
       final ClassLoader parent) {
     super(toUrls(classPath), parent);
     this.classBytes = classBytes;
   }
 
-  /** Constructor. */
-  public MemoryClassLoader(final Map<String, byte[]> classBytes, final String classPath) {
-    this(classBytes, classPath, ClassLoader.getSystemClassLoader());
-  }
-
-  /** Constructor. */
   public MemoryClassLoader(final Map<String, byte[]> classBytes) {
     this(classBytes, null, ClassLoader.getSystemClassLoader());
   }
 
-  @SuppressWarnings({"PMD.AvoidInstantiatingObjectsInLoops", "PMD.EmptyCatchBlock"})
   private static URL[] toUrls(final String classPath) {
     if (classPath == null) {
       return new URL[0];
     }
 
-    final List<URL> list = new ArrayList<URL>();
+    final List<URL> list = new ArrayList<>();
     final StringTokenizer st = new StringTokenizer(classPath, File.pathSeparator);
     while (st.hasMoreTokens()) {
       final String token = st.nextToken();
@@ -59,20 +50,6 @@ final class MemoryClassLoader extends URLClassLoader {
     return res;
   }
 
-  /** Load one class. */
-  public Class load(final String className) throws ClassNotFoundException {
-    return loadClass(className);
-  }
-
-  /** Load all classes' bytecode. */
-  public Iterable<Class> loadAll() throws ClassNotFoundException {
-    final List<Class> classes = new ArrayList<Class>(classBytes.size());
-    for (final String name : classBytes.keySet()) {
-      classes.add(loadClass(name));
-    }
-    return classes;
-  }
-
   protected Class findClass(final String className) throws ClassNotFoundException {
     final byte[] buf = classBytes.get(className);
     if (buf == null) {
@@ -84,5 +61,3 @@ final class MemoryClassLoader extends URLClassLoader {
     }
   }
 }
-
-
