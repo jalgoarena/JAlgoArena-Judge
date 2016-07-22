@@ -16,10 +16,7 @@ import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * Java language online judge.
- */
-public class JavaJudge implements JudgeInterface {
+public class JavaJudge {
   // for finding class name
   private static final Pattern[] PATTERNS =
       new Pattern[] {Pattern.compile("public\\s+class\\s+(\\w+)\\s+"),
@@ -36,7 +33,7 @@ public class JavaJudge implements JudgeInterface {
       final TypeNode returnType) {
     System.gc();
     Runtime runtime = Runtime.getRuntime();
-    final long memoryBefore = runtime.totalMemory() - runtime.freeMemory();
+    final long memoryBefore = runtime.totalMemory();
     final long start = System.currentTimeMillis();
     for (int i = 0; i < testCases.length; ++i) {
       final InternalTestCase testCase = testCases[i];
@@ -49,7 +46,7 @@ public class JavaJudge implements JudgeInterface {
       }
     }
     final long time = System.currentTimeMillis() - start;
-    final long memoryAfter = runtime.totalMemory() - runtime.freeMemory();
+    final long memoryAfter = runtime.totalMemory();
     final long memory = memoryAfter - memoryBefore;
     return new JudgeResult(StatusCode.ACCEPTED.toInt(), null, null, null, null, testCases.length,
         testCases.length, time, memory);
@@ -82,9 +79,6 @@ public class JavaJudge implements JudgeInterface {
     return Optional.empty();
   }
 
-  /**
-   * {@inheritDoc}.
-   */
   public JudgeResult judge(final Function function, final Problem.TestCase[] testCases,
       final String userCode) {
     final InternalTestCase[] internalTestCases = new InternalTestCase[testCases.length];
