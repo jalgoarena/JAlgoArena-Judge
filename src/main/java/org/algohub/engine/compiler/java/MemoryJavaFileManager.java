@@ -1,6 +1,5 @@
 package org.algohub.engine.compiler.java;
 
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FilterOutputStream;
@@ -21,12 +20,9 @@ import javax.tools.SimpleJavaFileObject;
 /**
  * JavaFileManager that keeps compiled .class bytes in memory.
  */
-final class MemoryJavaFileManager extends ForwardingJavaFileManager {
+final class MemoryJavaFileManager extends ForwardingJavaFileManager<JavaFileManager> {
 
-  /**
-   * Java source file extension.
-   */
-  private static final String EXT = ".java";
+  private static final String JAVA_SOURCE_FILE_EXT = ".java";
 
   private Map<String, byte[]> classBytes;
 
@@ -48,8 +44,8 @@ final class MemoryJavaFileManager extends ForwardingJavaFileManager {
         final StringBuilder newUri = new StringBuilder();
         newUri.append("mfm:///");
         newUri.append(name.replace('.', '/'));
-        if (name.endsWith(EXT)) {
-          newUri.replace(newUri.length() - EXT.length(), newUri.length(), EXT);
+        if (name.endsWith(JAVA_SOURCE_FILE_EXT)) {
+          newUri.replace(newUri.length() - JAVA_SOURCE_FILE_EXT.length(), newUri.length(), JAVA_SOURCE_FILE_EXT);
         }
         return URI.create(newUri.toString());
       } catch (Exception exp) {
@@ -94,7 +90,6 @@ final class MemoryJavaFileManager extends ForwardingJavaFileManager {
     }
   }
 
-
   /**
    * A file object that stores Java bytecode into the classBytes map.
    */
@@ -117,4 +112,3 @@ final class MemoryJavaFileManager extends ForwardingJavaFileManager {
     }
   }
 }
-
