@@ -50,10 +50,12 @@ public final class MemoryJavaCompiler {
    */
   public Method compileStaticMethod(final String methodName, final String className,
       final String source) throws ClassNotFoundException, CompileErrorException {
+
     final Map<String, byte[]> classBytes = compile(className + ".java", source);
     final MemoryClassLoader classLoader = new MemoryClassLoader(classBytes);
     final Class clazz = classLoader.loadClass(className);
     final Method[] methods = clazz.getDeclaredMethods();
+
     for (final Method method : methods) {
       if (method.getName().equals(methodName)) {
         if (!method.isAccessible()) {
@@ -75,7 +77,7 @@ public final class MemoryJavaCompiler {
       CompileErrorException {
     final Map<String, byte[]> classBytes = compile(className + ".java", source);
     final MemoryClassLoader classLoader = new MemoryClassLoader(classBytes);
-    //final Class clazz = classLoader.loadClass(className);
+
     final Class clazz = Class.forName(className, true, classLoader);
     return lookup.findStatic(clazz, methodName, type);
   }
@@ -105,17 +107,6 @@ public final class MemoryJavaCompiler {
     throw new NoSuchMethodError(methodName);
   }
 
-  /**
-   * Compile a class.
-   */
-  public Class compileClass(final String qualifiedClassName, final String source)
-      throws ClassNotFoundException, CompileErrorException {
-    final String className = getClassName(qualifiedClassName);
-    final Map<String, byte[]> classBytes = compile(className + ".java", source);
-    final MemoryClassLoader classLoader = new MemoryClassLoader(classBytes);
-    return classLoader.loadClass(qualifiedClassName);
-  }
-
   public Map<String, byte[]> compile(String fileName, String source) throws CompileErrorException {
     return compile(fileName, source, new PrintWriter(System.err), null, null);
   }
@@ -135,8 +126,8 @@ public final class MemoryJavaCompiler {
     MemoryJavaFileManager fileManager = new MemoryJavaFileManager(stdManager);
 
     // prepare the compilation unit
-    List<JavaFileObject> compUnits = new ArrayList<JavaFileObject>(1);
-    compUnits.add(fileManager.makeStringSource(fileName, source));
+    List<JavaFileObject> compUnits = new ArrayList<>(1);
+    compUnits.add(MemoryJavaFileManager.makeStringSource(fileName, source));
 
     return compile(compUnits, fileManager, err, sourcePath, classPath);
   }
@@ -145,9 +136,8 @@ public final class MemoryJavaCompiler {
       final MemoryJavaFileManager fileManager, Writer err, String sourcePath, String classPath)
       throws CompileErrorException {
     // javac options
-    List<String> options = new ArrayList<String>();
+    List<String> options = new ArrayList<>();
     options.add("-Xlint:all");
-    //		options.add("-g:none");
     options.add("-deprecation");
     if (sourcePath != null) {
       options.add("-sourcepath");
@@ -160,12 +150,12 @@ public final class MemoryJavaCompiler {
     }
 
     // to collect errors, warnings etc.
-    DiagnosticCollector<JavaFileObject> diagnostics = new DiagnosticCollector<JavaFileObject>();
+    DiagnosticCollector<JavaFileObject> diagnostics = new DiagnosticCollector<>();
     // create a compilation task
     javax.tools.JavaCompiler.CompilationTask task =
         tool.getTask(err, fileManager, diagnostics, options, null, compUnits);
 
-    if (task.call() == false) {
+    if (!task.call()) {
       final StringBuilder errorMsg = new StringBuilder();
       final List<Diagnostic<? extends JavaFileObject>> diagnostics1 = diagnostics.getDiagnostics();
       for (int i = 1; i < diagnostics1.size(); ++i) { // skipe first one
@@ -184,4 +174,3 @@ public final class MemoryJavaCompiler {
     return classBytes;
   }
 }
-
