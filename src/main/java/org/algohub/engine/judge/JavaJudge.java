@@ -34,6 +34,9 @@ public class JavaJudge implements JudgeInterface {
   private static JudgeResult judge(final Object clazz, final Method method,
       final InternalTestCase[] testCases, final Problem.TestCase[] testCasesJson,
       final TypeNode returnType) {
+    System.gc();
+    Runtime runtime = Runtime.getRuntime();
+    final long memoryBefore = runtime.totalMemory() - runtime.freeMemory();
     final long start = System.currentTimeMillis();
     for (int i = 0; i < testCases.length; ++i) {
       final InternalTestCase testCase = testCases[i];
@@ -46,8 +49,10 @@ public class JavaJudge implements JudgeInterface {
       }
     }
     final long time = System.currentTimeMillis() - start;
+    final long memoryAfter = runtime.totalMemory() - runtime.freeMemory();
+    final long memory = memoryAfter - memoryBefore;
     return new JudgeResult(StatusCode.ACCEPTED.toInt(), null, null, null, null, testCases.length,
-        testCases.length, time, 0);
+        testCases.length, time, memory);
   }
 
   private static JudgeOneCaseResult judge(final Object clazz, final Method method,
