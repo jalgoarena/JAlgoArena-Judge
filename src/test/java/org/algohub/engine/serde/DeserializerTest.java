@@ -20,20 +20,19 @@ import java.util.HashSet;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
-@SuppressWarnings({"PMD.CommentRequired"})
 public class DeserializerTest {
 
   @Test public void deserializePrimitiveTest() {
     assertEquals(Boolean.TRUE,
         Deserializer.fromJson(TypeNode.fromString("bool"), BooleanNode.TRUE));
 
-    assertEquals(Integer.valueOf(123),
+    assertEquals(123,
         Deserializer.fromJson(TypeNode.fromString("int"), IntNode.valueOf(123)));
 
-    assertEquals(Long.valueOf(123),
+    assertEquals(123L,
         Deserializer.fromJson(TypeNode.fromString("long"), IntNode.valueOf(123)));
 
-    assertEquals(Double.valueOf(123.0),
+    assertEquals(123.0,
         Deserializer.fromJson(TypeNode.fromString("double"), DoubleNode.valueOf(123.0)));
 
     assertEquals("algohub",

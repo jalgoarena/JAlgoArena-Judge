@@ -77,10 +77,6 @@ public class Problem {
         return testCases;
     }
 
-    public String getTestCasesGenerator() {
-        return testCasesGenerator;
-    }
-
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class TestCase {
         private final ArrayNode input;

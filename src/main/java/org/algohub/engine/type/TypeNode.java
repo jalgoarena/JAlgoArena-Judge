@@ -31,7 +31,7 @@ public class TypeNode {
   /**
    * point to parent contaier.
    */
-  @JsonIgnore @SuppressWarnings("PMD.ImmutableField") private Optional<TypeNode> parent;
+  @JsonIgnore private Optional<TypeNode> parent;
 
   /**
    * Constructor.
@@ -114,7 +114,7 @@ public class TypeNode {
   /**
    * Check if the brackets match with each other.
    */
-  public static boolean checkAngleBrackets(final String typeStr) {
+  static boolean checkAngleBrackets(final String typeStr) {
     return checkAngleBrackets(typeStr, 0, 0);
   }
 

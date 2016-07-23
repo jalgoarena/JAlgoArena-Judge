@@ -22,7 +22,6 @@ import java.util.HashSet;
 
 import static org.junit.Assert.assertEquals;
 
-@SuppressWarnings({"PMD.CommentRequired"})
 public class SerializerTest {
 
   public static final LinkedListNode<Integer> LINKED_LIST_EXPECTED = new LinkedListNode<>(1,

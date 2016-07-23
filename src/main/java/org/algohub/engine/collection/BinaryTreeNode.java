@@ -49,7 +49,6 @@ public class BinaryTreeNode<E> {
   }
 
   // get the insertion position
-  @SuppressWarnings("PMD.AvoidInstantiatingObjectsInLoops")
   private NodeAndFather tail() {
     final Queue<NodeAndFather> queue = new LinkedList<>();
     if (value != null) {
