@@ -1,4 +1,5 @@
-# Algohub Judge Engine [![Build Status](https://travis-ci.org/spolnik/judge-engine.svg?branch=master)](https://travis-ci.org/spolnik/judge-engine)
+# Algohub Judge Engine [![Build Status](https://travis-ci.org/spolnik/judge-engine.svg?branch=master)](https://travis-ci.org/spolnik/judge-engine) [![codecov](https://codecov.io/gh/spolnik/judge-engine/branch/master/graph/badge.svg)](https://codecov.io/gh/spolnik/judge-engine)
+
 
 A modern versatile online judge engine, supporting Java.
 
