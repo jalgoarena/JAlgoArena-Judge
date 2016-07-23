@@ -5,11 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import org.algohub.engine.judge.StatusCode;
 
-
-/**
- * Judge result.
- */
-@SuppressWarnings("PMD.CommentRequired")
 public final class JudgeResult {
   @JsonProperty("status_code") private int statusCode;
   @JsonProperty("error_message") private String errorMessage;
@@ -96,5 +91,20 @@ public final class JudgeResult {
 
   public void setElapsedTime(long elapsedTime) {
     this.elapsedTime = elapsedTime;
+  }
+
+  @Override
+  public String toString() {
+    return "JudgeResult{" +
+            "statusCode=" + statusCode +
+            ", errorMessage='" + errorMessage + '\'' +
+            ", input='" + input + '\'' +
+            ", output='" + output + '\'' +
+            ", expectedOutput='" + expectedOutput + '\'' +
+            ", testcasePassedCount=" + testcasePassedCount +
+            ", testcaseTotalCount=" + testcaseTotalCount +
+            ", elapsedTime=" + elapsedTime +
+            ", consumedMemory=" + consumedMemory +
+            '}';
   }
 }

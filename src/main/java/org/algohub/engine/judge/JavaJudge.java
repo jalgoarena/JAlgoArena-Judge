@@ -33,7 +33,7 @@ public class JavaJudge {
       final TypeNode returnType) {
     System.gc();
     Runtime runtime = Runtime.getRuntime();
-    final long memoryBefore = runtime.totalMemory();
+    final long memoryBefore = runtime.totalMemory() - runtime.freeMemory();
     final long start = System.currentTimeMillis();
     for (int i = 0; i < testCases.length; ++i) {
       final InternalTestCase testCase = testCases[i];
@@ -46,7 +46,7 @@ public class JavaJudge {
       }
     }
     final long time = System.currentTimeMillis() - start;
-    final long memoryAfter = runtime.totalMemory();
+    final long memoryAfter = runtime.totalMemory() - runtime.freeMemory();
     final long memory = memoryAfter - memoryBefore;
     return new JudgeResult(StatusCode.ACCEPTED.toInt(), null, null, null, null, testCases.length,
         testCases.length, time, memory);

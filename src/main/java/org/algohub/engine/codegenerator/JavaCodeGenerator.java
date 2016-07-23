@@ -9,7 +9,7 @@ import org.algohub.engine.type.TypeNode;
 /**
  * Generate compilable and runnable Java code.
  */
-final class JavaCodeGenerator {
+public final class JavaCodeGenerator {
   /**
    * Map intermediate types to real java classes.
    */
@@ -57,7 +57,7 @@ final class JavaCodeGenerator {
    * @param type the type
    * @return type declaration
    */
-  static String generateTypeDeclaration(final TypeNode type) {
+  public static String generateTypeDeclaration(final TypeNode type) {
     // the parent type should be ARRAY by default
     return generateTypeDeclaration(type, IntermediateType.ARRAY);
   }
@@ -67,7 +67,7 @@ final class JavaCodeGenerator {
    * @param function Function prototype
    * @return source code of a empty function
    */
-  static String generateEmptyFunction(final Function function) {
+  public static String generateEmptyFunction(final Function function) {
     return "public class Solution {\n"
         + FunctionGenerator.generateFunction(function, 1) + "}\n";
   }

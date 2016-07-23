@@ -2,17 +2,8 @@
   "id": "word-ladder",
   "title": "Word Ladder",
   "description": "Given two words (start and end), and a dictionary, find the length of shortest transformation sequence from start to end, such that:\n\n1. Only one letter can be changed at a time\n2. Each intermediate word must exist in the dictionary",
-  "category": "algorithm",
-  "tags": [
-    "BFS"
-  ],
-  "level": 4,
-  "score": 82,
   "time_limit": 10,
   "memory_limit": 32,
-  "related_problems": [
-    "word-ladder-ii"
-  ],
   "function": {
     "name": "ladderLength",
     "return": {
@@ -36,15 +27,6 @@
         "comment": "the dictionary"
       }
     ]
-  },
-  "author": {
-    "name": "soulmachine",
-    "email": "soulmachine@gmail.com",
-    "website": "http://www.soulmachine.me",
-    "github": "https://github.com/soulmachine",
-    "facebook": "https://www.facebook.com/soulmachine",
-    "linkedin": "http://www.linkedin.com/in/soulmachine",
-    "twitter": "https://twitter.com/soulmachine"
   },
   "test_cases": [
     {"input": ["a", "c", ["a","b","c"]], "output": 2},

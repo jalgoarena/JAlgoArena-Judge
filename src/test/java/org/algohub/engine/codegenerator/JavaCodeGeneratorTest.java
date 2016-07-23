@@ -6,15 +6,14 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-@SuppressWarnings({"PMD.CommentRequired"})
 public class JavaCodeGeneratorTest {
-  static final TypeNode ARRAY_INT = TypeNode.fromString("array<int>");
-  static final TypeNode LIST_INT = TypeNode.fromString("list<int>");
-  static final TypeNode LIST_ARRAY_INT = TypeNode.fromString("list<array<int>>");
-  static final TypeNode LIST_LIST_INT = TypeNode.fromString("list<list<int>>");
-  static final TypeNode ARRAY_LIST_SET_MAP =
+  private static final TypeNode ARRAY_INT = TypeNode.fromString("array<int>");
+  private static final TypeNode LIST_INT = TypeNode.fromString("list<int>");
+  private static final TypeNode LIST_ARRAY_INT = TypeNode.fromString("list<array<int>>");
+  private static final TypeNode LIST_LIST_INT = TypeNode.fromString("list<list<int>>");
+  private static final TypeNode ARRAY_LIST_SET_MAP =
       TypeNode.fromString("array<list<set<map<string,LinkedListNode<int>>>>>");
-  static final TypeNode BINARY_TREE_NODE_MAP =
+  private static final TypeNode BINARY_TREE_NODE_MAP =
       TypeNode.fromString("BinaryTreeNode<map<string, set<list<double>>>>");
 
 
