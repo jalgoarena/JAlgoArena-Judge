@@ -7,11 +7,11 @@ import org.algohub.engine.pojo.JudgeResult;
 import org.algohub.engine.pojo.Problem;
 import org.algohub.engine.serde.Serializer;
 import org.algohub.engine.type.TypeNode;
-import org.algohub.engine.util.Equals;
 import org.algohub.engine.pojo.Function;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -61,7 +61,7 @@ public class JavaJudge {
       throw new IllegalStateException(e.getMessage());
     }
     final JudgeOneCaseResult result = new JudgeOneCaseResult();
-    if (Equals.equal(testCase.getOutput(), output)) {
+    if (equal(testCase.getOutput(), output)) {
       result.correct = true;
     } else {
       result.wrongOutput = Serializer.toJson(output, returnType).toString();
@@ -77,6 +77,41 @@ public class JavaJudge {
       }
     }
     return Optional.empty();
+  }
+
+  /**
+   * More powerful than java.util.Objects.equals().
+   */
+  private static boolean equal(Object a, Object b) {
+      if (a == b) {
+          return true;
+      } else if (a == null || b == null) {
+          return false;
+      }
+
+      boolean eq;
+      if (a instanceof Object[] && b instanceof Object[]) {
+          eq = Arrays.deepEquals((Object[]) a, (Object[]) b);
+      } else if (a instanceof byte[] && b instanceof byte[]) {
+          eq = Arrays.equals((byte[]) a, (byte[]) b);
+      } else if (a instanceof short[] && b instanceof short[]) {
+          eq = Arrays.equals((short[]) a, (short[]) b);
+      } else if (a instanceof int[] && b instanceof int[]) {
+          eq = Arrays.equals((int[]) a, (int[]) b);
+      } else if (a instanceof long[] && b instanceof long[]) {
+          eq = Arrays.equals((long[]) a, (long[]) b);
+      } else if (a instanceof char[] && b instanceof char[]) {
+          eq = Arrays.equals((char[]) a, (char[]) b);
+      } else if (a instanceof float[] && b instanceof float[]) {
+          eq = Arrays.equals((float[]) a, (float[]) b);
+      } else if (a instanceof double[] && b instanceof double[]) {
+          eq = Arrays.equals((double[]) a, (double[]) b);
+      } else if (a instanceof boolean[] && b instanceof boolean[]) {
+          eq = Arrays.equals((boolean[]) a, (boolean[]) b);
+      } else {
+          eq = a.equals(b);
+      }
+      return eq;
   }
 
   public JudgeResult judge(final Function function, final Problem.TestCase[] testCases,

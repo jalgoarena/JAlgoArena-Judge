@@ -9,7 +9,7 @@ import org.algohub.engine.judge.JavaJudge;
 import org.algohub.engine.judge.StatusCode;
 import org.algohub.engine.pojo.Function;
 import org.algohub.engine.pojo.JudgeResult;
-import org.algohub.engine.util.ObjectMapperInstance;
+import org.algohub.engine.serde.ObjectMapperInstance;
 
 import java.io.File;
 import java.io.IOException;

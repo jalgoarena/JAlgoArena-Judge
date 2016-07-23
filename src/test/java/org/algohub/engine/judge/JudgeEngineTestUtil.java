@@ -6,7 +6,7 @@ import com.google.common.io.Resources;
 import org.algohub.engine.JudgeEngine;
 import org.algohub.engine.pojo.JudgeResult;
 import org.algohub.engine.pojo.Problem;
-import org.algohub.engine.util.ObjectMapperInstance;
+import org.algohub.engine.serde.ObjectMapperInstance;
 
 import java.io.File;
 import java.io.IOException;

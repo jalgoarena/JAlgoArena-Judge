@@ -10,7 +10,6 @@ import java.util.Queue;
 import org.algohub.engine.collection.BinaryTreeNode;
 import org.algohub.engine.collection.LinkedListNode;
 import org.algohub.engine.type.TypeNode;
-import org.algohub.engine.util.ObjectMapperInstance;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;

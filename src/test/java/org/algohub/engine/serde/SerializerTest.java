@@ -12,7 +12,6 @@ import com.fasterxml.jackson.databind.node.TextNode;
 import org.algohub.engine.collection.BinaryTreeNode;
 import org.algohub.engine.collection.LinkedListNode;
 import org.algohub.engine.type.TypeNode;
-import org.algohub.engine.util.ObjectMapperInstance;
 import org.junit.Test;
 
 import java.util.ArrayList;
