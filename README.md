@@ -10,9 +10,9 @@ These commands should be available in `$PAHT`: `java`, `javac`
 
 ### 2. Compile
 
-    gradle build
+    gradle shadowJar
 
 ## Run
 
-    java -jar target/judge-engine-1.0-SNAPSHOT.jar src/test/resources/problems/2-sum/2-sum.json src/test/resources/problems/2-sum/solution.java
+    java -jar build/lib/judge-engine-1.0.jar src/test/resources/problems/2-sum/2-sum.json src/test/resources/problems/2-sum/solution.java
 
