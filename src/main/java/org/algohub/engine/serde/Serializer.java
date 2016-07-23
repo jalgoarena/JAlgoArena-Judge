@@ -7,8 +7,8 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
 
-import org.algohub.engine.collection.BinaryTreeNode;
-import org.algohub.engine.collection.LinkedListNode;
+import org.algohub.engine.type.BinaryTreeNode;
+import org.algohub.engine.type.LinkedListNode;
 import org.algohub.engine.type.TypeNode;
 
 import com.fasterxml.jackson.databind.JsonNode;

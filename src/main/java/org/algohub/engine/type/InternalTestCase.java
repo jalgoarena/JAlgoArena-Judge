@@ -1,4 +1,4 @@
-package org.algohub.engine.bo;
+package org.algohub.engine.type;
 
 import org.algohub.engine.pojo.Function;
 import org.algohub.engine.pojo.Problem;
@@ -7,11 +7,6 @@ import org.algohub.engine.serde.Deserializer;
 public class InternalTestCase {
   private final Object[] input;
   private final Object output;
-
-  public InternalTestCase(final Object[] input, final Object output) {
-    this.input = input;
-    this.output = output;
-  }
 
   public InternalTestCase(final Problem.TestCase testCase, final Function function) {
     final Function.Parameter[] parameters = function.getParameters();

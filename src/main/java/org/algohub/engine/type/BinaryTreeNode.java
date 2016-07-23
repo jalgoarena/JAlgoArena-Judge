@@ -1,4 +1,4 @@
-package org.algohub.engine.collection;
+package org.algohub.engine.type;
 
 import java.util.LinkedList;
 import java.util.Queue;

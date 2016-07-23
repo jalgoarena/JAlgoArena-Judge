@@ -9,8 +9,8 @@ import com.fasterxml.jackson.databind.node.LongNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.node.TextNode;
 
-import org.algohub.engine.collection.BinaryTreeNode;
-import org.algohub.engine.collection.LinkedListNode;
+import org.algohub.engine.type.BinaryTreeNode;
+import org.algohub.engine.type.LinkedListNode;
 import org.algohub.engine.type.TypeNode;
 import org.junit.Test;
 

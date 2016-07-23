@@ -1,4 +1,4 @@
-package org.algohub.engine.collection;
+package org.algohub.engine.type;
 
 /** Singly linked list node. */
 public class LinkedListNode<E> {

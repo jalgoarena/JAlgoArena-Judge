@@ -1,6 +1,6 @@
 package org.algohub.engine.judge;
 
-import org.algohub.engine.bo.InternalTestCase;
+import org.algohub.engine.type.InternalTestCase;
 import org.algohub.engine.compiler.java.CompileErrorException;
 import org.algohub.engine.compiler.java.MemoryJavaCompiler;
 import org.algohub.engine.pojo.JudgeResult;

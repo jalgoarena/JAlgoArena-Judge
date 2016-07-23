@@ -8,7 +8,7 @@ import com.fasterxml.jackson.databind.node.NullNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.node.TextNode;
 
-import org.algohub.engine.collection.LinkedListNode;
+import org.algohub.engine.type.LinkedListNode;
 import org.algohub.engine.type.TypeNode;
 import org.junit.Test;
 

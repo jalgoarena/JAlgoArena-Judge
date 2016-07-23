@@ -6,8 +6,8 @@ import com.google.common.primitives.Ints;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 
-import org.algohub.engine.collection.BinaryTreeNode;
-import org.algohub.engine.collection.LinkedListNode;
+import org.algohub.engine.type.BinaryTreeNode;
+import org.algohub.engine.type.LinkedListNode;
 import org.algohub.engine.pojo.Function;
 import org.algohub.engine.type.IntermediateType;
 import org.algohub.engine.type.TypeNode;
