@@ -3,13 +3,12 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.3'
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:1.3.6.RELEASE"
     }
 }
 
-apply plugin: 'com.github.johnrengelman.shadow'
-
 apply plugin: 'java'
+apply plugin: 'spring-boot'
 
 group = 'org.algorithmhub'
 version = '1.0-SNAPSHOT'
@@ -23,17 +22,8 @@ repositories {
 }
 
 jar {
-    manifest {
-        attributes(
-                'Main-Class': 'org.algohub.engine.JudgeApplication'
-        )
-    }
-}
-
-shadowJar {
-    baseName = 'judge-engine'
-    classifier = null
-    version = "1.0"
+    baseName = 'judge-endinge'
+    version = '1.0'
 }
 
 dependencies {
@@ -60,3 +50,9 @@ jacocoTestReport {
 }
 
 check.dependsOn jacocoTestReport
+
+defaultTasks 'clean', 'bootRepackage'
+
+task stage {
+    dependsOn 'bootRepackage'
+}
