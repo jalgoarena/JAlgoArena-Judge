@@ -1,5 +1,5 @@
 public class MyStoi {
-    public int myStoi(String str) {
+    public int stoi(String str) {
         if (str == null || str.length() < 1)
             return 0;
 
