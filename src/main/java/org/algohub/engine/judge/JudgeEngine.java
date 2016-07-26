@@ -1,13 +1,14 @@
 package org.algohub.engine.judge;
 
-import org.algohub.engine.type.InternalTestCase;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.algohub.engine.compiler.java.CompileErrorException;
 import org.algohub.engine.compiler.java.MemoryJavaCompiler;
+import org.algohub.engine.pojo.Function;
 import org.algohub.engine.pojo.JudgeResult;
 import org.algohub.engine.pojo.Problem;
-import org.algohub.engine.serde.Serializer;
+import org.algohub.engine.serde.ObjectMapperInstance;
+import org.algohub.engine.type.InternalTestCase;
 import org.algohub.engine.type.TypeNode;
-import org.algohub.engine.pojo.Function;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -30,7 +31,7 @@ public class JudgeEngine {
 
     private static JudgeResult judge(final Object clazz, final Method method,
                                      final InternalTestCase[] testCases, final Problem problem,
-                                     final TypeNode returnType) {
+                                     final TypeNode returnType) throws JsonProcessingException {
 
         System.gc();
         Runtime runtime = Runtime.getRuntime();
@@ -53,7 +54,7 @@ public class JudgeEngine {
     }
 
     private static JudgeOneCaseResult judge(final Object clazz, final Method method,
-                                            final InternalTestCase testCase, final TypeNode returnType) {
+                                            final InternalTestCase testCase, final TypeNode returnType) throws JsonProcessingException {
         final Object output;
         try {
             output = method.invoke(clazz, testCase.getInput());
@@ -64,7 +65,7 @@ public class JudgeEngine {
         if (equal(testCase.getOutput(), output)) {
             result.correct = true;
         } else {
-            result.wrongOutput = Serializer.toJson(output, returnType).toString();
+            result.wrongOutput = ObjectMapperInstance.INSTANCE.writeValueAsString(output);
         }
         return result;
     }
@@ -114,7 +115,7 @@ public class JudgeEngine {
         return eq;
     }
 
-    public JudgeResult judge(final Problem problem, final String userCode) {
+    public JudgeResult judge(final Problem problem, final String userCode) throws JsonProcessingException {
 
         Problem.TestCase[] testCases = problem.getTestCases();
         Function function = problem.getFunction();
@@ -127,7 +128,7 @@ public class JudgeEngine {
     }
 
     private JudgeResult judge(final Problem problem, final InternalTestCase[] testCases,
-                              final String userCode) {
+                              final String userCode) throws JsonProcessingException {
         final Object clazz;
         final Method method;
 

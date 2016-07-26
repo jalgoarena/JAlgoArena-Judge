@@ -238,15 +238,4 @@ public interface Deserializer {
     return javaNode;
   }
 
-  /**
-   * Convert input to array.
-   */
-  static Object[] inputToJavaArray(ArrayNode input, Function.Parameter[] parameters) {
-    final Object[] arguments = new Object[parameters.length];
-
-    for (int i = 0; i < parameters.length; i++) {
-      arguments[i] = fromJson(parameters[i].getType(), input.get(i));
-    }
-    return arguments;
-  }
 }
