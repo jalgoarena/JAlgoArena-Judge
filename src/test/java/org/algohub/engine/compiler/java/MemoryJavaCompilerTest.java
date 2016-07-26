@@ -26,4 +26,31 @@ public class MemoryJavaCompilerTest {
         Object result = greeting.invoke(obj, "Julia");
         assertThat(result).isEqualTo("Hello Julia");
     }
+
+    @Test(expected = NoSuchMethodError.class)
+    public void throwsNoSuchMethodExceptionWhenInvokingNonExistingMethod() throws Exception {
+        MemoryJavaCompiler.INSTANCE.compileMethod(
+                "Solution", "dummy", SOURCE_CODE
+        );
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void throwsIllegalStateExceptionWhenTryingToInvokeClassWithPrivateConstructor() throws Exception {
+        String sourceCode =
+                "public final class Solution { private Solution() { }; public void dummy() {} }";
+
+        MemoryJavaCompiler.INSTANCE.compileMethod(
+                "Solution", "dummy", sourceCode
+        );
+    }
+
+    @Test(expected = CompileErrorException.class)
+    public void throwsCompileErrorExceptionWhenSourceCodeDoesNotCompile() throws Exception {
+        String sourceCodeMissingReturnString =
+                "public final class Solution { private Solution() { }; public String dummy() {} }";
+
+        MemoryJavaCompiler.INSTANCE.compileMethod(
+                "Solution", "dummy", sourceCodeMissingReturnString
+        );
+    }
 }
