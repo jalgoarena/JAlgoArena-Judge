@@ -1,30 +1,19 @@
 package org.algohub.engine.judge;
 
 public enum StatusCode {
-  PENDING(0),
-  RUNNING(1),
+  PENDING,
+  RUNNING,
 
-  ACCEPTED(2),
-  WRONG_ANSWER(3),
+  ACCEPTED,
+  WRONG_ANSWER,
 
-  COMPILE_ERROR(4),
+  COMPILE_ERROR,
 
-  RUNTIME_ERROR(5),
-  TIME_LIMIT_EXCEEDED(6),
-  MEMORY_LIMIT_EXCEEDED(7),
-  OUTPUT_LIMIT_EXCEEDED(8),
+  RUNTIME_ERROR,
+  TIME_LIMIT_EXCEEDED,
+  MEMORY_LIMIT_EXCEEDED,
+  OUTPUT_LIMIT_EXCEEDED,
 
-  RESTRICTED_CALL(9),
-  TOO_LONG_CODE(10);
-
-
-  private final int code;
-
-  StatusCode(int code) {
-    this.code = code;
-  }
-
-  public int toInt() {
-    return this.code;
-  }
+  RESTRICTED_CALL,
+  TOO_LONG_CODE
 }

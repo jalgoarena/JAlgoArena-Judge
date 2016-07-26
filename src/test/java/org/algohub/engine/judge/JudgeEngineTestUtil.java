@@ -3,7 +3,6 @@ package org.algohub.engine.judge;
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 import com.google.common.io.Resources;
-import org.algohub.engine.JudgeEngine;
 import org.algohub.engine.pojo.JudgeResult;
 import org.algohub.engine.pojo.Problem;
 import org.algohub.engine.serde.ObjectMapperInstance;
@@ -17,10 +16,10 @@ import java.util.regex.Pattern;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-public final class JudgeEngineTestUtil {
+final class JudgeEngineTestUtil {
   private static final JudgeEngine JUDGE_ENGINE = new JudgeEngine();
 
-  public static void batchJudge() {
+  static void batchJudge() {
     File rootDir = new File("src/test/resources/questions/");
     Pattern pattern = Pattern.compile("\\w+\\.java");
 
@@ -49,8 +48,8 @@ public final class JudgeEngineTestUtil {
           Resources.toString(Resources.getResource(solutionPath), Charsets.UTF_8);
 
       final JudgeResult result = JUDGE_ENGINE.judge(problem, pythonCode);
-      assertEquals(StatusCode.ACCEPTED.toInt(), result.getStatusCode());
-    } catch (InterruptedException | IOException e) {
+      assertEquals(StatusCode.ACCEPTED.toString(), result.getStatusCode());
+    } catch (IOException e) {
       fail(e.getMessage());
     }
   }

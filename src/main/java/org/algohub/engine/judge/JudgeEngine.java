@@ -16,7 +16,7 @@ import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class JavaJudge {
+public class JudgeEngine {
 
     private static final Pattern[] PATTERNS_FOR_FINDING_CLASS_NAME =
             new Pattern[]{Pattern.compile("public\\s+class\\s+(\\w+)\\s+"),
@@ -43,15 +43,14 @@ public class JavaJudge {
             final JudgeOneCaseResult oneResult = judge(clazz, method, testCase, returnType);
             if (!oneResult.correct) {
                 final long time = System.currentTimeMillis() - start;
-                return new JudgeResult(StatusCode.WRONG_ANSWER.toInt(), null,
-                        testCasesJson[i].getInput().toString(), oneResult.wrongOutput,
-                        testCasesJson[i].getOutput().toString(), i + 1, testCases.length, time, 0L);
+                return new JudgeResult(StatusCode.WRONG_ANSWER.toString(), null,
+                        i + 1, testCases.length, time, 0L);
             }
         }
         final long time = System.currentTimeMillis() - start;
         final long memoryAfter = runtime.totalMemory() - runtime.freeMemory();
         final long memory = memoryAfter - memoryBefore;
-        return new JudgeResult(StatusCode.ACCEPTED.toInt(), null, null, null, null, testCases.length,
+        return new JudgeResult(StatusCode.ACCEPTED.toString(), null, testCases.length,
                 testCases.length, time, memory);
     }
 
