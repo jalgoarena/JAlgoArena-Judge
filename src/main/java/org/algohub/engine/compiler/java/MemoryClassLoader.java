@@ -16,13 +16,13 @@ final class MemoryClassLoader extends URLClassLoader {
   /** ClassName -> bytecode. */
   private transient Map<String, byte[]> classBytes;
 
-    public MemoryClassLoader(final Map<String, byte[]> classBytes, final String classPath,
-      final ClassLoader parent) {
+    private MemoryClassLoader(final Map<String, byte[]> classBytes, final String classPath,
+                              final ClassLoader parent) {
     super(toUrls(classPath), parent);
     this.classBytes = classBytes;
   }
 
-  public MemoryClassLoader(final Map<String, byte[]> classBytes) {
+  MemoryClassLoader(final Map<String, byte[]> classBytes) {
     this(classBytes, null, ClassLoader.getSystemClassLoader());
   }
 

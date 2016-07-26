@@ -1,27 +1,29 @@
 package org.algohub.engine.compiler.java;
 
-
 import org.junit.Test;
 
-import java.lang.invoke.MethodHandle;
-import java.lang.invoke.MethodType;
 import java.lang.reflect.Method;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class MemoryJavaCompilerTest {
 
-  @Test public void compileStaticMethodTest() throws Throwable {
-    final String source =
-        "public final class Solution {\n" + "public static String greeting(String name) {\n"
-            + "\treturn \"Hello \" + name;\n" + "}\n}\n";
-    final Method greeting = MemoryJavaCompiler.INSTANCE.compileStaticMethod("greeting", "Solution", source);
-    final Object result = greeting.invoke(null, "soulmachine");
-    assertEquals("Hello soulmachine", result);
+    private static final String SOURCE_CODE =
+            "public final class Solution {\n" +
+                    "public static String greeting(String name) {\n" +
+                    "\treturn \"Hello \" + name;\n" + "}\n}\n";
 
-    final MethodHandle methodHandle = MemoryJavaCompiler.INSTANCE.compileStaticMethod("Solution", "greeting",
-        MethodType.methodType(String.class, new Class[] {String.class}), source);
-    final String result1 = (String) methodHandle.invokeExact("soulmachine");
-    assertEquals("Hello soulmachine", result1);
-  }
+    @Test
+    public void compileAndRunStaticMethod() throws Throwable {
+
+        Object[] greetingObject = MemoryJavaCompiler.INSTANCE.compileMethod(
+                "Solution", "greeting", SOURCE_CODE
+        );
+
+        Object obj = greetingObject[0];
+        Method greeting = (Method) greetingObject[1];
+
+        Object result = greeting.invoke(obj, "Julia");
+        assertThat(result).isEqualTo("Hello Julia");
+    }
 }

@@ -1,22 +1,13 @@
 package org.algohub.engine.compiler.java;
 
-
+import javax.tools.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Writer;
-import java.lang.invoke.MethodHandle;
-import java.lang.invoke.MethodHandles;
-import java.lang.invoke.MethodType;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import javax.tools.Diagnostic;
-import javax.tools.DiagnosticCollector;
-import javax.tools.JavaFileObject;
-import javax.tools.StandardJavaFileManager;
-import javax.tools.ToolProvider;
 
 /**
  * Simple interface to Java compiler using JSR 199 Compiler API.
@@ -25,7 +16,6 @@ public final class MemoryJavaCompiler {
   public static final MemoryJavaCompiler INSTANCE = new MemoryJavaCompiler();
   private final javax.tools.JavaCompiler tool;
   private final StandardJavaFileManager stdManager;
-  private final MethodHandles.Lookup lookup = MethodHandles.lookup();
 
   private MemoryJavaCompiler() {
     tool = ToolProvider.getSystemJavaCompiler();
@@ -43,43 +33,6 @@ public final class MemoryJavaCompiler {
     } else {
       return qualifiedClassName.substring(lastDot + 1);
     }
-  }
-
-  /**
-   * Compile a single static method.
-   */
-  public Method compileStaticMethod(final String methodName, final String className,
-      final String source) throws ClassNotFoundException, CompileErrorException {
-
-    final Map<String, byte[]> classBytes = compile(className + ".java", source);
-    final MemoryClassLoader classLoader = new MemoryClassLoader(classBytes);
-    final Class clazz = classLoader.loadClass(className);
-    final Method[] methods = clazz.getDeclaredMethods();
-
-    for (final Method method : methods) {
-      if (method.getName().equals(methodName)) {
-        if (!method.isAccessible()) {
-          method.setAccessible(true);
-        }
-        return method;
-      }
-    }
-    throw new NoSuchMethodError(methodName);
-  }
-
-  /**
-   * Compile a single static method. <p> Use MethodHandle instead of reflection to gain better
-   * performance.</p>
-   */
-  public MethodHandle compileStaticMethod(final String className, final String methodName,
-      final MethodType type, final String source)
-      throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException,
-      CompileErrorException {
-    final Map<String, byte[]> classBytes = compile(className + ".java", source);
-    final MemoryClassLoader classLoader = new MemoryClassLoader(classBytes);
-
-    final Class clazz = Class.forName(className, true, classLoader);
-    return lookup.findStatic(clazz, methodName, type);
   }
 
   /**
@@ -107,7 +60,7 @@ public final class MemoryJavaCompiler {
     throw new NoSuchMethodError(methodName);
   }
 
-  public Map<String, byte[]> compile(String fileName, String source) throws CompileErrorException {
+  private Map<String, byte[]> compile(String fileName, String source) throws CompileErrorException {
     return compile(fileName, source, new PrintWriter(System.err), null, null);
   }
 
