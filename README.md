@@ -11,9 +11,14 @@ These commands should be available in `$PAHT`: `java`, `javac`
 
 ### 2. Compile
 
-    gradle shadowJar
+    ./gradlew
 
-## Run
+## Run (it starts HTTP Server hosting REST API for accessing judge engine)
 
-    java -jar build/lib/judge-engine-1.0.jar src/test/resources/problems/2-sum/2-sum.json src/test/resources/problems/2-sum/solution.java
+    java -jar build/lib/judge-engine-1.0.jar
+    
+/problems - get all the problems id
+/problems/{id} - get the problem details
+/problems/{id}/skeletonCode - get the skeleton code for problem
+/problems/{id}/solution (POST) - post the solution
 
