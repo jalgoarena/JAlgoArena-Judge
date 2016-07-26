@@ -26,10 +26,10 @@ public class JavaEngineTest {
                     Resources.toString(Resources.getResource(problemId + ".json"), Charsets.UTF_8);
             final Problem problem =
                     ObjectMapperInstance.INSTANCE.readValue(questionStr, Problem.class);
-            final String pythonCode =
+            final String sourceCode =
                     Resources.toString(Resources.getResource(solutionId + ".java"), Charsets.UTF_8);
 
-            final JudgeResult result = JUDGE_ENGINE.judge(problem, pythonCode);
+            final JudgeResult result = JUDGE_ENGINE.judge(problem, sourceCode);
             assertThat(result.getStatusCode()).isEqualTo(expectedStatusCode.toString());
         } catch (IOException e) {
             fail(e.getMessage());

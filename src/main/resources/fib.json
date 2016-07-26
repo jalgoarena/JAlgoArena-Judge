@@ -1,6 +1,6 @@
 {
   "id": "fib",
-  "title": "Fib",
+  "title": "Fibonacci",
   "description": "Write the fib function to return the N'th term.\n We start counting from Fibonacci(0) = 0, Fibonacci(1) = 1.",
   "time_limit": 10,
   "memory_limit": 32,
