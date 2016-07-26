@@ -2,17 +2,17 @@ package org.algohub.engine.pojo;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-
-import java.util.Map;
 
 
 /**
  * Problem Java Object, corresponds to the problem JSON string.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Problem {
     private final String id;
     private final String title;
@@ -24,8 +24,6 @@ public class Problem {
     private final Function function;
     @JsonProperty("test_cases")
     private final TestCase[] testCases;
-    @JsonProperty("test_cases_generator")
-    private final String testCasesGenerator;
 
     /**
      * Since this class is immutable, need to provide a method for Jackson.
@@ -37,8 +35,7 @@ public class Problem {
                    @JsonProperty("time_limit") final int timeLimit,
                    @JsonProperty("memory_limit") final int memoryLimit,
                    @JsonProperty("function") final Function function,
-                   @JsonProperty("test_cases") final TestCase[] testCases,
-                   @JsonProperty("test_cases_generator") final String testCasesGenerator) {
+                   @JsonProperty("test_cases") final TestCase[] testCases) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -46,7 +43,6 @@ public class Problem {
         this.memoryLimit = memoryLimit;
         this.function = function;
         this.testCases = testCases;
-        this.testCasesGenerator = testCasesGenerator;
     }
 
     public String getId() {
@@ -96,5 +92,9 @@ public class Problem {
         public JsonNode getOutput() {
             return output;
         }
+    }
+
+    public Problem toPublicProblem() {
+        return new Problem(id, title, description, timeLimit, memoryLimit, null, null);
     }
 }
