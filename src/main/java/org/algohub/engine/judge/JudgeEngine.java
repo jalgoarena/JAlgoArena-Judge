@@ -32,8 +32,6 @@ public class JudgeEngine {
                                      final InternalTestCase[] testCases, final Problem problem,
                                      final TypeNode returnType) {
 
-        Problem.TestCase[] testCasesJson = problem.getTestCases();
-
         System.gc();
         Runtime runtime = Runtime.getRuntime();
         final long memoryBefore = runtime.totalMemory() - runtime.freeMemory();
