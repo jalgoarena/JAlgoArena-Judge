@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Writer;
 import java.lang.reflect.Method;
+import java.nio.CharBuffer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +34,10 @@ public final class MemoryJavaCompiler {
         } else {
             return qualifiedClassName.substring(lastDot + 1);
         }
+    }
+
+    private static JavaFileObject makeStringSource(String fileName, String code) {
+        return new StringInputBuffer(fileName, code);
     }
 
     /**
@@ -77,7 +82,7 @@ public final class MemoryJavaCompiler {
 
         // prepare the compilation unit
         List<JavaFileObject> compUnits = new ArrayList<>(1);
-        compUnits.add(MemoryJavaFileManager.makeStringSource(fileName, source));
+        compUnits.add(makeStringSource(fileName, source));
 
         return compile(compUnits, fileManager, err);
     }
@@ -118,5 +123,21 @@ public final class MemoryJavaCompiler {
             errorMsg.append('\n');
         }
         throw new CompileErrorException(errorMsg.toString());
+    }
+
+    /**
+     * A file object used to represent Java source coming from a string.
+     */
+    private static class StringInputBuffer extends SimpleJavaFileObject {
+        final String code;
+
+        StringInputBuffer(String fileName, String code) {
+            super(MemoryJavaFileManager.toUri(fileName), Kind.SOURCE);
+            this.code = code;
+        }
+
+        public CharBuffer getCharContent(boolean ignoreEncodingErrors) {
+            return CharBuffer.wrap(code);
+        }
     }
 }

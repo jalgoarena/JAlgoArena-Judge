@@ -17,8 +17,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class JavaJudge {
-  // for finding class name
-  private static final Pattern[] PATTERNS =
+
+  private static final Pattern[] PATTERNS_FOR_FINDING_CLASS_NAME =
       new Pattern[] {Pattern.compile("public\\s+class\\s+(\\w+)\\s+"),
           Pattern.compile("final\\s+public\\s+class\\s+(\\w+)\\s+"),
           Pattern.compile("public\\s+final\\s+class\\s+(\\w+)\\s+"),};
@@ -70,7 +70,7 @@ public class JavaJudge {
   }
 
   private static Optional<String> getClassName(final String javaCode) {
-    for (final Pattern pattern : PATTERNS) {
+    for (final Pattern pattern : PATTERNS_FOR_FINDING_CLASS_NAME) {
       final Matcher matcher = pattern.matcher(javaCode);
       if (matcher.find()) {
         return Optional.of(matcher.group(1));
@@ -132,8 +132,8 @@ public class JavaJudge {
    * @param testCasesJson test cases in JSON format
    * @return JudgeResult
    */
-  public JudgeResult judge(final Function function, final InternalTestCase[] testCases,
-      final String userCode, final Problem.TestCase[] testCasesJson) {
+  private JudgeResult judge(final Function function, final InternalTestCase[] testCases,
+                            final String userCode, final Problem.TestCase[] testCasesJson) {
     final Object clazz;
     final Method method;
     try {
@@ -178,7 +178,7 @@ public class JavaJudge {
   }
 
   private static class JudgeOneCaseResult {
-    public boolean correct;
-    public String wrongOutput;
+    boolean correct;
+    String wrongOutput;
   }
 }
