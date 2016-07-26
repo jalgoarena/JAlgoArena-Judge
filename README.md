@@ -16,8 +16,8 @@ These commands should be available in `$PAHT`: `java`, `javac`
 
     java -jar build/lib/judge-engine-1.0.jar
     
-/problems - get all the problems id
-/problems/{id} - get the problem details
-/problems/{id}/skeletonCode - get the skeleton code for problem
-/problems/{id}/solution (POST) - post the solution
+* /problems - get all the problems id
+* /problems/{id} - get the problem details
+* /problems/{id}/skeletonCode - get the skeleton code for problem
+* /problems/{id}/solution (POST) - post the solution
 
