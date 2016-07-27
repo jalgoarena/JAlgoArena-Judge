@@ -61,7 +61,8 @@ public class JudgeControllerTest {
             "fib, FibFast",
             "stoi, MyStoi",
             "word-ladder, WordLadder",
-            "is-string-unique, IsStringUnique2"
+            "is-string-unique, IsStringUnique2",
+            "check-perm, CheckPerm"
     })
     public void judgesCorrectSolution(String problemId, String solutionId) throws Exception {
         final String sourceCode =
