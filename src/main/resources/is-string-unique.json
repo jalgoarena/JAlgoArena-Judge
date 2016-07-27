@@ -2,7 +2,7 @@
   "id": "isStrUnique",
   "title": "Is String Unique",
   "description": "Implement an algorithm to determine if a ASCII string has all unique characters.\nWhat if you cannot use additional data structures?",
-  "time_limit": 1,
+  "time_limit": 10,
   "memory_limit": 32,
   "function": {
     "name": "isUniqueChars",
