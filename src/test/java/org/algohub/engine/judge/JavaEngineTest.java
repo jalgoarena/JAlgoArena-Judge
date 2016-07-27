@@ -18,8 +18,6 @@ import static org.junit.Assert.fail;
 @RunWith(JUnitParamsRunner.class)
 public class JavaEngineTest {
 
-    private static final JudgeEngine JUDGE_ENGINE = new JudgeEngine();
-
     private static String[] statusCodes = new String[]{
             StatusCode.ACCEPTED.toString(),
             StatusCode.MEMORY_LIMIT_EXCEEDED.toString(),
@@ -35,7 +33,7 @@ public class JavaEngineTest {
             final String sourceCode =
                     Resources.toString(Resources.getResource(solutionId + ".java"), Charsets.UTF_8);
 
-            final JudgeResult result = JUDGE_ENGINE.judge(problem, sourceCode);
+            final JudgeResult result = JudgeEngine.judge(problem, sourceCode);
 
             assertThat(statusCodes).contains(result.getStatusCode());
         } catch (IOException e) {

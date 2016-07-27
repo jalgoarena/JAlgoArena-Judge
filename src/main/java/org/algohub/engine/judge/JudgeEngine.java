@@ -30,22 +30,13 @@ public class JudgeEngine {
     private static JudgeResult judge(final Object clazz,
                                      final Method method,
                                      final InternalTestCase[] testCases,
-                                     final Problem problem)
-            throws JsonProcessingException {
+                                     final Problem problem) {
 
         System.gc();
 
         PerformanceResults snapshotBeforeRun = takePerformanceSnapshot();
 
-        int failedTestCases = 0;
-
-        for (final InternalTestCase internalTestCase : testCases) {
-            final boolean isCorrect = judge(clazz, method, internalTestCase);
-
-            if (!isCorrect) {
-                failedTestCases++;
-            }
-        }
+        int failedTestCases = runSolutionAndGetNumberOfFailingTests(clazz, method, testCases);
 
         PerformanceResults snapshotAfterRun = takePerformanceSnapshot();
 
@@ -82,6 +73,19 @@ public class JudgeEngine {
         );
     }
 
+    private static int runSolutionAndGetNumberOfFailingTests(Object clazz, Method method, InternalTestCase[] testCases) {
+        int failedTestCases = 0;
+
+        for (final InternalTestCase internalTestCase : testCases) {
+            final boolean isCorrect = judge(clazz, method, internalTestCase);
+
+            if (!isCorrect) {
+                failedTestCases++;
+            }
+        }
+        return failedTestCases;
+    }
+
     private static PerformanceResults takePerformanceSnapshot() {
         Runtime runtime = Runtime.getRuntime();
 
@@ -100,7 +104,7 @@ public class JudgeEngine {
     }
 
     private static boolean judge(final Object clazz, final Method method,
-                                            final InternalTestCase testCase) throws JsonProcessingException {
+                                            final InternalTestCase testCase) {
         final Object output;
         try {
             output = method.invoke(clazz, testCase.getInput());
@@ -156,7 +160,7 @@ public class JudgeEngine {
         return eq;
     }
 
-    public JudgeResult judge(final Problem problem, final String userCode) throws JsonProcessingException {
+    public synchronized static JudgeResult judge(final Problem problem, final String userCode) throws JsonProcessingException {
 
         Problem.TestCase[] testCases = problem.getTestCases();
         Function function = problem.getFunction();
@@ -168,7 +172,7 @@ public class JudgeEngine {
         return judge(problem, internalTestCases, userCode);
     }
 
-    private JudgeResult judge(final Problem problem, final InternalTestCase[] testCases,
+    private static JudgeResult judge(final Problem problem, final InternalTestCase[] testCases,
                               final String userCode) throws JsonProcessingException {
         final Object clazz;
         final Method method;
@@ -194,7 +198,7 @@ public class JudgeEngine {
         return judge(clazz, method, testCases, problem);
     }
 
-    private String createFriendlyMessage(final String errorMessage) {
+    private static String createFriendlyMessage(final String errorMessage) {
         final StringBuilder sb = new StringBuilder();
         final String[] lines = errorMessage.split("\n");
         for (final String line : lines) {
@@ -225,7 +229,7 @@ public class JudgeEngine {
             this.memoryBytes = memoryBytes;
         }
 
-        public static PerformanceResults create(long timeNanoSeconds, long memoryBytes) {
+        static PerformanceResults create(long timeNanoSeconds, long memoryBytes) {
             return new PerformanceResults(timeNanoSeconds, memoryBytes);
         }
     }

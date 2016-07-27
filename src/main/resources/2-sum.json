@@ -3,7 +3,7 @@
   "title": "2Sum",
   "description":  "Given an array of integers, find two numbers such that they add up to a specific target number.\n\nThe function `twoSum` should return indices of the two numbers such that they add up to the target, where index1 must be less than index2. Please note that your returned answers (both index1 and index2) are not zero-based.\n\n**Note**: You may assume that each input would have exactly one solution.\n\n**Challenge**: Either of the following solutions are acceptable:\n\n* O(1) Space, O(nlogn) Time\n* O(n) Space, O(n) Time",
   "time_limit_ms": 10,
-  "memory_limit_kb": 32,
+  "memory_limit_kb": 1000,
   "function": {
     "name": "twoSum",
     "return": {
