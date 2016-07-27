@@ -1,0 +1,40 @@
+{
+  "id": "checkPermutations",
+  "title": "Check Permutations",
+  "description": "Given two strings, write a method to decide if one is a permutation of other.",
+  "time_limit": 10,
+  "memory_limit": 32,
+  "function": {
+    "name": "permutation",
+    "return": {
+      "type": "bool",
+      "comment": " Indicate if one string is a permutation of another"
+    },
+    "parameters": [
+      {
+        "name": "str1",
+        "type": "string",
+        "comment": "first string to be checked for permutation match"
+      },
+      {
+        "name": "str2",
+        "type": "string",
+        "comment": "second string to be checked for permutation match"
+      }
+    ]
+  },
+  "test_cases": [
+    {"input": ["abc", "cba"], "output": true},
+    {"input": ["abc", "cbacba"], "output": false},
+    {"input": ["abccba", "cbaccb"], "output": false},
+    {"input": ["abc", "cbad"], "output": false},
+    {"input": ["AdSda", "dAdaS"], "output": true},
+    {"input": ["AbcdefgHA", ""], "output": false},
+    {"input": ["", ""], "output": true},
+    {"input": ["  ", " "], "output": false},
+    {"input": ["A", "A"], "output": true},
+    {"input": ["A", "a"], "output": false},
+    {"input": [" !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~", "0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !\"#$%&'()*+,-./"], "output": true},
+    {"input": [" !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~a", "0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~"], "output": false}
+  ]
+}

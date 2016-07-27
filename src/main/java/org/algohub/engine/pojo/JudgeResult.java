@@ -137,7 +137,7 @@ public final class JudgeResult {
 
     public static JudgeResult runtimeError(int testCasesCount, String errorMessage) {
         return new JudgeResult(
-                StatusCode.TIME_LIMIT_EXCEEDED.toString(),
+                StatusCode.RUNTIME_ERROR.toString(),
                 errorMessage,
                 0,
                 testCasesCount,
