@@ -3,7 +3,7 @@
   "title": "String to Integer (atoi)",
   "description": "Implement stoi method to convert a string to an integer.\n\n**Hint**: Carefully consider all possible input cases. If you want a challenge, please do not see below and ask yourself what are the possible input cases.\n\n**Notes**: It is intended for this problem to be specified vaguely (ie, no given input specs). You are responsible to gather all the input requirements up front.",
   "time_limit_ms": 10,
-  "memory_limit_kb": 32,
+  "memory_limit_kb": 1500,
   "function": {
     "name": "stoi",
     "return": {

@@ -6,7 +6,6 @@ import org.algohub.engine.compiler.java.MemoryJavaCompiler;
 import org.algohub.engine.pojo.Function;
 import org.algohub.engine.pojo.JudgeResult;
 import org.algohub.engine.pojo.Problem;
-import org.algohub.engine.serde.ObjectMapperInstance;
 import org.algohub.engine.type.InternalTestCase;
 
 import java.lang.reflect.InvocationTargetException;
@@ -28,29 +27,79 @@ public class JudgeEngine {
             "package " + PACKAGE_NAME + ";\n" + "import java.util.*;\n\n\n";
     private static final int IMPORTS_LINES = 4;
 
-    private static JudgeResult judge(final Object clazz, final Method method,
-                                     final InternalTestCase[] testCases, final Problem problem) throws JsonProcessingException {
+    private static JudgeResult judge(final Object clazz,
+                                     final Method method,
+                                     final InternalTestCase[] testCases,
+                                     final Problem problem)
+            throws JsonProcessingException {
 
         System.gc();
-        Runtime runtime = Runtime.getRuntime();
-        final long memoryBefore = runtime.totalMemory() - runtime.freeMemory();
-        final long start = System.nanoTime();
-        for (int i = 0; i < testCases.length; ++i) {
-            final InternalTestCase testCase = testCases[i];
-            final JudgeOneCaseResult oneResult = judge(clazz, method, testCase);
-            if (!oneResult.correct) {
-                return new JudgeResult(StatusCode.WRONG_ANSWER.toString(), null,
-                        i + 1, testCases.length, -1, -1);
+
+        PerformanceResults snapshotBeforeRun = takePerformanceSnapshot();
+
+        int failedTestCases = 0;
+
+        for (final InternalTestCase internalTestCase : testCases) {
+            final boolean isCorrect = judge(clazz, method, internalTestCase);
+
+            if (!isCorrect) {
+                failedTestCases++;
             }
         }
-        final double time = (System.nanoTime() - start) / (1000.0 * 1000.0);
-        final long memoryAfter = runtime.totalMemory() - runtime.freeMemory();
-        final long memoryInKb = (memoryAfter - memoryBefore) / 1024;
-        return new JudgeResult(StatusCode.ACCEPTED.toString(), null, testCases.length,
-                testCases.length, time, memoryInKb);
+
+        PerformanceResults snapshotAfterRun = takePerformanceSnapshot();
+
+        if (failedTestCases > 0) {
+            return JudgeResult.wrongAnswer(
+                    testCases.length - failedTestCases,
+                    testCases.length
+            );
+        }
+
+        double usedTimeInMs = usedTimeInMs(snapshotBeforeRun, snapshotAfterRun);
+        long usedMemoryInKb = usedMemoryInKiloBytes(snapshotBeforeRun, snapshotAfterRun);
+
+        if (usedTimeInMs > problem.getTimeLimit()) {
+            return JudgeResult.timeLimitExceeded(
+                    testCases.length,
+                    usedTimeInMs,
+                    usedMemoryInKb
+            );
+        }
+
+        if (usedMemoryInKb > problem.getMemoryLimit()) {
+            return JudgeResult.memoryLimitExceeded(
+                    testCases.length,
+                    usedTimeInMs,
+                    usedMemoryInKb
+            );
+        }
+
+        return JudgeResult.accepted(
+                testCases.length,
+                usedTimeInMs,
+                usedMemoryInKb
+        );
     }
 
-    private static JudgeOneCaseResult judge(final Object clazz, final Method method,
+    private static PerformanceResults takePerformanceSnapshot() {
+        Runtime runtime = Runtime.getRuntime();
+
+        return PerformanceResults.create(
+                System.nanoTime(),
+                runtime.totalMemory() - runtime.freeMemory()
+        );
+    }
+
+    private static double usedTimeInMs(PerformanceResults before, PerformanceResults after) {
+        return (after.timeNanoSeconds - before.timeNanoSeconds) / (1000.0 * 1000.0);
+    }
+
+    private static long usedMemoryInKiloBytes(PerformanceResults before, PerformanceResults after) {
+        return (after.memoryBytes - before.memoryBytes) / 1024;
+    }
+
+    private static boolean judge(final Object clazz, final Method method,
                                             final InternalTestCase testCase) throws JsonProcessingException {
         final Object output;
         try {
@@ -58,13 +107,8 @@ public class JudgeEngine {
         } catch (IllegalAccessException | InvocationTargetException e) {
             throw new IllegalStateException(e.getMessage());
         }
-        final JudgeOneCaseResult result = new JudgeOneCaseResult();
-        if (equal(testCase.getOutput(), output)) {
-            result.correct = true;
-        } else {
-            result.wrongOutput = ObjectMapperInstance.INSTANCE.writeValueAsString(output);
-        }
-        return result;
+
+        return equal(testCase.getOutput(), output);
     }
 
     private static Optional<String> getClassName(final String javaCode) {
@@ -172,8 +216,17 @@ public class JudgeEngine {
         return sb.toString();
     }
 
-    private static class JudgeOneCaseResult {
-        boolean correct;
-        String wrongOutput;
+    private static class PerformanceResults {
+        long timeNanoSeconds;
+        long memoryBytes;
+
+        PerformanceResults(long timeNanoSeconds, long memoryBytes) {
+            this.timeNanoSeconds = timeNanoSeconds;
+            this.memoryBytes = memoryBytes;
+        }
+
+        public static PerformanceResults create(long timeNanoSeconds, long memoryBytes) {
+            return new PerformanceResults(timeNanoSeconds, memoryBytes);
+        }
     }
 }

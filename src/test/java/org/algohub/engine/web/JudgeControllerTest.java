@@ -58,10 +58,10 @@ public class JudgeControllerTest {
     @Test
     @Parameters({
             "2-sum, TwoSum",
-            "fib, Fib",
+            "fib, FibFast",
             "stoi, MyStoi",
             "word-ladder, WordLadder",
-            "is-string-unique, IsStringUnique"
+            "is-string-unique, IsStringUnique2"
     })
     public void judgesCorrectSolution(String problemId, String solutionId) throws Exception {
         final String sourceCode =

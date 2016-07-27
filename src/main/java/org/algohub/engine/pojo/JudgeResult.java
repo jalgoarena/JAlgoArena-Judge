@@ -90,4 +90,48 @@ public final class JudgeResult {
                 ", consumedMemory(kb)=" + consumedMemory +
                 '}';
     }
+
+    public static JudgeResult accepted(int testCasesCount, double usedTimeInMs, long usedMemoryInKb) {
+        return new JudgeResult(
+                StatusCode.ACCEPTED.toString(),
+                null,
+                testCasesCount,
+                testCasesCount,
+                usedTimeInMs,
+                usedMemoryInKb
+        );
+    }
+
+    public static JudgeResult timeLimitExceeded(int testCasesCount, double usedTimeInMs, long usedMemoryInKb) {
+        return new JudgeResult(
+                StatusCode.TIME_LIMIT_EXCEEDED.toString(),
+                null,
+                testCasesCount,
+                testCasesCount,
+                usedTimeInMs,
+                usedMemoryInKb
+        );
+    }
+
+    public static JudgeResult memoryLimitExceeded(int testCasesCount, double usedTimeInMs, long usedMemoryInKb) {
+        return new JudgeResult(
+                StatusCode.MEMORY_LIMIT_EXCEEDED.toString(),
+                null,
+                testCasesCount,
+                testCasesCount,
+                usedTimeInMs,
+                usedMemoryInKb
+        );
+    }
+
+    public static JudgeResult wrongAnswer(int failedTestCases, int testCasesCount) {
+        return new JudgeResult(
+                StatusCode.WRONG_ANSWER.toString(),
+                null,
+                failedTestCases,
+                testCasesCount,
+                -1,
+                -1
+        );
+    }
 }

@@ -39,7 +39,7 @@ public class JavaEngineTest {
     @Test
     @Parameters({
         "2-sum, TwoSum",
-        "fib, Fib",
+        "fib, FibFast",
         "stoi, MyStoi",
         "word-ladder, WordLadder"
     })

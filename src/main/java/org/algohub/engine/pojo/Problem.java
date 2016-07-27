@@ -18,7 +18,7 @@ public class Problem {
     private final String title;
     private final String description;
     @JsonProperty("time_limit_ms")
-    private final double timeLimit;
+    private final long timeLimit;
     @JsonProperty("memory_limit_kb")
     private final int memoryLimit;
     private final Function function;
@@ -32,7 +32,7 @@ public class Problem {
     public Problem(@JsonProperty("id") final String id,
                    @JsonProperty("title") final String title,
                    @JsonProperty("description") final String description,
-                   @JsonProperty("time_limit_ms") final double timeLimit,
+                   @JsonProperty("time_limit_ms") final long timeLimit,
                    @JsonProperty("memory_limit_kb") final int memoryLimit,
                    @JsonProperty("function") final Function function,
                    @JsonProperty("test_cases") final TestCase[] testCases) {
@@ -57,7 +57,7 @@ public class Problem {
         return description;
     }
 
-    public double getTimeLimit() {
+    public long getTimeLimit() {
         return timeLimit;
     }
 
@@ -96,5 +96,15 @@ public class Problem {
 
     public Problem toPublicProblem() {
         return new Problem(id, title, description, timeLimit, memoryLimit, null, null);
+    }
+
+    @Override
+    public String toString() {
+        return "Problem{" +
+                "id='" + id + '\'' +
+                ", title='" + title + '\'' +
+                ", timeLimit=" + timeLimit +
+                ", memoryLimit=" + memoryLimit +
+                '}';
     }
 }
