@@ -24,6 +24,13 @@ jar {
     version = '1.0'
 }
 
+test {
+    testLogging {
+        exceptionFormat = 'full'
+        events "passed", "skipped", "failed", "standardOut", "standardError"
+    }
+}
+
 dependencies {
     compile 'com.google.guava:guava:18.0',
             'com.fasterxml.jackson.core:jackson-databind:2.6.2',
