@@ -18,8 +18,8 @@ public final class JudgeResult {
     private int testcaseTotalCount;
     @JsonProperty("elapsed_time")
     private double elapsedTime; // milliseconds
-    @JsonProperty("consumed_memory_kb")
-    private long consumedMemory;  // kilobytes
+    @JsonProperty("consumed_memory")
+    private long consumedMemory;  // bytes
 
     /**
      * Since this class is immutable, need to provide a method for Jackson.
@@ -30,7 +30,7 @@ public final class JudgeResult {
                        @JsonProperty("testcase_passed_count") final int testcasePassedCount,
                        @JsonProperty("testcase_total_count") final int testcaseTotalCount,
                        @JsonProperty("elapsed_time") final double elapsedTime,
-                       @JsonProperty("consumed_memory_kb") final long consumedMemory) {
+                       @JsonProperty("consumed_memory") final long consumedMemory) {
         this.statusCode = statusCode;
         this.errorMessage = errorMessage;
         this.testcasePassedCount = testcasePassedCount;
@@ -102,25 +102,25 @@ public final class JudgeResult {
         );
     }
 
-    public static JudgeResult timeLimitExceeded(int testCasesCount, double usedTimeInMs, long usedMemoryInKb) {
+    public static JudgeResult timeLimitExceeded(int testCasesCount) {
         return new JudgeResult(
                 StatusCode.TIME_LIMIT_EXCEEDED.toString(),
                 null,
+                0,
                 testCasesCount,
-                testCasesCount,
-                usedTimeInMs,
-                usedMemoryInKb
+                -1,
+                -1
         );
     }
 
-    public static JudgeResult memoryLimitExceeded(int testCasesCount, double usedTimeInMs, long usedMemoryInKb) {
+    public static JudgeResult memoryLimitExceeded(int testCasesCount, long usedMemory) {
         return new JudgeResult(
                 StatusCode.MEMORY_LIMIT_EXCEEDED.toString(),
                 null,
                 testCasesCount,
                 testCasesCount,
-                usedTimeInMs,
-                usedMemoryInKb
+                -1,
+                usedMemory
         );
     }
 
@@ -129,6 +129,17 @@ public final class JudgeResult {
                 StatusCode.WRONG_ANSWER.toString(),
                 null,
                 failedTestCases,
+                testCasesCount,
+                -1,
+                -1
+        );
+    }
+
+    public static JudgeResult runtimeError(int testCasesCount, String errorMessage) {
+        return new JudgeResult(
+                StatusCode.TIME_LIMIT_EXCEEDED.toString(),
+                errorMessage,
+                0,
                 testCasesCount,
                 -1,
                 -1

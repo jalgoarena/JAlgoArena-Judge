@@ -8,156 +8,80 @@ import org.algohub.engine.pojo.JudgeResult;
 import org.algohub.engine.pojo.Problem;
 import org.algohub.engine.type.InternalTestCase;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Arrays;
 import java.util.Optional;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.concurrent.*;
 
 public class JudgeEngine {
 
-    private static final Pattern[] PATTERNS_FOR_FINDING_CLASS_NAME =
-            new Pattern[]{Pattern.compile("public\\s+class\\s+(\\w+)\\s+"),
-                    Pattern.compile("final\\s+public\\s+class\\s+(\\w+)\\s+"),
-                    Pattern.compile("public\\s+final\\s+class\\s+(\\w+)\\s+"),};
+    private static final FindClassName findClassName = new FindClassName();
+    private static final CreateFriendlyMessage createFriendlyMessage = new CreateFriendlyMessage();
 
-    private static final String PACKAGE_NAME = "org.algohub";
-    private static final String IMPORTS =
-            "package " + PACKAGE_NAME + ";\n" + "import java.util.*;\n\n\n";
-    private static final int IMPORTS_LINES = 4;
+    private static final int NUMBER_OF_ITERATIONS = 10;
 
     private static JudgeResult judge(final Object clazz,
                                      final Method method,
                                      final InternalTestCase[] testCases,
                                      final Problem problem) {
 
-        System.gc();
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        Future<Integer> judge = executorService.submit(new JudgeTask(clazz, method, testCases));
 
-        PerformanceResults snapshotBeforeRun = takePerformanceSnapshot();
 
-        int failedTestCases = runSolutionAndGetNumberOfFailingTests(clazz, method, testCases);
+        // # RUN 1 - cold run making JVM hot, mainly checks if all tests passes and we do not exceeded time limit
+        try {
+            int failedTestCases = judge.get(problem.getTimeLimit(), TimeUnit.MILLISECONDS);
 
-        PerformanceResults snapshotAfterRun = takePerformanceSnapshot();
-
-        if (failedTestCases > 0) {
-            return JudgeResult.wrongAnswer(
-                    testCases.length - failedTestCases,
-                    testCases.length
-            );
+            if (failedTestCases > 0) {
+                return JudgeResult.wrongAnswer(
+                        testCases.length - failedTestCases,
+                        testCases.length
+                );
+            }
+        } catch (InterruptedException | ExecutionException e) {
+            return JudgeResult.runtimeError(testCases.length, e.getMessage());
+        } catch (TimeoutException e) {
+            return JudgeResult.timeLimitExceeded(testCases.length);
         }
 
-        double usedTimeInMs = usedTimeInMs(snapshotBeforeRun, snapshotAfterRun);
-        long usedMemoryInKb = usedMemoryInKiloBytes(snapshotBeforeRun, snapshotAfterRun);
+        // # RUN 2 - hot runs, run the code couple of times gathering time and memory measurements to return best
 
-        if (usedTimeInMs > problem.getTimeLimit()) {
-            return JudgeResult.timeLimitExceeded(
-                    testCases.length,
-                    usedTimeInMs,
-                    usedMemoryInKb
-            );
+        PerformanceResult performanceResult = getPerformanceResult(clazz, method, testCases);
+        for (int i = 0; i < NUMBER_OF_ITERATIONS; i++) {
+            performanceResult = performanceResult.compare(getPerformanceResult(clazz, method, testCases));
         }
 
-        if (usedMemoryInKb > problem.getMemoryLimit()) {
+        if (performanceResult.usedMemoryInBytes > problem.getMemoryLimit()) {
             return JudgeResult.memoryLimitExceeded(
                     testCases.length,
-                    usedTimeInMs,
-                    usedMemoryInKb
+                    performanceResult.usedMemoryInBytes
             );
         }
 
         return JudgeResult.accepted(
                 testCases.length,
-                usedTimeInMs,
-                usedMemoryInKb
+                performanceResult.usedTimeInMs,
+                performanceResult.usedMemoryInBytes
         );
     }
 
-    private static int runSolutionAndGetNumberOfFailingTests(Object clazz, Method method, InternalTestCase[] testCases) {
-        int failedTestCases = 0;
+    private static PerformanceResult getPerformanceResult(Object clazz, Method method, InternalTestCase[] testCases) {
+        PerformanceSnapshot snapshotBeforeRun = takePerformanceSnapshot();
 
-        for (final InternalTestCase internalTestCase : testCases) {
-            final boolean isCorrect = judge(clazz, method, internalTestCase);
+        new JudgeTask(clazz, method, testCases).run();
 
-            if (!isCorrect) {
-                failedTestCases++;
-            }
-        }
-        return failedTestCases;
+        PerformanceSnapshot snapshotAfterRun = takePerformanceSnapshot();
+
+        return PerformanceResult.create(snapshotBeforeRun, snapshotAfterRun);
     }
 
-    private static PerformanceResults takePerformanceSnapshot() {
+    private static PerformanceSnapshot takePerformanceSnapshot() {
         Runtime runtime = Runtime.getRuntime();
 
-        return PerformanceResults.create(
+        return PerformanceSnapshot.create(
                 System.nanoTime(),
                 runtime.totalMemory() - runtime.freeMemory()
         );
-    }
-
-    private static double usedTimeInMs(PerformanceResults before, PerformanceResults after) {
-        return (after.timeNanoSeconds - before.timeNanoSeconds) / (1000.0 * 1000.0);
-    }
-
-    private static long usedMemoryInKiloBytes(PerformanceResults before, PerformanceResults after) {
-        return (after.memoryBytes - before.memoryBytes) / 1024;
-    }
-
-    private static boolean judge(final Object clazz, final Method method,
-                                            final InternalTestCase testCase) {
-        final Object output;
-        try {
-            output = method.invoke(clazz, testCase.getInput());
-        } catch (IllegalAccessException | InvocationTargetException e) {
-            throw new IllegalStateException(e.getMessage());
-        }
-
-        return equal(testCase.getOutput(), output);
-    }
-
-    private static Optional<String> getClassName(final String javaCode) {
-        for (final Pattern pattern : PATTERNS_FOR_FINDING_CLASS_NAME) {
-            final Matcher matcher = pattern.matcher(javaCode);
-            if (matcher.find()) {
-                return Optional.of(matcher.group(1));
-            }
-        }
-        return Optional.empty();
-    }
-
-    /**
-     * More powerful than java.util.Objects.equals().
-     */
-    private static boolean equal(Object a, Object b) {
-        if (a == b) {
-            return true;
-        } else if (a == null || b == null) {
-            return false;
-        }
-
-        boolean eq;
-        if (a instanceof Object[] && b instanceof Object[]) {
-            eq = Arrays.deepEquals((Object[]) a, (Object[]) b);
-        } else if (a instanceof byte[] && b instanceof byte[]) {
-            eq = Arrays.equals((byte[]) a, (byte[]) b);
-        } else if (a instanceof short[] && b instanceof short[]) {
-            eq = Arrays.equals((short[]) a, (short[]) b);
-        } else if (a instanceof int[] && b instanceof int[]) {
-            eq = Arrays.equals((int[]) a, (int[]) b);
-        } else if (a instanceof long[] && b instanceof long[]) {
-            eq = Arrays.equals((long[]) a, (long[]) b);
-        } else if (a instanceof char[] && b instanceof char[]) {
-            eq = Arrays.equals((char[]) a, (char[]) b);
-        } else if (a instanceof float[] && b instanceof float[]) {
-            eq = Arrays.equals((float[]) a, (float[]) b);
-        } else if (a instanceof double[] && b instanceof double[]) {
-            eq = Arrays.equals((double[]) a, (double[]) b);
-        } else if (a instanceof boolean[] && b instanceof boolean[]) {
-            eq = Arrays.equals((boolean[]) a, (boolean[]) b);
-        } else {
-            eq = a.equals(b);
-        }
-        return eq;
     }
 
     public synchronized static JudgeResult judge(final Problem problem, final String userCode) throws JsonProcessingException {
@@ -180,57 +104,66 @@ public class JudgeEngine {
         Function function = problem.getFunction();
 
         try {
-            final String completeUserCode = IMPORTS + userCode;
-            final Optional<String> className = getClassName(completeUserCode);
+            final Optional<String> className = findClassName.in(userCode);
             if (!className.isPresent()) {
                 return new JudgeResult("ClassNotFoundException: No public class found");
             }
             final Object[] tmp = MemoryJavaCompiler.INSTANCE
-                    .compileMethod("org.algohub." + className.get(), function.getName(), completeUserCode);
+                    .compileMethod(className.get(), function.getName(), userCode);
             clazz = tmp[0];
             method = (Method) tmp[1];
         } catch (ClassNotFoundException e) {
             return new JudgeResult(e.getClass() + " : " + e.getMessage());
         } catch (CompileErrorException e) {
-            return new JudgeResult(createFriendlyMessage(e.getMessage()));
+            return new JudgeResult(createFriendlyMessage.from(e.getMessage()));
         }
 
         return judge(clazz, method, testCases, problem);
     }
 
-    private static String createFriendlyMessage(final String errorMessage) {
-        final StringBuilder sb = new StringBuilder();
-        final String[] lines = errorMessage.split("\n");
-        for (final String line : lines) {
-            final int pos = line.indexOf(".java:");
-            if (pos > 0) {
-                // get the line number
-                final int pos2 = line.indexOf(':', pos + ".java:".length());
-                final int lineNumber;
-                {
-                    final String numberStr = line.substring(pos + ".java:".length(), pos2);
-                    lineNumber = Integer.valueOf(numberStr) - IMPORTS_LINES;
-                }
-                final String friendlyMessage = "Line:" + lineNumber + line.substring(pos2);
-                sb.append(friendlyMessage).append('\n');
-            } else {
-                sb.append(line).append('\n');
-            }
+    private static class PerformanceSnapshot {
+        long currentNanoTime;
+        long usedMemoryInBytes;
+
+        PerformanceSnapshot(long currentNanoTime, long usedMemoryInBytes) {
+            this.currentNanoTime = currentNanoTime;
+            this.usedMemoryInBytes = usedMemoryInBytes;
         }
-        return sb.toString();
+
+        static PerformanceSnapshot create(long timeNanoSeconds, long memoryBytes) {
+            return new PerformanceSnapshot(timeNanoSeconds, memoryBytes);
+        }
     }
 
-    private static class PerformanceResults {
-        long timeNanoSeconds;
-        long memoryBytes;
+    private static class PerformanceResult {
+        long usedMemoryInBytes;
+        double usedTimeInMs;
 
-        PerformanceResults(long timeNanoSeconds, long memoryBytes) {
-            this.timeNanoSeconds = timeNanoSeconds;
-            this.memoryBytes = memoryBytes;
+        private PerformanceResult(long usedMemoryInBytes, double usedTimeInMs) {
+            this.usedMemoryInBytes = usedMemoryInBytes;
+            this.usedTimeInMs = usedTimeInMs;
         }
 
-        static PerformanceResults create(long timeNanoSeconds, long memoryBytes) {
-            return new PerformanceResults(timeNanoSeconds, memoryBytes);
+        static PerformanceResult create(PerformanceSnapshot before, PerformanceSnapshot after) {
+            return new PerformanceResult(
+                    usedMemoryInBytes(before, after),
+                    usedTimeInMs(before, after)
+            );
+        }
+
+        private static double usedTimeInMs(PerformanceSnapshot before, PerformanceSnapshot after) {
+            return (after.currentNanoTime - before.currentNanoTime) / (1000.0 * 1000.0);
+        }
+
+        private static long usedMemoryInBytes(PerformanceSnapshot before, PerformanceSnapshot after) {
+            return (after.usedMemoryInBytes - before.usedMemoryInBytes);
+        }
+
+        PerformanceResult compare(PerformanceResult performanceResult) {
+            return new PerformanceResult(
+                    Math.min(performanceResult.usedMemoryInBytes, usedMemoryInBytes),
+                    Math.min(performanceResult.usedTimeInMs, usedTimeInMs)
+            );
         }
     }
 }

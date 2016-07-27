@@ -68,12 +68,6 @@ public class JudgeControllerTest {
                 Resources.toString(Resources.getResource(solutionId + ".java"), Charsets.UTF_8);
         JudgeResult result = controller.judge(problemId, sourceCode);
 
-        String[] statusCodes = new String[] {
-            StatusCode.ACCEPTED.toString(),
-            StatusCode.MEMORY_LIMIT_EXCEEDED.toString(),
-            StatusCode.TIME_LIMIT_EXCEEDED.toString()
-        };
-
-        assertThat(statusCodes).contains(result.getStatusCode());
+        assertThat(result.getStatusCode()).isEqualTo(StatusCode.ACCEPTED.toString());
     }
 }

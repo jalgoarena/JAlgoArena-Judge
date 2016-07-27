@@ -18,13 +18,7 @@ import static org.junit.Assert.fail;
 @RunWith(JUnitParamsRunner.class)
 public class JavaEngineTest {
 
-    private static String[] statusCodes = new String[]{
-            StatusCode.ACCEPTED.toString(),
-            StatusCode.MEMORY_LIMIT_EXCEEDED.toString(),
-            StatusCode.TIME_LIMIT_EXCEEDED.toString()
-    };
-
-    private static void judgeSolution(final String problemId, final String solutionId, String[] statusCodes) {
+    private static void judgeSolution(final String problemId, final String solutionId, StatusCode statusCode) {
         try {
             final String questionStr =
                     Resources.toString(Resources.getResource(problemId + ".json"), Charsets.UTF_8);
@@ -35,7 +29,7 @@ public class JavaEngineTest {
 
             final JudgeResult result = JudgeEngine.judge(problem, sourceCode);
 
-            assertThat(statusCodes).contains(result.getStatusCode());
+            assertThat(result.getStatusCode()).isEqualTo(statusCode.toString());
         } catch (IOException e) {
             fail(e.getMessage());
         }
@@ -49,16 +43,16 @@ public class JavaEngineTest {
             "word-ladder, WordLadder"
     })
     public void acceptsCorrectSolution(String problemId, String solutionId) throws Exception {
-        judgeSolution(problemId, solutionId, statusCodes);
+        judgeSolution(problemId, solutionId, StatusCode.ACCEPTED);
     }
 
     @Test
     public void failsWithCompilationErrorWhenSourceCodeDoesNotCompile() throws Exception {
-        judgeSolution("fib", "FibBroken", new String[]{StatusCode.COMPILE_ERROR.toString()});
+        judgeSolution("fib", "FibBroken", StatusCode.COMPILE_ERROR);
     }
 
     @Test
     public void returnsWrongAnswerForUncorrectSolution() throws Exception {
-        judgeSolution("fib", "FibWrongAnswer", new String[]{StatusCode.WRONG_ANSWER.toString()});
+        judgeSolution("fib", "FibWrongAnswer", StatusCode.WRONG_ANSWER);
     }
 }
