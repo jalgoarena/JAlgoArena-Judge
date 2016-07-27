@@ -15,6 +15,8 @@ These commands should be available in `$PAHT`: `java`, `javac`
 ## Run (it starts HTTP Server hosting REST API for accessing judge engine)
 
     java -jar build/lib/judge-engine-1.0.jar
+    or
+    ./gradlew bootRun
     
 * /problems - get all the problems id
 * /problems/{id} - get the problem details

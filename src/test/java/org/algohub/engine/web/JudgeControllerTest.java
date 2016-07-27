@@ -60,7 +60,8 @@ public class JudgeControllerTest {
             "2-sum, TwoSum",
             "fib, Fib",
             "stoi, MyStoi",
-            "word-ladder, WordLadder"
+            "word-ladder, WordLadder",
+            "is-string-unique, IsStringUnique"
     })
     public void judgesCorrectSolution(String problemId, String solutionId) throws Exception {
         final String sourceCode =

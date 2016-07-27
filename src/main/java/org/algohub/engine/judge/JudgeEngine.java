@@ -8,7 +8,6 @@ import org.algohub.engine.pojo.JudgeResult;
 import org.algohub.engine.pojo.Problem;
 import org.algohub.engine.serde.ObjectMapperInstance;
 import org.algohub.engine.type.InternalTestCase;
-import org.algohub.engine.type.TypeNode;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -30,31 +29,29 @@ public class JudgeEngine {
     private static final int IMPORTS_LINES = 4;
 
     private static JudgeResult judge(final Object clazz, final Method method,
-                                     final InternalTestCase[] testCases, final Problem problem,
-                                     final TypeNode returnType) throws JsonProcessingException {
+                                     final InternalTestCase[] testCases, final Problem problem) throws JsonProcessingException {
 
         System.gc();
         Runtime runtime = Runtime.getRuntime();
         final long memoryBefore = runtime.totalMemory() - runtime.freeMemory();
-        final long start = System.currentTimeMillis();
+        final long start = System.nanoTime();
         for (int i = 0; i < testCases.length; ++i) {
             final InternalTestCase testCase = testCases[i];
-            final JudgeOneCaseResult oneResult = judge(clazz, method, testCase, returnType);
+            final JudgeOneCaseResult oneResult = judge(clazz, method, testCase);
             if (!oneResult.correct) {
-                final long time = System.currentTimeMillis() - start;
                 return new JudgeResult(StatusCode.WRONG_ANSWER.toString(), null,
-                        i + 1, testCases.length, time, 0L);
+                        i + 1, testCases.length, -1, -1);
             }
         }
-        final long time = System.currentTimeMillis() - start;
+        final double time = (System.nanoTime() - start) / (1000.0 * 1000.0);
         final long memoryAfter = runtime.totalMemory() - runtime.freeMemory();
-        final long memory = memoryAfter - memoryBefore;
+        final long memoryInKb = (memoryAfter - memoryBefore) / 1024;
         return new JudgeResult(StatusCode.ACCEPTED.toString(), null, testCases.length,
-                testCases.length, time, memory);
+                testCases.length, time, memoryInKb);
     }
 
     private static JudgeOneCaseResult judge(final Object clazz, final Method method,
-                                            final InternalTestCase testCase, final TypeNode returnType) throws JsonProcessingException {
+                                            final InternalTestCase testCase) throws JsonProcessingException {
         final Object output;
         try {
             output = method.invoke(clazz, testCase.getInput());
@@ -150,7 +147,7 @@ public class JudgeEngine {
             return new JudgeResult(createFriendlyMessage(e.getMessage()));
         }
 
-        return judge(clazz, method, testCases, problem, function.getReturn_().getType());
+        return judge(clazz, method, testCases, problem);
     }
 
     private String createFriendlyMessage(final String errorMessage) {

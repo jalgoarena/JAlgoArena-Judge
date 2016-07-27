@@ -17,9 +17,9 @@ public class Problem {
     private final String id;
     private final String title;
     private final String description;
-    @JsonProperty("time_limit")
-    private final int timeLimit;
-    @JsonProperty("memory_limit")
+    @JsonProperty("time_limit_ms")
+    private final double timeLimit;
+    @JsonProperty("memory_limit_kb")
     private final int memoryLimit;
     private final Function function;
     @JsonProperty("test_cases")
@@ -32,8 +32,8 @@ public class Problem {
     public Problem(@JsonProperty("id") final String id,
                    @JsonProperty("title") final String title,
                    @JsonProperty("description") final String description,
-                   @JsonProperty("time_limit") final int timeLimit,
-                   @JsonProperty("memory_limit") final int memoryLimit,
+                   @JsonProperty("time_limit_ms") final double timeLimit,
+                   @JsonProperty("memory_limit_kb") final int memoryLimit,
                    @JsonProperty("function") final Function function,
                    @JsonProperty("test_cases") final TestCase[] testCases) {
         this.id = id;
@@ -57,7 +57,7 @@ public class Problem {
         return description;
     }
 
-    public int getTimeLimit() {
+    public double getTimeLimit() {
         return timeLimit;
     }
 

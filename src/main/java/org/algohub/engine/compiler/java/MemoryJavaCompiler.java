@@ -65,18 +65,15 @@ public final class MemoryJavaCompiler {
         throw new NoSuchMethodError(methodName);
     }
 
-    private Map<String, byte[]> compile(String fileName, String source) throws CompileErrorException {
-        return compile(fileName, source, new PrintWriter(System.err));
-    }
-
     /**
      * compile given String source and return bytecodes as a Map.
      *
      * @param fileName source fileName to be used for error messages etc.
      * @param source   Java source as String
-     * @param err      error writer where diagnostic messages are written
      */
-    private Map<String, byte[]> compile(String fileName, String source, Writer err) throws CompileErrorException {
+    private Map<String, byte[]> compile(String fileName, String source) throws CompileErrorException {
+
+        Writer err = new PrintWriter(System.err);
         // create a new memory JavaFileManager
         MemoryJavaFileManager fileManager = new MemoryJavaFileManager(stdManager);
 

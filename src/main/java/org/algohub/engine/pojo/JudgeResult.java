@@ -17,9 +17,9 @@ public final class JudgeResult {
     @JsonProperty("testcase_total_count")
     private int testcaseTotalCount;
     @JsonProperty("elapsed_time")
-    private long elapsedTime; // milliseconds
-    @JsonProperty("consumed_memory")
-    private long consumedMemory;  // bytes
+    private double elapsedTime; // milliseconds
+    @JsonProperty("consumed_memory_kb")
+    private long consumedMemory;  // kilobytes
 
     /**
      * Since this class is immutable, need to provide a method for Jackson.
@@ -29,8 +29,8 @@ public final class JudgeResult {
                        @JsonProperty("error_message") final String errorMessage,
                        @JsonProperty("testcase_passed_count") final int testcasePassedCount,
                        @JsonProperty("testcase_total_count") final int testcaseTotalCount,
-                       @JsonProperty("elapsed_time") final long elapsedTime,
-                       @JsonProperty("consumed_memory") final long consumedMemory) {
+                       @JsonProperty("elapsed_time") final double elapsedTime,
+                       @JsonProperty("consumed_memory_kb") final long consumedMemory) {
         this.statusCode = statusCode;
         this.errorMessage = errorMessage;
         this.testcasePassedCount = testcasePassedCount;
@@ -67,7 +67,7 @@ public final class JudgeResult {
         return testcaseTotalCount;
     }
 
-    public long getElapsedTime() {
+    public double getElapsedTime() {
         return elapsedTime;
     }
 
@@ -87,7 +87,7 @@ public final class JudgeResult {
                 ", testcasePassedCount=" + testcasePassedCount +
                 ", testcaseTotalCount=" + testcaseTotalCount +
                 ", elapsedTime=" + elapsedTime +
-                ", consumedMemory=" + consumedMemory +
+                ", consumedMemory(kb)=" + consumedMemory +
                 '}';
     }
 }
