@@ -6,20 +6,22 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import org.algohub.engine.judge.StatusCode;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public final class JudgeResult {
     @JsonProperty("status_code")
     private String statusCode;
     @JsonProperty("error_message")
     private String errorMessage;
-    @JsonProperty("testcase_passed_count")
-    private int testcasePassedCount;
-    @JsonProperty("testcase_total_count")
-    private int testcaseTotalCount;
     @JsonProperty("elapsed_time")
     private double elapsedTime; // milliseconds
     @JsonProperty("consumed_memory")
     private long consumedMemory;  // bytes
+    @JsonProperty("testcase_results")
+    private List<Boolean> testCaseResults;
 
     /**
      * Since this class is immutable, need to provide a method for Jackson.
@@ -27,28 +29,22 @@ public final class JudgeResult {
     @JsonCreator
     public JudgeResult(@JsonProperty("status_code") final String statusCode,
                        @JsonProperty("error_message") final String errorMessage,
-                       @JsonProperty("testcase_passed_count") final int testcasePassedCount,
-                       @JsonProperty("testcase_total_count") final int testcaseTotalCount,
                        @JsonProperty("elapsed_time") final double elapsedTime,
-                       @JsonProperty("consumed_memory") final long consumedMemory) {
+                       @JsonProperty("consumed_memory") final long consumedMemory,
+                       @JsonProperty("testcase_results") final List<Boolean> testCaseResults) {
         this.statusCode = statusCode;
         this.errorMessage = errorMessage;
-        this.testcasePassedCount = testcasePassedCount;
-        this.testcaseTotalCount = testcaseTotalCount;
         this.elapsedTime = elapsedTime;
         this.consumedMemory = consumedMemory;
+        this.testCaseResults = testCaseResults;
     }
 
-    /**
-     * Constructor.
-     */
     public JudgeResult(final String compileErrorMsg) {
         this.statusCode = StatusCode.COMPILE_ERROR.toString();
         this.errorMessage = compileErrorMsg;
-        this.testcasePassedCount = 0;
-        this.testcaseTotalCount = 0;
         this.elapsedTime = 0;
         this.consumedMemory = 0;
+        this.testCaseResults = Collections.emptyList();
     }
 
     public String getStatusCode() {
@@ -57,14 +53,6 @@ public final class JudgeResult {
 
     public String getErrorMessage() {
         return errorMessage;
-    }
-
-    public int getTestcasePassedCount() {
-        return testcasePassedCount;
-    }
-
-    public int getTestcaseTotalCount() {
-        return testcaseTotalCount;
     }
 
     public double getElapsedTime() {
@@ -79,37 +67,38 @@ public final class JudgeResult {
         return consumedMemory;
     }
 
+    public List<Boolean> getTestCaseResults() {
+        return testCaseResults;
+    }
+
     @Override
     public String toString() {
         return "JudgeResult{" +
                 "statusCode=" + statusCode +
                 ", errorMessage='" + errorMessage + '\'' +
-                ", testcasePassedCount=" + testcasePassedCount +
-                ", testcaseTotalCount=" + testcaseTotalCount +
                 ", elapsedTime=" + elapsedTime +
-                ", consumedMemory(kb)=" + consumedMemory +
+                ", consumedMemory=" + consumedMemory +
                 '}';
     }
 
     public static JudgeResult accepted(int testCasesCount, double usedTimeInMs, long usedMemoryInKb) {
+
         return new JudgeResult(
                 StatusCode.ACCEPTED.toString(),
                 null,
-                testCasesCount,
-                testCasesCount,
                 usedTimeInMs,
-                usedMemoryInKb
+                usedMemoryInKb,
+                allTestsPass(testCasesCount)
         );
     }
 
-    public static JudgeResult timeLimitExceeded(int testCasesCount) {
+    public static JudgeResult timeLimitExceeded() {
         return new JudgeResult(
                 StatusCode.TIME_LIMIT_EXCEEDED.toString(),
                 null,
-                0,
-                testCasesCount,
                 -1,
-                -1
+                -1,
+                Collections.emptyList()
         );
     }
 
@@ -117,32 +106,35 @@ public final class JudgeResult {
         return new JudgeResult(
                 StatusCode.MEMORY_LIMIT_EXCEEDED.toString(),
                 null,
-                testCasesCount,
-                testCasesCount,
                 -1,
-                usedMemory
+                usedMemory,
+                allTestsPass(testCasesCount)
         );
     }
 
-    public static JudgeResult wrongAnswer(int failedTestCases, int testCasesCount) {
+    public static JudgeResult wrongAnswer(List<Boolean> results) {
         return new JudgeResult(
                 StatusCode.WRONG_ANSWER.toString(),
                 null,
-                failedTestCases,
-                testCasesCount,
                 -1,
-                -1
+                -1,
+                results
         );
     }
 
-    public static JudgeResult runtimeError(int testCasesCount, String errorMessage) {
+    public static JudgeResult runtimeError(String errorMessage) {
         return new JudgeResult(
                 StatusCode.RUNTIME_ERROR.toString(),
                 errorMessage,
-                0,
-                testCasesCount,
                 -1,
-                -1
+                -1,
+                Collections.emptyList()
         );
+    }
+
+    private static List<Boolean> allTestsPass(int testCasesCount) {
+        Boolean[] results = new Boolean[testCasesCount];
+        Arrays.fill(results, true);
+        return Arrays.asList(results);
     }
 }

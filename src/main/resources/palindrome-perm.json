@@ -1,0 +1,31 @@
+{
+  "id": "palindromePerm",
+  "title": "Palindrome Permutations",
+  "description": "Given a string, write a function to check if it is a permutation of a palindrome. The palindrome does not need to be limited to just dictionary words (skip non-letter characters). Your solution should be case insensitive.",
+  "time_limit": 15,
+  "memory_limit": 32,
+  "function": {
+    "name": "isPermutationOfPalindrome",
+    "return": {
+      "type": "bool",
+      "comment": " Indicate if string is a permutation of palindrome"
+    },
+    "parameters": [
+      {
+        "name": "phrase",
+        "type": "string",
+        "comment": "string to be checked if any permutation is palindrome"
+      }
+    ]
+  },
+  "test_cases": [
+    {"input": ["abcabcd"], "output": true},
+    {"input": ["a"], "output": true},
+    {"input": ["Aa"], "output": true},
+    {"input": [""], "output": false},
+    {"input": ["cxzwcxzwcxzwcxzwa"], "output": true},
+    {"input": ["cxzwcxzwcxzwcxzwab"], "output": false},
+    {"input": ["Tact Coa"], "output": true},
+    {"input": ["Tact Coa&"], "output": true}
+  ]
+}

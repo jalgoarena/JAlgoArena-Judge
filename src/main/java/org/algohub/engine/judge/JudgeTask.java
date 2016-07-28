@@ -4,9 +4,11 @@ import org.algohub.engine.type.InternalTestCase;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Callable;
 
-class JudgeTask implements Callable<Integer> {
+class JudgeTask implements Callable<List<Boolean>> {
 
     private final Object clazz;
     private final Method method;
@@ -19,21 +21,20 @@ class JudgeTask implements Callable<Integer> {
     }
 
     @Override
-    public Integer call() throws Exception {
+    public List<Boolean> call() throws Exception {
         return run();
     }
 
-    int run() {
-        int failedTestCases = 0;
+    List<Boolean> run() {
+        ArrayList<Boolean> results = new ArrayList<>();
 
         for (final InternalTestCase internalTestCase : testCases) {
             final boolean isCorrect = judge(clazz, method, internalTestCase);
 
-            if (!isCorrect) {
-                failedTestCases++;
-            }
+            results.add(isCorrect);
         }
-        return failedTestCases;
+
+        return results;
     }
 
     private static boolean judge(final Object clazz, final Method method,

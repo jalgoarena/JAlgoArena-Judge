@@ -9,6 +9,7 @@ import org.algohub.engine.pojo.Problem;
 import org.algohub.engine.type.InternalTestCase;
 
 import java.lang.reflect.Method;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.*;
 
@@ -25,23 +26,22 @@ public class JudgeEngine {
                                      final Problem problem) {
 
         ExecutorService executorService = Executors.newSingleThreadExecutor();
-        Future<Integer> judge = executorService.submit(new JudgeTask(clazz, method, testCases));
+        Future<List<Boolean>> judge = executorService.submit(new JudgeTask(clazz, method, testCases));
 
 
         // # RUN 1 - cold run making JVM hot, mainly checks if all tests passes and we do not exceeded time limit
         try {
-            int failedTestCases = judge.get(problem.getTimeLimit(), TimeUnit.MILLISECONDS);
+            List<Boolean> results = judge.get(problem.getTimeLimit(), TimeUnit.MILLISECONDS);
+
+            int failedTestCases = (int)results.stream().filter(x -> !x).count();
 
             if (failedTestCases > 0) {
-                return JudgeResult.wrongAnswer(
-                        testCases.length - failedTestCases,
-                        testCases.length
-                );
+                return JudgeResult.wrongAnswer(results);
             }
         } catch (InterruptedException | ExecutionException e) {
-            return JudgeResult.runtimeError(testCases.length, e.getMessage());
+            return JudgeResult.runtimeError(e.getMessage());
         } catch (TimeoutException e) {
-            return JudgeResult.timeLimitExceeded(testCases.length);
+            return JudgeResult.timeLimitExceeded();
         }
 
         // # RUN 2 - hot runs, run the code couple of times gathering time and memory measurements to return best
