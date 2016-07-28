@@ -28,5 +28,9 @@
     {"input": ["AdSa"], "output": true},
     {"input": [" !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~"], "output": true},
     {"input": [" !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~a"], "output": false}
-  ]
+  ],
+  "example": {
+    "input": "AdSda",
+    "output": "false"
+  }
 }

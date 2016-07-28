@@ -28,5 +28,9 @@
     {"input": ["6"], "output": 8},
     {"input": ["20"], "output": 6765},
     {"input": ["40"], "output": 102334155}
-  ]
+  ],
+  "example": {
+    "input": "6",
+    "output": "8"
+  }
 }

@@ -7,10 +7,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 
-
-/**
- * Problem Java Object, corresponds to the problem JSON string.
- */
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Problem {
@@ -24,6 +20,7 @@ public class Problem {
     private final Function function;
     @JsonProperty("test_cases")
     private final TestCase[] testCases;
+    private final Example example;
 
     /**
      * Since this class is immutable, need to provide a method for Jackson.
@@ -35,7 +32,8 @@ public class Problem {
                    @JsonProperty("time_limit") final long timeLimit,
                    @JsonProperty("memory_limit") final int memoryLimit,
                    @JsonProperty("function") final Function function,
-                   @JsonProperty("test_cases") final TestCase[] testCases) {
+                   @JsonProperty("test_cases") final TestCase[] testCases,
+                   @JsonProperty("example") Example example) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -43,6 +41,7 @@ public class Problem {
         this.memoryLimit = memoryLimit;
         this.function = function;
         this.testCases = testCases;
+        this.example = example;
     }
 
     public String getId() {
@@ -73,6 +72,10 @@ public class Problem {
         return testCases;
     }
 
+    public Example getExample() {
+        return example;
+    }
+
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class TestCase {
         private final ArrayNode input;
@@ -94,8 +97,29 @@ public class Problem {
         }
     }
 
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public static class Example {
+        private final String input;
+        private final String output;
+
+        @JsonCreator
+        public Example(@JsonProperty("input") final String input,
+                       @JsonProperty("output") final String output) {
+            this.input = input;
+            this.output = output;
+        }
+
+        public String getInput() {
+            return input;
+        }
+
+        public String getOutput() {
+            return output;
+        }
+    }
+
     public Problem toPublicProblem() {
-        return new Problem(id, title, description, timeLimit, memoryLimit, null, null);
+        return new Problem(id, title, description, timeLimit, memoryLimit, null, null, example);
     }
 
     @Override

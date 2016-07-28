@@ -27,5 +27,9 @@
     {"input": ["cxzwcxzwcxzwcxzwab"], "output": false},
     {"input": ["Tact Coa"], "output": true},
     {"input": ["Tact Coa&"], "output": true}
-  ]
+  ],
+  "example": {
+    "input": "Tact Coa",
+    "output": "true (permutations: \"taco cat\", \"acto cta\", etc.)"
+  }
 }

@@ -14,14 +14,10 @@ import java.io.IOException;
 @RestController
 class JudgeController {
 
-    private final transient JudgeEngine judgeEngine = new JudgeEngine();
-
     @RequestMapping(path = "/problems/{id}/solution", method = RequestMethod.POST)
     JudgeResult judge(@PathVariable String id, @RequestBody String sourceCode) throws Exception {
-        Problem problem = getProblemById(id);
+        Problem problem = problemOf(id);
         JudgeResult judge = JudgeEngine.judge(problem, sourceCode);
-        System.out.println(problem);
-        System.out.println(judge);
         return judge;
     }
 
@@ -32,16 +28,16 @@ class JudgeController {
 
     @RequestMapping("/problems/{id}")
     Problem problem(@PathVariable String id) throws IOException {
-        return getProblemById(id).toPublicProblem();
+        return problemOf(id).toPublicProblem();
     }
 
     @RequestMapping("/problems/{id}/skeletonCode")
     String problemSkeletonCode(@PathVariable String id) throws Exception {
-        Problem problem = getProblemById(id);
+        Problem problem = problemOf(id);
         return JavaCodeGenerator.generateEmptyFunction(problem.getFunction());
     }
 
-    private Problem getProblemById(String id) throws IOException {
+    private Problem problemOf(String id) throws IOException {
         String problemAsJson = Resources.toString(
                 Resources.getResource(id + ".json"), Charsets.UTF_8
         );

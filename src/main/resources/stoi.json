@@ -27,5 +27,9 @@
     {"input": ["-123"], "output": -123},
     {"input": ["+-2"], "output": 0},
     {"input": ["010"], "output": 10}
-  ]
+  ],
+  "example": {
+    "input": "-1",
+    "output": "-1"
+  }
 }
