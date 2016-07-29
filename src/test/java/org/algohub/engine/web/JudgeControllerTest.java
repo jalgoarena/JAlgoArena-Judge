@@ -64,7 +64,8 @@ public class JudgeControllerTest {
             "is-string-unique, IsStringUnique2",
             "check-perm, CheckPerm",
             "palindrome-perm, PalindromePerm",
-            "one-away, OneAway"
+            "one-away, OneAway",
+            "string-compress, StringCompress"
     })
     public void judgesCorrectSolution(String problemId, String solutionId) throws Exception {
         final String sourceCode =

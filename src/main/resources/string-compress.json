@@ -1,0 +1,33 @@
+{
+  "id": "stringCompress",
+  "title": "String Compression",
+  "description": "Implement a method to perform basic string compression using the counts of repeated characters. If the 'compressed' string would not become smaller than original string, your method should return original string. You can assume the string has only uppercase and lowercase letters (a-z).",
+  "time_limit": 1,
+  "memory_limit": 32,
+  "function": {
+    "name": "compress",
+    "return": {
+      "type": "string",
+      "comment": " Compressed string."
+    },
+    "parameters": [
+      {
+        "name": "str",
+        "type": "string",
+        "comment": "String to compress"
+      }
+    ]
+  },
+  "test_cases": [
+    {"input": ["aabcccccaaa"], "output": "a2b1c5a3"},
+    {"input": ["Julia"], "output": "Julia"},
+    {"input": [""], "output": ""},
+    {"input": ["JjuuLLiiiiAaaaaAAaaaaa"], "output": "J1j1u2L2i4A1a4A2a5"},
+    {"input": ["JjuuLLiiiiAaaaaAAaBCDEFG"], "output": "JjuuLLiiiiAaaaaAAaBCDEFG"},
+    {"input": ["JJJJJJJJJJJ"], "output": "J11"}
+  ],
+  "example": {
+    "input": "aabcccccaaa",
+    "output": "a2b1c5a3"
+  }
+}
