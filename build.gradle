@@ -30,12 +30,12 @@ sonarqube {
         property "sonar.projectKey", "com.spolnik:jalgo-arena"
         property "sonar.projectName", "JAlgoArena"
         property "sonar.jacoco.reportPath", "${project.buildDir}/jacoco/test.exec"
-        property "sonar.login", "$SONAR_TOKEN"
+        property "sonar.login", System.getenv("SONAR_TOKEN")
     }
 }
 
 jar {
-    baseName = 'judge-endinge'
+    baseName = 'judge-engine'
     version = '1.0'
 }
 
