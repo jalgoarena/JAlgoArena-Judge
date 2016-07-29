@@ -1,4 +1,4 @@
-package org.algohub.engine.web;
+package org.algohub.engine;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;

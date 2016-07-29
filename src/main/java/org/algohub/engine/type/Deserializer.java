@@ -5,9 +5,10 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.primitives.Ints;
 
+import java.lang.reflect.Array;
 import java.util.*;
 
-public interface Deserializer {
+interface Deserializer {
     ImmutableMap<IntermediateType, Class> JAVA_CLASS_MAP =
             ImmutableMap.<IntermediateType, Class>builder().put(IntermediateType.BOOL, boolean.class)
                     .put(IntermediateType.STRING, String.class).put(IntermediateType.DOUBLE, double.class)
@@ -94,5 +95,200 @@ public interface Deserializer {
 
         NodeDeserializer nodeDeserializer = CONTAINER_DESERIALIZERS.get(type.getValue());
         return nodeDeserializer.deserialize(type, jsonNode);
+    }
+
+    @FunctionalInterface
+    interface NodeDeserializer {
+        Object deserialize(final TypeNode type, final JsonNode jsonNode);
+    }
+
+    class ArrayDeserializer implements NodeDeserializer {
+
+        private static final ImmutableMap<IntermediateType, NodeDeserializer> ARRAY_ITEM_DESERIALIZERS =
+                ImmutableMap.<IntermediateType, NodeDeserializer>builder()
+                        .put(IntermediateType.BOOL, new BoolNodeDeserializer())
+                        .put(IntermediateType.INT, new IntNodeDeserializer())
+                        .put(IntermediateType.LONG, new LongNodeDeserializer())
+                        .put(IntermediateType.DOUBLE, new DoubleNodeDeserializer())
+                        .build();
+
+        @Override
+        public Object deserialize(TypeNode type, JsonNode jsonNode) {
+            final ArrayNode elements = (ArrayNode) jsonNode;
+            final TypeNode elementType = type.getElementType();
+
+            if (ARRAY_ITEM_DESERIALIZERS.containsKey(elementType.getValue())) {
+                NodeDeserializer deserializer = ARRAY_ITEM_DESERIALIZERS.get(elementType.getValue());
+                return deserializer.deserialize(type, jsonNode);
+            }
+
+            final Class innerestType = getArrayElementType(type);
+            final int[] dimension = getAllDimensions(elements, type);
+            final Object javaArray = Array.newInstance(innerestType, dimension);
+
+            for (int i = 0; i < elements.size(); ++i) {
+                Array.set(javaArray, i, fromJson(elementType, elements.get(i)));
+            }
+
+            return javaArray;
+        }
+    }
+
+    class BinaryTreeNodeDeserializer implements NodeDeserializer {
+
+        @Override
+        public Object deserialize(TypeNode type, JsonNode jsonNode) {
+            final ArrayNode elements = (ArrayNode) jsonNode;
+            final BinaryTreeNode<Object> javaBinaryTree = new BinaryTreeNode<>();
+
+            for (final JsonNode e : elements) {
+                javaBinaryTree.add(fromJson(type.getElementType(), e));
+            }
+
+            return javaBinaryTree;
+        }
+    }
+
+    class SetDeserializer implements NodeDeserializer {
+
+        @Override
+        public Object deserialize(TypeNode type, JsonNode jsonNode) {
+            final ArrayNode elements = (ArrayNode) jsonNode;
+
+            final Set<Object> javaSet = new HashSet<>();
+            for (final JsonNode e : elements) {
+                javaSet.add(fromJson(type.getElementType(), e));
+            }
+            return javaSet;
+        }
+    }
+
+    class ListDeserializer implements NodeDeserializer {
+
+        @Override
+        public Object deserialize(TypeNode type, JsonNode jsonNode) {
+            final ArrayNode elements = (ArrayNode) jsonNode;
+
+            final List<Object> javaList = new ArrayList<>();
+            for (final JsonNode e : elements) {
+                javaList.add(fromJson(type.getElementType(), e));
+            }
+            return javaList;
+        }
+    }
+
+    class BoolNodeDeserializer implements NodeDeserializer {
+
+        @Override
+        public Object deserialize(TypeNode type, JsonNode jsonNode) {
+            final ArrayNode elements = (ArrayNode) jsonNode;
+            final TypeNode elementType = type.getElementType();
+
+            final boolean[] javaArray = new boolean[elements.size()];
+            for (int i = 0; i < elements.size(); ++i) {
+                javaArray[i] = (Boolean) fromJson(elementType, elements.get(i));
+            }
+            return javaArray;
+        }
+    }
+
+    class DoubleNodeDeserializer implements NodeDeserializer {
+        @Override
+        public Object deserialize(TypeNode type, JsonNode jsonNode) {
+            final ArrayNode elements = (ArrayNode) jsonNode;
+            final TypeNode elementType = type.getElementType();
+
+            final double[] javaArray = new double[elements.size()];
+            for (int i = 0; i < elements.size(); ++i) {
+                javaArray[i] = (Double) fromJson(elementType, elements.get(i));
+            }
+            return javaArray;
+        }
+    }
+
+    class IntNodeDeserializer implements NodeDeserializer {
+        @Override
+        public Object deserialize(TypeNode type, JsonNode jsonNode) {
+            final ArrayNode elements = (ArrayNode) jsonNode;
+            final TypeNode elementType = type.getElementType();
+
+            final int[] javaArray = new int[elements.size()];
+            for (int i = 0; i < elements.size(); ++i) {
+                javaArray[i] = (Integer) fromJson(elementType, elements.get(i));
+            }
+            return javaArray;
+        }
+    }
+
+    class LinkedListNodeDeserializer implements NodeDeserializer {
+
+        @Override
+        public Object deserialize(TypeNode type, JsonNode jsonNode) {
+            final ArrayNode elements = (ArrayNode) jsonNode;
+            final LinkedListNode<Object> javaLinkedList = new LinkedListNode<>();
+
+            for (final JsonNode e : elements) {
+                javaLinkedList.add(fromJson(type.getElementType(), e));
+            }
+
+            return javaLinkedList;
+        }
+    }
+
+    class LongNodeDeserializer implements NodeDeserializer {
+
+        @Override
+        public Object deserialize(TypeNode type, JsonNode jsonNode) {
+            final ArrayNode elements = (ArrayNode) jsonNode;
+            final TypeNode elementType = type.getElementType();
+
+            final long[] javaArray = new long[elements.size()];
+            for (int i = 0; i < elements.size(); ++i) {
+                javaArray[i] = (Long) fromJson(elementType, elements.get(i));
+            }
+            return javaArray;
+        }
+    }
+
+    class MapDeserializer implements NodeDeserializer {
+
+        @Override
+        public Object deserialize(TypeNode type, JsonNode jsonNode) {
+            final Iterator<Map.Entry<String, JsonNode>> iterator = jsonNode.fields();
+            final Map<Object, Object> javaMap = new HashMap<>();
+
+            while (iterator.hasNext()) {
+                processEntry(type, iterator, javaMap);
+            }
+            return javaMap;
+        }
+
+        private void processEntry(TypeNode type, Iterator<Map.Entry<String, JsonNode>> iterator, Map<Object, Object> javaMap) {
+            final Map.Entry<String, JsonNode> entry = iterator.next();
+            //NOTE: Since JSON only allows string as key, so all hashmap's key has a single level
+            final String keyStr = entry.getKey();
+            final Object key;
+            switch (type.getKeyType().getValue()) {
+                case BOOL:
+                    key = Boolean.valueOf(keyStr);
+                    break;
+                case STRING:
+                    key = keyStr;
+                    break;
+                case DOUBLE:
+                    key = Double.valueOf(keyStr);
+                    break;
+                case INT:
+                    key = Integer.valueOf(keyStr);
+                    break;
+                case LONG:
+                    key = Long.valueOf(keyStr);
+                    break;
+                default:
+                    throw new IllegalArgumentException("map keys can only be primitive type: " + type);
+            }
+            final Object value = fromJson(type.getElementType(), entry.getValue());
+            javaMap.put(key, value);
+        }
     }
 }
