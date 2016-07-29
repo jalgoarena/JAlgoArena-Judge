@@ -1,8 +1,5 @@
 package org.algohub.engine.compiler.java;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import javax.tools.*;
 import javax.tools.JavaFileObject.Kind;
 import java.io.ByteArrayOutputStream;

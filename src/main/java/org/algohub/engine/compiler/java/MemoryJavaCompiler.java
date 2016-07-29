@@ -50,7 +50,6 @@ public final class MemoryJavaCompiler {
 
     /**
      * Compile a single normal method.
-     *
      * @return [Object, Method], a class instance and the method
      */
     public Object[] compileMethod(final String qualifiedClassName, final String methodName,

@@ -18,7 +18,7 @@ class Function {
   /**
    * Return metadata.
    */
-  @JsonProperty("return") private final Return return_;
+  @JsonProperty("return") private final Return returnStatement;
   /**
    * Parameters' metadata.
    */
@@ -28,10 +28,10 @@ class Function {
    * Since this class is immutable, need to provide a method for Jackson.
    */
   @JsonCreator public Function(@JsonProperty("name") final String name,
-      @JsonProperty("return") final Return return_,
+      @JsonProperty("return") final Return returnStatement,
       @JsonProperty("parameters") final Parameter[] parameters) {
     this.name = name;
-    this.return_ = return_;
+    this.returnStatement = returnStatement;
     this.parameters = parameters;
   }
 
@@ -112,8 +112,8 @@ class Function {
     return name;
   }
 
-  public Return getReturn_() {
-    return return_;
+  public Return getReturnStatement() {
+    return returnStatement;
   }
 
   public Parameter[] getParameters() {

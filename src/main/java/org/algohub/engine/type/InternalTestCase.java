@@ -17,7 +17,7 @@ public class InternalTestCase {
       input[i] = Deserializer.fromJson(parameters[i].getType(), testCase.getInput().get(i));
     }
 
-    this.output = Deserializer.fromJson(function.getReturn_().getType(), testCase.getOutput());
+    this.output = Deserializer.fromJson(function.getReturnStatement().getType(), testCase.getOutput());
   }
 
   public Object[] getInput() {

@@ -62,7 +62,7 @@ class FunctionGenerator {
 
     private static void functionBody(Function function, int indent, StringBuilder result) {
         appendIndentation(result, "public ", indent);
-        result.append(generateTypeDeclaration(function.getReturn_().getType()));
+        result.append(generateTypeDeclaration(function.getReturnStatement().getType()));
         result.append(" ").append(function.getName()).append("(");
         for (final Function.Parameter p : function.getParameters()) {
             result.append(generateParameterDeclaration(p.getType(), p.getName()))
@@ -75,7 +75,7 @@ class FunctionGenerator {
         for (final Function.Parameter p : function.getParameters()) {
             appendIndentation(result, " * @param " + p.getName() + " " + p.getComment() + "\n", indent);
         }
-        appendIndentation(result, " * @return " + function.getReturn_().getComment() + "\n", indent);
+        appendIndentation(result, " * @return " + function.getReturnStatement().getComment() + "\n", indent);
         appendIndentation(result, " */\n", indent);
     }
 
