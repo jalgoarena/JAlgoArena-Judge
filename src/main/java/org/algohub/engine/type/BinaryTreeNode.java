@@ -1,10 +1,10 @@
 package org.algohub.engine.type;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.Queue;
 
-/** Binary Tree Node. */
-public class BinaryTreeNode<E> {
+public class BinaryTreeNode<E> implements Serializable {
   public E value;
   public BinaryTreeNode<E> left;
   public BinaryTreeNode<E> right;
@@ -12,12 +12,11 @@ public class BinaryTreeNode<E> {
   /**
    * has a left child, but it's a null node.
    */
-  public transient boolean leftIsNull;
+  public boolean leftIsNull;
   /**
    * has a right child, but it's a null node.
    */
   public transient boolean rightIsNull;
-  //public transient BinaryTreeNode<E> next;
 
   /**
    * Constructs an empty binary tree.
@@ -151,9 +150,9 @@ public class BinaryTreeNode<E> {
 
 
   private static class NodeAndFather {
-    final private BinaryTreeNode node;
-    final private BinaryTreeNode father;
-    final private boolean isRight;  // node is the right child
+    private final BinaryTreeNode node;
+    private final BinaryTreeNode father;
+    private final boolean isRight;  // node is the right child
 
     public NodeAndFather(final BinaryTreeNode node, final BinaryTreeNode father, final boolean isRight) {
       this.node = node;
