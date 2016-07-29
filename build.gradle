@@ -14,6 +14,7 @@ plugins {
 }
 
 apply plugin: 'spring-boot'
+apply from: "$rootDir/gradle/versioning.gradle"
 
 group = 'com.spolnik'
 description = """Judge Engine"""

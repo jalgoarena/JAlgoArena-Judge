@@ -7,6 +7,8 @@ import org.algohub.engine.pojo.Function;
 import org.algohub.engine.pojo.JudgeResult;
 import org.algohub.engine.pojo.Problem;
 import org.algohub.engine.type.InternalTestCase;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Method;
 import java.util.List;
@@ -14,6 +16,8 @@ import java.util.Optional;
 import java.util.concurrent.*;
 
 public class JudgeEngine {
+
+    private static final Logger LOG = LoggerFactory.getLogger(JudgeEngine.class);
 
     private static final FindClassName findClassName = new FindClassName();
     private static final CreateFriendlyMessage createFriendlyMessage = new CreateFriendlyMessage();
@@ -39,8 +43,10 @@ public class JudgeEngine {
                 return JudgeResult.wrongAnswer(results);
             }
         } catch (InterruptedException | ExecutionException e) {
+            LOG.error("Error in processing solution", e);
             return JudgeResult.runtimeError(e.getMessage());
         } catch (TimeoutException e) {
+            LOG.error("Timeout error", e);
             return JudgeResult.timeLimitExceeded();
         }
 
