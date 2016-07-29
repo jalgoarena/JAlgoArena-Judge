@@ -7,12 +7,23 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 import java.io.IOException;
 
+/**
+ *  TypeNode (internal representation of type) Jackson deserializer
+ */
 public class TypeNodeDeserializer
-    extends JsonDeserializer<TypeNode> {
+        extends JsonDeserializer<TypeNode> {
 
-  public TypeNode deserialize(final JsonParser p, final DeserializationContext ctxt)
-      throws IOException {
-    final JsonNode jsonNode = p.readValueAsTree();
-    return TypeNode.fromString(jsonNode.asText());
-  }
+    /**
+     * Deserialize JsonNode to TypeNode
+     * @param jsonParser JsonParser
+     * @param deserializationContext Deserialization Context
+     * @return deserialized TypeNode
+     * @throws IOException Exception can be raised during Json deserialization process
+     */
+    @Override
+    public TypeNode deserialize(final JsonParser jsonParser, final DeserializationContext deserializationContext)
+            throws IOException {
+        final JsonNode jsonNode = jsonParser.readValueAsTree();
+        return TypeNode.fromString(jsonNode.asText());
+    }
 }

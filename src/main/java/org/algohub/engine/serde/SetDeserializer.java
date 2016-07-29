@@ -15,7 +15,7 @@ class SetDeserializer implements NodeDeserializer {
 
         final Set javaSet = new HashSet<>();
         for (final JsonNode e : elements) {
-            javaSet.add(Deserializer.fromJson(type.getElementType().get(), e));
+            javaSet.add(Deserializer.fromJson(type.getElementType(), e));
         }
         return javaSet;
     }

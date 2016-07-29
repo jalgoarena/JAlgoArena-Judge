@@ -35,15 +35,15 @@ public final class JavaCodeGenerator {
       }
     }
     if (type.getValue() == IntermediateType.ARRAY) {
-      return generateTypeDeclaration(type.getElementType().get(), type.getValue()) + "[]";
+      return generateTypeDeclaration(type.getElementType(), type.getValue()) + "[]";
     } else {
       final String containerTypeStr = TypeMap.JAVA_TYPE_MAP.get(type.getValue());
-      if (type.getKeyType().isPresent()) {
-        return containerTypeStr + "<" + generateTypeDeclaration(type.getKeyType().get(),
-            type.getValue()) + "," + generateTypeDeclaration(type.getElementType().get(),
+      if (type.getKeyType() != null) {
+        return containerTypeStr + "<" + generateTypeDeclaration(type.getKeyType(),
+            type.getValue()) + "," + generateTypeDeclaration(type.getElementType(),
             type.getValue()) + ">";
       } else {
-        return containerTypeStr + "<" + generateTypeDeclaration(type.getElementType().get(),
+        return containerTypeStr + "<" + generateTypeDeclaration(type.getElementType(),
             type.getValue()) + ">";
       }
     }
@@ -57,7 +57,7 @@ public final class JavaCodeGenerator {
    * @param type the type
    * @return type declaration
    */
-  public static String generateTypeDeclaration(final TypeNode type) {
+  static String generateTypeDeclaration(final TypeNode type) {
     // the parent type should be ARRAY by default
     return generateTypeDeclaration(type, IntermediateType.ARRAY);
   }

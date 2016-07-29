@@ -15,7 +15,7 @@ class ListDeserializer implements NodeDeserializer {
 
         final List javaList = new ArrayList<>();
         for (final JsonNode e : elements) {
-            javaList.add(Deserializer.fromJson(type.getElementType().get(), e));
+            javaList.add(Deserializer.fromJson(type.getElementType(), e));
         }
         return javaList;
     }

@@ -13,7 +13,7 @@ class LinkedListNodeDeserializer implements NodeDeserializer {
         final LinkedListNode javaLinkedList = new LinkedListNode<>();
 
         for (final JsonNode e : elements) {
-            javaLinkedList.add(Deserializer.fromJson(type.getElementType().get(), e));
+            javaLinkedList.add(Deserializer.fromJson(type.getElementType(), e));
         }
 
         return javaLinkedList;

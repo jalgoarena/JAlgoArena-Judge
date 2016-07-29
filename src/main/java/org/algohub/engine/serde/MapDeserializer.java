@@ -25,7 +25,7 @@ class MapDeserializer implements NodeDeserializer {
         //NOTE: Since JSON only allows string as key, so all hashmap's key has a single level
         final String keyStr = entry.getKey();
         final Object key;
-        switch (type.getKeyType().get().getValue()) {
+        switch (type.getKeyType().getValue()) {
             case BOOL:
                 key = Boolean.valueOf(keyStr);
                 break;
@@ -44,7 +44,7 @@ class MapDeserializer implements NodeDeserializer {
             default:
                 throw new IllegalArgumentException("map keys can only be primitive type: " + type);
         }
-        final Object value = Deserializer.fromJson(type.getElementType().get(), entry.getValue());
+        final Object value = Deserializer.fromJson(type.getElementType(), entry.getValue());
         javaMap.put(key, value);
     }
 }

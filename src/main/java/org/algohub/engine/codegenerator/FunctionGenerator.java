@@ -30,14 +30,14 @@ class FunctionGenerator {
                 type.getValue() == IntermediateType.ARRAY;
 
         if (isArray) {
-            return generateTypeDeclaration(type.getElementType().get()) + "[]";
+            return generateTypeDeclaration(type.getElementType()) + "[]";
         } else {
             final String containerTypeStr = TypeMap.JAVA_TYPE_MAP.get(type.getValue());
-            if (type.getKeyType().isPresent()) {
-                return containerTypeStr + "<" + generateTypeDeclaration(type.getKeyType().get()) + "," + generateTypeDeclaration(type.getElementType().get())
+            if (type.getKeyType() != null) {
+                return containerTypeStr + "<" + generateTypeDeclaration(type.getKeyType()) + "," + generateTypeDeclaration(type.getElementType())
                         + ">";
             } else {
-                return containerTypeStr + "<" + generateTypeDeclaration(type.getElementType().get()) + ">";
+                return containerTypeStr + "<" + generateTypeDeclaration(type.getElementType()) + ">";
             }
         }
     }

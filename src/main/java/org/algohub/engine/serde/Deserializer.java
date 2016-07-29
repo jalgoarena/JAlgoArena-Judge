@@ -35,7 +35,7 @@ public interface Deserializer {
     static Class getArrayElementType(final TypeNode typeNode) {
         TypeNode node = typeNode;
         while (node.getValue() == IntermediateType.ARRAY) {
-            node = node.getElementType().get();
+            node = node.getElementType();
         }
         return JAVA_CLASS_MAP.get(node.getValue());
     }
@@ -48,7 +48,7 @@ public interface Deserializer {
         while (cur.isArray() && currentType.getValue() == IntermediateType.ARRAY) {
             list.add(cur.size());
             cur = cur.get(0);
-            currentType = currentType.getElementType().get();
+            currentType = currentType.getElementType();
         }
         return Ints.toArray(list);
     }

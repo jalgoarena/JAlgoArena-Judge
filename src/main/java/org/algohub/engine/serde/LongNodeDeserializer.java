@@ -9,7 +9,7 @@ class LongNodeDeserializer implements NodeDeserializer {
     @Override
     public Object deserialize(TypeNode type, JsonNode jsonNode) {
         final ArrayNode elements = (ArrayNode) jsonNode;
-        final TypeNode elementType = type.getElementType().get();
+        final TypeNode elementType = type.getElementType();
 
         final long[] javaArray = new long[elements.size()];
         for (int i = 0; i < elements.size(); ++i) {

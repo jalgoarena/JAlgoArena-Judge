@@ -21,7 +21,7 @@ class ArrayDeserializer implements NodeDeserializer {
     @Override
     public Object deserialize(TypeNode type, JsonNode jsonNode) {
         final ArrayNode elements = (ArrayNode) jsonNode;
-        final TypeNode elementType = type.getElementType().get();
+        final TypeNode elementType = type.getElementType();
 
         if (ARRAY_ITEM_DESERIALIZERS.containsKey(elementType.getValue())) {
             NodeDeserializer deserializer = ARRAY_ITEM_DESERIALIZERS.get(elementType.getValue());

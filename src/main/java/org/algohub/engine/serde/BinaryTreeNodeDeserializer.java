@@ -13,7 +13,7 @@ class BinaryTreeNodeDeserializer implements NodeDeserializer {
         final BinaryTreeNode javaBinaryTree = new BinaryTreeNode<>();
 
         for (final JsonNode e : elements) {
-            javaBinaryTree.add(Deserializer.fromJson(type.getElementType().get(), e));
+            javaBinaryTree.add(Deserializer.fromJson(type.getElementType(), e));
         }
 
         return javaBinaryTree;
