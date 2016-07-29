@@ -18,12 +18,9 @@ public enum IntermediateType {
   LINKED_LIST_NODE("LinkedListNode"),
   BINARY_TREE_NODE("BinaryTreeNode");
 
-  /**
-   * Text for display.
-   */
   private final String text;
 
-  private IntermediateType(final String text) {
+  IntermediateType(final String text) {
     this.text = text;
   }
 
