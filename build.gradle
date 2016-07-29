@@ -27,7 +27,7 @@ repositories {
 sonarqube {
     properties {
         property "sonar.host.url", "https://sonarqube.com"
-        property "sonar.projectKey", "com.spolnik:jalgo-arena"
+        property "sonar.projectKey", "JAlgoArena"
         property "sonar.projectName", "JAlgoArena"
         property "sonar.jacoco.reportPath", "${project.buildDir}/jacoco/test.exec"
         property "sonar.login", System.getenv("SONAR_TOKEN")
