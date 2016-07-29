@@ -2,7 +2,7 @@ package org.algohub.engine.judge;
 
 import java.util.Arrays;
 
-class BetterObjects {
+interface BetterObjects {
 
     static boolean equalForObjectsOrArrays(Object a, Object b) {
         if (a == b) {
@@ -48,7 +48,5 @@ class BetterObjects {
         }
 
         return a.equals(b);
-
-
     }
 }

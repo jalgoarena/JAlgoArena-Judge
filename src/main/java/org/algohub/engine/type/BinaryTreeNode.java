@@ -1,10 +1,9 @@
 package org.algohub.engine.type;
 
-import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class BinaryTreeNode<E> implements Serializable {
+public class BinaryTreeNode<E> {
   public E value;
   public BinaryTreeNode<E> left;
   public BinaryTreeNode<E> right;
@@ -16,20 +15,14 @@ public class BinaryTreeNode<E> implements Serializable {
   /**
    * has a right child, but it's a null node.
    */
-  public transient boolean rightIsNull;
+  public boolean rightIsNull;
 
-  /**
-   * Constructs an empty binary tree.
-   */
   public BinaryTreeNode() {
     value = null;
     left = null;
     right = null;
   }
 
-  /**
-   * Constructs an binary tree with one element.
-   */
   public BinaryTreeNode(final E value) {
     this.value = value;
     left = null;
@@ -37,14 +30,14 @@ public class BinaryTreeNode<E> implements Serializable {
   }
 
   private static boolean isSameTree(final BinaryTreeNode p, final BinaryTreeNode q) {
-    if (p == null && q == null) {
-      return true;
-    }
-    if (p == null || q == null) {
-      return false;
-    }
+      if (p == null && q == null) {
+          return true;
+      }
 
-    return p.value.equals(q.value) && isSameTree(p.left, q.left) && isSameTree(p.right, q.right);
+      return !(p == null || q == null) &&
+              p.value.equals(q.value) &&
+              isSameTree(p.left, q.left) &&
+              isSameTree(p.right, q.right);
   }
 
   // get the insertion position
@@ -98,7 +91,8 @@ public class BinaryTreeNode<E> implements Serializable {
     }
   }
 
-  @Override public boolean equals(final Object obj) {
+  @Override
+  public boolean equals(final Object obj) {
     if (obj == this) {
       return true;
     }
@@ -111,7 +105,8 @@ public class BinaryTreeNode<E> implements Serializable {
     return isSameTree(p, q);
   }
 
-  @Override public String toString() {
+  @Override
+  public String toString() {
     if (value == null) {
       return "[]";
     }
@@ -128,7 +123,8 @@ public class BinaryTreeNode<E> implements Serializable {
     return sb.toString();
   }
 
-  @Override public int hashCode() {
+  @Override
+  public int hashCode() {
     int hashCode = 1;
     final Queue<BinaryTreeNode<E>> queue = new LinkedList<>();
     queue.add(this);

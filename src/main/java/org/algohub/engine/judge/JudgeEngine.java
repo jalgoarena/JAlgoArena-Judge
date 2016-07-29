@@ -1,6 +1,5 @@
 package org.algohub.engine.judge;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.algohub.engine.compiler.java.CompileErrorException;
 import org.algohub.engine.compiler.java.MemoryJavaCompiler;
 import org.algohub.engine.pojo.Function;
@@ -90,7 +89,13 @@ public class JudgeEngine {
         );
     }
 
-    public synchronized static JudgeResult judge(final Problem problem, final String userCode) throws JsonProcessingException {
+    /**
+     * Runs judge on given source code for a given problem
+     * @param problem - problem to solve
+     * @param userCode - source code solving the problem
+     * @return - result of judge
+     */
+    public static synchronized JudgeResult judge(final Problem problem, final String userCode) {
 
         Problem.TestCase[] testCases = problem.getTestCases();
         Function function = problem.getFunction();
@@ -103,7 +108,7 @@ public class JudgeEngine {
     }
 
     private static JudgeResult judge(final Problem problem, final InternalTestCase[] testCases,
-                              final String userCode) throws JsonProcessingException {
+                              final String userCode) {
         final Object clazz;
         final Method method;
 
