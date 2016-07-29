@@ -1,6 +1,8 @@
 package org.algohub.engine.judge;
 
 import org.algohub.engine.type.InternalTestCase;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -9,6 +11,8 @@ import java.util.List;
 import java.util.concurrent.Callable;
 
 class JudgeTask implements Callable<List<Boolean>> {
+
+    private static final Logger LOG = LoggerFactory.getLogger(JudgeTask.class);
 
     private final Object clazz;
     private final Method method;
@@ -43,9 +47,10 @@ class JudgeTask implements Callable<List<Boolean>> {
         try {
             output = method.invoke(clazz, testCase.getInput());
         } catch (IllegalAccessException | InvocationTargetException e) {
+            LOG.error("Error during processing of solution", e);
             throw new IllegalStateException(e.getMessage());
         }
 
-        return BetterObjects.equal(testCase.getOutput(), output);
+        return BetterObjects.equalForObjectsOrArrays(testCase.getOutput(), output);
     }
 }

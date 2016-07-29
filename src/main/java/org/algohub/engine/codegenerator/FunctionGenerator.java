@@ -4,12 +4,14 @@ import org.algohub.engine.pojo.Function;
 import org.algohub.engine.type.IntermediateType;
 import org.algohub.engine.type.TypeNode;
 
-import static org.algohub.engine.codegenerator.Indentation.append;
-
 /**
  * Generate function declaration for display.
  */
 class FunctionGenerator {
+
+    private FunctionGenerator() {
+        // static class
+    }
 
     private static String generateParameterDeclaration(final TypeNode type,
                                                        final String parameterName) {
@@ -54,12 +56,12 @@ class FunctionGenerator {
     private static void deleteUnnecessaryLastComma(int indent, StringBuilder result) {
         result.delete(result.length() - 2, result.length());
         result.append(") {\n");
-        append(result, "// Write your code here\n", indent + 1);
-        append(result, "}\n", indent);
+        appendIndentation(result, "// Write your code here\n", indent + 1);
+        appendIndentation(result, "}\n", indent);
     }
 
     private static void functionBody(Function function, int indent, StringBuilder result) {
-        append(result, "public ", indent);
+        appendIndentation(result, "public ", indent);
         result.append(generateTypeDeclaration(function.getReturn_().getType()));
         result.append(" ").append(function.getName()).append("(");
         for (final Function.Parameter p : function.getParameters()) {
@@ -69,11 +71,19 @@ class FunctionGenerator {
     }
 
     private static void functionComment(Function function, int indent, StringBuilder result) {
-        append(result, "/**\n", indent);
+        appendIndentation(result, "/**\n", indent);
         for (final Function.Parameter p : function.getParameters()) {
-            append(result, " * @param " + p.getName() + " " + p.getComment() + "\n", indent);
+            appendIndentation(result, " * @param " + p.getName() + " " + p.getComment() + "\n", indent);
         }
-        append(result, " * @return " + function.getReturn_().getComment() + "\n", indent);
-        append(result, " */\n", indent);
+        appendIndentation(result, " * @return " + function.getReturn_().getComment() + "\n", indent);
+        appendIndentation(result, " */\n", indent);
+    }
+
+    private static void appendIndentation(final StringBuilder sb, final String content,
+                                          final int indent) {
+      for (int i = 0; i < indent; ++i) {
+        sb.append("    ");
+      }
+      sb.append(content);
     }
 }

@@ -1,5 +1,6 @@
 package org.algohub.engine.compiler.java;
 
+import com.google.common.base.Preconditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,10 +28,10 @@ public final class MemoryJavaCompiler {
 
     private MemoryJavaCompiler() {
         tool = ToolProvider.getSystemJavaCompiler();
-        if (tool == null) {
-            throw new IllegalStateException(
-                    "Could not get Java compiler. Please, ensure " + "that JDK is used instead of JRE.");
-        }
+        Preconditions.checkNotNull(
+                tool, "Could not get Java compiler. Please, ensure that JDK is used instead of JRE."
+        );
+
         stdManager = tool.getStandardFileManager(null, null, null);
     }
 
@@ -141,6 +142,7 @@ public final class MemoryJavaCompiler {
             this.code = code;
         }
 
+        @Override
         public CharBuffer getCharContent(boolean ignoreEncodingErrors) {
             return CharBuffer.wrap(code);
         }

@@ -119,8 +119,10 @@ public class JudgeEngine {
             clazz = tmp[0];
             method = (Method) tmp[1];
         } catch (ClassNotFoundException e) {
+            LOG.error("Class not found", e);
             return new JudgeResult(e.getClass() + " : " + e.getMessage());
         } catch (CompileErrorException e) {
+            LOG.error("Compilation error", e);
             return new JudgeResult(createFriendlyMessage.from(e.getMessage()));
         }
 

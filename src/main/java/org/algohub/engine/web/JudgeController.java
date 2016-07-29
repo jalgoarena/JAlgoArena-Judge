@@ -15,7 +15,7 @@ import java.io.IOException;
 class JudgeController {
 
     @RequestMapping(path = "/problems/{id}/solution", method = RequestMethod.POST)
-    JudgeResult judge(@PathVariable String id, @RequestBody String sourceCode) throws Exception {
+    JudgeResult judge(@PathVariable String id, @RequestBody String sourceCode) throws IOException {
         Problem problem = problemOf(id);
         return JudgeEngine.judge(problem, sourceCode);
     }
@@ -31,7 +31,7 @@ class JudgeController {
     }
 
     @RequestMapping("/problems/{id}/skeletonCode")
-    String problemSkeletonCode(@PathVariable String id) throws Exception {
+    String problemSkeletonCode(@PathVariable String id) throws IOException {
         Problem problem = problemOf(id);
         return JavaCodeGenerator.generateEmptyFunction(problem.getFunction());
     }

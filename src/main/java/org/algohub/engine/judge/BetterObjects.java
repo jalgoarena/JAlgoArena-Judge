@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 class BetterObjects {
 
-    static boolean equal(Object a, Object b) {
+    static boolean equalForObjectsOrArrays(Object a, Object b) {
         if (a == b) {
             return true;
         } else if (a == null || b == null) {

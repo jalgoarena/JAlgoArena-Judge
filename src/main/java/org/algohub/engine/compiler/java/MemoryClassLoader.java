@@ -24,6 +24,7 @@ final class MemoryClassLoader extends URLClassLoader {
         this(classBytes, ClassLoader.getSystemClassLoader());
     }
 
+    @Override
     protected Class findClass(final String className) throws ClassNotFoundException {
         final byte[] buf = classBytes.get(className);
         if (buf == null) {
