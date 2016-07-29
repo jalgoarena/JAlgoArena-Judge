@@ -7,16 +7,31 @@ buildscript {
     }
 }
 
-apply plugin: 'java'
+plugins {
+    id "java"
+    id "jacoco"
+    id "org.sonarqube" version "1.2"
+}
+
 apply plugin: 'spring-boot'
 
-group = 'org.algorithmhub'
+group = 'com.spolnik'
 description = """Judge Engine"""
 
 sourceCompatibility = 1.8
 
 repositories {
      mavenCentral()
+}
+
+sonarqube {
+    properties {
+        property "sonar.host.url", "https://sonarqube.com"
+        property "sonar.projectKey", "com.spolnik:jalgo-arena"
+        property "sonar.projectName", "JAlgoArena"
+        property "sonar.jacoco.reportPath", "${project.buildDir}/jacoco/test.exec"
+        property "sonar.login", "$SONAR_TOKEN"
+    }
 }
 
 jar {
