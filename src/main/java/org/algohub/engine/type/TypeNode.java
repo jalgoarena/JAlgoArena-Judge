@@ -68,8 +68,7 @@ public class TypeNode {
                 return null;
             }
             final IntermediateType currentValue = IntermediateType.fromString(typeStr);
-            final TypeNode currentNode = new TypeNode(currentValue, null, null);
-            return currentNode;
+            return new TypeNode(currentValue, null, null);
         } else {  // is a container
             final IntermediateType containerType =
                     IntermediateType.fromString(typeStr.substring(0, firstLeftBracket));
@@ -96,12 +95,9 @@ public class TypeNode {
                 }
                 final TypeNode keyType = fromStringRecursive(childStr.substring(0, commaPos));
                 final TypeNode child = fromStringRecursive(childStr.substring(commaPos + 1));
-                final TypeNode currentNode = new TypeNode(containerType, keyType, child);
-                return currentNode;
+                return new TypeNode(containerType, keyType, child);
             } else {
-                final TypeNode currentNode =
-                        new TypeNode(containerType, null, fromStringRecursive(childStr));
-                return currentNode;
+                return new TypeNode(containerType, null, fromStringRecursive(childStr));
             }
         }
     }
@@ -176,37 +172,10 @@ public class TypeNode {
         initializeParent(node.getElementType(), node);
     }
 
-    private static boolean hasCustomizedType(final TypeNode type) {
-        if (type.getValue() == IntermediateType.LINKED_LIST_NODE
-                || type.getValue() == IntermediateType.BINARY_TREE_NODE) {
-            return true;
-        } else {
-            return type.getElementType() != null &&
-                    hasCustomizedType(type.getElementType());
-        }
-    }
-
-    /**
-     * if the elementType is not empty, which means it's a container.
-     */
     @JsonIgnore
     public boolean isContainer() {
         return elementType != null;
     }
-
-    /**
-     * Singly linked list and binary tree are user-defined class.
-     */
-    @JsonIgnore
-    public boolean isCustomizedType() {
-        return value == IntermediateType.LINKED_LIST_NODE || value == IntermediateType.BINARY_TREE_NODE;
-    }
-
-    public boolean hasCustomizedType() {
-        return hasCustomizedType(this);
-    }
-
-    // Generated automatically
 
     public IntermediateType getValue() {
         return value;

@@ -10,7 +10,7 @@ import java.lang.reflect.Array;
 
 class ArrayDeserializer implements NodeDeserializer {
 
-    private ImmutableMap<IntermediateType, NodeDeserializer> ARRAY_ITEM_DESERIALIZERS =
+    private static final ImmutableMap<IntermediateType, NodeDeserializer> ARRAY_ITEM_DESERIALIZERS =
             ImmutableMap.<IntermediateType, NodeDeserializer>builder()
                     .put(IntermediateType.BOOL, new BoolNodeDeserializer())
                     .put(IntermediateType.INT, new IntNodeDeserializer())
