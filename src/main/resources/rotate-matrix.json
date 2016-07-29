@@ -1,0 +1,38 @@
+{
+  "id": "rotateMatrix",
+  "title": "Rotate Matrix",
+  "description": "Given an image represented by an NxN matrix, where each pixel in the image is 4 bytes, write a method to rotate the image by 90 degrees. Can you do this in place?",
+  "time_limit": 1,
+  "memory_limit": 32,
+  "function": {
+    "name": "rotate",
+    "return": {
+      "type": "array<array<int>>",
+      "comment": " Rotated image matrix by 90 degrees"
+    },
+    "parameters": [
+      {
+        "name": "matrix",
+        "type": "array<array<int>>",
+        "comment": "Image matrix to rotate"
+      }
+    ]
+  },
+  "test_cases": [
+    {"input": [[
+      [1, 2, 3, 4],
+      [5, 6, 7, 8],
+      [9, 0, 1, 2],
+      [3, 4, 5, 6]
+    ]], "output": [
+      [3, 9, 5, 1],
+      [4, 0, 6, 2],
+      [5, 1, 7, 3],
+      [6, 2, 8, 4]
+    ]}
+  ],
+  "example": {
+    "input": "[[1, 2, 3, 4],[5, 6, 7, 8],[9, 0, 1, 2],[3, 4, 5, 6]]",
+    "output": "[[3, 9, 5, 1],[4, 0, 6, 2],[5, 1, 7, 3],[6, 2, 8, 4]]"
+  }
+}

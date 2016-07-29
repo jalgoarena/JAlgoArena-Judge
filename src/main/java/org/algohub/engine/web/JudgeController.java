@@ -17,8 +17,7 @@ class JudgeController {
     @RequestMapping(path = "/problems/{id}/solution", method = RequestMethod.POST)
     JudgeResult judge(@PathVariable String id, @RequestBody String sourceCode) throws Exception {
         Problem problem = problemOf(id);
-        JudgeResult judge = JudgeEngine.judge(problem, sourceCode);
-        return judge;
+        return JudgeEngine.judge(problem, sourceCode);
     }
 
     @RequestMapping("/problems")
