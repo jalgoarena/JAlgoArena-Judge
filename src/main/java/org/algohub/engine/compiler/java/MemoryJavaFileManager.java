@@ -1,5 +1,8 @@
 package org.algohub.engine.compiler.java;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.tools.*;
 import javax.tools.JavaFileObject.Kind;
 import java.io.ByteArrayOutputStream;
@@ -25,30 +28,30 @@ final class MemoryJavaFileManager extends ForwardingJavaFileManager<JavaFileMana
     }
 
     static URI toUri(String name) {
-        try {
-            final StringBuilder newUri = new StringBuilder();
-            newUri.append("mfm:///");
-            newUri.append(name.replace('.', '/'));
-            if (name.endsWith(JAVA_SOURCE_FILE_EXT)) {
-                newUri.replace(newUri.length() - JAVA_SOURCE_FILE_EXT.length(), newUri.length(), JAVA_SOURCE_FILE_EXT);
-            }
-            return URI.create(newUri.toString());
-        } catch (Exception exp) {
-            return URI.create("mfm:///com/sun/script/java/java_source");
+        final StringBuilder newUri = new StringBuilder();
+        newUri.append("mfm:///");
+        newUri.append(name.replace('.', '/'));
+        if (name.endsWith(JAVA_SOURCE_FILE_EXT)) {
+            newUri.replace(newUri.length() - JAVA_SOURCE_FILE_EXT.length(), newUri.length(), JAVA_SOURCE_FILE_EXT);
         }
+        return URI.create(newUri.toString());
     }
 
     Map<String, byte[]> getClassBytes() {
         return classBytes;
     }
 
+    @Override
     public void close() throws IOException {
         classBytes = null;
     }
 
+    @Override
     public void flush() throws IOException {
+        // in memory, no action
     }
 
+    @Override
     public JavaFileObject getJavaFileForOutput(JavaFileManager.Location location, String className,
                                                Kind kind, FileObject sibling) throws IOException {
         if (kind == Kind.CLASS) {
@@ -69,8 +72,10 @@ final class MemoryJavaFileManager extends ForwardingJavaFileManager<JavaFileMana
             this.name = name;
         }
 
+        @Override
         public OutputStream openOutputStream() {
             return new FilterOutputStream(new ByteArrayOutputStream()) {
+                @Override
                 public void close() throws IOException {
                     out.close();
                     ByteArrayOutputStream bos = (ByteArrayOutputStream) out;
