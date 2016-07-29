@@ -7,7 +7,6 @@ import org.springframework.stereotype.Controller;
 import java.io.IOException;
 
 @SpringBootApplication
-@Controller
 public class JudgeApplication {
 
     public static void main(final String[] args) throws IOException, InterruptedException {

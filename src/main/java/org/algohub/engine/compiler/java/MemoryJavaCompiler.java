@@ -1,5 +1,8 @@
 package org.algohub.engine.compiler.java;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.tools.*;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -14,7 +17,11 @@ import java.util.Map;
  * Simple interface to Java compiler using JSR 199 Compiler API.
  */
 public final class MemoryJavaCompiler {
+
     public static final MemoryJavaCompiler INSTANCE = new MemoryJavaCompiler();
+
+    private static final Logger LOG = LoggerFactory.getLogger(MemoryJavaCompiler.class);
+
     private final javax.tools.JavaCompiler tool;
     private final StandardJavaFileManager stdManager;
 
@@ -58,6 +65,7 @@ public final class MemoryJavaCompiler {
                 try {
                     return new Object[]{clazz.newInstance(), method};
                 } catch (InstantiationException | IllegalAccessException e) {
+                    LOG.error("Error during creating of new class instance", e);
                     throw new IllegalStateException(e.getMessage());
                 }
             }
@@ -106,7 +114,7 @@ public final class MemoryJavaCompiler {
         try {
             fileManager.close();
         } catch (IOException exp) {
-            System.err.println(exp.getMessage());
+            LOG.error("Cannot close in memory file", exp);
         }
 
         return classBytes;
