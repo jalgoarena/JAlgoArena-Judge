@@ -2,7 +2,7 @@ package org.algohub.engine.codegenerator;
 
 import com.google.common.collect.ImmutableMap;
 
-import org.algohub.engine.pojo.Function;
+import org.algohub.engine.judge.Function;
 import org.algohub.engine.type.IntermediateType;
 import org.algohub.engine.type.TypeNode;
 
@@ -29,7 +29,7 @@ public final class JavaCodeGenerator {
       final IntermediateType parentType) {
     if (!type.isContainer()) {
       if (parentType == IntermediateType.ARRAY) {
-        return TypeMap.JAVA_TYPE_MAP.get(type.getValue());
+        return FunctionGenerator.JAVA_TYPE_MAP.get(type.getValue());
       } else {
         return JAVA_CLASS_MAP.get(type.getValue());
       }
@@ -37,7 +37,7 @@ public final class JavaCodeGenerator {
     if (type.getValue() == IntermediateType.ARRAY) {
       return generateTypeDeclaration(type.getElementType(), type.getValue()) + "[]";
     } else {
-      final String containerTypeStr = TypeMap.JAVA_TYPE_MAP.get(type.getValue());
+      final String containerTypeStr = FunctionGenerator.JAVA_TYPE_MAP.get(type.getValue());
       if (type.getKeyType() != null) {
         return containerTypeStr + "<" + generateTypeDeclaration(type.getKeyType(),
             type.getValue()) + "," + generateTypeDeclaration(type.getElementType(),

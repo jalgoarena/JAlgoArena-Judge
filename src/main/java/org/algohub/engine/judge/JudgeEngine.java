@@ -1,10 +1,5 @@
 package org.algohub.engine.judge;
 
-import org.algohub.engine.compiler.java.CompileErrorException;
-import org.algohub.engine.compiler.java.MemoryJavaCompiler;
-import org.algohub.engine.pojo.Function;
-import org.algohub.engine.pojo.JudgeResult;
-import org.algohub.engine.pojo.Problem;
 import org.algohub.engine.type.InternalTestCase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

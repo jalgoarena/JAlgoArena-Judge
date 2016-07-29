@@ -1,4 +1,4 @@
-package org.algohub.engine.compiler.java;
+package org.algohub.engine.judge;
 
 import com.google.common.base.Preconditions;
 import org.slf4j.Logger;
@@ -17,9 +17,9 @@ import java.util.Map;
 /**
  * Simple interface to Java compiler using JSR 199 Compiler API.
  */
-public final class MemoryJavaCompiler {
+final class MemoryJavaCompiler {
 
-    public static final MemoryJavaCompiler INSTANCE = new MemoryJavaCompiler();
+    static final MemoryJavaCompiler INSTANCE = new MemoryJavaCompiler();
 
     private static final Logger LOG = LoggerFactory.getLogger(MemoryJavaCompiler.class);
 
@@ -52,8 +52,8 @@ public final class MemoryJavaCompiler {
      * Compile a single normal method.
      * @return [Object, Method], a class instance and the method
      */
-    public Object[] compileMethod(final String qualifiedClassName, final String methodName,
-                                  final String source) throws ClassNotFoundException, CompileErrorException {
+    Object[] compileMethod(final String qualifiedClassName, final String methodName,
+                           final String source) throws ClassNotFoundException, CompileErrorException {
         final String className = getClassName(qualifiedClassName);
         final Map<String, byte[]> classBytes = compile(className + ".java", source);
         final MemoryClassLoader classLoader = new MemoryClassLoader(classBytes);

@@ -1,16 +1,6 @@
-package org.algohub.engine.serde;
+package org.algohub.engine.type;
 
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.BooleanNode;
-import com.fasterxml.jackson.databind.node.DoubleNode;
-import com.fasterxml.jackson.databind.node.IntNode;
-import com.fasterxml.jackson.databind.node.NullNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.fasterxml.jackson.databind.node.TextNode;
-
-import org.algohub.engine.type.BinaryTreeNode;
-import org.algohub.engine.type.LinkedListNode;
-import org.algohub.engine.type.TypeNode;
+import com.fasterxml.jackson.databind.node.*;
 import org.junit.Test;
 
 import java.util.Arrays;

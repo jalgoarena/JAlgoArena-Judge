@@ -1,4 +1,4 @@
-package org.algohub.engine.serde;
+package org.algohub.engine.type;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.algohub.engine.type.TypeNode;

@@ -1,4 +1,4 @@
-package org.algohub.engine.pojo;
+package org.algohub.engine.judge;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

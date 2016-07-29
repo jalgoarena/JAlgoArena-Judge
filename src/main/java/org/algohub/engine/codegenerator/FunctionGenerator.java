@@ -1,6 +1,7 @@
 package org.algohub.engine.codegenerator;
 
-import org.algohub.engine.pojo.Function;
+import com.google.common.collect.ImmutableMap;
+import org.algohub.engine.judge.Function;
 import org.algohub.engine.type.IntermediateType;
 import org.algohub.engine.type.TypeNode;
 
@@ -8,6 +9,23 @@ import org.algohub.engine.type.TypeNode;
  * Generate function declaration for display.
  */
 class FunctionGenerator {
+
+    /**
+     * Map intermediate types to Java types.
+     */
+    static final ImmutableMap<IntermediateType, String> JAVA_TYPE_MAP =
+        ImmutableMap.<IntermediateType, String>builder().put(IntermediateType.BOOL, "boolean")
+            .put(IntermediateType.STRING, "String").put(IntermediateType.DOUBLE, "double")
+            .put(IntermediateType.INT, "int").put(IntermediateType.LONG, "long")
+
+            //.put(IntermediateType.ARRAY, "[]")
+            .put(IntermediateType.LIST, "ArrayList").put(IntermediateType.SET, "HashSet")
+            .put(IntermediateType.MAP, "HashMap")
+
+            .put(IntermediateType.LINKED_LIST_NODE, "LinkedListNode")
+            .put(IntermediateType.BINARY_TREE_NODE, "BinaryTreeNode")
+
+            .build();
 
     private FunctionGenerator() {
         // static class
@@ -24,7 +42,7 @@ class FunctionGenerator {
 
     static String generateTypeDeclaration(final TypeNode type) {
         if (!type.isContainer()) {
-            return TypeMap.JAVA_TYPE_MAP.get(type.getValue());
+            return JAVA_TYPE_MAP.get(type.getValue());
         }
         final boolean isArray =
                 type.getValue() == IntermediateType.ARRAY;
@@ -32,7 +50,7 @@ class FunctionGenerator {
         if (isArray) {
             return generateTypeDeclaration(type.getElementType()) + "[]";
         } else {
-            final String containerTypeStr = TypeMap.JAVA_TYPE_MAP.get(type.getValue());
+            final String containerTypeStr = JAVA_TYPE_MAP.get(type.getValue());
             if (type.getKeyType() != null) {
                 return containerTypeStr + "<" + generateTypeDeclaration(type.getKeyType()) + "," + generateTypeDeclaration(type.getElementType())
                         + ">";

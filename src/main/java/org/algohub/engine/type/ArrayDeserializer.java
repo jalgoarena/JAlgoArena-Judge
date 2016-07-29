@@ -1,10 +1,8 @@
-package org.algohub.engine.serde;
+package org.algohub.engine.type;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.google.common.collect.ImmutableMap;
-import org.algohub.engine.type.IntermediateType;
-import org.algohub.engine.type.TypeNode;
 
 import java.lang.reflect.Array;
 

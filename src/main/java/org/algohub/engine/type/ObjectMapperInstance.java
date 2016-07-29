@@ -1,4 +1,4 @@
-package org.algohub.engine.serde;
+package org.algohub.engine.type;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;

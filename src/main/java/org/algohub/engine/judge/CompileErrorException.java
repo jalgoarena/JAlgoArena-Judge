@@ -1,9 +1,9 @@
-package org.algohub.engine.compiler.java;
+package org.algohub.engine.judge;
 
 /**
  * Compile error exception - raised when source code is run against java compiler
  */
-public class CompileErrorException extends Exception {
+class CompileErrorException extends Exception {
     CompileErrorException(final String message) {
         super(message);
     }

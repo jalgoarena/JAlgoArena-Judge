@@ -1,8 +1,7 @@
 package org.algohub.engine.type;
 
-import org.algohub.engine.pojo.Function;
-import org.algohub.engine.pojo.Problem;
-import org.algohub.engine.serde.Deserializer;
+import org.algohub.engine.judge.Function;
+import org.algohub.engine.judge.Problem;
 
 public class InternalTestCase {
   private final Object[] input;

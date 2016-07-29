@@ -4,9 +4,9 @@ import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import org.algohub.engine.codegenerator.JavaCodeGenerator;
 import org.algohub.engine.judge.JudgeEngine;
-import org.algohub.engine.pojo.JudgeResult;
-import org.algohub.engine.pojo.Problem;
-import org.algohub.engine.serde.ObjectMapperInstance;
+import org.algohub.engine.judge.JudgeResult;
+import org.algohub.engine.judge.Problem;
+import org.algohub.engine.type.ObjectMapperInstance;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;

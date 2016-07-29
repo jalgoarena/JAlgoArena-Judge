@@ -1,4 +1,4 @@
-package org.algohub.engine.compiler.java;
+package org.algohub.engine.judge;
 
 import javax.tools.*;
 import javax.tools.JavaFileObject.Kind;

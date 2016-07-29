@@ -1,4 +1,4 @@
-package org.algohub.engine.compiler.java;
+package org.algohub.engine.judge;
 
 import java.net.URL;
 import java.net.URLClassLoader;

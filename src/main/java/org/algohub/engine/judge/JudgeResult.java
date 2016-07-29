@@ -1,10 +1,8 @@
-package org.algohub.engine.pojo;
+package org.algohub.engine.judge;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
-import org.algohub.engine.judge.StatusCode;
 
 import java.util.Arrays;
 import java.util.Collections;

@@ -1,7 +1,7 @@
 package org.algohub.engine.codegenerator;
 
 
-import org.algohub.engine.pojo.Function;
+import org.algohub.engine.judge.Function;
 import org.algohub.engine.type.TypeNode;
 import org.junit.Test;
 
