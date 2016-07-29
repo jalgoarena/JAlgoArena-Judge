@@ -21,8 +21,8 @@ public interface Deserializer {
                     .put(IntermediateType.LINKED_LIST_NODE, LinkedListNode.class)
                     .put(IntermediateType.BINARY_TREE_NODE, BinaryTreeNode.class).build();
 
-    ImmutableMap<IntermediateType, ContainerNodeDeserializer> CONTAINER_DESERIALIZERS =
-            ImmutableMap.<IntermediateType, ContainerNodeDeserializer>builder()
+    ImmutableMap<IntermediateType, NodeDeserializer> CONTAINER_DESERIALIZERS =
+            ImmutableMap.<IntermediateType, NodeDeserializer>builder()
                     .put(IntermediateType.ARRAY, new ArrayDeserializer())
                     .put(IntermediateType.LIST, new ListDeserializer())
                     .put(IntermediateType.SET, new SetDeserializer())
@@ -96,7 +96,7 @@ public interface Deserializer {
             throw new IllegalArgumentException("Unrecognized collection type: " + type.getValue());
         }
 
-        ContainerNodeDeserializer containerNodeDeserializer = CONTAINER_DESERIALIZERS.get(type.getValue());
-        return containerNodeDeserializer.deserialize(type, jsonNode);
+        NodeDeserializer nodeDeserializer = CONTAINER_DESERIALIZERS.get(type.getValue());
+        return nodeDeserializer.deserialize(type, jsonNode);
     }
 }

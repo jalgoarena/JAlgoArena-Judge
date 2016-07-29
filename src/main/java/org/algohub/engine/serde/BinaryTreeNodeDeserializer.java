@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import org.algohub.engine.type.BinaryTreeNode;
 import org.algohub.engine.type.TypeNode;
 
-class BinaryTreeNodeDeserializer implements ContainerNodeDeserializer {
+class BinaryTreeNodeDeserializer implements NodeDeserializer {
 
     @Override
     public Object deserialize(TypeNode type, JsonNode jsonNode) {

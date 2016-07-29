@@ -7,7 +7,7 @@ import org.algohub.engine.type.TypeNode;
 import java.util.ArrayList;
 import java.util.List;
 
-class ListDeserializer implements ContainerNodeDeserializer {
+class ListDeserializer implements NodeDeserializer {
 
     @Override
     public Object deserialize(TypeNode type, JsonNode jsonNode) {

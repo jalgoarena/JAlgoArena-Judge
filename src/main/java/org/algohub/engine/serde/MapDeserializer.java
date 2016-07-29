@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-class MapDeserializer implements ContainerNodeDeserializer {
+class MapDeserializer implements NodeDeserializer {
 
     @Override
     public Object deserialize(TypeNode type, JsonNode jsonNode) {

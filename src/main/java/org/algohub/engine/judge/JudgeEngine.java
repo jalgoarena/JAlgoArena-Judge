@@ -169,7 +169,7 @@ public class JudgeEngine {
         }
 
         private static long usedMemoryInBytes(PerformanceSnapshot before, PerformanceSnapshot after) {
-            return (after.usedMemoryInBytes - before.usedMemoryInBytes);
+            return after.usedMemoryInBytes - before.usedMemoryInBytes;
         }
 
         PerformanceResult compare(PerformanceResult performanceResult) {
