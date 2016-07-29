@@ -75,31 +75,35 @@ public class TypeNode {
             final String childStr = typeStr.substring(firstLeftBracket + 1, typeStr.length() - 1);
 
             if (containerType == IntermediateType.MAP) {
-                final int firstCommaOrBracket;
-                if (childStr.indexOf('<') == -1 && childStr.indexOf(',') == -1) {
-                    throw new IllegalArgumentException("Illegal type: " + childStr);
-                } else if (childStr.indexOf('<') == -1) {
-                    firstCommaOrBracket = childStr.indexOf(',');
-                } else if (childStr.indexOf(',') == -1) {
-                    firstCommaOrBracket = childStr.indexOf('<');
-                } else {
-                    firstCommaOrBracket = Math.min(childStr.indexOf('<'), childStr.indexOf(','));
-                }
-
-                final int commaPos;
-                if (childStr.charAt(firstCommaOrBracket) == ',') {  // primitive, type
-                    commaPos = firstCommaOrBracket;
-                } else {
-                    final int rightBracket = findRightBracket(childStr, firstCommaOrBracket);
-                    commaPos = rightBracket + 1;
-                }
-                final TypeNode keyType = fromStringRecursive(childStr.substring(0, commaPos));
-                final TypeNode child = fromStringRecursive(childStr.substring(commaPos + 1));
-                return new TypeNode(containerType, keyType, child);
+                return processMap(containerType, childStr);
             } else {
                 return new TypeNode(containerType, null, fromStringRecursive(childStr));
             }
         }
+    }
+
+    private static TypeNode processMap(IntermediateType containerType, String childStr) {
+        final int firstCommaOrBracket;
+        if (childStr.indexOf('<') == -1 && childStr.indexOf(',') == -1) {
+            throw new IllegalArgumentException("Illegal type: " + childStr);
+        } else if (childStr.indexOf('<') == -1) {
+            firstCommaOrBracket = childStr.indexOf(',');
+        } else if (childStr.indexOf(',') == -1) {
+            firstCommaOrBracket = childStr.indexOf('<');
+        } else {
+            firstCommaOrBracket = Math.min(childStr.indexOf('<'), childStr.indexOf(','));
+        }
+
+        final int commaPos;
+        if (childStr.charAt(firstCommaOrBracket) == ',') {  // primitive, type
+            commaPos = firstCommaOrBracket;
+        } else {
+            final int rightBracket = findRightBracket(childStr, firstCommaOrBracket);
+            commaPos = rightBracket + 1;
+        }
+        final TypeNode keyType = fromStringRecursive(childStr.substring(0, commaPos));
+        final TypeNode child = fromStringRecursive(childStr.substring(commaPos + 1));
+        return new TypeNode(containerType, keyType, child);
     }
 
     /**

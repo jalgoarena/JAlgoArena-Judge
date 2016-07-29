@@ -5,10 +5,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 
 public final class ObjectMapperInstance {
-  public static final ObjectMapper INSTANCE = new ObjectMapper();
+    public static final ObjectMapper INSTANCE = new ObjectMapper();
 
-  static {
-    INSTANCE.registerModule(new Jdk8Module());
-    INSTANCE.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
-  }
+    private ObjectMapperInstance() {
+        // static class
+    }
+
+    static {
+        INSTANCE.registerModule(new Jdk8Module());
+        INSTANCE.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
+    }
 }

@@ -18,6 +18,10 @@ public class JudgeEngine {
 
     private static final int NUMBER_OF_ITERATIONS = 10;
 
+    private JudgeEngine() {
+        // static class
+    }
+
     private static JudgeResult judge(final Object clazz,
                                      final Method method,
                                      final InternalTestCase[] testCases,

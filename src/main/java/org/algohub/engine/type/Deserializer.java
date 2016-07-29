@@ -8,8 +8,8 @@ import com.google.common.primitives.Ints;
 import java.lang.reflect.Array;
 import java.util.*;
 
-interface Deserializer {
-    ImmutableMap<IntermediateType, Class> JAVA_CLASS_MAP =
+class Deserializer {
+    private static final ImmutableMap<IntermediateType, Class> JAVA_CLASS_MAP =
             ImmutableMap.<IntermediateType, Class>builder().put(IntermediateType.BOOL, boolean.class)
                     .put(IntermediateType.STRING, String.class).put(IntermediateType.DOUBLE, double.class)
                     .put(IntermediateType.INT, int.class).put(IntermediateType.LONG, long.class)
@@ -18,7 +18,7 @@ interface Deserializer {
                     .put(IntermediateType.LINKED_LIST_NODE, LinkedListNode.class)
                     .put(IntermediateType.BINARY_TREE_NODE, BinaryTreeNode.class).build();
 
-    ImmutableMap<IntermediateType, NodeDeserializer> CONTAINER_DESERIALIZERS =
+    private static final ImmutableMap<IntermediateType, NodeDeserializer> CONTAINER_DESERIALIZERS =
             ImmutableMap.<IntermediateType, NodeDeserializer>builder()
                     .put(IntermediateType.ARRAY, new ArrayDeserializer())
                     .put(IntermediateType.LIST, new ListDeserializer())
@@ -29,7 +29,7 @@ interface Deserializer {
                     .build();
 
 
-    static Class getArrayElementType(final TypeNode typeNode) {
+    private static Class getArrayElementType(final TypeNode typeNode) {
         TypeNode node = typeNode;
         while (node.getValue() == IntermediateType.ARRAY) {
             node = node.getElementType();
@@ -37,7 +37,7 @@ interface Deserializer {
         return JAVA_CLASS_MAP.get(node.getValue());
     }
 
-    static int[] getAllDimensions(final ArrayNode arrayNode, final TypeNode typeNode) {
+    private static int[] getAllDimensions(final ArrayNode arrayNode, final TypeNode typeNode) {
         final ArrayList<Integer> list = new ArrayList<>();
 
         JsonNode cur = arrayNode;
@@ -54,7 +54,7 @@ interface Deserializer {
     /**
      * Convert primitive values to JsonNode.
      */
-    static Object jsonToJavaPrimitiveNew(final TypeNode type, final JsonNode jsonNode) {
+    private static Object jsonToJavaPrimitiveNew(final TypeNode type, final JsonNode jsonNode) {
         final Object object;
         // for BinaryTreeNode
         if (jsonNode.isNull()) {
@@ -102,7 +102,7 @@ interface Deserializer {
         Object deserialize(final TypeNode type, final JsonNode jsonNode);
     }
 
-    class ArrayDeserializer implements NodeDeserializer {
+    private static class ArrayDeserializer implements NodeDeserializer {
 
         private static final ImmutableMap<IntermediateType, NodeDeserializer> ARRAY_ITEM_DESERIALIZERS =
                 ImmutableMap.<IntermediateType, NodeDeserializer>builder()
@@ -134,7 +134,7 @@ interface Deserializer {
         }
     }
 
-    class BinaryTreeNodeDeserializer implements NodeDeserializer {
+    private static class BinaryTreeNodeDeserializer implements NodeDeserializer {
 
         @Override
         public Object deserialize(TypeNode type, JsonNode jsonNode) {
@@ -149,7 +149,7 @@ interface Deserializer {
         }
     }
 
-    class SetDeserializer implements NodeDeserializer {
+    private static class SetDeserializer implements NodeDeserializer {
 
         @Override
         public Object deserialize(TypeNode type, JsonNode jsonNode) {
@@ -163,7 +163,7 @@ interface Deserializer {
         }
     }
 
-    class ListDeserializer implements NodeDeserializer {
+    private static class ListDeserializer implements NodeDeserializer {
 
         @Override
         public Object deserialize(TypeNode type, JsonNode jsonNode) {
@@ -177,7 +177,7 @@ interface Deserializer {
         }
     }
 
-    class BoolNodeDeserializer implements NodeDeserializer {
+    private static class BoolNodeDeserializer implements NodeDeserializer {
 
         @Override
         public Object deserialize(TypeNode type, JsonNode jsonNode) {
@@ -192,7 +192,7 @@ interface Deserializer {
         }
     }
 
-    class DoubleNodeDeserializer implements NodeDeserializer {
+    private static class DoubleNodeDeserializer implements NodeDeserializer {
         @Override
         public Object deserialize(TypeNode type, JsonNode jsonNode) {
             final ArrayNode elements = (ArrayNode) jsonNode;
@@ -206,7 +206,7 @@ interface Deserializer {
         }
     }
 
-    class IntNodeDeserializer implements NodeDeserializer {
+    private static class IntNodeDeserializer implements NodeDeserializer {
         @Override
         public Object deserialize(TypeNode type, JsonNode jsonNode) {
             final ArrayNode elements = (ArrayNode) jsonNode;
@@ -220,7 +220,7 @@ interface Deserializer {
         }
     }
 
-    class LinkedListNodeDeserializer implements NodeDeserializer {
+    private static class LinkedListNodeDeserializer implements NodeDeserializer {
 
         @Override
         public Object deserialize(TypeNode type, JsonNode jsonNode) {
@@ -235,7 +235,7 @@ interface Deserializer {
         }
     }
 
-    class LongNodeDeserializer implements NodeDeserializer {
+    private static class LongNodeDeserializer implements NodeDeserializer {
 
         @Override
         public Object deserialize(TypeNode type, JsonNode jsonNode) {
@@ -250,7 +250,7 @@ interface Deserializer {
         }
     }
 
-    class MapDeserializer implements NodeDeserializer {
+    private static class MapDeserializer implements NodeDeserializer {
 
         @Override
         public Object deserialize(TypeNode type, JsonNode jsonNode) {

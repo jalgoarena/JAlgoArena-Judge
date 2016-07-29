@@ -14,7 +14,7 @@ class CreateFriendlyMessage {
     }
 
     private void processLine(StringBuilder sb, String line) {
-        final int pos = line.indexOf(".java:");
+        final int pos = line.indexOf(JAVA_EXT);
         if (pos > 0) {
             appendFriendlyMessage(sb, line, pos);
         } else {
@@ -23,7 +23,7 @@ class CreateFriendlyMessage {
     }
 
     private void appendFriendlyMessage(StringBuilder sb, String line, int pos) {
-        final int pos2 = line.indexOf(':', pos + ".java:".length());
+        final int pos2 = line.indexOf(':', pos + JAVA_EXT.length());
         final String friendlyMessage = String.format(
                 "Line:%d%s",
                 getLineNumber(line, pos, pos2),
@@ -33,11 +33,8 @@ class CreateFriendlyMessage {
     }
 
     private int getLineNumber(String line, int pos, int pos2) {
-        final int lineNumber;
-        {
-            final String numberStr = line.substring(pos + JAVA_EXT.length(), pos2);
-            lineNumber = Integer.valueOf(numberStr);
-        }
-        return lineNumber;
+
+        final String numberStr = line.substring(pos + JAVA_EXT.length(), pos2);
+        return Integer.valueOf(numberStr);
     }
 }
