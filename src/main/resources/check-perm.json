@@ -2,7 +2,7 @@
   "id": "checkPermutations",
   "title": "Check Permutations",
   "description": "Given two strings, write a method to decide if one is a permutation of other.",
-  "time_limit": 15,
+  "time_limit": 1,
   "memory_limit": 32,
   "function": {
     "name": "permutation",

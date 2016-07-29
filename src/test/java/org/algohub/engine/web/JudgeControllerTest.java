@@ -62,7 +62,8 @@ public class JudgeControllerTest {
             "stoi, MyStoi",
             "word-ladder, WordLadder",
             "is-string-unique, IsStringUnique2",
-            "check-perm, CheckPerm"
+            "check-perm, CheckPerm",
+            "palindrome-perm, PalindromePerm"
     })
     public void judgesCorrectSolution(String problemId, String solutionId) throws Exception {
         final String sourceCode =

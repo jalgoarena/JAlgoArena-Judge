@@ -31,7 +31,7 @@ public class JudgeEngine {
 
         // # RUN 1 - cold run making JVM hot, mainly checks if all tests passes and we do not exceeded time limit
         try {
-            List<Boolean> results = judge.get(problem.getTimeLimit(), TimeUnit.MILLISECONDS);
+            List<Boolean> results = judge.get(problem.getTimeLimit(), TimeUnit.SECONDS);
 
             int failedTestCases = (int)results.stream().filter(x -> !x).count();
 
