@@ -2,7 +2,6 @@ package org.algohub.engine;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
-import org.algohub.engine.codegenerator.JavaCodeGenerator;
 import org.algohub.engine.judge.JudgeEngine;
 import org.algohub.engine.judge.JudgeResult;
 import org.algohub.engine.judge.Problem;

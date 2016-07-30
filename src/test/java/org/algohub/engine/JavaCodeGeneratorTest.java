@@ -1,5 +1,4 @@
-package org.algohub.engine.codegenerator;
-
+package org.algohub.engine;
 
 import org.algohub.engine.judge.Function;
 import org.algohub.engine.type.TypeNode;
@@ -37,7 +36,8 @@ public class JavaCodeGeneratorTest {
     public void generateEmptyFunctionTest1() {
         final String twoSumGenerated =
                 JavaCodeGenerator.generateEmptyFunction(TWO_SUM);
-        final String twoSumExpected =
+        final String twoSumExpected = "import java.util.*;\n" +
+                "import org.algohub.engine.type.*;\n\n" +
                 "public class Solution {\n" + "    /**\n" + "     * @param numbers An array of Integers\n"
                         + "     * @param target target = numbers[index1] + numbers[index2]\n"
                         + "     * @return [index1 + 1, index2 + 1] (index1 < index2)\n" + "     */\n"
@@ -47,7 +47,8 @@ public class JavaCodeGeneratorTest {
 
         final String wordLadderGenerated =
                 JavaCodeGenerator.generateEmptyFunction(WORD_LADDER);
-        final String wordLadderExpected =
+        final String wordLadderExpected = "import java.util.*;\n" +
+                "import org.algohub.engine.type.*;\n\n" +
                 "public class Solution {\n" + "    /**\n" + "     * @param begin_word the begin word\n"
                         + "     * @param end_word the end word\n" + "     * @param dict the dictionary\n"
                         + "     * @return The shortest length\n" + "     */\n"
