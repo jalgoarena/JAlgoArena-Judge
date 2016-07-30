@@ -1,0 +1,38 @@
+{
+  "id": "zeroMatrix",
+  "title": "Zero Matrix",
+  "description": "Write an algorithm such that if an element is an MxN matrix is 0, its entire row and column are set to 0.",
+  "time_limit": 1,
+  "memory_limit": 32,
+  "function": {
+    "name": "zeroMatrix",
+    "return": {
+      "type": "array<array<int>>",
+      "comment": " Matrix with set zeros"
+    },
+    "parameters": [
+      {
+        "name": "matrix",
+        "type": "array<array<int>>",
+        "comment": "Matrix to set zeros"
+      }
+    ]
+  },
+  "test_cases": [
+    {"input": [[
+      [1, 2, 3, 4],
+      [5, 6, 7, 8],
+      [9, 0, 1, 2],
+      [3, 4, 5, 0]
+    ]], "output": [
+      [1, 0, 3, 0],
+      [5, 0, 7, 0],
+      [0, 0, 0, 0],
+      [0, 0, 0, 0]
+    ]}
+  ],
+  "example": {
+    "input": "[[1, 2, 3, 4],[5, 6, 7, 8],[9, 0, 1, 2],[3, 4, 5, 0]]",
+    "output": "[[1, 0, 3, 0],[5, 0, 7, 0],[0, 0, 0, 0],[0, 0, 0, 0]]"
+  }
+}

@@ -66,7 +66,8 @@ public class JudgeControllerTest {
             "palindrome-perm, PalindromePerm",
             "one-away, OneAway",
             "string-compress, StringCompress",
-            "rotate-matrix, RotateMatrix"
+            "rotate-matrix, RotateMatrix",
+            "zero-matrix, ZeroMatrix"
     })
     public void judgesCorrectSolution(String problemId, String solutionId) throws Exception {
         final String sourceCode =
