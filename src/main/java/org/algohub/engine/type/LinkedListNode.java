@@ -25,7 +25,6 @@ public class LinkedListNode<E> {
             return;
         }
 
-        // find tail
         LinkedListNode<E> tail = this;
         while (tail.next != null) {
             tail = tail.next;

@@ -1,31 +1,14 @@
 package org.algohub.engine.codegenerator;
 
-import com.google.common.collect.ImmutableMap;
 import org.algohub.engine.judge.Function;
-import org.algohub.engine.type.IntermediateType;
 import org.algohub.engine.type.TypeNode;
+
+import static org.algohub.engine.codegenerator.JavaCodeGenerator.generateTypeDeclaration;
 
 /**
  * Generate function declaration for display.
  */
 class FunctionGenerator {
-
-    /**
-     * Map intermediate types to Java types.
-     */
-    static final ImmutableMap<IntermediateType, String> JAVA_TYPE_MAP =
-        ImmutableMap.<IntermediateType, String>builder().put(IntermediateType.BOOL, "boolean")
-            .put(IntermediateType.STRING, "String").put(IntermediateType.DOUBLE, "double")
-            .put(IntermediateType.INT, "int").put(IntermediateType.LONG, "long")
-
-            //.put(IntermediateType.ARRAY, "[]")
-            .put(IntermediateType.LIST, "ArrayList").put(IntermediateType.SET, "HashSet")
-            .put(IntermediateType.MAP, "HashMap")
-
-            .put(IntermediateType.LINKED_LIST_NODE, "LinkedListNode")
-            .put(IntermediateType.BINARY_TREE_NODE, "BinaryTreeNode")
-
-            .build();
 
     private FunctionGenerator() {
         // static class
@@ -38,26 +21,6 @@ class FunctionGenerator {
 
         result.append(typeDeclaration).append(' ').append(parameterName);
         return result.toString();
-    }
-
-    static String generateTypeDeclaration(final TypeNode type) {
-        if (!type.isContainer()) {
-            return JAVA_TYPE_MAP.get(type.getValue());
-        }
-        final boolean isArray =
-                type.getValue() == IntermediateType.ARRAY;
-
-        if (isArray) {
-            return generateTypeDeclaration(type.getElementType()) + "[]";
-        } else {
-            final String containerTypeStr = JAVA_TYPE_MAP.get(type.getValue());
-            if (type.getKeyType() != null) {
-                return containerTypeStr + "<" + generateTypeDeclaration(type.getKeyType()) + "," + generateTypeDeclaration(type.getElementType())
-                        + ">";
-            } else {
-                return containerTypeStr + "<" + generateTypeDeclaration(type.getElementType()) + ">";
-            }
-        }
     }
 
     static String generateFunction(final Function function,
