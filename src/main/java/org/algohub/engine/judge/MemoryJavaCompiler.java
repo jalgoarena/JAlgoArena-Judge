@@ -7,10 +7,10 @@ import org.slf4j.LoggerFactory;
 import javax.tools.*;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.Writer;
 import java.lang.reflect.Method;
 import java.nio.CharBuffer;
-import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -23,16 +23,16 @@ final class MemoryJavaCompiler {
 
     private static final Logger LOG = LoggerFactory.getLogger(MemoryJavaCompiler.class);
 
-    private final javax.tools.JavaCompiler tool;
+    private final javax.tools.JavaCompiler javaCompiler;
     private final StandardJavaFileManager stdManager;
 
     private MemoryJavaCompiler() {
-        tool = ToolProvider.getSystemJavaCompiler();
+        javaCompiler = ToolProvider.getSystemJavaCompiler();
         Preconditions.checkNotNull(
-                tool, "Could not get Java compiler. Please, ensure that JDK is used instead of JRE."
+                javaCompiler, "Could not get Java compiler. Please, ensure that JDK is used instead of JRE."
         );
 
-        stdManager = tool.getStandardFileManager(null, null, null);
+        stdManager = javaCompiler.getStandardFileManager(null, null, null);
     }
 
     private static String getClassName(final String qualifiedClassName) {
@@ -81,32 +81,14 @@ final class MemoryJavaCompiler {
      */
     private Map<String, byte[]> compile(String fileName, String source) throws CompileErrorException {
 
-        Writer err = new PrintWriter(System.err);
-        // create a new memory JavaFileManager
         MemoryJavaFileManager fileManager = new MemoryJavaFileManager(stdManager);
-
-        // prepare the compilation unit
-        List<JavaFileObject> compUnits = new ArrayList<>(1);
-        compUnits.add(makeStringSource(fileName, source));
-
-        return compile(compUnits, fileManager, err);
-    }
-
-    private Map<String, byte[]> compile(final List<JavaFileObject> compUnits,
-                                        final MemoryJavaFileManager fileManager, Writer err)
-            throws CompileErrorException {
-        // javac options
-        List<String> options = new ArrayList<>();
-        options.add("-Xlint:all");
-        options.add("-deprecation");
-
-        // to collect errors, warnings etc.
         DiagnosticCollector<JavaFileObject> diagnostics = new DiagnosticCollector<>();
-        // create a compilation task
-        javax.tools.JavaCompiler.CompilationTask task =
-                tool.getTask(err, fileManager, diagnostics, options, null, compUnits);
 
-        if (!task.call()) {
+        JavaCompiler.CompilationTask compilationTask = compilationTask(
+                fileName, source, fileManager, diagnostics
+        );
+
+        if (!compilationTask.call()) {
             return getCompilationError(diagnostics);
         }
 
@@ -120,12 +102,38 @@ final class MemoryJavaCompiler {
         return classBytes;
     }
 
-    private Map<String, byte[]> getCompilationError(DiagnosticCollector<JavaFileObject> diagnostics) throws CompileErrorException {
+    private JavaCompiler.CompilationTask compilationTask(
+            String fileName,
+            String source,
+            MemoryJavaFileManager fileManager,
+            DiagnosticCollector<JavaFileObject> diagnostics) {
+
+        return javaCompiler.getTask(
+                new PrintWriter(System.err),
+                fileManager,
+                diagnostics,
+                javacOptions(),
+                null,
+                prepareTheCompilationUnit(fileName, source)
+        );
+    }
+
+    private List<JavaFileObject> prepareTheCompilationUnit(String fileName, String source) {
+        return Collections.singletonList(makeStringSource(fileName, source));
+    }
+
+    private List<String> javacOptions() {
+        return Arrays.asList("-Xlint:all", "-deprecation");
+    }
+
+    private Map<String, byte[]> getCompilationError(
+            DiagnosticCollector<JavaFileObject> diagnostics) throws CompileErrorException {
+
         final StringBuilder errorMsg = new StringBuilder();
         final List<Diagnostic<? extends JavaFileObject>> diagnostics1 = diagnostics.getDiagnostics();
         for (Diagnostic<? extends JavaFileObject> aDiagnostics1 : diagnostics1) {
             errorMsg.append(aDiagnostics1);
-            errorMsg.append('\n');
+            errorMsg.append(System.lineSeparator());
         }
         throw new CompileErrorException(errorMsg.toString());
     }
