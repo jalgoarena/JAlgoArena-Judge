@@ -132,4 +132,52 @@ public class BetterObjectsSpec {
 
         assertThat(equalForObjectsOrArrays(arr1, arr2)).isFalse();
     }
+
+    @Test
+    public void two_equal_char_arrays() throws Exception {
+        char[] arr1 = { 'a', 'b', 'c', 'd', 'e'};
+        char[] arr2 = { 'a', 'b', 'c', 'd', 'e'};
+
+        assertThat(equalForObjectsOrArrays(arr1, arr2)).isTrue();
+    }
+
+    @Test
+    public void two_different_char_arrays() throws Exception {
+        char[] arr1 = { 'a', 'b', 'c', 'd', 'e'};
+        char[] arr2 = { 'a', 'b', 'c', 'd', 'z'};
+
+        assertThat(equalForObjectsOrArrays(arr1, arr2)).isFalse();
+    }
+
+    @Test
+    public void two_equal_float_arrays() throws Exception {
+        float[] arr1 = { 0.0f, 1.3f, 2.4f, 0.1f, 1.01f, 2222.43f};
+        float[] arr2 = { 0.0f, 1.3f, 2.4f, 0.1f, 1.01f, 2222.43f};
+
+        assertThat(equalForObjectsOrArrays(arr1, arr2)).isTrue();
+    }
+
+    @Test
+    public void two_different_float_arrays() throws Exception {
+        float[] arr1 = { 0.0f, 1.3f, 2.4f, 0.1f, 1.01f, 2222.43f};
+        float[] arr2 = { 0.0f, 1.3f, 2.4f, 0.1f, 1.01f, 22231.43f};
+
+        assertThat(equalForObjectsOrArrays(arr1, arr2)).isFalse();
+    }
+
+    @Test
+    public void two_equal_boolean_arrays() throws Exception {
+        boolean[] arr1 = { true, false, false, true, true, false};
+        boolean[] arr2 = { true, false, false, true, true, false};
+
+        assertThat(equalForObjectsOrArrays(arr1, arr2)).isTrue();
+    }
+
+    @Test
+    public void two_different_boolean_arrays() throws Exception {
+        boolean[] arr1 = { true, false, false, true, true, false};
+        boolean[] arr2 = { true, false, false, true, false, false};
+
+        assertThat(equalForObjectsOrArrays(arr1, arr2)).isFalse();
+    }
 }
