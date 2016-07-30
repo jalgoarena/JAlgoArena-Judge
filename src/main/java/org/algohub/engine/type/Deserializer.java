@@ -29,28 +29,6 @@ class Deserializer {
                     .build();
 
 
-    private static Class getArrayElementType(final TypeNode typeNode) {
-        TypeNode node = typeNode;
-        while (node.getValue() == IntermediateType.ARRAY) {
-            node = node.getElementType();
-        }
-        return JAVA_CLASS_MAP.get(node.getValue());
-    }
-
-    private static int[] getAllDimensions(final ArrayNode arrayNode, final TypeNode typeNode) {
-        final ArrayList<Integer> list = new ArrayList<>();
-
-        JsonNode cur = arrayNode;
-        TypeNode currentType = typeNode;
-        while (cur.isArray() && currentType.getValue() == IntermediateType.ARRAY) {
-            list.add(cur.size());
-            cur = cur.get(0);
-            currentType = currentType.getElementType();
-        }
-        return Ints.toArray(list);
-    }
-
-
     /**
      * Convert primitive values to JsonNode.
      */
@@ -111,6 +89,27 @@ class Deserializer {
                         .put(IntermediateType.LONG, new LongNodeDeserializer())
                         .put(IntermediateType.DOUBLE, new DoubleNodeDeserializer())
                         .build();
+
+        private static Class getArrayElementType(final TypeNode typeNode) {
+            TypeNode node = typeNode;
+            while (node.getValue() == IntermediateType.ARRAY) {
+                node = node.getElementType();
+            }
+            return JAVA_CLASS_MAP.get(node.getValue());
+        }
+
+        private static int[] getAllDimensions(final ArrayNode arrayNode, final TypeNode typeNode) {
+            final ArrayList<Integer> list = new ArrayList<>();
+
+            JsonNode cur = arrayNode;
+            TypeNode currentType = typeNode;
+            while (cur.isArray() && currentType.getValue() == IntermediateType.ARRAY) {
+                list.add(cur.size());
+                cur = cur.get(0);
+                currentType = currentType.getElementType();
+            }
+            return Ints.toArray(list);
+        }
 
         @Override
         public Object deserialize(TypeNode type, JsonNode jsonNode) {
