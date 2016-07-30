@@ -67,7 +67,8 @@ public class JudgeControllerTest {
             "one-away, OneAway",
             "string-compress, StringCompress",
             "rotate-matrix, RotateMatrix",
-            "zero-matrix, ZeroMatrix"
+            "zero-matrix, ZeroMatrix",
+            "remove-dups, RemoveDups"
     })
     public void judgesCorrectSolution(String problemId, String solutionId) throws Exception {
         final String sourceCode =
