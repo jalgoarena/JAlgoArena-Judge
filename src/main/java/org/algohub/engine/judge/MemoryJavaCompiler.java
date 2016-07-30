@@ -26,15 +26,16 @@ final class MemoryJavaCompiler {
     private static final Logger LOG = LoggerFactory.getLogger(MemoryJavaCompiler.class);
 
     private final javax.tools.JavaCompiler javaCompiler;
-    private final StandardJavaFileManager stdManager;
 
     private MemoryJavaCompiler() {
         javaCompiler = ToolProvider.getSystemJavaCompiler();
         Preconditions.checkNotNull(
                 javaCompiler, "Could not get Java compiler. Please, ensure that JDK is used instead of JRE."
         );
+    }
 
-        stdManager = javaCompiler.getStandardFileManager(null, null, null);
+    private StandardJavaFileManager standardFileManager() {
+        return javaCompiler.getStandardFileManager(null, null, null);
     }
 
     private static String getClassName(final String qualifiedClassName) {
@@ -83,7 +84,7 @@ final class MemoryJavaCompiler {
      */
     private Map<String, byte[]> compile(String fileName, String source) throws CompileErrorException {
 
-        MemoryJavaFileManager fileManager = new MemoryJavaFileManager(stdManager);
+        MemoryJavaFileManager fileManager = new MemoryJavaFileManager(standardFileManager());
         DiagnosticCollector<JavaFileObject> diagnostics = new DiagnosticCollector<>();
 
         JavaCompiler.CompilationTask compilationTask = compilationTask(
