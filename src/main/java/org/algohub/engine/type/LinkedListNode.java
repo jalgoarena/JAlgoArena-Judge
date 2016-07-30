@@ -33,17 +33,52 @@ public class LinkedListNode<E> {
     }
 
     @Override
+    public boolean equals(final Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof LinkedListNode)) {
+            return false;
+        }
+
+        final LinkedListNode other = (LinkedListNode) obj;
+
+        LinkedListNode p = this;
+        LinkedListNode q = other;
+        while (p != null && q != null) {
+            if (!p.value.equals(q.value)) {
+                return false;
+            }
+            p = p.next;
+            q = q.next;
+        }
+        return p == null && q == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int hashCode = 1;
+        for (LinkedListNode<E> p = this; p != null; p = p.next) {
+            hashCode = 31 * hashCode + (value == null ? 0 : value.hashCode());
+        }
+
+        return hashCode;
+    }
+
+    @Override
     public String toString() {
         if (value == null) {
-            return "";
+            return "[]";
         }
 
         final StringBuilder linkedListAsString = new StringBuilder();
-        linkedListAsString.append(value);
+        linkedListAsString.append('[').append(value);
 
         for (LinkedListNode<E> p = next; p != null; p = p.next) {
-            linkedListAsString.append("->").append(p.value);
+            linkedListAsString.append(", ").append(p.value);
         }
+
+        linkedListAsString.append(']');
 
         return linkedListAsString.toString();
     }
