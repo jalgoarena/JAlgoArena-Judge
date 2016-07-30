@@ -19,7 +19,7 @@ public class FindClassNameSpec {
         Optional<String> result = findClassName.in(JAVA_CODE);
 
         if (result.isPresent()) {
-            assertThat(result.get());
+            assertThat(result.get()).isEqualTo("MyClass");
         } else {
             fail("Class not found");
         }

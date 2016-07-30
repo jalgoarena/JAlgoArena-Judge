@@ -8,6 +8,8 @@ import javax.tools.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.reflect.Method;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.nio.CharBuffer;
 import java.util.Arrays;
 import java.util.Collections;
@@ -152,6 +154,34 @@ final class MemoryJavaCompiler {
         @Override
         public CharBuffer getCharContent(boolean ignoreEncodingErrors) {
             return CharBuffer.wrap(code);
+        }
+    }
+
+    /**
+     * ClassLoader that loads .class bytes from memory.
+     */
+    private static final class MemoryClassLoader extends URLClassLoader {
+
+        private Map<String, byte[]> classNameToBytecode;
+
+        MemoryClassLoader(final Map<String, byte[]> classNameToBytecode) {
+            super(new URL[0], ClassLoader.getSystemClassLoader());
+            this.classNameToBytecode = classNameToBytecode;
+        }
+
+        @Override
+        protected Class findClass(final String className) throws ClassNotFoundException {
+            final byte[] buf = classNameToBytecode.get(className);
+            if (buf == null) {
+                return super.findClass(className);
+            } else {
+                clearByteMap(className);
+                return defineClass(className, buf, 0, buf.length);
+            }
+        }
+
+        private void clearByteMap(String className) {
+            classNameToBytecode.put(className, null);
         }
     }
 }
