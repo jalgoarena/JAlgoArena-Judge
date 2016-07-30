@@ -19,7 +19,7 @@ public class LinkedListNode<E> {
         this.next = next;
     }
 
-    void add(final E value) {
+    public void add(final E value) {
         if (this.value == null) {
             this.value = value;
             return;
@@ -33,50 +33,18 @@ public class LinkedListNode<E> {
     }
 
     @Override
-    public boolean equals(final Object obj) {
-        if (obj == this) {
-            return true;
-        }
-        if (!(obj instanceof LinkedListNode)) {
-            return false;
-        }
-
-        final LinkedListNode other = (LinkedListNode) obj;
-
-        LinkedListNode p = this;
-        LinkedListNode q = other;
-        while (p != null && q != null) {
-            if (!p.value.equals(q.value)) {
-                return false;
-            }
-            p = p.next;
-            q = q.next;
-        }
-        return p == null && q == null;
-    }
-
-    @Override
     public String toString() {
         if (value == null) {
-            return "[]";
+            return "";
         }
 
-        final StringBuilder sb = new StringBuilder();
-        sb.append('[').append(value);
+        final StringBuilder linkedListAsString = new StringBuilder();
+        linkedListAsString.append(value);
+
         for (LinkedListNode<E> p = next; p != null; p = p.next) {
-            sb.append(", ").append(p.value);
-        }
-        sb.append(']');
-        return sb.toString();
-    }
-
-    @Override
-    public int hashCode() {
-        int hashCode = 1;
-        for (LinkedListNode<E> p = this; p != null; p = p.next) {
-            hashCode = 31 * hashCode + (value == null ? 0 : value.hashCode());
+            linkedListAsString.append("->").append(p.value);
         }
 
-        return hashCode;
+        return linkedListAsString.toString();
     }
 }
