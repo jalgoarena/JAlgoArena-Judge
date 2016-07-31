@@ -10,8 +10,6 @@ import org.algohub.engine.judge.StatusCode;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.util.Arrays;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(JUnitParamsRunner.class)
@@ -39,7 +37,7 @@ public class JudgeControllerTest {
             "word-ladder"
     })
     public void includesProblemInListOfAllProblems(String problemId) throws Exception {
-        boolean result = Arrays.asList(controller.problems()).contains(problemId);
+        boolean result = controller.problems().contains(problemId);
         assertThat(result).isTrue();
     }
 

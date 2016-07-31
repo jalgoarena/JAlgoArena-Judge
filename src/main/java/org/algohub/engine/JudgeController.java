@@ -8,9 +8,15 @@ import com.google.common.io.Resources;
 import org.algohub.engine.judge.JudgeEngine;
 import org.algohub.engine.judge.JudgeResult;
 import org.algohub.engine.judge.Problem;
+import org.reflections.Reflections;
+import org.reflections.scanners.ResourcesScanner;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @RestController
 class JudgeController {
@@ -29,8 +35,17 @@ class JudgeController {
     }
 
     @RequestMapping("/problems")
-    String[] problems() {
-        return new String[]{"2-sum", "fib", "stoi", "word-ladder"};
+    List<String> problems() throws IOException {
+
+        return jsonFilesFromResources().map(
+                x -> x.substring(0, x.length() - ".json".length())
+        ).collect(Collectors.toList());
+    }
+
+    private Stream<String> jsonFilesFromResources() {
+        return new Reflections(
+                "", new ResourcesScanner()
+        ).getResources(Pattern.compile(".+\\.json")).stream();
     }
 
     @RequestMapping("/problems/{id}")
