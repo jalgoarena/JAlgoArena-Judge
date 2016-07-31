@@ -6,7 +6,6 @@ import org.slf4j.LoggerFactory;
 
 import javax.tools.*;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -112,7 +111,7 @@ final class MemoryJavaCompiler {
             DiagnosticCollector<JavaFileObject> diagnostics) {
 
         return javaCompiler.getTask(
-                new PrintWriter(System.err),
+                null,
                 fileManager,
                 diagnostics,
                 javacOptions(),
