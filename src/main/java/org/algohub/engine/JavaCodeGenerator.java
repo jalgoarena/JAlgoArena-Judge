@@ -11,29 +11,25 @@ final class JavaCodeGenerator {
     private static final String CUSTOM_IMPORT = "import java.util.*;\n" +
             "import org.algohub.engine.type.*;\n\n";
 
-    /**
-     * Map intermediate types to Java types.
-     */
-    private static final ImmutableMap<IntermediateType, String> JAVA_TYPE_MAP =
+    private static final ImmutableMap<IntermediateType, String> INTERMEDIATE_TYPE_TO_JAVA_TYPE_MAP =
             ImmutableMap.<IntermediateType, String>builder().put(IntermediateType.BOOL, "boolean")
-                    .put(IntermediateType.STRING, "String").put(IntermediateType.DOUBLE, "double")
-                    .put(IntermediateType.INT, "int").put(IntermediateType.LONG, "long")
-
+                    .put(IntermediateType.STRING, "String")
+                    .put(IntermediateType.DOUBLE, "double")
+                    .put(IntermediateType.INT, "int")
+                    .put(IntermediateType.LONG, "long")
                     .put(IntermediateType.ARRAY, "[]")
-                    .put(IntermediateType.LIST, "ArrayList").put(IntermediateType.SET, "HashSet")
+                    .put(IntermediateType.LIST, "ArrayList")
+                    .put(IntermediateType.SET, "HashSet")
                     .put(IntermediateType.MAP, "HashMap")
-
                     .put(IntermediateType.LINKED_LIST_NODE, "LinkedListNode")
-
                     .build();
 
-    /**
-     * Map intermediate types to real java classes.
-     */
-    private static final ImmutableMap<IntermediateType, String> JAVA_CLASS_MAP =
+    private static final ImmutableMap<IntermediateType, String> INTERMEDIATE_TYPE_TO_JAVA_BOXING_CLASS_MAP =
             ImmutableMap.<IntermediateType, String>builder().put(IntermediateType.BOOL, "Boolean")
-                    .put(IntermediateType.STRING, "String").put(IntermediateType.DOUBLE, "Double")
-                    .put(IntermediateType.INT, "Integer").put(IntermediateType.LONG, "Long").build();
+                    .put(IntermediateType.STRING, "String")
+                    .put(IntermediateType.DOUBLE, "Double")
+                    .put(IntermediateType.INT, "Integer")
+                    .put(IntermediateType.LONG, "Long").build();
 
     private JavaCodeGenerator() {
     }
@@ -45,8 +41,11 @@ final class JavaCodeGenerator {
      * @return source code of a empty function
      */
     static String generateEmptyFunction(final Function function) {
-        return CUSTOM_IMPORT + "public class Solution {\n"
-                + generateFunction(function) + "}\n";
+        return String.format(
+                "%spublic class Solution {\n%s}\n",
+                CUSTOM_IMPORT,
+                generateFunction(function)
+        );
     }
 
     /**
@@ -54,50 +53,68 @@ final class JavaCodeGenerator {
      * <p>
      * <p> post order, recursive.</p>
      */
-    private static String generateTypeDeclaration(final TypeNode type,
-                                                  final IntermediateType parentType) {
+    private static String generateJavaTypeDeclaration(final TypeNode type,
+                                                      final IntermediateType parentType) {
         if (!type.isContainer()) {
             if (parentType == IntermediateType.ARRAY) {
-                return JAVA_TYPE_MAP.get(type.getValue());
+                return INTERMEDIATE_TYPE_TO_JAVA_TYPE_MAP.get(type.getValue());
             } else {
-                return JAVA_CLASS_MAP.get(type.getValue());
+                return INTERMEDIATE_TYPE_TO_JAVA_BOXING_CLASS_MAP.get(type.getValue());
             }
         }
+
         if (type.getValue() == IntermediateType.ARRAY) {
-            return generateTypeDeclaration(type.getElementType(), type.getValue()) + "[]";
+            return javaArrayDeclaration(type);
         } else {
-            final String containerTypeStr = JAVA_TYPE_MAP.get(type.getValue());
+            final String containerTypeStr = INTERMEDIATE_TYPE_TO_JAVA_TYPE_MAP.get(type.getValue());
             if (type.getKeyType() != null) {
-                return containerTypeStr + "<" + generateTypeDeclaration(type.getKeyType(),
-                        type.getValue()) + "," + generateTypeDeclaration(type.getElementType(),
-                        type.getValue()) + ">";
+                return javaMapDeclaration(type, containerTypeStr);
             } else {
-                return containerTypeStr + "<" + generateTypeDeclaration(type.getElementType(),
-                        type.getValue()) + ">";
+                return javaGenericTypeDeclaration(type, containerTypeStr);
             }
         }
     }
 
+    private static String javaArrayDeclaration(TypeNode type) {
+        return String.format(
+                "%s[]",
+                generateJavaTypeDeclaration(type.getElementType(), type.getValue())
+        );
+    }
+
+    private static String javaGenericTypeDeclaration(TypeNode type, String containerTypeStr) {
+        return String.format(
+                "%s<%s>",
+                containerTypeStr,
+                generateJavaTypeDeclaration(type.getElementType(), type.getValue())
+        );
+    }
+
+    private static String javaMapDeclaration(TypeNode type, String containerTypeStr) {
+        return String.format(
+                "%s<%s,%s>",
+                containerTypeStr,
+                generateJavaTypeDeclaration(type.getKeyType(), type.getValue()),
+                generateJavaTypeDeclaration(type.getElementType(), type.getValue())
+        );
+    }
+
     /**
      * Generate a type declaration.
+     * The parent type should be ARRAY by default
      * <p>
      * <p>post order, recursive.</p>
      *
      * @param type the type
      * @return type declaration
      */
-    static String generateTypeDeclaration(final TypeNode type) {
-        // the parent type should be ARRAY by default
-        return generateTypeDeclaration(type, IntermediateType.ARRAY);
+    static String generateJavaTypeDeclaration(final TypeNode type) {
+        return generateJavaTypeDeclaration(type, IntermediateType.ARRAY);
     }
 
-    private static String generateParameterDeclaration(final TypeNode type,
-                                                       final String parameterName) {
-        final StringBuilder result = new StringBuilder();
-        final String typeDeclaration = generateTypeDeclaration(type);
-
-        result.append(typeDeclaration).append(' ').append(parameterName);
-        return result.toString();
+    private static String generateParameterDeclaration(final TypeNode type, final String parameterName) {
+        final String typeDeclaration = generateJavaTypeDeclaration(type);
+        return String.format("%s %s", typeDeclaration, parameterName);
     }
 
     private static String generateFunction(final Function function) {
@@ -119,8 +136,9 @@ final class JavaCodeGenerator {
 
     private static void functionBody(Function function, StringBuilder result) {
         appendIndentation(result, "public ");
-        result.append(generateTypeDeclaration(function.getReturnStatement().getType()));
+        result.append(generateJavaTypeDeclaration(function.getReturnStatement().getType()));
         result.append(" ").append(function.getName()).append("(");
+
         for (final Function.Parameter p : function.getParameters()) {
             result.append(generateParameterDeclaration(p.getType(), p.getName()))
                     .append(", ");
@@ -129,9 +147,11 @@ final class JavaCodeGenerator {
 
     private static void functionComment(Function function, StringBuilder result) {
         appendIndentation(result, "/**\n");
+
         for (final Function.Parameter p : function.getParameters()) {
             appendIndentation(result, " * @param " + p.getName() + " " + p.getComment() + "\n");
         }
+
         appendIndentation(result, " * @return " + function.getReturnStatement().getComment() + "\n");
         appendIndentation(result, " */\n");
     }

@@ -33,6 +33,20 @@ class JudgeController {
         ).collect(Collectors.toList());
     }
 
+    private static Stream<String> jsonFilesFromResources() {
+        return new Reflections(
+                "", new ResourcesScanner()
+        ).getResources(Pattern.compile(".+\\.json")).stream();
+    }
+
+    private static Problem problemOf(String id) throws IOException {
+        String problemAsJson = Resources.toString(
+                Resources.getResource(id + ".json"), Charsets.UTF_8
+        );
+
+        return OBJECT_MAPPER.readValue(problemAsJson, Problem.class);
+    }
+
     @RequestMapping(path = "/problems/{id}/solution", method = RequestMethod.POST)
     JudgeResult judge(@PathVariable String id, @RequestBody String sourceCode) throws IOException {
         Problem problem = problemOf(id);
@@ -44,12 +58,6 @@ class JudgeController {
         return AVAILABLE_PROBLEMS;
     }
 
-    private static Stream<String> jsonFilesFromResources() {
-        return new Reflections(
-                "", new ResourcesScanner()
-        ).getResources(Pattern.compile(".+\\.json")).stream();
-    }
-
     @RequestMapping("/problems/{id}")
     Problem problem(@PathVariable String id) throws IOException {
         return problemOf(id).problemWithoutFunctionAndTestCases();
@@ -59,13 +67,5 @@ class JudgeController {
     String problemSkeletonCode(@PathVariable String id) throws IOException {
         Problem problem = problemOf(id);
         return JavaCodeGenerator.generateEmptyFunction(problem.getFunction());
-    }
-
-    private Problem problemOf(String id) throws IOException {
-        String problemAsJson = Resources.toString(
-                Resources.getResource(id + ".json"), Charsets.UTF_8
-        );
-
-        return OBJECT_MAPPER.readValue(problemAsJson, Problem.class);
     }
 }

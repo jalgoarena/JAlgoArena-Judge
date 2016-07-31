@@ -58,41 +58,41 @@ public class JavaCodeGeneratorTest {
 
     @Test
     public void generateArrayOfInt() {
-        final String typeStr1 = JavaCodeGenerator.generateTypeDeclaration(ARRAY_INT);
+        final String typeStr1 = JavaCodeGenerator.generateJavaTypeDeclaration(ARRAY_INT);
         assertEquals("int[]", typeStr1);
 
     }
 
     @Test
     public void generatesArrayListOfInt() {
-        final String typeStr2 = JavaCodeGenerator.generateTypeDeclaration(LIST_INT);
+        final String typeStr2 = JavaCodeGenerator.generateJavaTypeDeclaration(LIST_INT);
         assertEquals("ArrayList<Integer>", typeStr2);
     }
 
     @Test
     public void generatesArrayListOfArray() {
-        final String typeStr3 = JavaCodeGenerator.generateTypeDeclaration(LIST_ARRAY_INT);
+        final String typeStr3 = JavaCodeGenerator.generateJavaTypeDeclaration(LIST_ARRAY_INT);
         assertEquals("ArrayList<int[]>", typeStr3);
 
     }
 
     @Test
     public void generatesArrayListOfArrayList() {
-        final String typeStr4 = JavaCodeGenerator.generateTypeDeclaration(LIST_LIST_INT);
+        final String typeStr4 = JavaCodeGenerator.generateJavaTypeDeclaration(LIST_LIST_INT);
         assertEquals("ArrayList<ArrayList<Integer>>", typeStr4);
 
     }
 
     @Test
     public void generatesComplexArrayList() {
-        final String typeStr5 = JavaCodeGenerator.generateTypeDeclaration(ARRAY_LIST_SET_MAP);
+        final String typeStr5 = JavaCodeGenerator.generateJavaTypeDeclaration(ARRAY_LIST_SET_MAP);
         assertEquals("ArrayList<HashSet<HashMap<String,LinkedListNode<Integer>>>>[]", typeStr5);
     }
 
     @Test
     public void generatesLinkedListNode() throws Exception {
         TypeNode linkedListTypeNode = TypeNode.fromString("LinkedListNode<int>");
-        String linkedListJavaTypeDeclaration = JavaCodeGenerator.generateTypeDeclaration(
+        String linkedListJavaTypeDeclaration = JavaCodeGenerator.generateJavaTypeDeclaration(
                 linkedListTypeNode
         );
 
