@@ -24,16 +24,6 @@ public class DeserializerTest {
     private static final LinkedListNode<LinkedListNode<Integer>> LINKED_LIST_LINKED_LIST_EXPECTED =
             new LinkedListNode<>(LINKED_LIST_EXPECTED, new LinkedListNode<>(LINKED_LIST_EXPECTED2));
 
-    private static final BinaryTreeNode<Integer> BINARY_TREE_EXPECTED = new BinaryTreeNode<>(2);
-
-    static {
-        BINARY_TREE_EXPECTED.left = new BinaryTreeNode<>(1);
-        BINARY_TREE_EXPECTED.right = new BinaryTreeNode<>(10);
-        BINARY_TREE_EXPECTED.left.leftIsNull = true;
-        BINARY_TREE_EXPECTED.left.rightIsNull = true;
-        BINARY_TREE_EXPECTED.right.left = new BinaryTreeNode<>(5);
-    }
-
     @Test
     public void deserializePrimitiveTest() {
         assertEquals(Boolean.TRUE,
@@ -92,16 +82,6 @@ public class DeserializerTest {
         mapIntDoubleNode.set("2", DoubleNode.valueOf(2.0));
         assertEquals(mapIntDoubleExpected,
                 Deserializer.fromJson(TypeNode.fromString("map<int,double>"), mapIntDoubleNode));
-
-        final ArrayNode treeArray = ObjectMapperInstance.INSTANCE.createArrayNode();
-        treeArray.add(2);
-        treeArray.add(1);
-        treeArray.add(10);
-        treeArray.add(NullNode.instance);
-        treeArray.add(NullNode.instance);
-        treeArray.add(5);
-        assertEquals(BINARY_TREE_EXPECTED,
-                Deserializer.fromJson(TypeNode.fromString("BinaryTreeNode<int>"), treeArray));
 
         final ArrayNode arrayArrayNode = ObjectMapperInstance.INSTANCE.createArrayNode();
         for (int i = 0; i < 2; ++i) {

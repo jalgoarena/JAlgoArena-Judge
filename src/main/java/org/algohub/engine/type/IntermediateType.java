@@ -15,8 +15,7 @@ public enum IntermediateType {
   LIST("list"),
   SET("set"),
   MAP("map"),
-  LINKED_LIST_NODE("LinkedListNode"),
-  BINARY_TREE_NODE("BinaryTreeNode");
+  LINKED_LIST_NODE("LinkedListNode");
 
   private final String text;
 

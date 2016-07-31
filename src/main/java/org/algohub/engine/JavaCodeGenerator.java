@@ -27,7 +27,6 @@ final class JavaCodeGenerator {
                     .put(IntermediateType.MAP, "HashMap")
 
                     .put(IntermediateType.LINKED_LIST_NODE, "LinkedListNode")
-                    .put(IntermediateType.BINARY_TREE_NODE, "BinaryTreeNode")
 
                     .build();
 

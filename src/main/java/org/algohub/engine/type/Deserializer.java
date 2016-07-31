@@ -15,8 +15,7 @@ class Deserializer {
                     .put(IntermediateType.INT, int.class).put(IntermediateType.LONG, long.class)
                     .put(IntermediateType.LIST, ArrayList.class).put(IntermediateType.SET, HashSet.class)
                     .put(IntermediateType.MAP, HashMap.class)
-                    .put(IntermediateType.LINKED_LIST_NODE, LinkedListNode.class)
-                    .put(IntermediateType.BINARY_TREE_NODE, BinaryTreeNode.class).build();
+                    .put(IntermediateType.LINKED_LIST_NODE, LinkedListNode.class).build();
 
     private static final ImmutableMap<IntermediateType, NodeDeserializer> CONTAINER_DESERIALIZERS =
             ImmutableMap.<IntermediateType, NodeDeserializer>builder()
@@ -25,7 +24,6 @@ class Deserializer {
                     .put(IntermediateType.SET, new SetDeserializer())
                     .put(IntermediateType.MAP, new MapDeserializer())
                     .put(IntermediateType.LINKED_LIST_NODE, new LinkedListNodeDeserializer())
-                    .put(IntermediateType.BINARY_TREE_NODE, new BinaryTreeNodeDeserializer())
                     .build();
 
 
@@ -34,10 +32,6 @@ class Deserializer {
      */
     private static Object jsonToJavaPrimitiveNew(final TypeNode type, final JsonNode jsonNode) {
         final Object object;
-        // for BinaryTreeNode
-        if (jsonNode.isNull()) {
-            return null;
-        }
 
         switch (type.getValue()) {
             case BOOL:
@@ -130,21 +124,6 @@ class Deserializer {
             }
 
             return javaArray;
-        }
-    }
-
-    private static class BinaryTreeNodeDeserializer implements NodeDeserializer {
-
-        @Override
-        public Object deserialize(TypeNode type, JsonNode jsonNode) {
-            final ArrayNode elements = (ArrayNode) jsonNode;
-            final BinaryTreeNode<Object> javaBinaryTree = new BinaryTreeNode<>();
-
-            for (final JsonNode e : elements) {
-                javaBinaryTree.add(fromJson(type.getElementType(), e));
-            }
-
-            return javaBinaryTree;
         }
     }
 

@@ -14,8 +14,6 @@ public class JavaCodeGeneratorTest {
     private static final TypeNode LIST_LIST_INT = TypeNode.fromString("list<list<int>>");
     private static final TypeNode ARRAY_LIST_SET_MAP =
             TypeNode.fromString("array<list<set<map<string,LinkedListNode<int>>>>>");
-    private static final TypeNode BINARY_TREE_NODE_MAP =
-            TypeNode.fromString("BinaryTreeNode<map<string, set<list<double>>>>");
 
     private static final Function TWO_SUM = new Function("twoSum",
             new Function.Return(TypeNode.fromString("array<int>"),
@@ -59,28 +57,36 @@ public class JavaCodeGeneratorTest {
     }
 
     @Test
-    public void generateTypeDeclarationTest() {
+    public void generateArrayOfInt() {
         final String typeStr1 = JavaCodeGenerator.generateTypeDeclaration(ARRAY_INT);
         assertEquals("int[]", typeStr1);
 
+    }
 
+    @Test
+    public void generatesArrayListOfInt() {
         final String typeStr2 = JavaCodeGenerator.generateTypeDeclaration(LIST_INT);
         assertEquals("ArrayList<Integer>", typeStr2);
+    }
 
+    @Test
+    public void generatesArrayListOfArray() {
         final String typeStr3 = JavaCodeGenerator.generateTypeDeclaration(LIST_ARRAY_INT);
         assertEquals("ArrayList<int[]>", typeStr3);
 
+    }
 
+    @Test
+    public void generatesArrayListOfArrayList() {
         final String typeStr4 = JavaCodeGenerator.generateTypeDeclaration(LIST_LIST_INT);
         assertEquals("ArrayList<ArrayList<Integer>>", typeStr4);
 
+    }
 
+    @Test
+    public void generatesComplexArrayList() {
         final String typeStr5 = JavaCodeGenerator.generateTypeDeclaration(ARRAY_LIST_SET_MAP);
         assertEquals("ArrayList<HashSet<HashMap<String,LinkedListNode<Integer>>>>[]", typeStr5);
-
-
-        final String typeStr6 = JavaCodeGenerator.generateTypeDeclaration(BINARY_TREE_NODE_MAP);
-        assertEquals("BinaryTreeNode<HashMap<String,HashSet<ArrayList<Double>>>>", typeStr6);
     }
 
     @Test
