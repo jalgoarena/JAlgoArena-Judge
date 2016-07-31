@@ -10,7 +10,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Problem {
-    private final String id;
+
     private final String title;
     private final String description;
     @JsonProperty("time_limit")
@@ -26,15 +26,13 @@ public class Problem {
      * Since this class is immutable, need to provide a method for Jackson.
      */
     @JsonCreator
-    public Problem(@JsonProperty("id") final String id,
-                   @JsonProperty("title") final String title,
+    public Problem(@JsonProperty("title") final String title,
                    @JsonProperty("description") final String description,
                    @JsonProperty("time_limit") final long timeLimit,
                    @JsonProperty("memory_limit") final int memoryLimit,
                    @JsonProperty("function") final Function function,
                    @JsonProperty("test_cases") final TestCase[] testCases,
                    @JsonProperty("example") Example example) {
-        this.id = id;
         this.title = title;
         this.description = description;
         this.timeLimit = timeLimit;
@@ -42,10 +40,6 @@ public class Problem {
         this.function = function;
         this.testCases = testCases;
         this.example = example;
-    }
-
-    public String getId() {
-        return id;
     }
 
     public String getTitle() {
@@ -118,17 +112,7 @@ public class Problem {
         }
     }
 
-    public Problem toPublicProblem() {
-        return new Problem(id, title, description, timeLimit, memoryLimit, null, null, example);
-    }
-
-    @Override
-    public String toString() {
-        return "Problem{" +
-                "id='" + id + '\'' +
-                ", title='" + title + '\'' +
-                ", timeLimit=" + timeLimit +
-                ", memoryLimit=" + memoryLimit +
-                '}';
+    public Problem problemWithoutFunctionAndTestCases() {
+        return new Problem(title, description, timeLimit, memoryLimit, null, null, example);
     }
 }

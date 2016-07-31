@@ -1,5 +1,4 @@
 {
-  "id": "checkPermutations",
   "title": "Check Permutations",
   "description": "Given two strings, write a method to decide if one is a permutation of other.",
   "time_limit": 1,

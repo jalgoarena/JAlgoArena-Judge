@@ -1,5 +1,4 @@
 {
-  "id": "oneAway",
   "title": "One Way",
   "description": "There are three types of edits that can be performed on strings: insert a character, remove a character, or replace a character. Given two strings, write a function to check if they are one edit (or zero edits) away.",
   "time_limit": 1,

@@ -1,5 +1,4 @@
 {
-  "id": "removeDups",
   "title": "Remove Duplicates from Linked List",
   "description":  "Write code to remove duplicates from an unsorted linked list.",
   "time_limit": 1,

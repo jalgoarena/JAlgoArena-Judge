@@ -22,10 +22,15 @@ import java.util.stream.Stream;
 class JudgeController {
 
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+    private static final List<String> AVAILABLE_PROBLEMS;
 
     static {
         OBJECT_MAPPER.registerModule(new Jdk8Module());
         OBJECT_MAPPER.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
+
+        AVAILABLE_PROBLEMS = jsonFilesFromResources().map(
+                x -> x.substring(0, x.length() - ".json".length())
+        ).collect(Collectors.toList());
     }
 
     @RequestMapping(path = "/problems/{id}/solution", method = RequestMethod.POST)
@@ -36,13 +41,10 @@ class JudgeController {
 
     @RequestMapping("/problems")
     List<String> problems() throws IOException {
-
-        return jsonFilesFromResources().map(
-                x -> x.substring(0, x.length() - ".json".length())
-        ).collect(Collectors.toList());
+        return AVAILABLE_PROBLEMS;
     }
 
-    private Stream<String> jsonFilesFromResources() {
+    private static Stream<String> jsonFilesFromResources() {
         return new Reflections(
                 "", new ResourcesScanner()
         ).getResources(Pattern.compile(".+\\.json")).stream();
@@ -50,7 +52,7 @@ class JudgeController {
 
     @RequestMapping("/problems/{id}")
     Problem problem(@PathVariable String id) throws IOException {
-        return problemOf(id).toPublicProblem();
+        return problemOf(id).problemWithoutFunctionAndTestCases();
     }
 
     @RequestMapping("/problems/{id}/skeletonCode")
