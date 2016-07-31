@@ -1,6 +1,7 @@
 package org.algohub.engine.type;
 
 import com.fasterxml.jackson.databind.node.*;
+import org.algohub.engine.ObjectMapperInstance;
 import org.junit.Test;
 
 import java.util.Arrays;

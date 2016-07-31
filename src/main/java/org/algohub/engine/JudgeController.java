@@ -1,17 +1,26 @@
 package org.algohub.engine;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import org.algohub.engine.judge.JudgeEngine;
 import org.algohub.engine.judge.JudgeResult;
 import org.algohub.engine.judge.Problem;
-import org.algohub.engine.type.ObjectMapperInstance;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 
 @RestController
 class JudgeController {
+
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+
+    static {
+        OBJECT_MAPPER.registerModule(new Jdk8Module());
+        OBJECT_MAPPER.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
+    }
 
     @RequestMapping(path = "/problems/{id}/solution", method = RequestMethod.POST)
     JudgeResult judge(@PathVariable String id, @RequestBody String sourceCode) throws IOException {
@@ -40,6 +49,6 @@ class JudgeController {
                 Resources.getResource(id + ".json"), Charsets.UTF_8
         );
 
-        return ObjectMapperInstance.INSTANCE.readValue(problemAsJson, Problem.class);
+        return OBJECT_MAPPER.readValue(problemAsJson, Problem.class);
     }
 }

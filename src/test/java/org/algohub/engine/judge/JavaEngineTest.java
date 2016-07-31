@@ -4,7 +4,7 @@ import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
-import org.algohub.engine.type.ObjectMapperInstance;
+import org.algohub.engine.ObjectMapperInstance;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
