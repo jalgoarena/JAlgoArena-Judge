@@ -8,8 +8,10 @@ import org.algohub.engine.type.TypeNode;
 
 final class JavaCodeGenerator {
 
-    private static final String CUSTOM_IMPORT = "import java.util.*;\n" +
-            "import org.algohub.engine.type.*;\n\n";
+    private static final String CUSTOM_IMPORT = String.format("%s%n%s%n%n",
+            "import java.util.*;",
+            "import org.algohub.engine.type.*;"
+    );
 
     private static final ImmutableMap<IntermediateType, String> INTERMEDIATE_TYPE_TO_JAVA_TYPE_MAP =
             ImmutableMap.<IntermediateType, String>builder().put(IntermediateType.BOOL, "boolean")
@@ -32,6 +34,7 @@ final class JavaCodeGenerator {
                     .put(IntermediateType.LONG, "Long").build();
 
     private JavaCodeGenerator() {
+        // static class
     }
 
     /**
@@ -42,7 +45,7 @@ final class JavaCodeGenerator {
      */
     static String generateEmptyFunction(final Function function) {
         return String.format(
-                "%spublic class Solution {\n%s}\n",
+                "%spublic class Solution {%n%s}%n",
                 CUSTOM_IMPORT,
                 generateFunction(function)
         );
@@ -129,9 +132,9 @@ final class JavaCodeGenerator {
 
     private static void deleteUnnecessaryLastComma(StringBuilder result) {
         result.delete(result.length() - 2, result.length());
-        result.append(") {\n");
-        appendIndentation(result, "    // Write your code here\n");
-        appendIndentation(result, "}\n");
+        result.append(String.format(") {%n"));
+        appendIndentation(result, String.format("    // Write your code here%n"));
+        appendIndentation(result, String.format("}%n"));
     }
 
     private static void functionBody(Function function, StringBuilder result) {
@@ -146,14 +149,14 @@ final class JavaCodeGenerator {
     }
 
     private static void functionComment(Function function, StringBuilder result) {
-        appendIndentation(result, "/**\n");
+        appendIndentation(result, String.format("/**%n"));
 
         for (final Function.Parameter p : function.getParameters()) {
-            appendIndentation(result, " * @param " + p.getName() + " " + p.getComment() + "\n");
+            appendIndentation(result, String.format(" * @param %s %s%n", p.getName(), p.getComment()));
         }
 
-        appendIndentation(result, " * @return " + function.getReturnStatement().getComment() + "\n");
-        appendIndentation(result, " */\n");
+        appendIndentation(result, String.format(" * @return %s%n", function.getReturnStatement().getComment()));
+        appendIndentation(result, String.format(" */%n"));
     }
 
     private static void appendIndentation(final StringBuilder sourceCode, final String sourceCodeLine) {
