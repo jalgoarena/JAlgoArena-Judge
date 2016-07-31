@@ -11,15 +11,15 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public final class JudgeResult {
     @JsonProperty("status_code")
-    private String statusCode;
+    private final String statusCode;
     @JsonProperty("error_message")
-    private String errorMessage;
+    private final String errorMessage;
     @JsonProperty("elapsed_time")
-    private double elapsedTime; // milliseconds
+    private final double elapsedTime; // milliseconds
     @JsonProperty("consumed_memory")
-    private long consumedMemory;  // bytes
+    private final long consumedMemory;  // bytes
     @JsonProperty("testcase_results")
-    private List<Boolean> testCaseResults;
+    private final List<Boolean> testCaseResults;
 
     /**
      * Since this class is immutable, need to provide a method for Jackson.
@@ -57,10 +57,6 @@ public final class JudgeResult {
         return elapsedTime;
     }
 
-    public void setElapsedTime(long elapsedTime) {
-        this.elapsedTime = elapsedTime;
-    }
-
     public long getConsumedMemory() {
         return consumedMemory;
     }
@@ -79,7 +75,7 @@ public final class JudgeResult {
                 '}';
     }
 
-    public static JudgeResult accepted(int testCasesCount, double usedTimeInMs, long usedMemoryInKb) {
+    static JudgeResult accepted(int testCasesCount, double usedTimeInMs, long usedMemoryInKb) {
 
         return new JudgeResult(
                 StatusCode.ACCEPTED.toString(),
@@ -90,7 +86,7 @@ public final class JudgeResult {
         );
     }
 
-    public static JudgeResult timeLimitExceeded() {
+    static JudgeResult timeLimitExceeded() {
         return new JudgeResult(
                 StatusCode.TIME_LIMIT_EXCEEDED.toString(),
                 null,
@@ -100,7 +96,7 @@ public final class JudgeResult {
         );
     }
 
-    public static JudgeResult memoryLimitExceeded(int testCasesCount, long usedMemory) {
+    static JudgeResult memoryLimitExceeded(int testCasesCount, long usedMemory) {
         return new JudgeResult(
                 StatusCode.MEMORY_LIMIT_EXCEEDED.toString(),
                 null,
@@ -110,7 +106,7 @@ public final class JudgeResult {
         );
     }
 
-    public static JudgeResult wrongAnswer(List<Boolean> results) {
+    static JudgeResult wrongAnswer(List<Boolean> results) {
         return new JudgeResult(
                 StatusCode.WRONG_ANSWER.toString(),
                 null,
@@ -120,7 +116,7 @@ public final class JudgeResult {
         );
     }
 
-    public static JudgeResult runtimeError(String errorMessage) {
+    static JudgeResult runtimeError(String errorMessage) {
         return new JudgeResult(
                 StatusCode.RUNTIME_ERROR.toString(),
                 errorMessage,

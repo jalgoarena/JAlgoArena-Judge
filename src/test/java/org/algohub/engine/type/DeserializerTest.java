@@ -43,6 +43,7 @@ public class DeserializerTest {
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     public void deserializeCollectionTest() {
         final ArrayNode intArray = ObjectMapperInstance.INSTANCE.createArrayNode();
         intArray.add(1);

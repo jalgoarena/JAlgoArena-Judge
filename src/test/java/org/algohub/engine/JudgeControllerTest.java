@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @RunWith(JUnitParamsRunner.class)
 public class JudgeControllerTest {
 
-    private JudgeController controller = new JudgeController();
+    private final JudgeController controller = new JudgeController();
 
     @Test
     @Parameters({

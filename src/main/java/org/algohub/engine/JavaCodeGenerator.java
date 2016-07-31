@@ -6,9 +6,6 @@ import org.algohub.engine.judge.Function;
 import org.algohub.engine.type.IntermediateType;
 import org.algohub.engine.type.TypeNode;
 
-/**
- * Generate compilable and runnable Java code.
- */
 final class JavaCodeGenerator {
 
     private static final String CUSTOM_IMPORT = "import java.util.*;\n" +
@@ -49,7 +46,7 @@ final class JavaCodeGenerator {
      */
     static String generateEmptyFunction(final Function function) {
         return CUSTOM_IMPORT + "public class Solution {\n"
-                + generateFunction(function, 1) + "}\n";
+                + generateFunction(function) + "}\n";
     }
 
     /**
@@ -103,26 +100,25 @@ final class JavaCodeGenerator {
         return result.toString();
     }
 
-    private static String generateFunction(final Function function,
-                                           final int indent) {
+    private static String generateFunction(final Function function) {
         final StringBuilder result = new StringBuilder();
 
-        functionComment(function, indent, result);
-        functionBody(function, indent, result);
-        deleteUnnecessaryLastComma(indent, result);
+        functionComment(function, result);
+        functionBody(function, result);
+        deleteUnnecessaryLastComma(result);
 
         return result.toString();
     }
 
-    private static void deleteUnnecessaryLastComma(int indent, StringBuilder result) {
+    private static void deleteUnnecessaryLastComma(StringBuilder result) {
         result.delete(result.length() - 2, result.length());
         result.append(") {\n");
-        appendIndentation(result, "// Write your code here\n", indent + 1);
-        appendIndentation(result, "}\n", indent);
+        appendIndentation(result, "    // Write your code here\n");
+        appendIndentation(result, "}\n");
     }
 
-    private static void functionBody(Function function, int indent, StringBuilder result) {
-        appendIndentation(result, "public ", indent);
+    private static void functionBody(Function function, StringBuilder result) {
+        appendIndentation(result, "public ");
         result.append(generateTypeDeclaration(function.getReturnStatement().getType()));
         result.append(" ").append(function.getName()).append("(");
         for (final Function.Parameter p : function.getParameters()) {
@@ -131,20 +127,17 @@ final class JavaCodeGenerator {
         }
     }
 
-    private static void functionComment(Function function, int indent, StringBuilder result) {
-        appendIndentation(result, "/**\n", indent);
+    private static void functionComment(Function function, StringBuilder result) {
+        appendIndentation(result, "/**\n");
         for (final Function.Parameter p : function.getParameters()) {
-            appendIndentation(result, " * @param " + p.getName() + " " + p.getComment() + "\n", indent);
+            appendIndentation(result, " * @param " + p.getName() + " " + p.getComment() + "\n");
         }
-        appendIndentation(result, " * @return " + function.getReturnStatement().getComment() + "\n", indent);
-        appendIndentation(result, " */\n", indent);
+        appendIndentation(result, " * @return " + function.getReturnStatement().getComment() + "\n");
+        appendIndentation(result, " */\n");
     }
 
-    private static void appendIndentation(final StringBuilder sb, final String content,
-                                          final int indent) {
-        for (int i = 0; i < indent; ++i) {
-            sb.append("    ");
-        }
-        sb.append(content);
+    private static void appendIndentation(final StringBuilder sourceCode, final String sourceCodeLine) {
+        sourceCode.append("    ");
+        sourceCode.append(sourceCodeLine);
     }
 }

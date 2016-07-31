@@ -115,9 +115,9 @@ class Deserializer {
                 return deserializer.deserialize(type, jsonNode);
             }
 
-            final Class innerestType = getArrayElementType(type);
+            final Class innermostType = getArrayElementType(type);
             final int[] dimension = getAllDimensions(elements, type);
-            final Object javaArray = Array.newInstance(innerestType, dimension);
+            final Object javaArray = Array.newInstance(innermostType, dimension);
 
             for (int i = 0; i < elements.size(); ++i) {
                 Array.set(javaArray, i, fromJson(elementType, elements.get(i)));

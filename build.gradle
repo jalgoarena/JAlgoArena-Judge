@@ -19,6 +19,7 @@ apply from: "$rootDir/gradle/versioning.gradle"
 group = 'com.spolnik'
 description = """Judge Engine"""
 
+//noinspection GroovyUnusedAssignment
 sourceCompatibility = 1.8
 
 repositories {
@@ -26,11 +27,17 @@ repositories {
 }
 
 sonarqube {
+    //noinspection GroovyAssignabilityCheck
     properties {
+        //noinspection GroovyAssignabilityCheck
         property "sonar.host.url", "https://sonarqube.com"
+        //noinspection GroovyAssignabilityCheck
         property "sonar.projectKey", "JAlgoArena"
+        //noinspection GroovyAssignabilityCheck
         property "sonar.projectName", "JAlgoArena"
+        //noinspection GroovyAssignabilityCheck
         property "sonar.jacoco.reportPath", "${project.buildDir}/jacoco/test.exec"
+        //noinspection GroovyAssignabilityCheck
         property "sonar.login", System.getenv("SONAR_TOKEN")
     }
 }
@@ -40,6 +47,7 @@ jar {
     version = '1.0'
 }
 
+//noinspection GroovyMissingReturnStatement
 test {
     testLogging {
         exceptionFormat = 'full'
@@ -70,6 +78,7 @@ jacocoTestReport {
     }
 }
 
+//noinspection GroovyAssignabilityCheck
 check.dependsOn jacocoTestReport
 
 defaultTasks 'clean', 'bootRepackage'

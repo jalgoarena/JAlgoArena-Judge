@@ -134,8 +134,8 @@ public class JudgeEngine {
     }
 
     private static class PerformanceSnapshot {
-        long currentNanoTime;
-        long usedMemoryInBytes;
+        final long currentNanoTime;
+        final long usedMemoryInBytes;
 
         PerformanceSnapshot(long currentNanoTime, long usedMemoryInBytes) {
             this.currentNanoTime = currentNanoTime;
@@ -148,8 +148,8 @@ public class JudgeEngine {
     }
 
     private static class PerformanceResult {
-        long usedMemoryInBytes;
-        double usedTimeInMs;
+        final long usedMemoryInBytes;
+        final double usedTimeInMs;
 
         private PerformanceResult(long usedMemoryInBytes, double usedTimeInMs) {
             this.usedMemoryInBytes = usedMemoryInBytes;

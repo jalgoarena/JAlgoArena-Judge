@@ -163,7 +163,7 @@ final class MemoryJavaCompiler {
      */
     private static final class MemoryClassLoader extends URLClassLoader {
 
-        private Map<String, byte[]> classNameToBytecode;
+        private final Map<String, byte[]> classNameToBytecode;
 
         MemoryClassLoader(final Map<String, byte[]> classNameToBytecode) {
             super(new URL[0], ClassLoader.getSystemClassLoader());
