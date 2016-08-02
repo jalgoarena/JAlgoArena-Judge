@@ -1,15 +1,21 @@
 language: java
 jdk:
-  - oraclejdk8
+- oraclejdk8
 before_install:
 - pip install --user codecov
 after_success:
 - codecov
 - ./gradlew sonarqube
 before_cache:
-  - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
+- rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
 cache:
   directories:
-    - $HOME/.gradle/caches/
-    - $HOME/.gradle/wrapper/
-
+  - $HOME/.gradle/caches/
+  - $HOME/.gradle/wrapper/
+deploy:
+  provider: heroku
+  api_key:
+    secure: 1vs1BpKYN7QoQnBFn6GkJGnSUGa+IJuFOnPSU4DhfSsXhVYUggExioIxu4K6/ViuRQ/wZzH7pZykZrkchdxYiPkuSBDXQv6i+x/qJUSGMD9SIf/y7WmyIgBOJHxG/Cq4jREs3Z37z2bi2dZwsBKQXHHAm8qtarwwF2Q8pLsPQ0UDy8p5i0fvWMMYx8WwJ0swpLZVEFpFPySalrjU2VEYPqsU81A64QBF3OvJyt3W1kDBP6RyE8RHS6H/4BC4Tinud3zbEZctjaMtvKY/E9eJ6dE4Rd3QYKk7PhK21w+bl/8e+9Dc/xDvlSgrew6K9yvpl8a4ZtrFeUgP0Rf38HwQ3TytvjBQ+vw7uy4ORyq5x9tWfEGC6iHm3fsXyGLDPtGgt3Jdy0v58R/BxyzM5nOFNyU06wepna+FDBC0PwgxaeWr+KztPsto49dU6OEHS5cpTBvQSG2K/M8Q4SOrdkW0/8Orq1vrHDlsmaYnczovVAfiCe6HPnA5Qe2BoEdV/RjA9w8XzDwZUJXjizxCup4DHktfdNq0FMzpfUivyle1g6e3Hyp8IpOj9L8kcgg3q0o+1AxbrVJAbnTiztCc28SIv7EOTWvMDIlhiT0ERtcjQGBOnfMss2FggSl9JZL9QLJovliLYZGyOPxmI7NSNs41lrTy1hjrGuPXeSmhx88SN/w=
+  app: JAlgoArena
+  on:
+    repo: spolnik/JAlgoArena
