@@ -1,1 +1,1 @@
-web: java -jar -DServer.port=$PORT build/libs/judge-engine-1.0.jar
+web: java -jar -Dserver.port=$PORT build/libs/judge-engine-1.0.jar
