@@ -29,9 +29,10 @@ class JudgeController {
         OBJECT_MAPPER.registerModule(new Jdk8Module());
         OBJECT_MAPPER.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
 
-        AVAILABLE_PROBLEMS = jsonFilesFromResources().map(
-                x -> x.substring(0, x.length() - ".json".length())
-        ).collect(Collectors.toList());
+        AVAILABLE_PROBLEMS = jsonFilesFromResources()
+                .filter(x -> !x.contains("/"))
+                .map(x -> x.substring(0, x.length() - ".json".length()))
+                .collect(Collectors.toList());
     }
 
     private static Stream<String> jsonFilesFromResources() {
