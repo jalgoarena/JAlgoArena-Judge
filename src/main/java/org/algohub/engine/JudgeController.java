@@ -37,7 +37,7 @@ class JudgeController {
     private static Stream<String> jsonFilesFromResources() {
         return new Reflections(
                 "", new ResourcesScanner()
-        ).getResources(Pattern.compile(".+\\.json")).stream();
+        ).getResources(Pattern.compile("[a-z0-9-]+\\.json")).stream();
     }
 
     private static Problem problemOf(String id) throws IOException {
