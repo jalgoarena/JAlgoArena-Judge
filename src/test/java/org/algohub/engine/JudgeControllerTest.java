@@ -10,6 +10,9 @@ import org.algohub.engine.judge.StatusCode;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(JUnitParamsRunner.class)
@@ -37,7 +40,12 @@ public class JudgeControllerTest {
             "word-ladder"
     })
     public void includesProblemInListOfAllProblems(String problemId) throws Exception {
-        boolean result = controller.problems().contains(problemId);
+        List<String> problemIds = controller.problems()
+                .stream()
+                .map(Problem::getId)
+                .collect(Collectors.toList());
+
+        boolean result = problemIds.contains(problemId);
         assertThat(result).isTrue();
     }
 
@@ -49,7 +57,7 @@ public class JudgeControllerTest {
             "word-ladder"
     })
     public void generatesNonEmptySkeletonCode(String problemId) throws Exception {
-        String skeletonCode = controller.problemSkeletonCode(problemId);
+        String skeletonCode = controller.problem(problemId).getSkeletonCode();
         assertThat(skeletonCode).isNotEmpty();
     }
 

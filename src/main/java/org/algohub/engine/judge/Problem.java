@@ -11,6 +11,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Problem {
 
+    private final String id;
     private final String title;
     private final String description;
     @JsonProperty("time_limit")
@@ -21,18 +22,23 @@ public class Problem {
     @JsonProperty("test_cases")
     private final TestCase[] testCases;
     private final Example example;
+    @JsonProperty("skeleton_code")
+    private final String skeletonCode;
 
     /**
      * Since this class is immutable, need to provide a method for Jackson.
      */
     @JsonCreator
-    public Problem(@JsonProperty("title") final String title,
+    public Problem(@JsonProperty("id") final String id,
+                   @JsonProperty("title") final String title,
                    @JsonProperty("description") final String description,
                    @JsonProperty("time_limit") final long timeLimit,
                    @JsonProperty("memory_limit") final int memoryLimit,
                    @JsonProperty("function") final Function function,
                    @JsonProperty("test_cases") final TestCase[] testCases,
-                   @JsonProperty("example") Example example) {
+                   @JsonProperty("example") Example example,
+                   @JsonProperty("source_code") String skeletonCode) {
+        this.id = id;
         this.title = title;
         this.description = description;
         this.timeLimit = timeLimit;
@@ -40,6 +46,11 @@ public class Problem {
         this.function = function;
         this.testCases = testCases;
         this.example = example;
+        this.skeletonCode = skeletonCode;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getTitle() {
@@ -68,6 +79,10 @@ public class Problem {
 
     public Example getExample() {
         return example;
+    }
+
+    public String getSkeletonCode() {
+        return skeletonCode;
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
@@ -112,7 +127,7 @@ public class Problem {
         }
     }
 
-    public Problem problemWithoutFunctionAndTestCases() {
-        return new Problem(title, description, timeLimit, memoryLimit, null, null, example);
+    public Problem problemWithoutFunctionAndTestCases(String skeletonCode) {
+        return new Problem(id, title, description, timeLimit, memoryLimit, null, null, example, skeletonCode);
     }
 }

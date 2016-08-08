@@ -1,4 +1,5 @@
 {
+  "id": "is-string-unique",
   "title": "Is String Unique",
   "description": "Implement an algorithm to determine if a ASCII string has all unique characters.\nWhat if you cannot use additional data structures?",
   "time_limit": 1,
