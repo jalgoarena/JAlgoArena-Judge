@@ -18,8 +18,5 @@ These commands should be available in `$PAHT`: `java`, `javac`
     or
     ./gradlew bootRun
     
-* /problems - get all the problems id
-* /problems/{id} - get the problem details
-* /problems/{id}/skeletonCode - get the skeleton code for problem
-* /problems/{id}/solution (POST) - post the solution
+* [Swagger API](https://jalgoarena.herokuapp.com/swagger-ui.html#/judge-controller)
 
