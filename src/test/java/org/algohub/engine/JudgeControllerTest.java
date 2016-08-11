@@ -4,6 +4,7 @@ import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
+import org.algohub.engine.judge.JudgeEngine;
 import org.algohub.engine.judge.JudgeResult;
 import org.algohub.engine.judge.Problem;
 import org.algohub.engine.judge.StatusCode;
@@ -82,5 +83,17 @@ public class JudgeControllerTest {
         JudgeResult result = controller.judge(problemId, sourceCode);
 
         assertThat(result.getStatusCode()).isEqualTo(StatusCode.ACCEPTED.toString());
+    }
+
+    @Test
+    public void returnsFormattedMessageIfCompilationError() throws Exception {
+
+        String skeletonCode = controller.problem("fib").getSkeletonCode();
+        final JudgeResult result = controller.judge("fib", skeletonCode);
+
+        assertThat(result.getErrorMessage()).isEqualTo("Line:11: error: missing return statement\n" +
+                                                        "    }\n" +
+                                                        "    ^\n"
+        );
     }
 }
