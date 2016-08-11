@@ -128,6 +128,9 @@ public class JudgeEngine {
         } catch (CompileErrorException e) {
             LOG.error("Compilation error", e);
             return new JudgeResult(createFriendlyMessage.from(e.getMessage()));
+        } catch (NoSuchMethodError e) {
+            LOG.error("No such method error", e);
+            return new JudgeResult("No such method: " + e.getMessage());
         }
 
         return judge(clazz, method, testCases, problem);
