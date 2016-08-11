@@ -25,7 +25,7 @@ public class JudgeEngine {
     private static JudgeResult judge(final Object clazz,
                                      final Method method,
                                      final InternalTestCase[] testCases,
-                                     final Problem problem) {
+                                     final Problem problem) throws InterruptedException {
 
         ExecutorService executorService = Executors.newSingleThreadExecutor();
         Future<List<Boolean>> judge = executorService.submit(new JudgeTask(clazz, method, testCases));
@@ -69,7 +69,7 @@ public class JudgeEngine {
         );
     }
 
-    private static PerformanceResult getPerformanceResult(Object clazz, Method method, InternalTestCase[] testCases) {
+    private static PerformanceResult getPerformanceResult(Object clazz, Method method, InternalTestCase[] testCases) throws InterruptedException {
         PerformanceSnapshot snapshotBeforeRun = takePerformanceSnapshot();
 
         new JudgeTask(clazz, method, testCases).run();
@@ -133,7 +133,11 @@ public class JudgeEngine {
             return new JudgeResult("No such method: " + e.getMessage());
         }
 
-        return judge(clazz, method, testCases, problem);
+        try {
+            return judge(clazz, method, testCases, problem);
+        } catch (InterruptedException e) {
+            return JudgeResult.runtimeError(e.getMessage());
+        }
     }
 
     private static class PerformanceSnapshot {

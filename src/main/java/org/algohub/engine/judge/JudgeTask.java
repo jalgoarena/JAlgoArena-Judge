@@ -29,7 +29,7 @@ class JudgeTask implements Callable<List<Boolean>> {
         return run();
     }
 
-    List<Boolean> run() {
+    List<Boolean> run() throws InterruptedException {
         ArrayList<Boolean> results = new ArrayList<>();
 
         for (final InternalTestCase internalTestCase : testCases) {
@@ -42,15 +42,26 @@ class JudgeTask implements Callable<List<Boolean>> {
     }
 
     private static boolean judge(final Object clazz, final Method method,
-                                 final InternalTestCase testCase) {
+                                 final InternalTestCase testCase) throws InterruptedException {
         final Object output;
         try {
             output = method.invoke(clazz, testCase.getInput());
         } catch (IllegalAccessException | InvocationTargetException e) {
-            LOG.error("Error during processing of solution", e);
-            throw new IllegalStateException(e.getMessage());
+            Throwable cause = getCause(e);
+            LOG.error("Error during processing of solution", cause);
+            throw new InterruptedException(cause.getClass().getName() + ": " + cause.getMessage());
         }
 
         return BetterObjects.equalForObjectsOrArrays(testCase.getOutput(), output);
+    }
+
+    private static Throwable getCause(Throwable e) {
+        Throwable cause;
+        Throwable result = e;
+
+        while(null != (cause = result.getCause())  && (result != cause) ) {
+            result = cause;
+        }
+        return result;
     }
 }
