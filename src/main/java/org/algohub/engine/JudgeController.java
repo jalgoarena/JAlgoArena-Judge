@@ -58,7 +58,7 @@ class JudgeController {
             );
 
             return Optional.of(OBJECT_MAPPER.readValue(problemAsJson, Problem.class));
-        } catch (IOException e) {
+        } catch (IOException | IllegalArgumentException e) {
             LOG.error("Cannot parse problem: " + id, e);
             return Optional.empty();
         }
@@ -74,11 +74,13 @@ class JudgeController {
             @ApiResponse(code = 500, message = "Failure")})
     @RequestMapping(path = "/problems/{id}/submit", method = RequestMethod.POST, produces = "application/json")
     JudgeResult judge(@PathVariable String id, @RequestBody String sourceCode) throws IOException {
-        Problem problem = problemOf(id).orElseThrow(
-                () -> new IllegalArgumentException("Invalid problem id: " + id)
-        );
+        Optional<Problem> problem = problemOf(id);
 
-        return JudgeEngine.judge(problem, sourceCode);
+        if (!problem.isPresent()) {
+            return JudgeResult.runtimeError("Wrong problem id: " + id);
+        }
+
+        return JudgeEngine.judge(problem.get(), sourceCode);
     }
 
     @ApiOperation(value = "problems", nickname = "getProblems")

@@ -116,7 +116,7 @@ public final class JudgeResult {
         );
     }
 
-    static JudgeResult runtimeError(String errorMessage) {
+    public static JudgeResult runtimeError(String errorMessage) {
         return new JudgeResult(
                 StatusCode.RUNTIME_ERROR.toString(),
                 errorMessage,

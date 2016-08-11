@@ -96,4 +96,11 @@ public class JudgeControllerTest {
                                                         "    ^\n"
         );
     }
+
+    @Test
+    public void returnsRuntimeErrorIfWePassWrongProblemId() throws Exception {
+        JudgeResult result = controller.judge("dummy", "");
+
+        assertThat(result.getStatusCode()).isEqualTo(StatusCode.RUNTIME_ERROR.toString());
+    }
 }
