@@ -24,8 +24,8 @@ public class JudgeControllerTest {
     @Test
     @Parameters({
         "fib, Fibonacci",
-        "2-sum, 2Sum",
-        "stoi, String to Integer (atoi)",
+        "2-sum, 2 Sum",
+        "stoi, String to Integer (stoi)",
         "word-ladder, Word Ladder"
     })
     public void findsExistingProblems(String problemId, String problemTitle) throws Exception {

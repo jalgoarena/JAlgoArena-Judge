@@ -1,7 +1,7 @@
 {
   "id": "string-compress",
   "title": "String Compression",
-  "description": "Implement a method to perform basic string compression using the counts of repeated characters. If the 'compressed' string would not become smaller than original string, your method should return original string. You can assume the string has only uppercase and lowercase letters (a-z).",
+  "description": "Implement a method `compress` to perform basic string compression using the counts of repeated characters. \r\n\r\nIf the **compressed** string would not become smaller than original string, your method should return original string. \r\n\r\n**Note**: You can assume the string has only uppercase and lowercase letters (a-z).\r\n\r\n### Examples\r\n\r\n* `\"aabcccccaaa\"` -> `\"a2b1c5a3\"`",
   "time_limit": 1,
   "memory_limit": 32,
   "function": {
@@ -25,9 +25,5 @@
     {"input": ["JjuuLLiiiiAaaaaAAaaaaa"], "output": "J1j1u2L2i4A1a4A2a5"},
     {"input": ["JjuuLLiiiiAaaaaAAaBCDEFG"], "output": "JjuuLLiiiiAaaaaAAaBCDEFG"},
     {"input": ["JJJJJJJJJJJ"], "output": "J11"}
-  ],
-  "example": {
-    "input": "aabcccccaaa",
-    "output": "a2b1c5a3"
-  }
+  ]
 }

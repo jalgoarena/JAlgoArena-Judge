@@ -1,7 +1,7 @@
 {
   "id": "fib",
   "title": "Fibonacci",
-  "description": "Write the fib function to return the N'th term.\n We start counting from Fibonacci(0) = 0, Fibonacci(1) = 1.",
+  "description": "Write the `fib` function to return the N'th term.\r\nWe start counting from:\r\n* fib(0) = 0\r\n* fib(1) = 1.\r\n\r\n### Examples\r\n\r\n* `0` -> `0`\r\n* `6` -> `8`",
   "time_limit": 1,
   "memory_limit": 32,
   "function": {
@@ -28,9 +28,5 @@
     {"input": ["6"], "output": 8},
     {"input": ["20"], "output": 6765},
     {"input": ["40"], "output": 102334155}
-  ],
-  "example": {
-    "input": "6",
-    "output": "8"
-  }
+  ]
 }

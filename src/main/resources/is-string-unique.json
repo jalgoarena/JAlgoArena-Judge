@@ -1,7 +1,7 @@
 {
   "id": "is-string-unique",
   "title": "Is String Unique",
-  "description": "Implement an algorithm to determine if a ASCII string has all unique characters.\nWhat if you cannot use additional data structures?",
+  "description": "Implement method `isUniqueChars` with an algorithm to determine if a ASCII string has all unique characters. \r\n\r\nWhat if you cannot use additional data structures?\r\n\r\n### Examples\r\n\r\n* `\"AdSda\"` -> `false`",
   "time_limit": 1,
   "memory_limit": 32,
   "function": {
@@ -28,9 +28,5 @@
     {"input": ["AdSa"], "output": true},
     {"input": [" !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~"], "output": true},
     {"input": [" !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~a"], "output": false}
-  ],
-  "example": {
-    "input": "AdSda",
-    "output": "false"
-  }
+  ]
 }

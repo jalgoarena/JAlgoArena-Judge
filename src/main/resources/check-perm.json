@@ -1,7 +1,7 @@
 {
   "id": "check-perm",
   "title": "Check Permutations",
-  "description": "Given two strings, write a method to decide if one is a permutation of other.",
+  "description": "Given two strings, write a method `permutation` to decide if one is a permutation of other.\r\n\r\n### Examples\r\n\r\n* `\"abc\", \"cba\"` -> `true`\r\n* `\"abc\", \"cb\"` -> `false`",
   "time_limit": 1,
   "memory_limit": 32,
   "function": {
@@ -36,9 +36,5 @@
     {"input": ["A", "a"], "output": false},
     {"input": [" !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~", "0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !\"#$%&'()*+,-./"], "output": true},
     {"input": [" !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~a", "0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~"], "output": false}
-  ],
-  "example": {
-    "input": "\"abc\", \"cba\"",
-    "output": "true"
-  }
+  ]
 }

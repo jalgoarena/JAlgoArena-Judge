@@ -1,7 +1,7 @@
 {
   "id": "palindrome-perm",
   "title": "Palindrome Permutations",
-  "description": "Given a string, write a function to check if it is a permutation of a palindrome. The palindrome does not need to be limited to just dictionary words (skip non-letter characters). Your solution should be case insensitive.",
+  "description": "Given a string, write a method `isPermutationOfPalindrome` to check if it is a permutation of a palindrome. \r\n\r\nThe palindrome does not need to be limited to just dictionary words (skip non-letter characters). Your solution should be case insensitive.\r\n\r\n### Examples\r\n\r\n* `\"Tact Coa\"` -> `true` (permutations: \"taco cat\", \"acto cta\", etc.)",
   "time_limit": 1,
   "memory_limit": 32,
   "function": {
@@ -27,9 +27,5 @@
     {"input": ["cxzwcxzwcxzwcxzwab"], "output": false},
     {"input": ["Tact Coa"], "output": true},
     {"input": ["Tact Coa&"], "output": true}
-  ],
-  "example": {
-    "input": "Tact Coa",
-    "output": "true (permutations: \"taco cat\", \"acto cta\", etc.)"
-  }
+  ]
 }

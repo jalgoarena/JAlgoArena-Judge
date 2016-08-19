@@ -1,7 +1,7 @@
 {
   "id": "stoi",
-  "title": "String to Integer (atoi)",
-  "description": "Implement stoi method to convert a string to an integer.\n\n**Hint**: Carefully consider all possible input cases. If you want a challenge, please do not see below and ask yourself what are the possible input cases.\n\n**Notes**: It is intended for this problem to be specified vaguely (ie, no given input specs). You are responsible to gather all the input requirements up front.",
+  "title": "String to Integer (stoi)",
+  "description": "Implement method `stoi` to convert a string to an integer.\r\n\r\n**Hint**: Carefully consider all possible input cases. If you want a challenge.\r\n\r\n**Notes**: It is intended for this problem to be specified vaguely (ie, no given input specs). You are responsible to gather all the input requirements up front.\r\n\r\n### Examples\r\n\r\n* `\"1\"` -> `1`",
   "time_limit": 1,
   "memory_limit": 32,
   "function": {
@@ -27,9 +27,5 @@
     {"input": ["-123"], "output": -123},
     {"input": ["+-2"], "output": 0},
     {"input": ["010"], "output": 10}
-  ],
-  "example": {
-    "input": "-1",
-    "output": "-1"
-  }
+  ]
 }

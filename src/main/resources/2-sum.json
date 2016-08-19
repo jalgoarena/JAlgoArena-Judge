@@ -1,7 +1,7 @@
 {
   "id": "2-sum",
-  "title": "2Sum",
-  "description":  "Given an array of integers, find two numbers such that they add up to a specific target number.\n\nThe function `twoSum` should return indices of the two numbers such that they add up to the target, where index1 must be less than index2. Please note that your returned answers (both index1 and index2) are not zero-based.\n\n**Note**: You may assume that each input would have exactly one solution.\n\n**Challenge**: Either of the following solutions are acceptable:\n\n* O(1) Space, O(n log n) Time\n* O(n) Space, O(n) Time",
+  "title": "2 Sum",
+  "description":  "Given an array of integers, find two numbers such that they add up to a specific target number.\r\n\r\nThe function `twoSum` should return indices of the two numbers such that they add up to the target, where *index1* must be less than *index2*. Please note that your returned answers (both *index1* and *index2*) are not zero-based.\r\n\r\n**Note**: You may assume that each input would have exactly one solution.\r\n\r\n**Challenge**: Either of the following solutions are acceptable:\r\n\r\n* O(1) Space, O(n log n) Time\r\n* O(n) Space, O(n) Time\r\n\r\n### Example\r\n\r\n* `[2,7,11,15], 9` -> `[1,2]`",
   "time_limit": 1,
   "memory_limit": 32,
   "function": {
@@ -32,9 +32,5 @@
     {"input": [[1,2,33,23,2423,33,23,1,7,6,8787,5,33,2,3,-23,-54,-67,100,400], 407], "output": [9,20]},
     {"input": [[-1,-2,-3,-4,-5,-6,-100,-98,-111,-11], -111], "output": [7,10]},
     {"input": [[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,9,9,9,10,11,1001,2001,198,201,203,201,999,345,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,4,5,6,1,1,1,1,1,1,1,1,1,1,1,101,1,1,1,1,1,1,1,1], 107], "output": [78,90]}
-  ],
-  "example": {
-    "input": "[2,7,11,15], 9",
-    "output": "[1,2]"
-  }
+  ]
 }
