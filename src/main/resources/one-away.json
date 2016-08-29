@@ -4,6 +4,7 @@
   "description": "There are three types of edits that can be performed on strings: \r\n* insert a character\r\n* remove a character\r\n* replace a character. \r\n\r\nGiven two strings, write a method `oneEditAway` to check if they are one edit (or zero edits) away.\r\n\r\n### Examples\r\n\r\n* `\"pale\", \"ple\"` -> `true`",
   "time_limit": 1,
   "memory_limit": 32,
+  "level": 2,
   "function": {
     "name": "oneEditAway",
     "return": {

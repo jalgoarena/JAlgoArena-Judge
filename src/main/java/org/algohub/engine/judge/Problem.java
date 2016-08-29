@@ -24,6 +24,7 @@ public class Problem {
     private final Example example;
     @JsonProperty("skeleton_code")
     private final String skeletonCode;
+    private final int level;
 
     /**
      * Since this class is immutable, need to provide a method for Jackson.
@@ -37,7 +38,8 @@ public class Problem {
                    @JsonProperty("function") final Function function,
                    @JsonProperty("test_cases") final TestCase[] testCases,
                    @JsonProperty("example") Example example,
-                   @JsonProperty("source_code") String skeletonCode) {
+                   @JsonProperty("source_code") String skeletonCode,
+                   @JsonProperty("level") int level) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -47,6 +49,7 @@ public class Problem {
         this.testCases = testCases;
         this.example = example;
         this.skeletonCode = skeletonCode;
+        this.level = level;
     }
 
     public String getId() {
@@ -83,6 +86,10 @@ public class Problem {
 
     public String getSkeletonCode() {
         return skeletonCode;
+    }
+
+    public int getLevel() {
+        return level;
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
@@ -128,6 +135,6 @@ public class Problem {
     }
 
     public Problem problemWithoutFunctionAndTestCases(String skeletonCode) {
-        return new Problem(id, title, description, timeLimit, memoryLimit, null, null, example, skeletonCode);
+        return new Problem(id, title, description, timeLimit, memoryLimit, null, null, example, skeletonCode, level);
     }
 }

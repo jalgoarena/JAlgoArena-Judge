@@ -4,6 +4,7 @@
   "description":  "Write method `removeDuplicates` to remove duplicates from an unsorted linked list.\r\n\r\n### Examples\r\n\r\n* `1->2->3->4->3->3` -> `1->2->3->4`",
   "time_limit": 1,
   "memory_limit": 32,
+  "level": 1,
   "function": {
     "name": "removeDuplicates",
     "return": {

@@ -4,6 +4,7 @@
   "description": "Implement method `stoi` to convert a string to an integer.\r\n\r\n**Hint**: Carefully consider all possible input cases. If you want a challenge.\r\n\r\n**Notes**: It is intended for this problem to be specified vaguely (ie, no given input specs). You are responsible to gather all the input requirements up front.\r\n\r\n### Examples\r\n\r\n* `\"1\"` -> `1`",
   "time_limit": 1,
   "memory_limit": 32,
+  "level": 1,
   "function": {
     "name": "stoi",
     "return": {

@@ -4,6 +4,7 @@
   "description": "Implement a method `compress` to perform basic string compression using the counts of repeated characters. \r\n\r\nIf the **compressed** string would not become smaller than original string, your method should return original string. \r\n\r\n**Note**: You can assume the string has only uppercase and lowercase letters (a-z).\r\n\r\n### Examples\r\n\r\n* `\"aabcccccaaa\"` -> `\"a2b1c5a3\"`",
   "time_limit": 1,
   "memory_limit": 32,
+  "level": 1,
   "function": {
     "name": "compress",
     "return": {

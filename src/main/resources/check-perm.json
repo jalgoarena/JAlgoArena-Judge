@@ -4,6 +4,7 @@
   "description": "Given two strings, write a method `permutation` to decide if one is a permutation of other.\r\n\r\n### Examples\r\n\r\n* `\"abc\", \"cba\"` -> `true`\r\n* `\"abc\", \"cb\"` -> `false`",
   "time_limit": 1,
   "memory_limit": 32,
+  "level": 2,
   "function": {
     "name": "permutation",
     "return": {
