@@ -16,7 +16,7 @@ public class JudgeEngine {
     private static final FindClassName findClassName = new FindClassName();
     private static final CreateFriendlyMessage createFriendlyMessage = new CreateFriendlyMessage();
 
-    private static final int NUMBER_OF_ITERATIONS = 10;
+    private static final int NUMBER_OF_ITERATIONS = 5;
 
     private JudgeEngine() {
         // static class
