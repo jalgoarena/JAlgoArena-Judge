@@ -45,7 +45,7 @@ public class LinkedListNode<E> {
 
         LinkedListNode p = this;
         LinkedListNode q = other;
-        while (p != null && q != null) {
+        while (p != null && q != null && p.value != null) {
             if (!p.value.equals(q.value)) {
                 return false;
             }
