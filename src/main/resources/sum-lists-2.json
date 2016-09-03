@@ -1,0 +1,34 @@
+{
+  "id": "sum-lists-2",
+  "title": "Sum Lists 2",
+  "description":  "You have two numbers represented by a linked list, where each node contains a single digit. The digits are stored in forward order, such that the 1's digit is at the tail of the list. Write method `addLists` that adds the two numbers and returns the sum as a linked list.\r\n\r\n### Examples\r\n\r\n* `6->1->7, 2->9->5` -> `9->1->2` (617 + 295 = 912)\r\n\r\n* Check [LinkedListNode](https://github.com/spolnik/JAlgoArena/blob/master/src/main/java/org/algohub/engine/type/LinkedListNode.java) class. If you don't want to quit this screen, make sure you open it in a new tab.",
+  "time_limit": 1,
+  "memory_limit": 32,
+  "level": 3,
+  "function": {
+    "name": "addLists",
+    "return": {
+      "type": "LinkedListNode<int>",
+      "comment": " linked list node containing result of sum"
+    },
+    "parameters": [
+      {
+        "name": "l1",
+        "type": "LinkedListNode<int>",
+        "comment": "First Linked List to add"
+      },
+      {
+        "name": "l2",
+        "type": "LinkedListNode<int>",
+        "comment": "Second Linked List to add"
+      }
+    ]
+  },
+  "test_cases": [
+    {"input": [[6,1,7], [2,9,5]], "output": [9,1,2]},
+    {"input": [[1,4,5,6,7], [1,3,9]], "output": [1,4,7,0,6]},
+    {"input": [[1,4,5,6,7], []], "output": [1,4,5,6,7]},
+    {"input": [[1], [1,3,9]], "output": [1,4,0]},
+    {"input": [[9], [1]], "output": [1,0]}
+  ]
+}

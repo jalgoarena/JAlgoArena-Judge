@@ -32,6 +32,10 @@ public class LinkedListNode<E> {
         tail.next = new LinkedListNode<>(value);
     }
 
+    public boolean isNull() {
+        return this.value == null;
+    }
+
     @Override
     public boolean equals(final Object obj) {
         if (obj == this) {

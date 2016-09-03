@@ -78,7 +78,8 @@ public class JudgeControllerTest {
             "remove-dups, RemoveDups",
             "kth-to-last, KThToLast",
             "string-rotation, StringRotation",
-            "sum-lists, SumLists"
+            "sum-lists, SumLists",
+            "sum-lists-2, SumLists2"
     })
     public void judgesCorrectSolution(String problemId, String solutionId) throws Exception {
         final String sourceCode =
