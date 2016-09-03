@@ -80,7 +80,8 @@ public class JudgeControllerTest {
             "string-rotation, StringRotation",
             "sum-lists, SumLists",
             "sum-lists-2, SumLists2",
-            "palindrome-list, PalindromeList"
+            "palindrome-list, PalindromeList",
+            "binary-search, BinarySearch"
     })
     public void judgesCorrectSolution(String problemId, String solutionId) throws Exception {
         final String sourceCode =
