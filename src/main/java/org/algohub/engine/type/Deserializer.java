@@ -205,6 +205,10 @@ class Deserializer {
 
         @Override
         public Object deserialize(TypeNode type, JsonNode jsonNode) {
+            if (jsonNode.isNull()) {
+                return null;
+            }
+
             final ArrayNode elements = (ArrayNode) jsonNode;
 
             LinkedListNode<Object> javaLinkedList = null;

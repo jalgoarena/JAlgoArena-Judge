@@ -84,7 +84,8 @@ public class JudgeControllerTest {
             "binary-search, BinarySearch",
             "delete-tail-node, DeleteTailNode",
             "repeated-elements, RepeatedElements",
-            "first-non-repeated-char, FirstNonRepeatedChar"
+            "first-non-repeated-char, FirstNonRepeatedChar",
+            "find-middle-node, FindMiddleNode"
     })
     public void judgesCorrectSolution(String problemId, String solutionId) throws Exception {
         final String sourceCode =

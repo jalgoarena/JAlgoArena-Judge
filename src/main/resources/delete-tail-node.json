@@ -1,7 +1,7 @@
 {
   "id": "delete-tail-node",
   "title": "Delete List Tail Node",
-  "description":  "Given a signly linked list, write a method `deleteAtTail` to delete its last node and return the head.\r\n\r\n### Examples\r\n\r\n* `1->2->3->4->5->6` -> `1->2->3->4->5`",
+  "description":  "Given a singly linked list, write a method `deleteAtTail` to delete its last node and return the head.\r\n\r\n### Examples\r\n\r\n* `1->2->3->4->5->6` -> `1->2->3->4->5`",
   "time_limit": 1,
   "memory_limit": 32,
   "level": 1,
