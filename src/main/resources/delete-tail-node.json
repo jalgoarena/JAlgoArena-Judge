@@ -1,0 +1,28 @@
+{
+  "id": "delete-tail-node",
+  "title": "Delete List Tail Node",
+  "description":  "Given a signly linked list, write a method `deleteAtTail` to delete its last node and return the head.\r\n\r\n### Examples\r\n\r\n* `1->2->3->4->5->6` -> `1->2->3->4->5`",
+  "time_limit": 1,
+  "memory_limit": 32,
+  "level": 1,
+  "function": {
+    "name": "deleteAtTail",
+    "return": {
+      "type": "LinkedListNode<int>",
+      "comment": " Initial linked list with removed tail"
+    },
+    "parameters": [
+      {
+        "name": "head",
+        "type": "LinkedListNode<int>",
+        "comment": "Linked List head"
+      }
+    ]
+  },
+  "test_cases": [
+    {"input": [[1,2,3,4,5,6]], "output": [1,2,3,4,5]},
+    {"input": [[1]], "output": []},
+    {"input": [[]], "output": []},
+    {"input": [[5,3]], "output": [5]}
+  ]
+}
