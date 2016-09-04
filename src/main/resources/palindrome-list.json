@@ -1,7 +1,7 @@
 {
   "id": "palindrome-list",
   "title": "Palindrome List",
-  "description":  "Implement method `isPalindrome` with algorithm to check if a linked list is a palindrome.\r\n\r\n### Examples\r\n\r\n* `0->1->2->1->0` -> `true`\r\n\r\n### Notes\r\n\r\n* Check [LinkedListNode](https://github.com/spolnik/JAlgoArena/blob/master/src/main/java/org/algohub/engine/type/LinkedListNode.java) class. If you don't want to quit this screen, make sure you open it in a new tab.",
+  "description":  "Implement method `isPalindrome` with algorithm to check if a linked list is a palindrome.\r\n\r\n### Examples\r\n\r\n* `0->1->2->1->0` -> `true`",
   "time_limit": 1,
   "memory_limit": 32,
   "level": 1,

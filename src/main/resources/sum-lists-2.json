@@ -1,7 +1,7 @@
 {
   "id": "sum-lists-2",
   "title": "Sum Lists 2",
-  "description":  "You have two numbers represented by a linked list, where each node contains a single digit. The digits are stored in forward order, such that the 1's digit is at the tail of the list. Write method `addLists` that adds the two numbers and returns the sum as a linked list.\r\n\r\n### Examples\r\n\r\n* `6->1->7, 2->9->5` -> `9->1->2` (617 + 295 = 912)\r\n\r\n* Check [LinkedListNode](https://github.com/spolnik/JAlgoArena/blob/master/src/main/java/org/algohub/engine/type/LinkedListNode.java) class. If you don't want to quit this screen, make sure you open it in a new tab.",
+  "description":  "You have two numbers represented by a linked list, where each node contains a single digit. The digits are stored in forward order, such that the 1's digit is at the tail of the list. Write method `addLists` that adds the two numbers and returns the sum as a linked list.\r\n\r\n### Examples\r\n\r\n* `6->1->7, 2->9->5` -> `9->1->2` (617 + 295 = 912)",
   "time_limit": 1,
   "memory_limit": 32,
   "level": 3,
