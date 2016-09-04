@@ -4,6 +4,8 @@ public class Solution {
      * @return  Compressed string.
      */
     public String compress(String str) {
+        if (str == null) return null;
+
         StringBuilder compressed = new StringBuilder();
         int countConsecutive = 0;
 

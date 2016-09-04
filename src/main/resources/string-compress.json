@@ -23,6 +23,7 @@
     {"input": ["aabcccccaaa"], "output": "a2b1c5a3"},
     {"input": ["Julia"], "output": "Julia"},
     {"input": [""], "output": ""},
+    {"input": [null], "output": null},
     {"input": ["JjuuLLiiiiAaaaaAAaaaaa"], "output": "J1j1u2L2i4A1a4A2a5"},
     {"input": ["JjuuLLiiiiAaaaaAAaBCDEFG"], "output": "JjuuLLiiiiAaaaaAAaBCDEFG"},
     {"input": ["JJJJJJJJJJJ"], "output": "J11"}

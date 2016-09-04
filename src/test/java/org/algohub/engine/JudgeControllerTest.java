@@ -83,7 +83,8 @@ public class JudgeControllerTest {
             "palindrome-list, PalindromeList",
             "binary-search, BinarySearch",
             "delete-tail-node, DeleteTailNode",
-            "repeated-elements, RepeatedElements"
+            "repeated-elements, RepeatedElements",
+            "first-non-repeated-char, FirstNonRepeatedChar"
     })
     public void judgesCorrectSolution(String problemId, String solutionId) throws Exception {
         final String sourceCode =

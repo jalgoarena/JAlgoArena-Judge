@@ -33,6 +33,9 @@ class Deserializer {
     private static Object jsonToJavaPrimitiveNew(final TypeNode type, final JsonNode jsonNode) {
         final Object object;
 
+        if (jsonNode.isNull())
+            return null;
+
         switch (type.getValue()) {
             case BOOL:
                 object = jsonNode.asBoolean();
