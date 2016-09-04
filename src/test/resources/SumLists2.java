@@ -33,7 +33,7 @@ public class Solution {
     }
 
     private PartialSum addListsHelper(LinkedListNode<Integer> l1, LinkedListNode<Integer> l2) {
-        if ((l1 == null || l1.isNull()) && (l2 == null || l2.isNull())) {
+        if (l1 == null && l2 == null) {
             return new PartialSum();
         }
 

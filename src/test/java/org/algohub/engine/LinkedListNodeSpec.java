@@ -22,21 +22,16 @@ public class LinkedListNodeSpec {
     }
 
     @Test
-    public void defaultConstructorCreatesEmptyLinkedList() throws Exception {
-        assertThat(new LinkedListNode<Integer>().toString()).isEqualTo("[]");
-    }
-
-    @Test
     @SuppressWarnings("all")
     public void equalsItself() throws Exception {
-        LinkedListNode<Integer> node = new LinkedListNode<>();
+        LinkedListNode<Integer> node = new LinkedListNode<>(1);
         assertThat(node.equals(node)).isTrue();
     }
 
     @Test
     public void equalsFalseIfComparedToDifferentObject() throws Exception {
 
-        assertThat(new LinkedListNode<Integer>().equals(new Object())).isFalse();
+        assertThat(new LinkedListNode<>(3).equals(new Object())).isFalse();
     }
 
     @Test
@@ -60,12 +55,6 @@ public class LinkedListNodeSpec {
     }
 
     private static LinkedListNode<Integer> linkedList_1_2_3_4() {
-        return new LinkedListNode<>(1,
-                new LinkedListNode<>(2,
-                        new LinkedListNode<>(3,
-                                new LinkedListNode<>(4)
-                        )
-                )
-        );
+        return new LinkedListNode<>(1).add(2).add(3).add(4);
     }
 }

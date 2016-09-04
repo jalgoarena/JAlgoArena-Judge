@@ -203,10 +203,15 @@ class Deserializer {
         @Override
         public Object deserialize(TypeNode type, JsonNode jsonNode) {
             final ArrayNode elements = (ArrayNode) jsonNode;
-            final LinkedListNode<Object> javaLinkedList = new LinkedListNode<>();
+
+            LinkedListNode<Object> javaLinkedList = null;
 
             for (final JsonNode e : elements) {
-                javaLinkedList.add(fromJson(type.getElementType(), e));
+                if (javaLinkedList == null) {
+                    javaLinkedList = new LinkedListNode<>(fromJson(type.getElementType(), e));
+                } else {
+                    javaLinkedList.add(fromJson(type.getElementType(), e));
+                }
             }
 
             return javaLinkedList;

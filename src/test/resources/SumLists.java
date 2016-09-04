@@ -16,16 +16,16 @@ public class Solution {
             return null;
         }
 
-        LinkedListNode<Integer> result = new LinkedListNode<>();
+
         int value = carry;
-        if (l1 != null && l1.value != null) {
+        if (l1 != null) {
             value += l1.value;
         }
-        if (l2 != null && l2.value != null) {
+        if (l2 != null) {
             value += l2.value;
         }
 
-        result.value = value % 10;
+        LinkedListNode<Integer> result = new LinkedListNode<>(value % 10);
 
         if (l1 != null || l2 != null) {
             LinkedListNode<Integer> more = addLists(

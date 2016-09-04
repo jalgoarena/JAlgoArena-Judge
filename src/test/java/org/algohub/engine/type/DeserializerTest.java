@@ -13,16 +13,14 @@ import static org.junit.Assert.assertEquals;
 
 public class DeserializerTest {
 
-    private static final LinkedListNode<Integer> LINKED_LIST_EXPECTED = new LinkedListNode<>(1,
-            new LinkedListNode<>(2,
-                    new LinkedListNode<>(3, new LinkedListNode<>(4, new LinkedListNode<>(5, null)))));
+    private static final LinkedListNode<Integer> LINKED_LIST_EXPECTED =
+            new LinkedListNode<>(1).add(2).add(3).add(4).add(5);
 
-    private static final LinkedListNode<Integer> LINKED_LIST_EXPECTED2 = new LinkedListNode<>(6,
-            new LinkedListNode<>(7,
-                    new LinkedListNode<>(8, new LinkedListNode<>(9, new LinkedListNode<>(10, null)))));
+    private static final LinkedListNode<Integer> LINKED_LIST_EXPECTED2 =
+            new LinkedListNode<>(6).add(7).add(8).add(9).add(10);
 
     private static final LinkedListNode<LinkedListNode<Integer>> LINKED_LIST_LINKED_LIST_EXPECTED =
-            new LinkedListNode<>(LINKED_LIST_EXPECTED, new LinkedListNode<>(LINKED_LIST_EXPECTED2));
+            new LinkedListNode<>(LINKED_LIST_EXPECTED).add(LINKED_LIST_EXPECTED2);
 
     @Test
     public void deserializePrimitiveTest() {

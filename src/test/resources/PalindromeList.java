@@ -23,13 +23,13 @@ public class Solution {
     }
 
     private boolean isEqual(LinkedListNode<Integer> one, LinkedListNode<Integer> two) {
-        while ((one != null && !one.isNull()) && (two != null && !two.isNull())) {
+        while (one != null && two != null) {
             if (one.value != two.value) {
                 return false;
             }
             one = one.next;
             two = two.next;
         }
-        return (one == null || one.isNull()) && (two == null || two.isNull());
+        return one == null && two == null;
     }
 }

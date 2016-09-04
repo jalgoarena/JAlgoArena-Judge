@@ -4,36 +4,22 @@ public class LinkedListNode<E> {
     public E value;
     public LinkedListNode<E> next;
 
-    public LinkedListNode() {
-        value = null;
-        next = null;
-    }
-
     public LinkedListNode(final E value) {
         this.value = value;
         this.next = null;
     }
 
-    public LinkedListNode(final E value, final LinkedListNode<E> next) {
-        this.value = value;
-        this.next = next;
+    public LinkedListNode<E> add(final E value) {
+        return add(new LinkedListNode<>(value));
     }
 
-    public void add(final E value) {
-        if (this.value == null) {
-            this.value = value;
-            return;
-        }
-
+    public LinkedListNode<E> add(final LinkedListNode<E> node) {
         LinkedListNode<E> tail = this;
         while (tail.next != null) {
             tail = tail.next;
         }
-        tail.next = new LinkedListNode<>(value);
-    }
-
-    public boolean isNull() {
-        return this.value == null;
+        tail.next = node;
+        return this;
     }
 
     @Override
