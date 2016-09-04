@@ -14,7 +14,9 @@ final class JavaCodeGenerator {
     );
 
     private static final ImmutableMap<IntermediateType, String> INTERMEDIATE_TYPE_TO_JAVA_TYPE_MAP =
-            ImmutableMap.<IntermediateType, String>builder().put(IntermediateType.BOOL, "boolean")
+            ImmutableMap.<IntermediateType, String>builder()
+                    .put(IntermediateType.BOOL, "boolean")
+                    .put(IntermediateType.VOID, "void")
                     .put(IntermediateType.STRING, "String")
                     .put(IntermediateType.DOUBLE, "double")
                     .put(IntermediateType.INT, "int")

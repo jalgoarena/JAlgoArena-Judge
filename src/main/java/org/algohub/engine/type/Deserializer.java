@@ -33,9 +33,6 @@ class Deserializer {
     private static Object jsonToJavaPrimitiveNew(final TypeNode type, final JsonNode jsonNode) {
         final Object object;
 
-        if (jsonNode.isNull())
-            return null;
-
         switch (type.getValue()) {
             case BOOL:
                 object = jsonNode.asBoolean();
@@ -60,6 +57,10 @@ class Deserializer {
 
     // Post order
     static Object fromJson(final TypeNode type, final JsonNode jsonNode) {
+        if (jsonNode.isNull()) {
+            return null;
+        }
+
         if (!type.isContainer()) {
             return jsonToJavaPrimitiveNew(type, jsonNode);
         }
@@ -205,10 +206,6 @@ class Deserializer {
 
         @Override
         public Object deserialize(TypeNode type, JsonNode jsonNode) {
-            if (jsonNode.isNull()) {
-                return null;
-            }
-
             final ArrayNode elements = (ArrayNode) jsonNode;
 
             LinkedListNode<Object> javaLinkedList = null;

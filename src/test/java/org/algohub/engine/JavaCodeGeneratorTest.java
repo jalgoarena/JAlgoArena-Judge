@@ -98,4 +98,12 @@ public class JavaCodeGeneratorTest {
 
         assertThat(linkedListJavaTypeDeclaration).isEqualTo("LinkedListNode<Integer>");
     }
+
+    @Test
+    public void generatesVoid() throws Exception {
+        TypeNode voidTypeNode = TypeNode.fromString("void");
+        String typeDeclaration = JavaCodeGenerator.generateJavaTypeDeclaration(voidTypeNode);
+
+        assertThat(typeDeclaration).isEqualTo("void");
+    }
 }

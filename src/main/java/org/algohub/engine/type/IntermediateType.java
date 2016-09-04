@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Optional;
 
 public enum IntermediateType {
+    VOID("void"),
     BOOL("bool"),
     STRING("string"),
     DOUBLE("double"),

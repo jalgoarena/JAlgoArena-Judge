@@ -44,12 +44,18 @@ class JudgeTask implements Callable<List<Boolean>> {
     private static boolean judge(final Object clazz, final Method method,
                                  final InternalTestCase testCase) throws InterruptedException {
         final Object output;
+        Object[] input;
         try {
-            output = method.invoke(clazz, testCase.getInput());
+            input = testCase.getInput();
+            output = method.invoke(clazz, input);
         } catch (IllegalAccessException | InvocationTargetException e) {
             Throwable cause = getCause(e);
             LOG.error("Error during processing of solution", cause);
             throw new InterruptedException(cause.getClass().getName() + ": " + cause.getMessage());
+        }
+
+        if (testCase.returnsVoid()) {
+            return BetterObjects.equalForObjectsOrArrays(testCase.getOutput(), input[0]);
         }
 
         return BetterObjects.equalForObjectsOrArrays(testCase.getOutput(), output);

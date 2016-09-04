@@ -4,7 +4,6 @@ import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
-import org.algohub.engine.judge.JudgeEngine;
 import org.algohub.engine.judge.JudgeResult;
 import org.algohub.engine.judge.Problem;
 import org.algohub.engine.judge.StatusCode;
@@ -85,7 +84,8 @@ public class JudgeControllerTest {
             "delete-tail-node, DeleteTailNode",
             "repeated-elements, RepeatedElements",
             "first-non-repeated-char, FirstNonRepeatedChar",
-            "find-middle-node, FindMiddleNode"
+            "find-middle-node, FindMiddleNode",
+            "horizontal-flip, HorizontalFlip"
     })
     public void judgesCorrectSolution(String problemId, String solutionId) throws Exception {
         final String sourceCode =
