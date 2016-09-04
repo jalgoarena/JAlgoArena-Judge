@@ -6,7 +6,6 @@ public class LinkedListNode<E> {
 
     public LinkedListNode(final E value) {
         this.value = value;
-        this.next = null;
     }
 
     public LinkedListNode<E> add(final E value) {
