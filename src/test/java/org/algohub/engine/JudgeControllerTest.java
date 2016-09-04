@@ -82,7 +82,8 @@ public class JudgeControllerTest {
             "sum-lists-2, SumLists2",
             "palindrome-list, PalindromeList",
             "binary-search, BinarySearch",
-            "delete-tail-node, DeleteTailNode"
+            "delete-tail-node, DeleteTailNode",
+            "repeated-elements, RepeatedElements"
     })
     public void judgesCorrectSolution(String problemId, String solutionId) throws Exception {
         final String sourceCode =
