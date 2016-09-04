@@ -3,8 +3,8 @@ public class Solution {
      * @param matrix Image matrix to rotate
      * @return  Rotated image matrix by 90 degrees
      */
-    public int[][] rotate(int[][] matrix) {
-        if (matrix.length == 0 || matrix.length != matrix[0].length) return matrix;
+    public void rotate(int[][] matrix) {
+        if (matrix.length == 0 || matrix.length != matrix[0].length) return;
 
         int n = matrix.length;
 
@@ -26,7 +26,5 @@ public class Solution {
                 matrix[i][last] = top;
             }
         }
-
-        return matrix;
     }
 }

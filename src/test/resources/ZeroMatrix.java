@@ -3,15 +3,15 @@ public class Solution {
      * @param matrix Matrix to set zeros
      * @return  Matrix with set zeros
      */
-    public int[][] zeroMatrix(int[][] matrix) {
+    public void zeroMatrix(int[][] matrix) {
+        if (matrix.length == 0 || matrix.length != matrix[0].length) return;
+
         boolean[] row = new boolean[matrix.length];
         boolean[] column = new boolean[matrix[0].length];
 
         storeTheRowAndColumnIndexWithValueZero(row, column, matrix);
         nullifyRows(row, matrix);
         nullifyColumns(column, matrix);
-
-        return matrix;
     }
 
     private static void nullifyColumns(boolean[] column, int[][] matrix) {
