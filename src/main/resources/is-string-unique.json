@@ -21,6 +21,7 @@
   },
   "test_cases": [
     {"input": [""], "output": true},
+    {"input": [null], "output": true},
     {"input": ["abc"], "output": true},
     {"input": ["AdSda"], "output": false},
     {"input": ["AbcdefgHA"], "output": false},

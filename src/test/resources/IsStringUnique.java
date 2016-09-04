@@ -4,6 +4,8 @@ public class Solution {
      * @return  Indicate if string contains only unique chars
      */
     public boolean isUniqueChars(String str) {
+        if (str == null) return true;
+
         char[] chars = str.toCharArray();
 
         for (int i = 0; i < chars.length - 1; i++) {

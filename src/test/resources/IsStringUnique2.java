@@ -4,6 +4,7 @@ public class Solution {
      * @return  Indicate if string contains only unique chars
      */
     public boolean isUniqueChars(String str) {
+        if (str == null) return true;
         if (str.length() > 128) return false;
 
         boolean[] charSet = new boolean[128];
