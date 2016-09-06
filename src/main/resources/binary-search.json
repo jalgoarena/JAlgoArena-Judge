@@ -1,7 +1,7 @@
 {
   "id": "binary-search",
   "title": "Binary Search",
-  "description":  "Write a method `binarySearch` that searches an array of integers for a given integer using the Binary Search Algorithm. If the input integer is found in the array - return index of that item. Otherwise, return -1.\r\n\r\n**Note**: You may assume that the given array of integers is already sorted in ascending order.\r\n\r\n### Example\r\n\r\n* `[2,5,7,11,15], 11` -> `true`",
+  "description":  "Write a method `binarySearch` that searches an array of integers for a given integer using the Binary Search Algorithm. If the input integer is found in the array - return index of that item. Otherwise, return -1.\r\n\r\n**Note**: You may assume that the given array of integers is already sorted in ascending order.\r\n\r\n### Example\r\n\r\n* `[2,5,7,11,15], 11` -> `3`",
   "time_limit": 1,
   "memory_limit": 32,
   "level": 1,
