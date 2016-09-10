@@ -57,13 +57,18 @@ class JudgeTask implements Callable<List<Boolean>> {
             if (input != null) {
                 LOG.error("Input count: " + input.length);
                 Arrays.asList(input).forEach(
-                        item -> LOG.error("Input type: " + item.getClass().toGenericString())
+                        item -> {
+                            Class<?> aClass = item.getClass();
+                            LOG.error("Input type: " + aClass.toGenericString());
+                        }
                 );
             }
 
             LOG.error("Method parameters count: " + method.getParameters().length);
-            Arrays.asList(method.getParameters()).forEach(
-                    item -> LOG.error("Parameter type: " + item.getClass().toGenericString())
+            Arrays.asList(method.getParameterTypes()).forEach(
+                    parameterType -> {
+                        LOG.error("Parameter type: " + parameterType.toGenericString());
+                    }
             );
 
             Throwable cause = getCause(e);
