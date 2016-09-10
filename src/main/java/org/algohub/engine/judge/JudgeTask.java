@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.Callable;
 
@@ -44,13 +45,28 @@ class JudgeTask implements Callable<List<Boolean>> {
     private static boolean judge(final Object clazz, final Method method,
                                  final InternalTestCase testCase) throws InterruptedException {
         final Object output;
-        Object[] input;
+        Object[] input = null;
         try {
             input = testCase.getInput();
             output = method.invoke(clazz, input);
         } catch (IllegalAccessException | InvocationTargetException e) {
             Throwable cause = getCause(e);
             LOG.error("Error during processing of solution", cause);
+            throw new InterruptedException(cause.getClass().getName() + ": " + cause.getMessage());
+        } catch (IllegalArgumentException e) {
+            if (input != null) {
+                Arrays.asList(input).forEach(
+                        item -> LOG.debug("Input type: " + item.getClass().toGenericString())
+                );
+            }
+
+            Arrays.asList(method.getGenericParameterTypes()).forEach(
+                    item -> LOG.debug("Parameter type: " + item.getClass().toGenericString())
+            );
+
+            Throwable cause = getCause(e);
+            LOG.error("Error during processing of solution", cause);
+
             throw new InterruptedException(cause.getClass().getName() + ": " + cause.getMessage());
         }
 
