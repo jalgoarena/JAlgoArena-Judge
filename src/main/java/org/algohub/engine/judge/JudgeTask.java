@@ -55,13 +55,15 @@ class JudgeTask implements Callable<List<Boolean>> {
             throw new InterruptedException(cause.getClass().getName() + ": " + cause.getMessage());
         } catch (IllegalArgumentException e) {
             if (input != null) {
+                LOG.error("Input count: " + input.length);
                 Arrays.asList(input).forEach(
-                        item -> LOG.debug("Input type: " + item.getClass().toGenericString())
+                        item -> LOG.error("Input type: " + item.getClass().toGenericString())
                 );
             }
 
-            Arrays.asList(method.getGenericParameterTypes()).forEach(
-                    item -> LOG.debug("Parameter type: " + item.getClass().toGenericString())
+            LOG.error("Method parameters count: " + method.getParameters().length);
+            Arrays.asList(method.getParameters()).forEach(
+                    item -> LOG.error("Parameter type: " + item.getClass().toGenericString())
             );
 
             Throwable cause = getCause(e);
