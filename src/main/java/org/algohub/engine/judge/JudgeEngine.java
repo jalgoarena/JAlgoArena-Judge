@@ -5,9 +5,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Method;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.*;
+import java.util.stream.Collectors;
 
 public class JudgeEngine {
 
@@ -24,7 +24,7 @@ public class JudgeEngine {
 
     private static JudgeResult judge(final Object clazz,
                                      final Method method,
-                                     final InternalTestCase[] testCases,
+                                     final List<InternalTestCase> testCases,
                                      final Problem problem) throws InterruptedException {
 
         ExecutorService executorService = Executors.newSingleThreadExecutor();
@@ -57,19 +57,19 @@ public class JudgeEngine {
 
         if (performanceResult.usedMemoryInBytes > problem.getMemoryLimit()) {
             return JudgeResult.memoryLimitExceeded(
-                    testCases.length,
+                    testCases.size(),
                     performanceResult.usedMemoryInBytes
             );
         }
 
         return JudgeResult.accepted(
-                testCases.length,
+                testCases.size(),
                 performanceResult.usedTimeInMs,
                 performanceResult.usedMemoryInBytes
         );
     }
 
-    private static PerformanceResult getPerformanceResult(Object clazz, Method method, InternalTestCase[] testCases) throws InterruptedException {
+    private static PerformanceResult getPerformanceResult(Object clazz, Method method, List<InternalTestCase> testCases) throws InterruptedException {
         PerformanceSnapshot snapshotBeforeRun = takePerformanceSnapshot();
 
         new JudgeTask(clazz, method, testCases).run();
@@ -99,14 +99,16 @@ public class JudgeEngine {
         Problem.TestCase[] testCases = problem.getTestCases();
         Function function = problem.getFunction();
 
-        final InternalTestCase[] internalTestCases = new InternalTestCase[testCases.length];
-        for (int i = 0; i < testCases.length; ++i) {
-            internalTestCases[i] = new InternalTestCase(testCases[i], function);
-        }
+        final List<InternalTestCase> internalTestCases = Arrays.stream(testCases).map(testCase ->
+                new InternalTestCase(testCase, function)
+        ).collect(Collectors.toList());
+
+        Collections.shuffle(internalTestCases);
+
         return judge(problem, internalTestCases, userCode);
     }
 
-    private static JudgeResult judge(final Problem problem, final InternalTestCase[] testCases,
+    private static JudgeResult judge(final Problem problem, final List<InternalTestCase> testCases,
                               final String userCode) {
         final Object clazz;
         final Method method;
