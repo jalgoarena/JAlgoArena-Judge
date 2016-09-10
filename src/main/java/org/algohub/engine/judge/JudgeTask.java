@@ -16,9 +16,9 @@ class JudgeTask implements Callable<List<Boolean>> {
 
     private final Object clazz;
     private final Method method;
-    private final List<InternalTestCase> testCases;
+    private final InternalTestCase[] testCases;
 
-    JudgeTask(Object clazz, Method method, List<InternalTestCase> testCases) {
+    JudgeTask(Object clazz, Method method, InternalTestCase[] testCases) {
         this.clazz = clazz;
         this.method = method;
         this.testCases = testCases;

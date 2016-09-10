@@ -5,9 +5,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
+import java.util.Random;
 import java.util.concurrent.*;
-import java.util.stream.Collectors;
 
 public class JudgeEngine {
 
@@ -17,6 +18,7 @@ public class JudgeEngine {
     private static final CreateFriendlyMessage createFriendlyMessage = new CreateFriendlyMessage();
 
     private static final int NUMBER_OF_ITERATIONS = 5;
+    private static final Random RANDOM = new Random();
 
     private JudgeEngine() {
         // static class
@@ -24,7 +26,7 @@ public class JudgeEngine {
 
     private static JudgeResult judge(final Object clazz,
                                      final Method method,
-                                     final List<InternalTestCase> testCases,
+                                     final InternalTestCase[] testCases,
                                      final Problem problem) throws InterruptedException {
 
         ExecutorService executorService = Executors.newSingleThreadExecutor();
@@ -35,7 +37,7 @@ public class JudgeEngine {
         try {
             List<Boolean> results = judge.get(problem.getTimeLimit(), TimeUnit.SECONDS);
 
-            int failedTestCases = (int)results.stream().filter(x -> !x).count();
+            int failedTestCases = (int) results.stream().filter(x -> !x).count();
 
             if (failedTestCases > 0) {
                 return JudgeResult.wrongAnswer(results);
@@ -57,19 +59,19 @@ public class JudgeEngine {
 
         if (performanceResult.usedMemoryInBytes > problem.getMemoryLimit()) {
             return JudgeResult.memoryLimitExceeded(
-                    testCases.size(),
+                    testCases.length,
                     performanceResult.usedMemoryInBytes
             );
         }
 
         return JudgeResult.accepted(
-                testCases.size(),
+                testCases.length,
                 performanceResult.usedTimeInMs,
                 performanceResult.usedMemoryInBytes
         );
     }
 
-    private static PerformanceResult getPerformanceResult(Object clazz, Method method, List<InternalTestCase> testCases) throws InterruptedException {
+    private static PerformanceResult getPerformanceResult(Object clazz, Method method, InternalTestCase[] testCases) throws InterruptedException {
         PerformanceSnapshot snapshotBeforeRun = takePerformanceSnapshot();
 
         new JudgeTask(clazz, method, testCases).run();
@@ -90,7 +92,8 @@ public class JudgeEngine {
 
     /**
      * Runs judge on given source code for a given problem
-     * @param problem - problem to solve
+     *
+     * @param problem  - problem to solve
      * @param userCode - source code solving the problem
      * @return - result of judge
      */
@@ -99,17 +102,32 @@ public class JudgeEngine {
         Problem.TestCase[] testCases = problem.getTestCases();
         Function function = problem.getFunction();
 
-        final List<InternalTestCase> internalTestCases = Arrays.stream(testCases).map(testCase ->
-                new InternalTestCase(testCase, function)
-        ).collect(Collectors.toList());
+        final InternalTestCase[] internalTestCases = new InternalTestCase[testCases.length];
+        for (int i = 0; i < testCases.length; ++i) {
+            internalTestCases[i] = new InternalTestCase(testCases[i], function);
+        }
 
-        Collections.shuffle(internalTestCases);
+        shuffle(internalTestCases);
 
         return judge(problem, internalTestCases, userCode);
     }
 
-    private static JudgeResult judge(final Problem problem, final List<InternalTestCase> testCases,
-                              final String userCode) {
+    private static void shuffle(InternalTestCase[] array) {
+        int count = array.length;
+
+        for (int i = count; i > 1; i--) {
+            swap(array, i - 1, RANDOM.nextInt(i));
+        }
+    }
+
+    private static void swap(InternalTestCase[] array, int i, int j) {
+        InternalTestCase temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+    }
+
+    private static JudgeResult judge(final Problem problem, final InternalTestCase[] testCases,
+                                     final String userCode) {
         final Object clazz;
         final Method method;
 
