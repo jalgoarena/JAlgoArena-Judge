@@ -58,7 +58,7 @@ final class MemoryJavaCompiler {
                            final String source) throws ClassNotFoundException, CompileErrorException {
         final String className = getClassName(qualifiedClassName);
         final Map<String, byte[]> classBytes = compile(className + ".java", source);
-        final MemoryClassLoader classLoader = new MemoryClassLoader(classBytes, getClass().getClassLoader());
+        final MemoryClassLoader classLoader = new MemoryClassLoader(classBytes);
         final Class clazz = Class.forName(qualifiedClassName, true, classLoader);
         final Method[] methods = clazz.getDeclaredMethods();
 
@@ -164,8 +164,8 @@ final class MemoryJavaCompiler {
 
         private final Map<String, byte[]> classNameToBytecode;
 
-        MemoryClassLoader(final Map<String, byte[]> classNameToBytecode, ClassLoader classLoader) {
-            super(new URL[0], classLoader);
+        MemoryClassLoader(final Map<String, byte[]> classNameToBytecode) {
+            super(new URL[0], ClassLoader.getSystemClassLoader());
             this.classNameToBytecode = classNameToBytecode;
         }
 
