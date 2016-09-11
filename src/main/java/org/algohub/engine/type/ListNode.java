@@ -4,12 +4,10 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 
 import java.io.IOException;
 
-@JsonDeserialize(using = ListNode.Deserializer.class)
 public class ListNode {
     public int value;
     public ListNode next;
@@ -82,7 +80,7 @@ public class ListNode {
         return linkedListAsString.toString();
     }
 
-    static class Deserializer extends JsonDeserializer<ListNode> {
+    public static class Deserializer extends JsonDeserializer<ListNode> {
 
         @Override
         public ListNode deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
