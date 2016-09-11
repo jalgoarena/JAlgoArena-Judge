@@ -1,18 +1,16 @@
-package org.algohub.engine.type;
+package org.algohub.engine.judge;
 
 import com.google.common.base.Preconditions;
 import org.algohub.engine.ObjectMapperInstance;
-import org.algohub.engine.judge.Function;
-import org.algohub.engine.judge.Problem;
 
 import java.io.IOException;
 
-public class InternalTestCase {
+class InternalTestCase {
     private final Object[] input;
     private final Object output;
     private final boolean returnsVoid;
 
-    public InternalTestCase(final Problem.TestCase testCase, final Function function) {
+    InternalTestCase(final Problem.TestCase testCase, final Function function) {
         final Function.Parameter[] parameters = function.getParameters();
         Preconditions.checkArgument(parameters.length == testCase.getInput().size());
 
@@ -55,7 +53,7 @@ public class InternalTestCase {
         return output;
     }
 
-    public boolean returnsVoid() {
+    boolean returnsVoid() {
         return returnsVoid;
     }
 }

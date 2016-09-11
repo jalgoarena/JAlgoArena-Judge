@@ -1,15 +1,11 @@
 package org.algohub.engine.judge;
 
-import org.algohub.engine.type.InternalTestCase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.Callable;
 
@@ -47,37 +43,13 @@ class JudgeTask implements Callable<List<Boolean>> {
     private static boolean judge(final Object clazz, final Method method,
                                  final InternalTestCase testCase) throws InterruptedException {
         final Object output;
-        Object[] input = null;
+        Object[] input;
         try {
             input = testCase.getInput();
             output = method.invoke(clazz, input);
-        } catch (IllegalAccessException | InvocationTargetException e) {
+        } catch (IllegalAccessException | InvocationTargetException | IllegalArgumentException e) {
             Throwable cause = getCause(e);
             LOG.error("Error during processing of solution", cause);
-            throw new InterruptedException(cause.getClass().getName() + ": " + cause.getMessage());
-        } catch (IllegalArgumentException e) {
-            if (input != null) {
-                LOG.error("Input count: " + input.length);
-                Arrays.asList(input).forEach(
-                        item -> {
-                            Class<?> aClass = item.getClass();
-                            LOG.error("Input type: " + aClass.toGenericString());
-                            logTypeArguments(aClass);
-                        }
-                );
-            }
-
-            LOG.error("Method parameters count: " + method.getParameters().length);
-            Arrays.asList(method.getParameterTypes()).forEach(
-                    parameterType -> {
-                        LOG.error("Parameter type: " + parameterType.toGenericString());
-                        logTypeArguments(parameterType);
-                    }
-            );
-
-            Throwable cause = getCause(e);
-            LOG.error("Error during processing of solution", cause);
-
             throw new InterruptedException(cause.getClass().getName() + ": " + cause.getMessage());
         }
 
@@ -86,13 +58,6 @@ class JudgeTask implements Callable<List<Boolean>> {
         }
 
         return BetterObjects.equalForObjectsOrArrays(testCase.getOutput(), output);
-    }
-
-    private static void logTypeArguments(Type t) {
-        if (t instanceof ParameterizedType) {
-            Type[] typeArgs = ((ParameterizedType) t).getActualTypeArguments();
-            LOG.error("Generic Type: " + typeArgs[0].getTypeName());
-        }
     }
 
     private static Throwable getCause(Throwable e) {

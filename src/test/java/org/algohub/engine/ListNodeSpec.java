@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class LinkedListNodeSpec {
+public class ListNodeSpec {
 
     @Test
     public void stringRepresentationCorrespondentsLinkedListValues() throws Exception {
