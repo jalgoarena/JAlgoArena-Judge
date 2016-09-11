@@ -8,13 +8,13 @@
   "function": {
     "name": "findFirstNonRepeatedChar",
     "return": {
-      "type": "string",
+      "type": "java.lang.String",
       "comment": " First non-duplicate character or null if absent"
     },
     "parameters": [
       {
         "name": "str",
-        "type": "string",
+        "type": "java.lang.String",
         "comment": "Input string"
       }
     ]

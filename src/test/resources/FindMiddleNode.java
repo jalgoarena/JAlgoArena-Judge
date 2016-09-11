@@ -1,4 +1,3 @@
-import java.util.*;
 import org.algohub.engine.type.*;
 
 public class Solution {
@@ -6,12 +5,12 @@ public class Solution {
      * @param head Linked List head
      * @return  Middle node
      */
-    public LinkedListNode<Integer> findMiddleNode(LinkedListNode<Integer> head) {
+    public ListNode findMiddleNode(ListNode head) {
         if (head == null) return null;
         if (head.next == null) return head;
 
-        LinkedListNode slow = head;
-        LinkedListNode fast = head.next;
+        ListNode slow = head;
+        ListNode fast = head.next;
 
         while (fast != null && fast.next != null) {
             slow = slow.next;

@@ -14,7 +14,7 @@
     "parameters": [
       {
         "name": "matrix",
-        "type": "array<array<int>>",
+        "type": "[[I",
         "comment": "Image matrix to rotate"
       }
     ]

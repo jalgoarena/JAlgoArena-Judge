@@ -1,9 +1,8 @@
-import java.util.*;
 import org.algohub.engine.type.*;
 
 public class Solution {
     class PartialSum {
-        public LinkedListNode<Integer> sum = null;
+        public ListNode sum = null;
         public int carry = 0;
     }
 
@@ -12,7 +11,7 @@ public class Solution {
      * @param l2 Second Linked List to add
      * @return  linked list node containing result of sum
      */
-    public LinkedListNode<Integer> addLists(LinkedListNode<Integer> l1, LinkedListNode<Integer> l2) {
+    public ListNode addLists(ListNode l1, ListNode l2) {
         int len1 = length(l1);
         int len2 = length(l2);
 
@@ -27,12 +26,12 @@ public class Solution {
         if (sum.carry == 0) {
             return sum.sum;
         } else {
-            LinkedListNode<Integer> result = insertBefore(sum.sum, sum.carry);
+            ListNode result = insertBefore(sum.sum, sum.carry);
             return result;
         }
     }
 
-    private PartialSum addListsHelper(LinkedListNode<Integer> l1, LinkedListNode<Integer> l2) {
+    private PartialSum addListsHelper(ListNode l1, ListNode l2) {
         if (l1 == null && l2 == null) {
             return new PartialSum();
         }
@@ -41,31 +40,31 @@ public class Solution {
 
         int val = sum.carry + l1.value + l2.value;
 
-        LinkedListNode fullResult = insertBefore(sum.sum, val % 10);
+        ListNode fullResult = insertBefore(sum.sum, val % 10);
 
         sum.sum = fullResult;
         sum.carry = val / 10;
         return sum;
     }
 
-    private LinkedListNode<Integer> insertBefore(LinkedListNode<Integer> list, int data) {
-        LinkedListNode<Integer> node = new LinkedListNode<>(data);
+    private ListNode insertBefore(ListNode list, int data) {
+        ListNode node = new ListNode(data);
         if (list != null) {
             node.next = list;
         }
         return node;
     }
 
-    private LinkedListNode<Integer> padList(LinkedListNode<Integer> list, int padding) {
-        LinkedListNode<Integer> head = list;
+    private ListNode padList(ListNode list, int padding) {
+        ListNode head = list;
         for (int i = 0; i < padding; i++) {
             head = insertBefore(head, 0);
         }
         return head;
     }
 
-    private int length(LinkedListNode<Integer> node) {
-        if (node == null || node.value == null) return 0;
+    private int length(ListNode node) {
+        if (node == null) return 0;
 
         return 1 + length(node.next);
     }

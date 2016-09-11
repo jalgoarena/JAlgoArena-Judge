@@ -8,13 +8,13 @@
   "function": {
     "name": "fib",
     "return": {
-      "type": "long",
+      "type": "java.lang.Long",
       "comment": " N'th term of Fibonacci sequence"
     },
     "parameters": [
       {
         "name": "n",
-        "type": "int",
+        "type": "java.lang.Integer",
         "comment": "id of fibonacci term to be returned"
       }
     ]

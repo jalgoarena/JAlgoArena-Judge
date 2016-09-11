@@ -1,10 +1,6 @@
 package org.algohub.engine;
 
-import com.google.common.collect.ImmutableMap;
-
 import org.algohub.engine.judge.Function;
-import org.algohub.engine.type.IntermediateType;
-import org.algohub.engine.type.TypeNode;
 
 final class JavaCodeGenerator {
 
@@ -12,28 +8,6 @@ final class JavaCodeGenerator {
             "import java.util.*;",
             "import org.algohub.engine.type.*;"
     );
-
-    private static final ImmutableMap<IntermediateType, String> INTERMEDIATE_TYPE_TO_JAVA_TYPE_MAP =
-            ImmutableMap.<IntermediateType, String>builder()
-                    .put(IntermediateType.BOOL, "boolean")
-                    .put(IntermediateType.VOID, "void")
-                    .put(IntermediateType.STRING, "String")
-                    .put(IntermediateType.DOUBLE, "double")
-                    .put(IntermediateType.INT, "int")
-                    .put(IntermediateType.LONG, "long")
-                    .put(IntermediateType.ARRAY, "[]")
-                    .put(IntermediateType.LIST, "ArrayList")
-                    .put(IntermediateType.SET, "HashSet")
-                    .put(IntermediateType.MAP, "HashMap")
-                    .put(IntermediateType.LINKED_LIST_NODE, "LinkedListNode")
-                    .build();
-
-    private static final ImmutableMap<IntermediateType, String> INTERMEDIATE_TYPE_TO_JAVA_BOXING_CLASS_MAP =
-            ImmutableMap.<IntermediateType, String>builder().put(IntermediateType.BOOL, "Boolean")
-                    .put(IntermediateType.STRING, "String")
-                    .put(IntermediateType.DOUBLE, "Double")
-                    .put(IntermediateType.INT, "Integer")
-                    .put(IntermediateType.LONG, "Long").build();
 
     private JavaCodeGenerator() {
         // static class
@@ -45,62 +19,11 @@ final class JavaCodeGenerator {
      * @param function Function prototype
      * @return source code of a empty function
      */
-    static String generateEmptyFunction(final Function function) {
+    static String generateEmptyFunction(final Function function) throws ClassNotFoundException {
         return String.format(
                 "%spublic class Solution {%n%s}%n",
                 CUSTOM_IMPORT,
                 generateFunction(function)
-        );
-    }
-
-    /**
-     * Convert a TypeNode to a Java type declaration.
-     * <p>
-     * <p> post order, recursive.</p>
-     */
-    private static String generateJavaTypeDeclaration(final TypeNode type,
-                                                      final IntermediateType parentType) {
-        if (!type.isContainer()) {
-            if (parentType == IntermediateType.ARRAY) {
-                return INTERMEDIATE_TYPE_TO_JAVA_TYPE_MAP.get(type.getValue());
-            } else {
-                return INTERMEDIATE_TYPE_TO_JAVA_BOXING_CLASS_MAP.get(type.getValue());
-            }
-        }
-
-        if (type.getValue() == IntermediateType.ARRAY) {
-            return javaArrayDeclaration(type);
-        } else {
-            final String containerTypeStr = INTERMEDIATE_TYPE_TO_JAVA_TYPE_MAP.get(type.getValue());
-            if (type.getKeyType() != null) {
-                return javaMapDeclaration(type, containerTypeStr);
-            } else {
-                return javaGenericTypeDeclaration(type, containerTypeStr);
-            }
-        }
-    }
-
-    private static String javaArrayDeclaration(TypeNode type) {
-        return String.format(
-                "%s[]",
-                generateJavaTypeDeclaration(type.getElementType(), type.getValue())
-        );
-    }
-
-    private static String javaGenericTypeDeclaration(TypeNode type, String containerTypeStr) {
-        return String.format(
-                "%s<%s>",
-                containerTypeStr,
-                generateJavaTypeDeclaration(type.getElementType(), type.getValue())
-        );
-    }
-
-    private static String javaMapDeclaration(TypeNode type, String containerTypeStr) {
-        return String.format(
-                "%s<%s,%s>",
-                containerTypeStr,
-                generateJavaTypeDeclaration(type.getKeyType(), type.getValue()),
-                generateJavaTypeDeclaration(type.getElementType(), type.getValue())
         );
     }
 
@@ -113,16 +36,37 @@ final class JavaCodeGenerator {
      * @param type the type
      * @return type declaration
      */
-    static String generateJavaTypeDeclaration(final TypeNode type) {
-        return generateJavaTypeDeclaration(type, IntermediateType.ARRAY);
+    private static String generateJavaTypeDeclaration(final String type) throws ClassNotFoundException {
+        return "void".equals(type) ? type : classOrPrimitiveName(type);
     }
 
-    private static String generateParameterDeclaration(final TypeNode type, final String parameterName) {
+    private static String classOrPrimitiveName(final String type)  throws ClassNotFoundException {
+        String typeName = Class.forName(type).getSimpleName();
+
+        switch (typeName) {
+            case "Boolean":
+                return boolean.class.getSimpleName();
+            case "Long":
+                return long.class.getSimpleName();
+            case "Integer":
+                return int.class.getSimpleName();
+            case "Short":
+                return short.class.getSimpleName();
+            case "Double":
+                return double.class.getSimpleName();
+            case "Float":
+                return float.class.getSimpleName();
+            default:
+                return typeName;
+        }
+    }
+
+    private static String generateParameterDeclaration(final String type, final String parameterName) throws ClassNotFoundException {
         final String typeDeclaration = generateJavaTypeDeclaration(type);
         return String.format("%s %s", typeDeclaration, parameterName);
     }
 
-    private static String generateFunction(final Function function) {
+    private static String generateFunction(final Function function) throws ClassNotFoundException {
         final StringBuilder result = new StringBuilder();
 
         functionComment(function, result);
@@ -139,7 +83,7 @@ final class JavaCodeGenerator {
         appendIndentation(result, String.format("}%n"));
     }
 
-    private static void functionBody(Function function, StringBuilder result) {
+    private static void functionBody(Function function, StringBuilder result) throws ClassNotFoundException {
         appendIndentation(result, "public ");
         result.append(generateJavaTypeDeclaration(function.getReturnStatement().getType()));
         result.append(" ").append(function.getName()).append("(");

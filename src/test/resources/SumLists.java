@@ -1,4 +1,3 @@
-import java.util.*;
 import org.algohub.engine.type.*;
 
 public class Solution {
@@ -7,11 +6,11 @@ public class Solution {
      * @param l2 Second Linked List to add
      * @return  linked list node containing result of sum
      */
-    public LinkedListNode<Integer> addLists(LinkedListNode<Integer> l1, LinkedListNode<Integer> l2) {
+    public ListNode addLists(ListNode l1, ListNode l2) {
         return addLists(l1, l2, 0);
     }
 
-    private LinkedListNode<Integer> addLists(LinkedListNode<Integer> l1, LinkedListNode<Integer> l2, int carry) {
+    private ListNode addLists(ListNode l1, ListNode l2, int carry) {
         if (l1 == null && l2 == null && carry == 0) {
             return null;
         }
@@ -25,10 +24,10 @@ public class Solution {
             value += l2.value;
         }
 
-        LinkedListNode<Integer> result = new LinkedListNode<>(value % 10);
+        ListNode result = new ListNode(value % 10);
 
         if (l1 != null || l2 != null) {
-            LinkedListNode<Integer> more = addLists(
+            ListNode more = addLists(
                     l1 == null ? null : l1.next,
                     l2 == null ? null : l2.next,
                     value >= 10 ? 1 : 0

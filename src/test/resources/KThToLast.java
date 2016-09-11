@@ -1,4 +1,3 @@
-import java.util.*;
 import org.algohub.engine.type.*;
 
 public class Solution {
@@ -11,17 +10,17 @@ public class Solution {
      * @param k index of element to find
      * @return  kth to last element of a singly linked list
      */
-    public int kthToLast(LinkedListNode<Integer> head, int k) {
+    public int kthToLast(ListNode head, int k) {
         Index idx = new Index();
         return kthToLast(head, k, idx).value;
     }
 
-    private LinkedListNode<Integer> kthToLast(LinkedListNode<Integer> head, int k, Index idx) {
+    private ListNode kthToLast(ListNode head, int k, Index idx) {
         if (head == null) {
-            return new LinkedListNode(0);
+            return new ListNode(0);
         }
 
-        LinkedListNode<Integer> node = kthToLast(head.next, k, idx);
+        ListNode node = kthToLast(head.next, k, idx);
         idx.value += 1;
 
         if (idx.value == k) {

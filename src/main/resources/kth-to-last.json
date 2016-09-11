@@ -8,18 +8,18 @@
   "function": {
     "name": "kthToLast",
     "return": {
-      "type": "int",
+      "type": "java.lang.Integer",
       "comment": " kth to last element of a singly linked list"
     },
     "parameters": [
       {
         "name": "head",
-        "type": "LinkedListNode<int>",
+        "type": "org.algohub.engine.type.ListNode",
         "comment": "Linked List where we need to find kth to last element"
       },
       {
         "name": "k",
-        "type": "int",
+        "type": "java.lang.Integer",
         "comment": "index of element to find"
       }
     ]

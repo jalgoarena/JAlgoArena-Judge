@@ -8,23 +8,23 @@
   "function": {
     "name": "ladderLength",
     "return": {
-      "type": "int",
+      "type": "java.lang.Integer",
       "comment": "The shortest length"
     },
     "parameters": [
       {
         "name": "begin",
-        "type": "string",
+        "type": "java.lang.String",
         "comment": "the begin word"
       },
       {
         "name": "end",
-        "type": "string",
+        "type": "java.lang.String",
         "comment": "the end word"
       },
       {
         "name": "dict",
-        "type": "set<string>",
+        "type": "java.util.HashSet",
         "comment": "the dictionary"
       }
     ]

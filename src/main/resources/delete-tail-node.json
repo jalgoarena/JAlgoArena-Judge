@@ -8,13 +8,13 @@
   "function": {
     "name": "deleteAtTail",
     "return": {
-      "type": "LinkedListNode<int>",
+      "type": "org.algohub.engine.type.ListNode",
       "comment": " Initial linked list with removed tail"
     },
     "parameters": [
       {
         "name": "head",
-        "type": "LinkedListNode<int>",
+        "type": "org.algohub.engine.type.ListNode",
         "comment": "Linked List head"
       }
     ]

@@ -8,18 +8,18 @@
   "function": {
     "name": "addLists",
     "return": {
-      "type": "LinkedListNode<int>",
+      "type": "org.algohub.engine.type.ListNode",
       "comment": " linked list node containing result of sum"
     },
     "parameters": [
       {
         "name": "l1",
-        "type": "LinkedListNode<int>",
+        "type": "org.algohub.engine.type.ListNode",
         "comment": "First Linked List to add"
       },
       {
         "name": "l2",
-        "type": "LinkedListNode<int>",
+        "type": "org.algohub.engine.type.ListNode",
         "comment": "Second Linked List to add"
       }
     ]

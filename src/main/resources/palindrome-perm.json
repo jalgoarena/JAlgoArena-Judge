@@ -8,13 +8,13 @@
   "function": {
     "name": "isPermutationOfPalindrome",
     "return": {
-      "type": "bool",
+      "type": "java.lang.Boolean",
       "comment": " Indicate if string is a permutation of palindrome"
     },
     "parameters": [
       {
         "name": "phrase",
-        "type": "string",
+        "type": "java.lang.String",
         "comment": "string to be checked if any permutation is palindrome"
       }
     ]

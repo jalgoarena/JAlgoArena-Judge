@@ -121,6 +121,11 @@ class JudgeController {
     }
 
     private static String sourceCodeOf(Problem problem) {
-        return JavaCodeGenerator.generateEmptyFunction(problem.getFunction());
+        try {
+            return JavaCodeGenerator.generateEmptyFunction(problem.getFunction());
+        } catch (ClassNotFoundException e) {
+            LOG.error(e.getMessage(), e);
+            throw new IllegalArgumentException("Illegal type: " + e.getMessage());
+        }
     }
 }

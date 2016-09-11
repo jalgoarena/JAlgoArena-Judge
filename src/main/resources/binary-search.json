@@ -8,18 +8,18 @@
   "function": {
     "name": "binarySearch",
     "return": {
-      "type": "int",
+      "type": "java.lang.Integer",
       "comment": " Index of element if found or -1 if absent"
     },
     "parameters": [
       {
         "name": "arr",
-        "type": "array<int>",
+        "type": "[I",
         "comment": "An array of Integers"
       },
       {
         "name": "n",
-        "type": "int",
+        "type": "java.lang.Integer",
         "comment": "element to find"
       }
     ]

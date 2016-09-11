@@ -8,13 +8,13 @@
   "function": {
     "name": "stoi",
     "return": {
-      "type": "int",
+      "type": "java.lang.Integer",
       "comment": "An integer"
     },
     "parameters": [
       {
         "name": "str",
-        "type": "string",
+        "type": "java.lang.String",
         "comment": "A string"
       }
     ]

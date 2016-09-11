@@ -8,13 +8,13 @@
   "function": {
     "name": "removeDuplicates",
     "return": {
-      "type": "LinkedListNode<int>",
+      "type": "org.algohub.engine.type.ListNode",
       "comment": " Linked List with removed duplicates"
     },
     "parameters": [
       {
         "name": "node",
-        "type": "LinkedListNode<int>",
+        "type": "org.algohub.engine.type.ListNode",
         "comment": "Linked List where we need to remove duplicates"
       }
     ]

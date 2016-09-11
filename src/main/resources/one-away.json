@@ -8,18 +8,18 @@
   "function": {
     "name": "oneEditAway",
     "return": {
-      "type": "bool",
+      "type": "java.lang.Boolean",
       "comment": " Is first string one or zero edits away from the second?"
     },
     "parameters": [
       {
         "name": "first",
-        "type": "string",
+        "type": "java.lang.String",
         "comment": "first string"
       },
       {
         "name": "second",
-        "type": "string",
+        "type": "java.lang.String",
         "comment": "second string"
       }
     ]

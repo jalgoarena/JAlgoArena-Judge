@@ -1,8 +1,11 @@
 package org.algohub.engine.type;
 
 import com.google.common.base.Preconditions;
+import org.algohub.engine.ObjectMapperInstance;
 import org.algohub.engine.judge.Function;
 import org.algohub.engine.judge.Problem;
+
+import java.io.IOException;
 
 public class InternalTestCase {
     private final Object[] input;
@@ -13,18 +16,35 @@ public class InternalTestCase {
         final Function.Parameter[] parameters = function.getParameters();
         Preconditions.checkArgument(parameters.length == testCase.getInput().size());
 
-        input = new Object[testCase.getInput().size()];
-        for (int i = 0; i < input.length; ++i) {
-            input[i] = Deserializer.fromJson(parameters[i].getType(), testCase.getInput().get(i));
-        }
+        try {
+            input = new Object[testCase.getInput().size()];
+            for (int i = 0; i < input.length; ++i) {
+                input[i] = deserialize(
+                        testCase.getInput().get(i).toString(),
+                        Class.forName(parameters[i].getType())
+                );
+            }
 
-        returnsVoid = IntermediateType.VOID.equals(function.getReturnStatement().getType().getValue());
+            returnsVoid = "void".equals(function.getReturnStatement().getType());
 
-        if (returnsVoid) {
-            this.output = Deserializer.fromJson(parameters[0].getType(), testCase.getOutput());
-        } else {
-            this.output = Deserializer.fromJson(function.getReturnStatement().getType(), testCase.getOutput());
+            if (returnsVoid) {
+                this.output = deserialize(
+                        testCase.getOutput().toString(),
+                        Class.forName(parameters[0].getType())
+                );
+            } else {
+                this.output = deserialize(
+                        testCase.getOutput().toString(),
+                        Class.forName(function.getReturnStatement().getType())
+                );
+            }
+        } catch (ClassNotFoundException | IOException e) {
+            throw new IllegalArgumentException(e.getMessage());
         }
+    }
+
+    private Object deserialize(String content, Class<?> type) throws IOException {
+        return ObjectMapperInstance.INSTANCE.readValue(content, type);
     }
 
     public Object[] getInput() {

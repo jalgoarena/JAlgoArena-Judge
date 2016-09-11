@@ -8,13 +8,13 @@
   "function": {
     "name": "isPalindrome",
     "return": {
-      "type": "bool",
+      "type": "java.lang.Boolean",
       "comment": " Indicates if input linked list is palindrome"
     },
     "parameters": [
       {
         "name": "head",
-        "type": "LinkedListNode<int>",
+        "type": "org.algohub.engine.type.ListNode",
         "comment": "Linked List to check if it's palindrome"
       }
     ]

@@ -8,18 +8,18 @@
   "function": {
     "name": "twoSum",
     "return": {
-      "type": "array<int>",
+      "type": "[I",
       "comment": " Indices of the two numbers"
     },
     "parameters": [
       {
         "name": "nums",
-        "type": "array<int>",
+        "type": "[I",
         "comment": "An array of Integer"
       },
       {
         "name": "target",
-        "type": "int",
+        "type": "java.lang.Integer",
         "comment": "target = numbers[index1] + numbers[index2]"
       }
     ]

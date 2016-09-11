@@ -8,13 +8,13 @@
   "function": {
     "name": "compress",
     "return": {
-      "type": "string",
+      "type": "java.lang.String",
       "comment": " Compressed string."
     },
     "parameters": [
       {
         "name": "str",
-        "type": "string",
+        "type": "java.lang.String",
         "comment": "String to compress"
       }
     ]

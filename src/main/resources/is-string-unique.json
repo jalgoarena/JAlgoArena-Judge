@@ -8,13 +8,13 @@
   "function": {
     "name": "isUniqueChars",
     "return": {
-      "type": "bool",
+      "type": "java.lang.Boolean",
       "comment": " Indicate if string contains only unique chars"
     },
     "parameters": [
       {
         "name": "str",
-        "type": "string",
+        "type": "java.lang.String",
         "comment": "input string to be checked (ASCII)"
       }
     ]

@@ -8,13 +8,13 @@
   "function": {
     "name": "findDuplicates",
     "return": {
-      "type": "String",
+      "type": "java.lang.String",
       "comment": " Array of sorted numbers representing duplicates in original array"
     },
     "parameters": [
       {
         "name": "arr",
-        "type": "array<int>",
+        "type": "[I",
         "comment": "An array of Integers"
       }
     ]

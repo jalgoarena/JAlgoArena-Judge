@@ -3,10 +3,6 @@ package org.algohub.engine.judge;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
-import org.algohub.engine.type.TypeNode;
-import org.algohub.engine.type.TypeNodeDeserializer;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Function {
@@ -54,8 +50,7 @@ public class Function {
         /**
          * Return data type.
          */
-        @JsonDeserialize(using = TypeNodeDeserializer.class)
-        private final TypeNode type;
+        private final String type;
         /**
          * Comment of returned value.
          */
@@ -65,13 +60,13 @@ public class Function {
          * Since this class is immutable, need to provide a method for Jackson.
          */
         @JsonCreator
-        public Return(@JsonProperty("type") final TypeNode type,
+        public Return(@JsonProperty("type") final String type,
                       @JsonProperty("comment") final String comment) {
             this.type = type;
             this.comment = comment;
         }
 
-        public TypeNode getType() {
+        public String getType() {
             return type;
         }
 
@@ -92,8 +87,7 @@ public class Function {
         /**
          * Parameter type.
          */
-        @JsonDeserialize(using = TypeNodeDeserializer.class)
-        private final TypeNode type;
+        private final String type;
         /**
          * Parameter comment.
          */
@@ -104,7 +98,7 @@ public class Function {
          */
         @JsonCreator
         public Parameter(@JsonProperty("name") final String name,
-                         @JsonProperty("type") final TypeNode type, @JsonProperty("comment") final String comment) {
+                         @JsonProperty("type") final String type, @JsonProperty("comment") final String comment) {
             this.name = name;
             this.type = type;
             this.comment = comment;
@@ -114,7 +108,7 @@ public class Function {
             return name;
         }
 
-        public TypeNode getType() {
+        public String getType() {
             return type;
         }
 

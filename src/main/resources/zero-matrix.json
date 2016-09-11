@@ -14,7 +14,7 @@
     "parameters": [
       {
         "name": "matrix",
-        "type": "array<array<int>>",
+        "type": "[[I",
         "comment": "Matrix to set zeros"
       }
     ]

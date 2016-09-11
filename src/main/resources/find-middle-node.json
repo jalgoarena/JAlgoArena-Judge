@@ -8,13 +8,13 @@
   "function": {
     "name": "findMiddleNode",
     "return": {
-      "type": "LinkedListNode<int>",
+      "type": "org.algohub.engine.type.ListNode",
       "comment": " Middle node"
     },
     "parameters": [
       {
         "name": "head",
-        "type": "LinkedListNode<int>",
+        "type": "org.algohub.engine.type.ListNode",
         "comment": "Linked List head"
       }
     ]

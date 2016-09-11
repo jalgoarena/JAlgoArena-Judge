@@ -8,18 +8,18 @@
   "function": {
     "name": "permutation",
     "return": {
-      "type": "bool",
+      "type": "java.lang.Boolean",
       "comment": " Indicate if one string is a permutation of another"
     },
     "parameters": [
       {
         "name": "str1",
-        "type": "string",
+        "type": "java.lang.String",
         "comment": "first string to be checked for permutation match"
       },
       {
         "name": "str2",
-        "type": "string",
+        "type": "java.lang.String",
         "comment": "second string to be checked for permutation match"
       }
     ]

@@ -1,4 +1,3 @@
-import java.util.*;
 import org.algohub.engine.type.*;
 
 public class Solution {
@@ -6,15 +5,15 @@ public class Solution {
      * @param head Linked List to check if it's palindrome
      * @return  Indicates if input linked list is palindrome
      */
-    public boolean isPalindrome(LinkedListNode<Integer> head) {
-        LinkedListNode<Integer> reversed = reverseAndClone(head);
+    public boolean isPalindrome(ListNode head) {
+        ListNode reversed = reverseAndClone(head);
         return isEqual(head, reversed);
     }
 
-    private LinkedListNode<Integer> reverseAndClone(LinkedListNode<Integer> node) {
-        LinkedListNode<Integer> head = null;
+    private ListNode reverseAndClone(ListNode node) {
+        ListNode head = null;
         while (node != null) {
-            LinkedListNode<Integer> n = new LinkedListNode<>(node.value);
+            ListNode n = new ListNode(node.value);
             n.next = head;
             head = n;
             node = node.next;
@@ -22,7 +21,7 @@ public class Solution {
         return head;
     }
 
-    private boolean isEqual(LinkedListNode<Integer> one, LinkedListNode<Integer> two) {
+    private boolean isEqual(ListNode one, ListNode two) {
         while (one != null && two != null) {
             if (one.value != two.value) {
                 return false;
