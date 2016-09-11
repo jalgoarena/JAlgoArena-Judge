@@ -73,6 +73,10 @@ dependencies {
                 'pl.pragmatists:JUnitParams:1.0.5'
 }
 
+bootRun {
+    systemProperty 'server.port', "$serverPort"
+}
+
 apply plugin: 'jacoco'
 
 jacocoTestReport {
