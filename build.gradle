@@ -16,7 +16,7 @@ plugins {
 apply plugin: 'spring-boot'
 apply from: "$rootDir/gradle/versioning.gradle"
 
-group = 'com.spolnik'
+group = 'org.algohub.engine'
 description = """Judge Engine"""
 
 //noinspection GroovyUnusedAssignment
