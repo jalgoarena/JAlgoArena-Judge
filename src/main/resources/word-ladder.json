@@ -4,7 +4,7 @@
   "description": "Given two words (start and end), and a dictionary, write a method `ladderLength` to find the length of shortest transformation sequence from start to end, such that:\r\n* Only one letter can be changed at a time\r\n* Each intermediate word must exist in the dictionary\r\n\r\n### Examples\r\n\r\n* `\"a\", \"c\", [\"a\",\"b\",\"c\"]` -> `2`",
   "time_limit": 1,
   "memory_limit": 32,
-  "level": 2,
+  "level": 3,
   "function": {
     "name": "ladderLength",
     "return": {
