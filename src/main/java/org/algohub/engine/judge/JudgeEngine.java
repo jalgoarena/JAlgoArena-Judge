@@ -25,10 +25,10 @@ public class JudgeEngine {
 
     private static JudgeResult judge(final Object clazz,
                                      final Method method,
-                                     final InternalTestCase[] testCases,
                                      final Problem problem) throws InterruptedException {
 
         ExecutorService executorService = Executors.newSingleThreadExecutor();
+        InternalTestCase[] testCases = readInternalTestCases(problem);
         Future<List<Boolean>> judge = executorService.submit(new JudgeTask(clazz, method, testCases));
 
 
@@ -51,12 +51,12 @@ public class JudgeEngine {
 
         // # RUN 2 - hot runs, run the code couple of times gathering time and memory measurements to return best
 
-        PerformanceResult performanceResult = getPerformanceResult(clazz, method, testCases);
+        PerformanceResult performanceResult = getPerformanceResult(clazz, method, readInternalTestCases(problem));
         for (int i = 0; i < NUMBER_OF_ITERATIONS; i++) {
-            performanceResult = performanceResult.compare(getPerformanceResult(clazz, method, testCases));
+            performanceResult = performanceResult.compare(getPerformanceResult(clazz, method, readInternalTestCases(problem)));
         }
 
-        if (performanceResult.usedMemoryInBytes > problem.getMemoryLimit()) {
+        if (performanceResult.usedMemoryInBytes / 1024 > problem.getMemoryLimit()) {
             return JudgeResult.memoryLimitExceeded(
                     testCases.length,
                     performanceResult.usedMemoryInBytes
@@ -98,6 +98,10 @@ public class JudgeEngine {
      */
     public static synchronized JudgeResult judge(final Problem problem, final String userCode) {
 
+        return internalJudge(problem, userCode);
+    }
+
+    public static InternalTestCase[] readInternalTestCases(Problem problem) {
         Problem.TestCase[] testCases = problem.getTestCases();
         Function function = problem.getFunction();
 
@@ -107,8 +111,7 @@ public class JudgeEngine {
         }
 
         shuffle(internalTestCases);
-
-        return judge(problem, internalTestCases, userCode);
+        return internalTestCases;
     }
 
     private static void shuffle(InternalTestCase[] array) {
@@ -125,7 +128,7 @@ public class JudgeEngine {
         array[j] = temp;
     }
 
-    private static JudgeResult judge(final Problem problem, final InternalTestCase[] testCases,
+    private static JudgeResult internalJudge(final Problem problem,
                                      final String userCode) {
         final Object clazz;
         final Method method;
@@ -153,7 +156,7 @@ public class JudgeEngine {
         }
 
         try {
-            return judge(clazz, method, testCases, problem);
+            return judge(clazz, method, problem);
         } catch (InterruptedException e) {
             return JudgeResult.runtimeError(e.getMessage());
         }
