@@ -4,7 +4,7 @@
   "description": "Given an m x n 2D image matrix where each integer represents a pixel, write a method `flipHorizontalAxis` to flip it in-place along its horizontal axis.\r\n\r\n### Examples\r\n\r\n```\r\n[[1, 0],\r\n [0, 1]]\r\n->\r\n[[0, 1],\r\n [1, 0]]\r\n```",
   "time_limit": 1,
   "memory_limit": 32,
-  "level": 1,
+  "level": 2,
   "function": {
     "name": "flipHorizontalAxis",
     "return": {
