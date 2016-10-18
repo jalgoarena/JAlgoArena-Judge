@@ -96,12 +96,41 @@ public class JudgeEngine {
      * @param userCode - source code solving the problem
      * @return - result of judge
      */
-    public static synchronized JudgeResult judge(final Problem problem, final String userCode) {
+    public static JudgeResult judge(final Problem problem, final String userCode) {
 
-        return internalJudge(problem, userCode);
+        final Object clazz;
+        final Method method;
+
+        Function function = problem.getFunction();
+
+        try {
+            final Optional<String> className = findClassName.in(userCode);
+            if (!className.isPresent()) {
+                return new JudgeResult("ClassNotFoundException: No public class found");
+            }
+            final Object[] tmp = new MemoryJavaCompiler()
+                    .compileMethod(className.get(), function.getName(), userCode);
+            clazz = tmp[0];
+            method = (Method) tmp[1];
+        } catch (ClassNotFoundException e) {
+            LOG.error("Class not found", e);
+            return new JudgeResult(e.getClass() + " : " + e.getMessage());
+        } catch (CompileErrorException e) {
+            LOG.error("Compilation error", e);
+            return new JudgeResult(createFriendlyMessage.from(e.getMessage()));
+        } catch (NoSuchMethodError e) {
+            LOG.error("No such method error", e);
+            return new JudgeResult("No such method: " + e.getMessage());
+        }
+
+        try {
+            return judge(clazz, method, problem);
+        } catch (InterruptedException e) {
+            return JudgeResult.runtimeError(e.getMessage());
+        }
     }
 
-    public static InternalTestCase[] readInternalTestCases(Problem problem) {
+    private static InternalTestCase[] readInternalTestCases(Problem problem) {
         Problem.TestCase[] testCases = problem.getTestCases();
         Function function = problem.getFunction();
 
@@ -126,40 +155,6 @@ public class JudgeEngine {
         InternalTestCase temp = array[i];
         array[i] = array[j];
         array[j] = temp;
-    }
-
-    private static JudgeResult internalJudge(final Problem problem,
-                                     final String userCode) {
-        final Object clazz;
-        final Method method;
-
-        Function function = problem.getFunction();
-
-        try {
-            final Optional<String> className = findClassName.in(userCode);
-            if (!className.isPresent()) {
-                return new JudgeResult("ClassNotFoundException: No public class found");
-            }
-            final Object[] tmp = MemoryJavaCompiler.INSTANCE
-                    .compileMethod(className.get(), function.getName(), userCode);
-            clazz = tmp[0];
-            method = (Method) tmp[1];
-        } catch (ClassNotFoundException e) {
-            LOG.error("Class not found", e);
-            return new JudgeResult(e.getClass() + " : " + e.getMessage());
-        } catch (CompileErrorException e) {
-            LOG.error("Compilation error", e);
-            return new JudgeResult(createFriendlyMessage.from(e.getMessage()));
-        } catch (NoSuchMethodError e) {
-            LOG.error("No such method error", e);
-            return new JudgeResult("No such method: " + e.getMessage());
-        }
-
-        try {
-            return judge(clazz, method, problem);
-        } catch (InterruptedException e) {
-            return JudgeResult.runtimeError(e.getMessage());
-        }
     }
 
     private static class PerformanceSnapshot {

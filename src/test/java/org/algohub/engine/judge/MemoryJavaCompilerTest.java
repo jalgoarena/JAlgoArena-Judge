@@ -16,7 +16,7 @@ public class MemoryJavaCompilerTest {
     @Test
     public void compileAndRunStaticMethod() throws Throwable {
 
-        Object[] greetingObject = MemoryJavaCompiler.INSTANCE.compileMethod(
+        Object[] greetingObject = new MemoryJavaCompiler().compileMethod(
                 "Solution", "greeting", SOURCE_CODE
         );
 
@@ -29,7 +29,7 @@ public class MemoryJavaCompilerTest {
 
     @Test(expected = NoSuchMethodError.class)
     public void throwsNoSuchMethodExceptionWhenInvokingNonExistingMethod() throws Exception {
-        MemoryJavaCompiler.INSTANCE.compileMethod(
+        new MemoryJavaCompiler().compileMethod(
                 "Solution", "dummy", SOURCE_CODE
         );
     }
@@ -39,7 +39,7 @@ public class MemoryJavaCompilerTest {
         String sourceCode =
                 "public final class Solution { private Solution() { }; public void dummy() {} }";
 
-        MemoryJavaCompiler.INSTANCE.compileMethod(
+        new MemoryJavaCompiler().compileMethod(
                 "Solution", "dummy", sourceCode
         );
     }
@@ -49,7 +49,7 @@ public class MemoryJavaCompilerTest {
         String sourceCodeMissingReturnString =
                 "public final class Solution { private Solution() { }; public String dummy() {} }";
 
-        MemoryJavaCompiler.INSTANCE.compileMethod(
+        new MemoryJavaCompiler().compileMethod(
                 "Solution", "dummy", sourceCodeMissingReturnString
         );
     }

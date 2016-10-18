@@ -20,13 +20,10 @@ import java.util.Map;
  */
 final class MemoryJavaCompiler {
 
-    static final MemoryJavaCompiler INSTANCE = new MemoryJavaCompiler();
-
     private static final Logger LOG = LoggerFactory.getLogger(MemoryJavaCompiler.class);
+    private static final javax.tools.JavaCompiler javaCompiler;
 
-    private final javax.tools.JavaCompiler javaCompiler;
-
-    private MemoryJavaCompiler() {
+    static {
         javaCompiler = ToolProvider.getSystemJavaCompiler();
         Preconditions.checkNotNull(
                 javaCompiler, "Could not get Java compiler. Please, ensure that JDK is used instead of JRE."
