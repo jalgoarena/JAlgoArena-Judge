@@ -50,44 +50,44 @@ public class JudgeEngine {
         }
 
         // # RUN 2 - hot runs, run the code couple of times gathering time and memory measurements to return best
+        return runPerformanceEvaluation(clazz, method, problem, testCases);
+    }
 
-        PerformanceResult performanceResult = getPerformanceResult(clazz, method, readInternalTestCases(problem));
-        for (int i = 0; i < NUMBER_OF_ITERATIONS; i++) {
-            performanceResult = performanceResult.compare(getPerformanceResult(clazz, method, readInternalTestCases(problem)));
-        }
+    private static JudgeResult runPerformanceEvaluation(Object clazz, Method method, Problem problem, InternalTestCase[] testCases) {
+        try {
+            ExecutorService executorService = Executors.newSingleThreadExecutor();
+            Future<PerformanceResult> performanceResultFuture = evaluatePerformance(clazz, method, problem, executorService);
+            PerformanceResult performanceResult = performanceResultFuture.get(problem.getTimeLimit(), TimeUnit.SECONDS);
+            for (int i = 0; i < NUMBER_OF_ITERATIONS; i++) {
+                performanceResultFuture = evaluatePerformance(clazz, method, problem, executorService);
+                performanceResult = performanceResult.chooseBestResults(performanceResultFuture.get(problem.getTimeLimit(), TimeUnit.SECONDS));
+            }
 
-        if (performanceResult.usedMemoryInBytes / 1024 > problem.getMemoryLimit()) {
-            return JudgeResult.memoryLimitExceeded(
+            if (performanceResult.usedMemoryInBytes / 1024 > problem.getMemoryLimit()) {
+                return JudgeResult.memoryLimitExceeded(
+                        testCases.length,
+                        performanceResult.usedMemoryInBytes
+                );
+            }
+
+            return JudgeResult.accepted(
                     testCases.length,
+                    performanceResult.usedTimeInMs,
                     performanceResult.usedMemoryInBytes
             );
+        } catch (InterruptedException | ExecutionException e) {
+            LOG.error("Error in processing solution", e);
+            return JudgeResult.runtimeError(e.getMessage());
+        } catch (TimeoutException e) {
+            LOG.error("Timeout error", e);
+            return JudgeResult.timeLimitExceeded();
         }
-
-        return JudgeResult.accepted(
-                testCases.length,
-                performanceResult.usedTimeInMs,
-                performanceResult.usedMemoryInBytes
-        );
     }
 
-    private static PerformanceResult getPerformanceResult(Object clazz, Method method, InternalTestCase[] testCases) throws InterruptedException {
-        PerformanceSnapshot snapshotBeforeRun = takePerformanceSnapshot();
-
-        new JudgeTask(clazz, method, testCases).run();
-
-        PerformanceSnapshot snapshotAfterRun = takePerformanceSnapshot();
-
-        return PerformanceResult.create(snapshotBeforeRun, snapshotAfterRun);
+    private static Future<PerformanceResult> evaluatePerformance(Object clazz, Method method, Problem problem, ExecutorService executorService) {
+        return executorService.submit(new JudgePerformanceTask(clazz, method, readInternalTestCases(problem)));
     }
 
-    private static PerformanceSnapshot takePerformanceSnapshot() {
-        Runtime runtime = Runtime.getRuntime();
-
-        return PerformanceSnapshot.create(
-                System.nanoTime(),
-                runtime.totalMemory() - runtime.freeMemory()
-        );
-    }
 
     /**
      * Runs judge on given source code for a given problem
@@ -195,10 +195,43 @@ public class JudgeEngine {
             return after.usedMemoryInBytes - before.usedMemoryInBytes;
         }
 
-        PerformanceResult compare(PerformanceResult performanceResult) {
+        PerformanceResult chooseBestResults(PerformanceResult performanceResult) {
             return new PerformanceResult(
                     Math.min(performanceResult.usedMemoryInBytes, usedMemoryInBytes),
                     Math.min(performanceResult.usedTimeInMs, usedTimeInMs)
+            );
+        }
+    }
+
+    private static class JudgePerformanceTask implements Callable<PerformanceResult> {
+
+        private final Object clazz;
+        private final Method method;
+        private final InternalTestCase[] testCases;
+
+        JudgePerformanceTask(Object clazz, Method method, InternalTestCase[] testCases) {
+            this.clazz = clazz;
+            this.method = method;
+            this.testCases = testCases;
+        }
+
+        @Override
+        public PerformanceResult call() throws Exception {
+            PerformanceSnapshot snapshotBeforeRun = takePerformanceSnapshot();
+
+            new JudgeTask(this.clazz, this.method, this.testCases).run();
+
+            PerformanceSnapshot snapshotAfterRun = takePerformanceSnapshot();
+
+            return PerformanceResult.create(snapshotBeforeRun, snapshotAfterRun);
+        }
+
+        private PerformanceSnapshot takePerformanceSnapshot() {
+            Runtime runtime = Runtime.getRuntime();
+
+            return PerformanceSnapshot.create(
+                    System.nanoTime(),
+                    runtime.totalMemory() - runtime.freeMemory()
             );
         }
     }
