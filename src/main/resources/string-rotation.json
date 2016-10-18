@@ -1,7 +1,7 @@
 {
   "id": "string-rotation",
   "title": "String Rotation",
-  "description":  "Given two strings, s1 and s2, write method `isRotation` with algorithm checking if s2 is a rotation of s1.\r\n\r\n### Example\r\n\r\n* `'watterbottle', 'erbottlewat'` -> `true`",
+  "description":  "Given two strings, s1 and s2, write method `isRotation` with algorithm checking if s2 is a rotation of s1.\r\n\r\n### Example\r\n\r\n* `'watterbottle', 'erbottlewatt'` -> `true`",
   "time_limit": 1,
   "memory_limit": 32,
   "level": 1,
