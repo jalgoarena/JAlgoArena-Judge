@@ -87,6 +87,7 @@ public class JudgeControllerTest {
             "find-middle-node, FindMiddleNode",
             "horizontal-flip, HorizontalFlip",
             "vertical-flip, VerticalFlip",
+            "single-number, SingleNumber",
     })
     public void judgesCorrectSolution(String problemId, String solutionId) throws Exception {
         final String sourceCode =
