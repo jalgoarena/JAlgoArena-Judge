@@ -12,7 +12,7 @@ public class Solution {
 
         if (length == s2.length() && length > 0) {
             String s1s1 = s1 + s1;
-            return s1s1.contains(s1);
+            return s1s1.contains(s2);
         }
 
         return false;
