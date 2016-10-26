@@ -8,7 +8,7 @@
   "function": {
     "name": "singleNumber",
     "return": {
-      "type": "int",
+      "type": "java.lang.Integer",
       "comment": "Single Number to find"
     },
     "parameters": [
