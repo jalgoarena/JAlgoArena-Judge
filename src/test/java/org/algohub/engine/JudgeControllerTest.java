@@ -85,7 +85,8 @@ public class JudgeControllerTest {
             "repeated-elements, RepeatedElements",
             "first-non-repeated-char, FirstNonRepeatedChar",
             "find-middle-node, FindMiddleNode",
-            "horizontal-flip, HorizontalFlip"
+            "horizontal-flip, HorizontalFlip",
+            "vertical-flip, VerticalFlip",
     })
     public void judgesCorrectSolution(String problemId, String solutionId) throws Exception {
         final String sourceCode =

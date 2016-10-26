@@ -1,0 +1,28 @@
+{
+  "id": "single-number",
+  "title": "Single Number",
+  "description": "Write a method `singleNumber` that returns a number that appears only once in an array. Assume that array will surely have a unique value. The array will never be empty..\r\n\r\n### Examples\r\n\r\n```\r\n[1,2,3,4,1,2,3,4,5]\r\n->\r\n5\r\n```",
+  "time_limit": 1,
+  "memory_limit": 32,
+  "level": 1,
+  "function": {
+    "name": "singleNumber",
+    "return": {
+      "type": "int",
+      "comment": "Single Number to find"
+    },
+    "parameters": [
+      {
+        "name": "arr",
+        "type": "[I",
+        "comment": "Array of integers with a single number"
+      }
+    ]
+  },
+  "test_cases": [
+    {"input": [[1,2,3,4,1,2,3,4,5]], "output": 5},
+    {"input": [[0,1,2,3,4,5,1,2,3,4,5]], "output": 0},
+    {"input": [[1,2,3,4,3,-2,4,5,1,2,3,4,5]], "output": -2},
+    {"input": [[1]], "output": 1}
+  ]
+}
