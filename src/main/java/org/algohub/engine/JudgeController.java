@@ -24,7 +24,6 @@ import java.util.stream.Stream;
 
 @CrossOrigin
 @RestController
-
 class JudgeController {
 
     private static final Logger LOG = LoggerFactory.getLogger(JudgeController.class);
