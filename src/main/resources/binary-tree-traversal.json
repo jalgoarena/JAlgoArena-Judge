@@ -21,6 +21,7 @@
   },
   "test_cases": [
     {"input": [{"data":1,"left":{"data":2,"left":{"data":4},"right":{"data":5}},"right":{"data":3,"left":{"data":6},"right":{"data":7}}}], "output": [1, 2, 4, 5, 3, 6, 7]},
+    {"input": [{"data":1,"left":{"data":2,"left":{"data":4}},"right":{"data":3,"right":{"data":7}}}], "output": [1, 2, 4, 3, 7]},
     {"input": [{"data":1}], "output": [1]},
     {"input": [null], "output": []}
   ]
