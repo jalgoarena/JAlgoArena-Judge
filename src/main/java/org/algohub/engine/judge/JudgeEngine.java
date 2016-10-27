@@ -125,7 +125,7 @@ public class JudgeEngine {
 
         try {
             return judge(clazz, method, problem);
-        } catch (InterruptedException e) {
+        } catch (Exception e) {
             return JudgeResult.runtimeError(e.getMessage());
         }
     }
