@@ -1,0 +1,28 @@
+{
+  "id": "postorder-traversal",
+  "title": "Postorder Traversal",
+  "description":  "Given a binary tree, Write a method `postorderTraversal` to recursively traverse the tree in the postorder manner. Return array of elements visited in postorder format.\r\n\r\n### Example\r\n\r\n ```\r\n     1\r\n    / \\\r\n   2   3     ==> 4526731\r\n  / \\ / \\\r\n 4  5 6  7 \r\n```",
+  "time_limit": 1,
+  "memory_limit": 32,
+  "level": 1,
+  "function": {
+    "name": "postorderTraversal",
+    "return": {
+      "type": "[I",
+      "comment": " Postordered array of binary tree elements"
+    },
+    "parameters": [
+      {
+        "name": "root",
+        "type": "org.algohub.engine.type.TreeNode",
+        "comment": "Root of binary tree"
+      }
+    ]
+  },
+  "test_cases": [
+    {"input": [{"data":1,"left":{"data":2,"left":{"data":4},"right":{"data":5}},"right":{"data":3,"left":{"data":6},"right":{"data":7}}}], "output": [4, 5, 2, 6, 7, 3, 1]},
+    {"input": [{"data":1,"left":{"data":2,"left":{"data":4}},"right":{"data":3,"right":{"data":7}}}], "output": [4, 2, 7, 3, 1]},
+    {"input": [{"data":1}], "output": [1]},
+    {"input": [null], "output": []}
+  ]
+}

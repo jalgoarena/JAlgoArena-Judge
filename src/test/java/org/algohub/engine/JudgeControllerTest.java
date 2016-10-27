@@ -90,6 +90,7 @@ public class JudgeControllerTest {
             "single-number, SingleNumber",
             "preorder-traversal, PreorderTraversal",
             "inorder-traversal, InorderTraversal",
+            "postorder-traversal, PostorderTraversal",
     })
     public void judgesCorrectSolution(String problemId, String solutionId) throws Exception {
         final String sourceCode =
