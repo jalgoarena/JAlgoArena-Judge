@@ -88,7 +88,8 @@ public class JudgeControllerTest {
             "horizontal-flip, HorizontalFlip",
             "vertical-flip, VerticalFlip",
             "single-number, SingleNumber",
-            "binary-tree-traversal, BinaryTreeTraversal",
+            "preorder-traversal, PreorderTraversal",
+            "inorder-traversal, InorderTraversal",
     })
     public void judgesCorrectSolution(String problemId, String solutionId) throws Exception {
         final String sourceCode =

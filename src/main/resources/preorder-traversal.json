@@ -1,15 +1,15 @@
 {
-  "id": "binary-tree-traversal",
-  "title": "Binary Tree Traversal",
-  "description":  "Given a binary tree, Write a method `preorder` to recursively traverse the tree in the preorder manner. Return array of elements visited in preorder format.\r\n\r\n### Example\r\n\r\n ```\r\n     1\r\n    / \\\r\n   2   3     ==> 1245367\r\n  / \\ / \\\r\n 4  5 6  7 \r\n```",
+  "id": "preorder-traversal",
+  "title": "Binary Tree Preorder Traversal",
+  "description":  "Given a binary tree, Write a method `preorderTraversal` to recursively traverse the tree in the preorder manner. Return array of elements visited in preorder format.\r\n\r\n### Example\r\n\r\n ```\r\n     1\r\n    / \\\r\n   2   3     ==> 1245367\r\n  / \\ / \\\r\n 4  5 6  7 \r\n```",
   "time_limit": 1,
   "memory_limit": 32,
   "level": 1,
   "function": {
-    "name": "preorder",
+    "name": "preorderTraversal",
     "return": {
       "type": "[I",
-      "comment": " Preordered array if binary tree elements"
+      "comment": " Preordered array of binary tree elements"
     },
     "parameters": [
       {
