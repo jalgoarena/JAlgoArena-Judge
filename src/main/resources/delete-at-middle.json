@@ -16,6 +16,11 @@
         "name": "head",
         "type": "org.algohub.engine.type.ListNode",
         "comment": "Linked List head"
+      },
+      {
+        "name": "position",
+        "type": "java.lang.Integer",
+        "comment": "Position of node to be removed"
       }
     ]
   },
