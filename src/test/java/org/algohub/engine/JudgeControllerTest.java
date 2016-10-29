@@ -93,6 +93,7 @@ public class JudgeControllerTest {
             "postorder-traversal, PostorderTraversal",
             "height-binary-tree, HeightOfBinaryTree",
             "sum-binary-tree, SumBinaryTree",
+            "insert-stars, InsertStars",
     })
     public void judgesCorrectSolution(String problemId, String solutionId) throws Exception {
         final String sourceCode =
