@@ -94,6 +94,7 @@ public class JudgeControllerTest {
             "height-binary-tree, HeightOfBinaryTree",
             "sum-binary-tree, SumBinaryTree",
             "insert-stars, InsertStars",
+            "transpose-matrix, TransposeMatrix",
     })
     public void judgesCorrectSolution(String problemId, String solutionId) throws Exception {
         final String sourceCode =

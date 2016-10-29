@@ -4,7 +4,7 @@
   "description": "You are given a square 2D image matrix where each integer represents a pixel. Write a method `transposeMatrix` to transform the matrix into its transpose - in-place. The transpose of a matrix is a matrix which is formed by turning all the rows of the source matrix into columns and vice-versa..\r\n\r\n### Examples\r\n\r\n```\r\n[[1, 2, 3, 4],\r\n [5, 6, 7, 8],\r\n [9, 0, 1, 2],\r\n [3, 4, 5, 0]]\r\n->\r\n[[1, 5, 9, 3],\r\n [2, 6, 0, 4],\r\n [3, 7, 1, 5],\r\n [4, 8, 2, 0]]\r\n```",
   "time_limit": 1,
   "memory_limit": 32,
-  "level": 2,
+  "level": 1,
   "function": {
     "name": "transposeMatrix",
     "return": {
