@@ -1,0 +1,33 @@
+{
+  "id": "binary-representation",
+  "title": "Binary Representation",
+  "description":  "Write a method `computeBinary` to compute the binary representation of an integer. The method should return a string with 1s and 0s. Use the minimum number of binary digits needed for representation (truncate unnecessary trailing 0s).\r\n\r\n**Note**: using java framework to solve it is forbiden - you have to code it by yourself.\r\n\r\n### Example\r\n\r\n* `6` -> `'110'`\r\n* `5` -> `'101'`",
+  "time_limit": 2,
+  "memory_limit": 32,
+  "level": 1,
+  "function": {
+    "name": "computeBinary",
+    "return": {
+      "type": "java.lang.String",
+      "comment": " Binary representation"
+    },
+    "parameters": [
+      {
+        "name": "val",
+        "type": "java.lang.Integer",
+        "comment": "Input number"
+      }
+    ]
+  },
+  "test_cases": [
+    {"input": [5], "output": "101"},
+    {"input": [6], "output": "110"},
+    {"input": [-5], "output": "11111111111111111111111111111011"},
+    {"input": [2147483647], "output": "01111111111111111111111111111111"},
+    {"input": [0], "output": "0"},
+    {"input": [10], "output": "1010"},
+    {"input": [15], "output": "1111"},
+    {"input": [52], "output": "110100"},
+    {"input": [1], "output": "1"}
+  ]
+}
