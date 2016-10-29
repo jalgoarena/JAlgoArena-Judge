@@ -1,0 +1,28 @@
+{
+  "id": "height-binary-tree",
+  "title": "Height of a binary tree",
+  "description":  "Given a binary tree, Write a method `findHeight` to find its height. An empty tree has a height of 0.\r\n\r\n### Example\r\n\r\n ```\r\n     1\r\n    / \\\r\n   2   3     ==> height = 3\r\n  / \\ / \\\r\n 4  5 6  7 \r\n```",
+  "time_limit": 1,
+  "memory_limit": 32,
+  "level": 1,
+  "function": {
+    "name": "findHeight",
+    "return": {
+      "type": "java.lang.Integer",
+      "comment": " Height of binary tree"
+    },
+    "parameters": [
+      {
+        "name": "root",
+        "type": "org.algohub.engine.type.TreeNode",
+        "comment": "Root of binary tree"
+      }
+    ]
+  },
+  "test_cases": [
+    {"input": [{"data":1,"left":{"data":2,"left":{"data":4},"right":{"data":5}},"right":{"data":3,"left":{"data":6},"right":{"data":7}}}], "output": 3},
+    {"input": [{"data":1,"left":{"data":2,"left":{"data":4}},"right":{"data":3,"right":{"data":7, "left": {"data":6}}}}], "output": 4},
+    {"input": [{"data":1}], "output": 1},
+    {"input": [null], "output": 0}
+  ]
+}

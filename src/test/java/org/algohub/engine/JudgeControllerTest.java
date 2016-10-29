@@ -91,6 +91,7 @@ public class JudgeControllerTest {
             "preorder-traversal, PreorderTraversal",
             "inorder-traversal, InorderTraversal",
             "postorder-traversal, PostorderTraversal",
+            "height-binary-tree, HeightOfBinaryTree",
     })
     public void judgesCorrectSolution(String problemId, String solutionId) throws Exception {
         final String sourceCode =
