@@ -13,15 +13,16 @@
     },
     "parameters": [
       {
-        "name": "arr",
+        "name": "prices",
         "type": "[I",
-        "comment": "Quotes"
+        "comment": "Prices"
       }
     ]
   },
   "test_cases": [
     {"input": [[50,100,20,80,20]], "output": 110},
-    {"input": [[50,100]], "output": 0},
+    {"input": [[50,100]], "output": 50},
+    {"input": [[150,100]], "output": 0},
     {"input": [[50,100,50,100,50]], "output": 100},
     {"input": [[100,40,20,10]], "output": 0},
     {"input": [[0,50,10,100,30]], "output": 140},
