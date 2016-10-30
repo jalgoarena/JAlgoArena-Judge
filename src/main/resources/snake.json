@@ -1,7 +1,7 @@
 {
   "id": "snake",
   "title": "Snake",
-  "description":  "Write a method `findSpiral` to traverse a 2D matrix of ints in a clockwise spiral order and set the elements to an output array of integers.\r\n\r\n### Example\r\n\r\n* ``` \r\nInput Matrix : \r\n{1, 2, 3} \r\n{4, 5, 6} \r\n{7, 8, 9} \r\n\r\nOutput ArrayList:[1, 2, 3, 6, 9, 8, 7, 4, 5] \r\n```",
+  "description":  "Write a method `findSpiral` to traverse a 2D matrix of ints in a clockwise spiral order and set the elements to an output array of integers.\r\n\r\n### Example\r\n\r\n* ``` \r\nInput Matrix : \r\n{1, 2, 3} \r\n{4, 5, 6} \r\n{7, 8, 9} \r\n\r\nOutput ArrayList:[1, 2, 3, 6, 9, 8, 7, 4, 5] \r\n ```",
   "time_limit": 1,
   "memory_limit": 32,
   "level": 2,
