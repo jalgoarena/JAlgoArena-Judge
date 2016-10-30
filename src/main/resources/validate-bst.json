@@ -1,7 +1,7 @@
 {
   "id": "validate-bst",
   "title": "BST Validation",
-  "description":  "Given a binary tree, write a method `validateBST` to determine if it is a Binary Search Tree.\r\n\r\n### Example\r\n\r\n ```  \r\n      20 \r\n    /   \\ \r\n  15    30 \r\n /  \\ \r\n14  18   \r\n  \r\noutput ==> true\r\n\r\n      20\r\n     /   \\ \r\n   30    15 \r\n  /  \\ \r\n                  14  18 \r\n    \r\noutput ==> false \r\n\r\n```",
+  "description":  "Given a binary tree, write a method `validateBST` to determine if it is a Binary Search Tree.\r\n\r\n### Example\r\n\r\n ```  \r\n      20 \r\n    /   \\ \r\n  15    30 \r\n /  \\ \r\n14  18   \r\n  \r\noutput ==> true\r\n\r\n      20\r\n     /   \\ \r\n   30    15 \r\n  /  \\ \r\n14  18 \r\n    \r\noutput ==> false \r\n\r\n```",
   "time_limit": 1,
   "memory_limit": 32,
   "level": 2,
