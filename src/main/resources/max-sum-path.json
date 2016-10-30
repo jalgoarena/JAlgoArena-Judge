@@ -1,0 +1,30 @@
+{
+  "id": "max-sum-path",
+  "title": "Maximum sum path",
+  "description":  "Given a binary tree, write a method `maxSumPath` that returns the maximum sum of data values obtained by traversing nodes along a path between any 2 nodes of the tree. The path must originate and terminate at 2 different nodes of the tree, and the maximum sum is obtained by summing all the data values of the nodes traversed along this path..\r\n\r\n### Example\r\n\r\n ``` \r\n     1 \r\n    / \\ \r\n   2   3     => 18 \r\n  / \\ / \\ \r\n 4  5 6  7 \r\n \r\nPath: 5 -> 2 -> 1 -> 3 -> 7 \r\nMax Sum = 5+2+1+3+7 = 18 \r\n```",
+  "time_limit": 1,
+  "memory_limit": 32,
+  "level": 2,
+  "function": {
+    "name": "maxSumPath",
+    "return": {
+      "type": "java.lang.Integer",
+      "comment": " Sum of all elements in max path"
+    },
+    "parameters": [
+      {
+        "name": "root",
+        "type": "org.algohub.engine.type.TreeNode",
+        "comment": "Root of binary tree"
+      }
+    ]
+  },
+  "test_cases": [
+    {"input": [{"data":1,"left":{"data":2,"left":{"data":4},"right":{"data":5}},"right":{"data":3,"left":{"data":6},"right":{"data":7}}}], "output": 18},
+    {"input": [{"data":1,"left":{"data":2,"left":{"data":4,"left":{"data":8},"right":{"data":9}},"right":{"data":5}},"right":{"data":3,"left":{"data":6},"right":{"data":7}}}], "output": 26},
+    {"input": [{"data":1,"left":{"data":2,"left":{"data":4},"right":{"data":-5}},"right":{"data":3,"left":{"data":6},"right":{"data":-7}}}], "output": 16},
+    {"input": [{"data":1,"left":{"data":2,"left":{"data":4}},"right":{"data":3,"right":{"data":7, "left": {"data":6}}}}], "output": 23},
+    {"input": [{"data":1}], "output": 1},
+    {"input": [null], "output": 0}
+  ]
+}
