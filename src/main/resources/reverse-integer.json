@@ -1,0 +1,32 @@
+{
+  "id": "reverse-integer",
+  "title": "Reverse Integer",
+  "description":  "Implement a method `twoSum` that reverses an integer - without using additonal heap space.\r\n\r\n### Example\r\n\r\n* `-123` -> `-321`\r\n* `123` -> `321`",
+  "time_limit": 1,
+  "memory_limit": 32,
+  "level": 2,
+  "function": {
+    "name": "reverseInt",
+    "return": {
+      "type": "java.lang.Integer",
+      "comment": " Reversed integer"
+    },
+    "parameters": [
+      {
+        "name": "x",
+        "type": "java.lang.Integer",
+        "comment": "Input value"
+      }
+    ]
+  },
+  "test_cases": [
+    {"input": [-123], "output": -321},
+    {"input": [123], "output": 321},
+    {"input": [0], "output": 0},
+    {"input": [3000], "output": 3},
+    {"input": [-53000], "output": -35},
+    {"input": [2147483640], "output": 463847412},
+    {"input": [2147483641], "output": 1463847412},
+    {"input": [-2147483640], "output": -463847412}
+  ]
+}
