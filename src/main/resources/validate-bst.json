@@ -1,0 +1,32 @@
+{
+  "id": "validate-bst",
+  "title": "BST Validation",
+  "description":  "Given a binary tree, write a method `validateBST` to determine if it is a Binary Search Tree.\r\n\r\n### Example\r\n\r\n ```  \r\n      20 \r\n    /   \\ \r\n  15    30 \r\n /  \\ \r\n14  18   \r\n  \r\noutput ==> true\r\n\r\n      20\r\n     /   \\ \r\n   30    15 \r\n  /  \\ \r\n                  14  18 \r\n    \r\noutput ==> false \r\n\r\n```",
+  "time_limit": 1,
+  "memory_limit": 32,
+  "level": 2,
+  "function": {
+    "name": "validateBST",
+    "return": {
+      "type": "java.lang.Boolean",
+      "comment": " Is a binary search tree"
+    },
+    "parameters": [
+      {
+        "name": "root",
+        "type": "org.algohub.engine.type.TreeNode",
+        "comment": "Root of binary tree"
+      }
+    ]
+  },
+  "test_cases": [
+    {"input": [{"data":5,"left":{"data":3,"left":{"data":2},"right":{"data":4}},"right":{"data":8,"left":{"data":6},"right":{"data":9}}}], "output": true},
+    {"input": [{"data":1,"left":{"data":2,"left":{"data":4},"right":{"data":5}},"right":{"data":3,"left":{"data":10},"right":{"data":7}}}], "output": false},
+    {"input": [{"data":1,"left":{"data":2,"left":{"data":4}},"right":{"data":3,"right":{"data":7, "left": {"data":6}}}}], "output": false},
+    {"input": [{"data":1,"left":{"data":2,"left":{"data":4}},"right":{"data":3,"right":{"data":7, "left": {"data":40}}}}], "output": false},
+    {"input": [{"data":20,"left":{"data":15,"left":{"data":10}, "right": {"data": 30}},"right":{"data":40}}], "output": false},
+    {"input": [{"data":20,"left":{"data":15,"left":{"data":10}, "right": {"data": 16}},"right":{"data":40}}], "output": true},
+    {"input": [{"data":1}], "output": true},
+    {"input": [null], "output": true}
+  ]
+}
