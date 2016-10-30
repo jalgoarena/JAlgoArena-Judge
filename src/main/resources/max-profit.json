@@ -1,0 +1,35 @@
+{
+  "id": "max-profit",
+  "title": "Stock Market Oracle",
+  "description": "You've recently acquired market prediction superpowers that let you predict the closing stock price of a Acme Inc.'s stock a month into the future! To get the most out of this superpower, you need to write a method called `maxProfit` that takes in an array of integers representing the close out stock price on a given day. This method should return the maximum profit you can make out of trading Acme Inc.'s stock. There are a few limitations however :\r\n\r\n1) You must sell your current holding before buying another - i.e. You may not buy and then buy again. It needs to be a buy - sell - buy - sell ... pattern.\r\n\r\n2) You may complete as many transactions as you like. You're using an awesome service like Robinhood, and so there are no transaction costs!\r\n\r\n3) If you're enormously unlucky (or karma takes over) and no profit can be made, return 0.\r\n\r\n### Examples\r\n\r\n```\r\n[50,100,20,80,20]\r\n->\r\n110\r\n```",
+  "time_limit": 1,
+  "memory_limit": 32,
+  "level": 2,
+  "function": {
+    "name": "maxProfit",
+    "return": {
+      "type": "java.lang.Integer",
+      "comment": "Max profit"
+    },
+    "parameters": [
+      {
+        "name": "arr",
+        "type": "[I",
+        "comment": "Quotes"
+      }
+    ]
+  },
+  "test_cases": [
+    {"input": [[50,100,20,80,20]], "output": 110},
+    {"input": [[50,100]], "output": 0},
+    {"input": [[50,100,50,100,50]], "output": 100},
+    {"input": [[100,40,20,10]], "output": 0},
+    {"input": [[0,50,10,100,30]], "output": 140},
+    {"input": [[0,100,0,100,0,100]], "output": 300},
+    {"input": [[1,2,3,4,3,2,4,5,1,2,3,4,5]], "output": 10},
+    {"input": [[1]], "output": 0},
+    {"input": [[]], "output": 0},
+    {"input": [null], "output": 0},
+    {"input": [[1,1]], "output": 0}
+  ]
+}
