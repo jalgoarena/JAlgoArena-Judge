@@ -1,0 +1,29 @@
+{
+  "id": "sort-array",
+  "title": "Sort Array",
+  "description":  "Write method `sort` to sorg given array.\r\n\r\n**Note**: You cannot use `Arrays.sort` or any other framework method to do that - you have to implement it.\r\n\r\n### Example\r\n\r\n* `[44,2,22,7,11,15]` -> `[2,7,11,15,22,44]`",
+  "time_limit": 1,
+  "memory_limit": 32,
+  "level": 1,
+  "function": {
+    "name": "sort",
+    "return": {
+      "type": "[I",
+      "comment": " Sorted array"
+    },
+    "parameters": [
+      {
+        "name": "arr",
+        "type": "[I",
+        "comment": "An array to sort"
+      }
+    ]
+  },
+  "test_cases": [
+    {"input": [[44,2,22,7,11,15]], "output": [2,7,11,15,22,44]},
+    {"input": [[1]], "output": [1]},
+    {"input": [[]], "output": []},
+    {"input": [null], "output": null},
+    {"input": [[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,9,9,9,10,11,1001,2001,198,201,203,201,999,345,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,4,5,6,1,1,1,1,1,1,1,1,1,1,1,101,1,1,1,1,1,1,1,1]], "output": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,4,5,6,9,9,9,10,11,101,198,201,201,203,345,999,1001,2001]}
+  ]
+}
