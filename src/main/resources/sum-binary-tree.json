@@ -1,7 +1,7 @@
 {
-  "id": "Sum-binary-tree",
+  "id": "sum-binary-tree",
   "title": "Sum of a binary tree",
-  "description":  "Given a binary tree, Write a method `sum` to find and return the sum of all elements. For an empty tree return 0.\r\n\r\n### Example\r\n\r\n ```\r\n     1\r\n    / \\\r\n   2   3     ==> sum = 28\r\n  / \\ / \\\r\n 4  5 6  7 \r\n```",
+  "description":  "Given a binary tree, write a method `sum` to find and return the sum of all elements. For an empty tree return 0.\r\n\r\n### Example\r\n\r\n ```\r\n     1\r\n    / \\\r\n   2   3     ==> sum = 28\r\n  / \\ / \\\r\n 4  5 6  7 \r\n```",
   "time_limit": 1,
   "memory_limit": 32,
   "level": 1,

@@ -1,0 +1,28 @@
+{
+  "id": "number-of-leaves",
+  "title": "Count the Leaves",
+  "description":  "Write a method `countLeaves` to find the total number of leaf nodes in a binary tree. If there is no leaf nodes, return 0..\r\n\r\n### Example\r\n\r\n ```\r\n     1\r\n    / \\\r\n   2   3     ==> # count = 4\r\n  / \\ / \\\r\n 4  5 6  7 \r\n```",
+  "time_limit": 1,
+  "memory_limit": 32,
+  "level": 1,
+  "function": {
+    "name": "countLeaves",
+    "return": {
+      "type": "java.lang.Integer",
+      "comment": " Number of leaf nodes"
+    },
+    "parameters": [
+      {
+        "name": "root",
+        "type": "org.algohub.engine.type.TreeNode",
+        "comment": "Root of binary tree"
+      }
+    ]
+  },
+  "test_cases": [
+    {"input": [{"data":1,"left":{"data":2,"left":{"data":4},"right":{"data":5}},"right":{"data":3,"left":{"data":6},"right":{"data":7}}}], "output": 4},
+    {"input": [{"data":1,"left":{"data":2,"left":{"data":4}},"right":{"data":3,"right":{"data":7, "left": {"data":6}}}}], "output": 2},
+    {"input": [{"data":1}], "output": 1},
+    {"input": [null], "output": 0}
+  ]
+}
