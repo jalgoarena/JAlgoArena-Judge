@@ -105,6 +105,15 @@ public class JudgeControllerTest {
     }
 
     @Test
+    public void test() throws Exception {
+        final String sourceCode =
+                Resources.toString(Resources.getResource("IsomorphicStrings.java"), Charsets.UTF_8);
+        JudgeResult result = controller.judge("isomorphic-strings", sourceCode);
+
+        assertThat(result.getStatusCode()).isEqualTo(StatusCode.ACCEPTED.toString());
+    }
+
+    @Test
     public void returnsFormattedMessageIfCompilationError() throws Exception {
 
         String skeletonCode = controller.problem("fib").getSkeletonCode();
