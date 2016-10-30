@@ -1,0 +1,35 @@
+{
+  "id": "max-gain",
+  "title": "Max gain",
+  "description":  "Given an array of integers, write a method `maxGain` that returns the maximum gain. Maximum Gain is defined as the maximum difference between 2 elements in a list such that the larger element appears after the smaller element. If no gain is possible, return 0.\r\n\r\n### Example\r\n\r\n* `[0,50,10,100,30]` -> `100`",
+  "time_limit": 1,
+  "memory_limit": 32,
+  "level": 2,
+  "function": {
+    "name": "maxGain",
+    "return": {
+      "type": "java.lang.Integer",
+      "comment": " Max gain"
+    },
+    "parameters": [
+      {
+        "name": "arr",
+        "type": "[I",
+        "comment": "An array of Integer"
+      }
+    ]
+  },
+  "test_cases": [
+    {"input": [[0,50,10,100,30]], "output": 100},
+    {"input": [[1,1]], "output": 0},
+    {"input": [[100,40,20,10]], "output": 0},
+    {"input": [[0,100,0,100,0,100]], "output": 100},
+    {"input": [[1,2,5,6,7,3,5,8,-33,-5,-72,12,-34,100,99]], "output": 172},
+    {"input": [[1,2,33,23,2423,33,23,1,7,6,8787,5,33,2,3,-23,-54,-67,100,400]], "output": 8786},
+    {"input": [[-1,-2,-3,-4,-5,-6,-100,-98,-111,-11]], "output": 100},
+    {"input": [[]], "output": 0},
+    {"input": [[1]], "output": 0},
+    {"input": [null], "output": 0},
+    {"input": [[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,9,9,9,10,11,1001,2001,198,201,203,201,999,345,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,4,5,6,1,1,1,1,1,1,1,1,1,1,1,101,1,1,1,1,1,1,1,1]], "output": 2001}
+  ]
+}
