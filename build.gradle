@@ -67,6 +67,8 @@ dependencies {
     compile 'io.springfox:springfox-swagger2:2.5.0'
     compile 'io.springfox:springfox-swagger-ui:2.5.0'
 
+    runtime 'ch.qos.logback:logback-classic:1.1.7'
+    runtime 'ch.qos.logback:logback-core:1.1.7'
 
     testCompile 'junit:junit:4.12',
                 'org.assertj:assertj-core:3.5.2',
@@ -78,7 +80,8 @@ if (!project.hasProperty("serverPort")) {
 }
 
 bootRun {
-    systemProperty 'server.port', "$serverPort"
+    systemProperty 'server.port', "$serverPort",
+    systemProperty 'sun.zip.disableMemoryMapping', 'true'
 }
 
 apply plugin: 'jacoco'
