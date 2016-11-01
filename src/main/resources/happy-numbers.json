@@ -1,0 +1,31 @@
+{
+  "id": "happy-numbers",
+  "title": "Happy Numbers",
+  "description":  "Write a method `isHappyNumber` to determine whether a positive number is `Happy`. A number is Happy (Yes, it is a thing!) if it follows a sequence that ends in 1 after following the steps given below:\r\n\r\bBeginning with the number itself, replace it by the sum of the squares of its digits until either the number becomes 1 or loops endlessly in a cycle that does not include 1. For instance, 19 is a happy number. Sequence:\r\n12 + 92 = 82\r\n8^2 + 2^2 = 68\r\n6^2 + 8^2 = 100\r\n1^2 + 0^2 + 0^2 = 1.\r\n\r\n### Examples\r\n\r\n* `19` -> `true`",
+  "time_limit": 1,
+  "memory_limit": 32,
+  "level": 2,
+  "function": {
+    "name": "isHappyNumber",
+    "return": {
+      "type": "java.lang.Boolean",
+      "comment": " Is happy number"
+    },
+    "parameters": [
+      {
+        "name": "head",
+        "type": "java.lang.Integer",
+        "comment": "Input number"
+      }
+    ]
+  },
+  "test_cases": [
+    {"input": [19], "output": true},
+    {"input": [28], "output": true},
+    {"input": [68], "output": true},
+    {"input": [12], "output": false},
+    {"input": [100], "output": true},
+    {"input": [12352], "output": false},
+    {"input": [0], "output": false}
+  ]
+}
