@@ -1,0 +1,36 @@
+{
+  "id": "make-change",
+  "title": "Make Change",
+  "description":  "Given an integer array containing the available denominations of coins in descending order, write a method `makeChange` to compute the number of possible ways of representing a monetary amount in cents. For simplicity, assume that there are an infinite number of coins available for each coin denomination in the array.\r\n\r\n### Example\r\n\r\n* `[25,10,5,1], 10` -> `4`",
+  "time_limit": 1,
+  "memory_limit": 32,
+  "level": 2,
+  "function": {
+    "name": "makeChange",
+    "return": {
+      "type": "java.lang.Integer",
+      "comment": " Number of possibilities"
+    },
+    "parameters": [
+      {
+        "name": "coins",
+        "type": "[I",
+        "comment": "An available denomination of coins"
+      },
+      {
+        "name": "amount",
+        "type": "java.lang.Integer",
+        "comment": "Amount of money to change"
+      }
+    ]
+  },
+  "test_cases": [
+    {"input": [[25,10,5,1], 10], "output": 4},
+    {"input": [[], 10], "output": 0},
+    {"input": [null, 10], "output": 0},
+    {"input": [[25,10,5,1], 100], "output": 242},
+    {"input": [[10,5,1], -10], "output": 0},
+    {"input": [[10,5,1], 0], "output": 0},
+    {"input": [[1,0], 1], "output": 1}
+  ]
+}
