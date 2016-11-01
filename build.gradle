@@ -80,7 +80,7 @@ if (!project.hasProperty("serverPort")) {
 }
 
 bootRun {
-    systemProperty 'server.port', "$serverPort",
+    systemProperty 'server.port', "$serverPort"
     systemProperty 'sun.zip.disableMemoryMapping', 'true'
 }
 
