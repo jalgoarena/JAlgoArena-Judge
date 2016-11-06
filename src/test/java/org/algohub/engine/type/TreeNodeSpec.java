@@ -83,6 +83,41 @@ public class TreeNodeSpec {
         );
 
         assertThat(root1).isEqualTo(root2);
+        assertThat(root1.hashCode()).isEqualTo(root2.hashCode());
+    }
+
+    @Test
+    public void two_trees_with_same_nodes_in_different_order_are_not_equal() throws Exception {
+        TreeNode root1 = new TreeNode(
+                1,
+                new TreeNode(
+                        2,
+                        new TreeNode(4),
+                        new TreeNode(5)
+                ),
+                new TreeNode(
+                        3,
+                        new TreeNode(6),
+                        new TreeNode(7)
+                )
+        );
+
+        TreeNode root2 = new TreeNode(
+                1,
+                new TreeNode(
+                        2,
+                        new TreeNode(6),
+                        new TreeNode(5)
+                ),
+                new TreeNode(
+                        3,
+                        new TreeNode(4),
+                        new TreeNode(7)
+                )
+        );
+
+        assertThat(root1).isNotEqualTo(root2);
+        assertThat(root1.hashCode()).isNotEqualTo(root2.hashCode());
     }
 
     private void assertSerializationFor(TreeNode root) throws java.io.IOException {
