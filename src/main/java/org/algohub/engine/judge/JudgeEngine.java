@@ -219,7 +219,7 @@ public class JudgeEngine {
         public PerformanceResult call() throws Exception {
             PerformanceSnapshot snapshotBeforeRun = takePerformanceSnapshot();
 
-            new JudgeTask(this.clazz, this.method, this.testCases).run();
+            new JudgeTask(this.clazz, this.method, this.testCases).call();
 
             PerformanceSnapshot snapshotAfterRun = takePerformanceSnapshot();
 

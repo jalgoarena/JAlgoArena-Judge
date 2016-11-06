@@ -25,10 +25,6 @@ class JudgeTask implements Callable<List<Boolean>> {
 
     @Override
     public List<Boolean> call() throws Exception {
-        return run();
-    }
-
-    List<Boolean> run() throws InterruptedException {
         ArrayList<Boolean> results = new ArrayList<>();
 
         for (final InternalTestCase internalTestCase : testCases) {
@@ -53,11 +49,10 @@ class JudgeTask implements Callable<List<Boolean>> {
             throw new InterruptedException(cause.getClass().getName() + ": " + cause.getMessage());
         }
 
-        if (testCase.returnsVoid()) {
-            return BetterObjects.equalForObjectsOrArrays(testCase.getOutput(), input[0]);
-        }
-
-        return BetterObjects.equalForObjectsOrArrays(testCase.getOutput(), output);
+        return BetterObjects.equalForObjectsOrArrays(
+                testCase.getOutput(),
+                testCase.returnsVoid() ? input[0] : output
+        );
     }
 
     private static Throwable getCause(Throwable e) {
