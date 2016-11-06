@@ -98,7 +98,7 @@ public class JudgeEngine {
      */
     public static JudgeResult judge(final Problem problem, final String userCode) {
 
-        final Object clazz;
+        final Object instance;
         final Method method;
 
         Function function = problem.getFunction();
@@ -110,7 +110,7 @@ public class JudgeEngine {
             }
             final Object[] tmp = new MemoryJavaCompiler()
                     .compileMethod(className.get(), function.getName(), userCode);
-            clazz = tmp[0];
+            instance = tmp[0];
             method = (Method) tmp[1];
         } catch (ClassNotFoundException e) {
             LOG.error("Class not found", e);
@@ -124,7 +124,7 @@ public class JudgeEngine {
         }
 
         try {
-            return judge(clazz, method, problem);
+            return judge(instance, method, problem);
         } catch (Exception e) {
             return JudgeResult.runtimeError(e.getMessage());
         }

@@ -17,11 +17,10 @@ final class MemoryJavaFileManager extends ForwardingJavaFileManager<JavaFileMana
 
     private static final String JAVA_SOURCE_FILE_EXT = ".java";
 
-    private Map<String, byte[]> classBytes;
+    private Map<String, byte[]> classBytes = new HashMap<>();
 
     MemoryJavaFileManager(JavaFileManager fileManager) {
         super(fileManager);
-        classBytes = new HashMap<>();
     }
 
     static URI toUri(String name) {
@@ -41,11 +40,6 @@ final class MemoryJavaFileManager extends ForwardingJavaFileManager<JavaFileMana
     @Override
     public void close() throws IOException {
         classBytes = null;
-    }
-
-    @Override
-    public void flush() throws IOException {
-        // in memory, no action
     }
 
     @Override

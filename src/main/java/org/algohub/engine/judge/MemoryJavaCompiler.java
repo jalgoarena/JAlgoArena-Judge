@@ -34,17 +34,8 @@ final class MemoryJavaCompiler {
         return javaCompiler.getStandardFileManager(null, null, null);
     }
 
-    private static String getClassName(final String qualifiedClassName) {
-        final int lastDot = qualifiedClassName.lastIndexOf('.');
-        if (lastDot == -1) {
-            return qualifiedClassName;
-        } else {
-            return qualifiedClassName.substring(lastDot + 1);
-        }
-    }
-
     private static JavaFileObject makeStringSource(String fileName, String code) {
-        return new StringInputBuffer(fileName, code);
+        return new SourceCodeStringInputBuffer(fileName, code);
     }
 
     /**
@@ -53,10 +44,11 @@ final class MemoryJavaCompiler {
      */
     Object[] compileMethod(final String qualifiedClassName, final String methodName,
                            final String source) throws ClassNotFoundException, CompileErrorException {
-        final String className = getClassName(qualifiedClassName);
-        final Map<String, byte[]> classBytes = compile(className + ".java", source);
-        final MemoryClassLoader classLoader = new MemoryClassLoader(classBytes);
-        final Class clazz = Class.forName(qualifiedClassName, true, classLoader);
+
+        final Map<String, byte[]> classBytes = compile(qualifiedClassName + ".java", source);
+        final Class clazz = Class.forName(
+                qualifiedClassName, true, new MemoryClassLoader(classBytes)
+        );
         final Method[] methods = clazz.getDeclaredMethods();
 
         for (final Method method : methods) {
@@ -140,10 +132,10 @@ final class MemoryJavaCompiler {
     /**
      * A file object used to represent Java source coming from a string.
      */
-    private static class StringInputBuffer extends SimpleJavaFileObject {
+    private static class SourceCodeStringInputBuffer extends SimpleJavaFileObject {
         final String code;
 
-        StringInputBuffer(String fileName, String code) {
+        SourceCodeStringInputBuffer(String fileName, String code) {
             super(MemoryJavaFileManager.toUri(fileName), Kind.SOURCE);
             this.code = code;
         }
