@@ -6,21 +6,21 @@ import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import io.swagger.annotations.*;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import org.algohub.engine.judge.JudgeEngine;
 import org.algohub.engine.judge.JudgeResult;
 import org.algohub.engine.judge.Problem;
-import org.reflections.Reflections;
-import org.reflections.scanners.ResourcesScanner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @CrossOrigin
 @RestController
@@ -28,26 +28,14 @@ class JudgeController {
 
     private static final Logger LOG = LoggerFactory.getLogger(JudgeController.class);
 
+    private static final String DATA_SERVICE_HOST = "https://jalgoarena-data.herokuapp.com/";
+
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
-    private static final List<Problem> AVAILABLE_PROBLEMS;
+    private static final OkHttpClient CLIENT = new OkHttpClient();
 
     static {
         OBJECT_MAPPER.registerModule(new Jdk8Module());
         OBJECT_MAPPER.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
-
-        AVAILABLE_PROBLEMS = jsonFilesFromResources()
-                .filter(x -> !x.contains("/"))
-                .map(x -> x.substring(0, x.length() - ".json".length()))
-                .map(JudgeController::problemOf)
-                .filter(Optional::isPresent)
-                .map(Optional::get)
-                .collect(Collectors.toList());
-    }
-
-    private static Stream<String> jsonFilesFromResources() {
-        return new Reflections(
-                "", new ResourcesScanner()
-        ).getResources(Pattern.compile("[a-z0-9-]+\\.json")).stream();
     }
 
     private static Optional<Problem> problemOf(String id) {
@@ -89,9 +77,21 @@ class JudgeController {
             @ApiResponse(code = 500, message = "Failure")})
     @RequestMapping(path = "/problems", method = RequestMethod.GET, produces = "application/json")
     List<Problem> problems() throws IOException {
-        return AVAILABLE_PROBLEMS.stream()
+        Problem[] problems = requestProblems();
+
+        return Arrays.stream(problems)
                 .map(x -> x.problemWithoutFunctionAndTestCases(sourceCodeOf(x)))
                 .collect(Collectors.toList());
+    }
+
+    private Problem[] requestProblems() throws IOException {
+        Request request = new Request.Builder()
+                .url(DATA_SERVICE_HOST + "problems")
+                .build();
+
+        Response response = CLIENT.newCall(request).execute();
+        String problemsAsJsonArray = response.body().string();
+        return OBJECT_MAPPER.readValue(problemsAsJsonArray, Problem[].class);
     }
 
     @ApiOperation(value = "problem", nickname = "getProblem")
@@ -105,18 +105,25 @@ class JudgeController {
     @RequestMapping(path = "/problems/{id}", method = RequestMethod.GET, produces = "application/json")
     Problem problem(@PathVariable String id) throws IOException {
 
-        Optional<Problem> problem = AVAILABLE_PROBLEMS
-                .stream()
-                .filter(x -> x.getId().equals(id))
-                .findFirst();
+        Problem problem = requestProblem(id);
 
-        if (problem.isPresent()) {
-            return problem.get().problemWithoutFunctionAndTestCases(
-                    sourceCodeOf(problem.get())
+        if (problem != null) {
+            return problem.problemWithoutFunctionAndTestCases(
+                sourceCodeOf(problem)
             );
         }
 
         throw new IllegalArgumentException("Invalid problem id: " + id);
+    }
+
+    private Problem requestProblem(String problemId) throws IOException {
+        Request request = new Request.Builder()
+                .url(DATA_SERVICE_HOST + "problems/" + problemId)
+                .build();
+
+        Response response = CLIENT.newCall(request).execute();
+        String problemAsJson = response.body().string();
+        return OBJECT_MAPPER.readValue(problemAsJson, Problem.class);
     }
 
     private static String sourceCodeOf(Problem problem) {
