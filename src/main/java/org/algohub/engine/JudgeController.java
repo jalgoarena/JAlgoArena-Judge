@@ -3,8 +3,6 @@ package org.algohub.engine;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
-import com.google.common.base.Charsets;
-import com.google.common.io.Resources;
 import io.swagger.annotations.*;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -19,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @CrossOrigin
@@ -38,19 +35,6 @@ class JudgeController {
         OBJECT_MAPPER.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
     }
 
-    private static Optional<Problem> problemOf(String id) {
-        try {
-            String problemAsJson = Resources.toString(
-                    Resources.getResource(id + ".json"), Charsets.UTF_8
-            );
-
-            return Optional.of(OBJECT_MAPPER.readValue(problemAsJson, Problem.class));
-        } catch (IOException | IllegalArgumentException e) {
-            LOG.error("Cannot parse problem: " + id, e);
-            return Optional.empty();
-        }
-    }
-
     @ApiOperation(value = "judge", nickname = "judge")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "Problem's id", required = true, dataType = "string", paramType = "path", defaultValue="fib")
@@ -61,13 +45,13 @@ class JudgeController {
             @ApiResponse(code = 500, message = "Failure")})
     @RequestMapping(path = "/problems/{id}/submit", method = RequestMethod.POST, produces = "application/json")
     JudgeResult judge(@PathVariable String id, @RequestBody String sourceCode) throws IOException {
-        Optional<Problem> problem = problemOf(id);
+        Problem problem = requestProblem(id);
 
-        if (!problem.isPresent()) {
+        if (problem == null) {
             return JudgeResult.runtimeError("Wrong problem id: " + id);
         }
 
-        return JudgeEngine.judge(problem.get(), sourceCode);
+        return JudgeEngine.judge(problem, sourceCode);
     }
 
     @ApiOperation(value = "problems", nickname = "getProblems")
