@@ -98,20 +98,8 @@ public class JudgeEngine {
      */
     public static JudgeResult judge(final Problem problem, final String userCode) {
 
-        final Object instance;
-        final Method method;
-
-        Function function = problem.getFunction();
-
         try {
-            final Optional<String> className = findClassName.in(userCode);
-            if (!className.isPresent()) {
-                return new JudgeResult("ClassNotFoundException: No public class found");
-            }
-            final Object[] tmp = new MemoryJavaCompiler()
-                    .compileMethod(className.get(), function.getName(), userCode);
-            instance = tmp[0];
-            method = (Method) tmp[1];
+            return compileAndJudge(problem, userCode);
         } catch (ClassNotFoundException e) {
             LOG.error("Class not found", e);
             return new JudgeResult(e.getClass() + " : " + e.getMessage());
@@ -122,10 +110,27 @@ public class JudgeEngine {
             LOG.error("No such method error", e);
             return new JudgeResult("No such method: " + e.getMessage());
         }
+    }
+
+    private static JudgeResult compileAndJudge(Problem problem, String userCode) throws ClassNotFoundException, CompileErrorException {
+
+        final Optional<String> className = findClassName.in(userCode);
+
+        if (!className.isPresent()) {
+            return new JudgeResult("ClassNotFoundException: No public class found");
+        }
+
+        final Object[] tmp = new MemoryJavaCompiler().compileMethod(
+                className.get(), problem.getFunction().getName(), userCode
+        );
+
+        final Object instance = tmp[0];
+        final Method method = (Method) tmp[1];
 
         try {
             return judge(instance, method, problem);
         } catch (Exception e) {
+            LOG.error(e.getMessage(), e);
             return JudgeResult.runtimeError(e.getMessage());
         }
     }

@@ -2,10 +2,15 @@ package org.algohub.engine.judge;
 
 import com.google.common.base.Preconditions;
 import org.algohub.engine.ObjectMapperInstance;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
 class InternalTestCase {
+
+    private static final Logger LOG = LoggerFactory.getLogger(InternalTestCase.class);
+
     private final Object[] input;
     private final Object output;
     private final boolean returnsVoid;
@@ -37,6 +42,7 @@ class InternalTestCase {
                 );
             }
         } catch (ClassNotFoundException | IOException e) {
+            LOG.error(e.getMessage(), e);
             throw new IllegalArgumentException(e.getMessage());
         }
     }
