@@ -17,6 +17,7 @@ import org.algohub.engine.type.*;
      * @return source code of a empty function
      */
     @Throws(ClassNotFoundException::class)
+    @JvmStatic
     fun generateEmptyFunction(function: Function): String {
         return "${CUSTOM_IMPORT}public class Solution {\n${generateFunction(function)}}\n"
     }
