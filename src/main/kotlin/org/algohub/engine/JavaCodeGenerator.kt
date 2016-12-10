@@ -18,9 +18,7 @@ import org.algohub.engine.type.*;
      */
     @Throws(ClassNotFoundException::class)
     @JvmStatic
-    fun generateEmptyFunction(function: Function): String {
-        return "${CUSTOM_IMPORT}public class Solution {\n${generateFunction(function)}}\n"
-    }
+    fun generateEmptyFunction(function: Function)=  "${CUSTOM_IMPORT}public class Solution {\n${generateFunction(function)}}\n"
 
     /**
      * Generate a type declaration.
@@ -34,9 +32,7 @@ import org.algohub.engine.type.*;
      * *
      * @return type declaration
      */
-    private fun generateJavaTypeDeclaration(type: String): String {
-        return if ("void" == type) type else classOrPrimitiveName(type)
-    }
+    private fun generateJavaTypeDeclaration(type: String)=  if ("void" == type) type else classOrPrimitiveName(type)
 
     private fun classOrPrimitiveName(type: String): String {
         val typeName = Class.forName(type).simpleName
@@ -52,10 +48,8 @@ import org.algohub.engine.type.*;
         }
     }
 
-    private fun generateParameterDeclaration(type: String, parameterName: String): String {
-        val typeDeclaration = generateJavaTypeDeclaration(type)
-        return String.format("%s %s", typeDeclaration, parameterName)
-    }
+    private fun generateParameterDeclaration(type: String, parameterName: String) =
+            String.format("%s %s", generateJavaTypeDeclaration(type), parameterName)
 
     private fun generateFunction(function: Function): String {
         val result = StringBuilder()
@@ -97,7 +91,6 @@ import org.algohub.engine.type.*;
     }
 
     private fun appendIndentation(sourceCode: StringBuilder, sourceCodeLine: String) {
-        sourceCode.append("    ")
-        sourceCode.append(sourceCodeLine)
+        sourceCode.append("    ").append(sourceCodeLine)
     }
 }

@@ -37,9 +37,7 @@ open class JudgeApplication {
                 .build()
     }
 
-    private fun contact(): Contact {
-        return Contact("Jacek Spólnik", "https://spolnik.github.io/AboutMe/", "jacek.spolnik@gmail.com")
-    }
+    private fun contact() =  Contact("Jacek Spólnik", "https://spolnik.github.io/AboutMe/", "jacek.spolnik@gmail.com")
 }
 
 fun main(args: Array<String>) {
