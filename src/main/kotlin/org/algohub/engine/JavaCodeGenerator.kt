@@ -44,12 +44,12 @@ import org.algohub.engine.type.*;
         val typeName = Class.forName(type).simpleName
 
         when (typeName) {
-            "Boolean" -> return Boolean::class.javaPrimitiveType!!.getSimpleName()
-            "Long" -> return Long::class.javaPrimitiveType!!.getSimpleName()
-            "Integer" -> return Int::class.javaPrimitiveType!!.getSimpleName()
-            "Short" -> return Short::class.javaPrimitiveType!!.getSimpleName()
-            "Double" -> return Double::class.javaPrimitiveType!!.getSimpleName()
-            "Float" -> return Float::class.javaPrimitiveType!!.getSimpleName()
+            "Boolean" -> return Boolean::class.javaPrimitiveType!!.simpleName
+            "Long" -> return Long::class.javaPrimitiveType!!.simpleName
+            "Integer" -> return Int::class.javaPrimitiveType!!.simpleName
+            "Short" -> return Short::class.javaPrimitiveType!!.simpleName
+            "Double" -> return Double::class.javaPrimitiveType!!.simpleName
+            "Float" -> return Float::class.javaPrimitiveType!!.simpleName
             else -> return typeName
         }
     }
