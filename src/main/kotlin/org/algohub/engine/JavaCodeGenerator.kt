@@ -34,12 +34,10 @@ import org.algohub.engine.type.*;
      * *
      * @return type declaration
      */
-    @Throws(ClassNotFoundException::class)
     private fun generateJavaTypeDeclaration(type: String): String {
         return if ("void" == type) type else classOrPrimitiveName(type)
     }
 
-    @Throws(ClassNotFoundException::class)
     private fun classOrPrimitiveName(type: String): String {
         val typeName = Class.forName(type).simpleName
 
@@ -54,13 +52,11 @@ import org.algohub.engine.type.*;
         }
     }
 
-    @Throws(ClassNotFoundException::class)
     private fun generateParameterDeclaration(type: String, parameterName: String): String {
         val typeDeclaration = generateJavaTypeDeclaration(type)
         return String.format("%s %s", typeDeclaration, parameterName)
     }
 
-    @Throws(ClassNotFoundException::class)
     private fun generateFunction(function: Function): String {
         val result = StringBuilder()
 
@@ -78,7 +74,6 @@ import org.algohub.engine.type.*;
         appendIndentation(result, "}\n")
     }
 
-    @Throws(ClassNotFoundException::class)
     private fun functionBody(function: Function, result: StringBuilder) {
         appendIndentation(result, "public ")
         result.append(generateJavaTypeDeclaration(function.returnStatement.type))
