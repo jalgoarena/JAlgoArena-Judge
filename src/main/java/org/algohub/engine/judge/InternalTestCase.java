@@ -48,7 +48,7 @@ class InternalTestCase {
     }
 
     private Object deserialize(String content, Class<?> type) throws IOException {
-        return ObjectMapperInstance.INSTANCE.readValue(content, type);
+        return ObjectMapperInstance.INSTANCE.getINSTANCE().readValue(content, type);
     }
 
     public Object[] getInput() {

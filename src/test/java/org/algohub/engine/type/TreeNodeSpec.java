@@ -47,7 +47,7 @@ public class TreeNodeSpec {
                         new TreeNode(7)
                 )
         );
-        String treeNodeAsString = ObjectMapperInstance.INSTANCE.writeValueAsString(root);
+        String treeNodeAsString = ObjectMapperInstance.INSTANCE.getINSTANCE().writeValueAsString(root);
 
         assertThat(treeNodeAsString).isEqualTo("{\"data\":1,\"left\":{\"data\":2,\"left\":{\"data\":4},\"right\":{\"data\":5}},\"right\":{\"data\":3,\"left\":{\"data\":6},\"right\":{\"data\":7}}}");
     }
@@ -121,8 +121,8 @@ public class TreeNodeSpec {
     }
 
     private void assertSerializationFor(TreeNode root) throws java.io.IOException {
-        String treeNodeAsString = ObjectMapperInstance.INSTANCE.writeValueAsString(root);
-        TreeNode deserializedTreeNode = ObjectMapperInstance.INSTANCE.readValue(treeNodeAsString, TreeNode.class);
+        String treeNodeAsString = ObjectMapperInstance.INSTANCE.getINSTANCE().writeValueAsString(root);
+        TreeNode deserializedTreeNode = ObjectMapperInstance.INSTANCE.getINSTANCE().readValue(treeNodeAsString, TreeNode.class);
 
         assertThat(deserializedTreeNode).isEqualTo(root);
     }

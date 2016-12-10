@@ -21,7 +21,7 @@ public class JavaEngineTest {
             final String questionStr =
                     Resources.toString(Resources.getResource(problemId + ".json"), Charsets.UTF_8);
             final Problem problem =
-                    ObjectMapperInstance.INSTANCE.readValue(questionStr, Problem.class);
+                    ObjectMapperInstance.INSTANCE.getINSTANCE().readValue(questionStr, Problem.class);
             final String sourceCode =
                     Resources.toString(Resources.getResource(solutionId + ".java"), Charsets.UTF_8);
 
