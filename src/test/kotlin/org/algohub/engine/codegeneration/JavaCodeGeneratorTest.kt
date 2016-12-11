@@ -1,41 +1,52 @@
-package org.algohub.engine
+package org.algohub.engine.codegeneration
 
 import org.algohub.engine.judge.Function
-import org.junit.Test
-
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.Test
 
 class JavaCodeGeneratorTest {
 
 
     @Test
-    @Throws(Exception::class)
     fun generates_skeleton_function_for_TWO_SUM() {
         val twoSumGenerated = JavaCodeGenerator.generateEmptyFunction(TWO_SUM)
 
-        val twoSumExpected = "import java.util.*;\n" +
-                "import org.algohub.engine.type.*;\n\n" +
-                "public class Solution {\n" + "    /**\n" + "     * @param numbers An array of Integers\n" +
-                "     * @param target target = numbers[index1] + numbers[index2]\n" +
-                "     * @return [index1 + 1, index2 + 1] (index1 < index2)\n" + "     */\n" +
-                "    public int[] twoSum(int[] numbers, int target) {\n" +
-                "        // Write your code here\n" + "    }\n" + "}\n"
+        val twoSumExpected = """import java.util.*;
+import org.algohub.engine.type.*;
 
+public class Solution {
+    /**
+     * @param numbers An array of Integers
+     * @param target target = numbers[index1] + numbers[index2]
+     * @return [index1 + 1, index2 + 1] (index1 < index2)
+     */
+    public int[] twoSum(int[] numbers, int target) {
+        // Write your code here
+    }
+}
+"""
         assertThat(twoSumGenerated).isEqualTo(twoSumExpected)
     }
 
     @Test
-    @Throws(Exception::class)
     fun generates_skeleton_function_for_WORD_LADDER() {
         val wordLadderGenerated = JavaCodeGenerator.generateEmptyFunction(WORD_LADDER)
 
-        val wordLadderExpected = "import java.util.*;\n" +
-                "import org.algohub.engine.type.*;\n\n" +
-                "public class Solution {\n" + "    /**\n" + "     * @param begin_word the begin word\n" +
-                "     * @param end_word the end word\n" + "     * @param dict the dictionary\n" +
-                "     * @return The shortest length\n" + "     */\n" +
-                "    public int ladderLength(String begin_word, String end_word, HashSet " + "dict) {\n" +
-                "        // Write your code here\n" + "    }\n" + "}\n"
+        val wordLadderExpected = """import java.util.*;
+import org.algohub.engine.type.*;
+
+public class Solution {
+    /**
+     * @param begin_word the begin word
+     * @param end_word the end word
+     * @param dict the dictionary
+     * @return The shortest length
+     */
+    public int ladderLength(String begin_word, String end_word, HashSet dict) {
+        // Write your code here
+    }
+}
+"""
 
         assertThat(wordLadderGenerated).isEqualTo(wordLadderExpected)
     }

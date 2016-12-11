@@ -1,8 +1,8 @@
-package org.algohub.engine
+package org.algohub.engine.codegeneration
 
 import org.algohub.engine.judge.Function
 
-internal object JavaCodeGenerator {
+internal object JavaCodeGenerator : JvmCodeGenerator {
 
     private val CUSTOM_IMPORT = """import java.util.*;
 import org.algohub.engine.type.*;
@@ -55,14 +55,14 @@ import org.algohub.engine.type.*;
 
         functionComment(function, result)
         functionBody(function, result)
-        deleteUnnecessaryLastComma(result)
+
+        implementationPlaceHolder(result)
 
         return result.toString()
     }
 
-    private fun deleteUnnecessaryLastComma(result: StringBuilder) {
-        result.delete(result.length - 2, result.length)
-        result.append(") {\n")
+    private fun implementationPlaceHolder(result: StringBuilder) {
+        result.append(" {\n")
         appendIndentation(result, "    // Write your code here\n")
         appendIndentation(result, "}\n")
     }
@@ -76,20 +76,8 @@ import org.algohub.engine.type.*;
             result.append(generateParameterDeclaration(p.type, p.name))
                     .append(", ")
         }
-    }
 
-    private fun functionComment(function: Function, result: StringBuilder) {
-        appendIndentation(result, "/**\n")
-
-        for (p in function.parameters) {
-            appendIndentation(result, " * @param ${p.name} ${p.comment}\n")
-        }
-
-        appendIndentation(result, " * @return ${function.returnStatement.comment}\n")
-        appendIndentation(result, " */\n")
-    }
-
-    private fun appendIndentation(sourceCode: StringBuilder, sourceCodeLine: String) {
-        sourceCode.append("    ").append(sourceCodeLine)
+        deleteLastUnnecessaryComma(result)
+        result.append(")")
     }
 }

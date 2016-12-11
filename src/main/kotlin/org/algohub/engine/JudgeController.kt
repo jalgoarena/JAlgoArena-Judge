@@ -3,6 +3,7 @@ package org.algohub.engine
 import io.swagger.annotations.*
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import org.algohub.engine.codegeneration.JavaCodeGenerator
 import org.algohub.engine.judge.JudgeEngine
 import org.algohub.engine.judge.JudgeResult
 import org.algohub.engine.judge.Problem

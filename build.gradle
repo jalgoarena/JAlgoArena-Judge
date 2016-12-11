@@ -81,6 +81,7 @@ dependencies {
                 'org.assertj:assertj-core:3.5.2',
                 'pl.pragmatists:JUnitParams:1.0.5'
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
 }
 
 if (!project.hasProperty("serverPort")) {
