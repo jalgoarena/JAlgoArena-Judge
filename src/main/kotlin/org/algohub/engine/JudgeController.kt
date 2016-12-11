@@ -1,22 +1,15 @@
 package org.algohub.engine
 
-import com.fasterxml.jackson.annotation.JsonInclude
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.datatype.jdk8.Jdk8Module
 import io.swagger.annotations.*
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import okhttp3.Response
 import org.algohub.engine.judge.JudgeEngine
 import org.algohub.engine.judge.JudgeResult
 import org.algohub.engine.judge.Problem
-import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.*
-
 import java.io.IOException
-import java.util.Arrays
-import java.util.function.Function
+import java.util.*
 import java.util.stream.Collectors
 
 @CrossOrigin
@@ -30,7 +23,6 @@ internal class JudgeController {
     @Throws(IOException::class)
     fun judge(@PathVariable id: String, @RequestBody sourceCode: String): JudgeResult {
         val problem = requestProblem(id) ?: return JudgeResult.runtimeError("Wrong problem id: " + id)
-
         return JudgeEngine.judge(problem, sourceCode)
     }
 
@@ -39,9 +31,7 @@ internal class JudgeController {
     @RequestMapping(path = arrayOf("/problems"), method = arrayOf(RequestMethod.GET), produces = arrayOf("application/json"))
     @Throws(IOException::class)
     fun problems(): List<Problem> {
-        val problems = requestProblems()
-
-        return Arrays.stream(problems)
+        return Arrays.stream(requestProblems())
                 .map { x -> x.problemWithoutFunctionAndTestCases(sourceCodeOf(x)) }
                 .collect(Collectors.toList<Problem>())
     }
@@ -54,7 +44,8 @@ internal class JudgeController {
 
         val response = CLIENT.newCall(request).execute()
         val problemsAsJsonArray = response.body().string()
-        return OBJECT_MAPPER.readValue(problemsAsJsonArray, Array<Problem>::class.java)
+
+        return ObjectMapperInstance.INSTANCE.readValue(problemsAsJsonArray, Array<Problem>::class.java)
     }
 
     @ApiOperation(value = "problem", nickname = "getProblem")
@@ -64,26 +55,22 @@ internal class JudgeController {
     @Throws(IOException::class)
     fun problem(@PathVariable id: String): Problem {
 
-        val problem = requestProblem(id)
+        val problem = requestProblem(id) ?: throw IllegalArgumentException("Invalid problem id: " + id)
 
-        if (problem != null) {
-            return problem.problemWithoutFunctionAndTestCases(
-                    sourceCodeOf(problem)
-            )
-        }
-
-        throw IllegalArgumentException("Invalid problem id: " + id)
+        return problem.problemWithoutFunctionAndTestCases(
+                sourceCodeOf(problem)
+        )
     }
 
     @Throws(IOException::class)
     private fun requestProblem(problemId: String): Problem? {
         val request = Request.Builder()
-                .url(DATA_SERVICE_HOST + "problems/" + problemId)
+                .url("${DATA_SERVICE_HOST}problems/$problemId")
                 .build()
 
         val response = CLIENT.newCall(request).execute()
         val problemAsJson = response.body().string()
-        return OBJECT_MAPPER.readValue(problemAsJson, Problem::class.java)
+        return ObjectMapperInstance.INSTANCE.readValue(problemAsJson, Problem::class.java)
     }
 
     companion object {
@@ -92,13 +79,7 @@ internal class JudgeController {
 
         private val DATA_SERVICE_HOST = "https://jalgoarena-data.herokuapp.com/"
 
-        private val OBJECT_MAPPER = ObjectMapper()
         private val CLIENT = OkHttpClient()
-
-        init {
-            OBJECT_MAPPER.registerModule(Jdk8Module())
-            OBJECT_MAPPER.setSerializationInclusion(JsonInclude.Include.NON_EMPTY)
-        }
 
         private fun sourceCodeOf(problem: Problem): String {
             try {
@@ -107,7 +88,6 @@ internal class JudgeController {
                 LOG.error(e.message, e)
                 throw IllegalArgumentException("Illegal type: " + e.message)
             }
-
         }
     }
 }
