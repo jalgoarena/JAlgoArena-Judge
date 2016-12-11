@@ -17,7 +17,6 @@ import org.algohub.engine.type.*;
      * @return source code of a empty function
      */
     @Throws(ClassNotFoundException::class)
-    @JvmStatic
     fun generateEmptyFunction(function: Function)=  "${CUSTOM_IMPORT}public class Solution {\n${generateFunction(function)}}\n"
 
     /**
@@ -37,14 +36,14 @@ import org.algohub.engine.type.*;
     private fun classOrPrimitiveName(type: String): String {
         val typeName = Class.forName(type).simpleName
 
-        when (typeName) {
-            "Boolean" -> return Boolean::class.javaPrimitiveType!!.simpleName
-            "Long" -> return Long::class.javaPrimitiveType!!.simpleName
-            "Integer" -> return Int::class.javaPrimitiveType!!.simpleName
-            "Short" -> return Short::class.javaPrimitiveType!!.simpleName
-            "Double" -> return Double::class.javaPrimitiveType!!.simpleName
-            "Float" -> return Float::class.javaPrimitiveType!!.simpleName
-            else -> return typeName
+        return when (typeName) {
+            "Boolean" -> Boolean::class.javaPrimitiveType!!.simpleName
+            "Long" -> Long::class.javaPrimitiveType!!.simpleName
+            "Integer" -> Int::class.javaPrimitiveType!!.simpleName
+            "Short" -> Short::class.javaPrimitiveType!!.simpleName
+            "Double" -> Double::class.javaPrimitiveType!!.simpleName
+            "Float" -> Float::class.javaPrimitiveType!!.simpleName
+            else -> typeName
         }
     }
 

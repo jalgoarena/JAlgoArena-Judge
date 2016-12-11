@@ -49,7 +49,7 @@ class JudgeTask implements Callable<List<Boolean>> {
             throw new InterruptedException(cause.getClass().getName() + ": " + cause.getMessage());
         }
 
-        return BetterObjects.equalForObjectsOrArrays(
+        return BetterObjects.INSTANCE.equalForObjectsOrArrays(
                 testCase.getOutput(),
                 testCase.returnsVoid() ? input[0] : output
         );

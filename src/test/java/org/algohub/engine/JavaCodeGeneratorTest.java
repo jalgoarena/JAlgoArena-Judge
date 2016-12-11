@@ -3,7 +3,6 @@ package org.algohub.engine;
 import org.algohub.engine.judge.Function;
 import org.junit.Test;
 
-import static org.algohub.engine.JavaCodeGenerator.generateEmptyFunction;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class JavaCodeGeneratorTest {
@@ -26,7 +25,7 @@ public class JavaCodeGeneratorTest {
 
     @Test
     public void generates_skeleton_function_for_TWO_SUM() throws Exception {
-        String twoSumGenerated = generateEmptyFunction(TWO_SUM);
+        String twoSumGenerated = JavaCodeGenerator.INSTANCE.generateEmptyFunction(TWO_SUM);
 
         String twoSumExpected = "import java.util.*;\n" +
                 "import org.algohub.engine.type.*;\n\n" +
@@ -41,7 +40,7 @@ public class JavaCodeGeneratorTest {
 
     @Test
     public void generates_skeleton_function_for_WORD_LADDER() throws Exception {
-        String wordLadderGenerated = generateEmptyFunction(WORD_LADDER);
+        String wordLadderGenerated = JavaCodeGenerator.INSTANCE.generateEmptyFunction(WORD_LADDER);
 
         String wordLadderExpected = "import java.util.*;\n" +
                 "import org.algohub.engine.type.*;\n\n" +
