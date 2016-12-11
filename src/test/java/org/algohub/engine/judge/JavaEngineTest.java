@@ -25,7 +25,7 @@ public class JavaEngineTest {
             final String sourceCode =
                     Resources.toString(Resources.getResource(solutionId + ".java"), Charsets.UTF_8);
 
-            final JudgeResult result = JudgeEngine.judge(problem, sourceCode);
+            final JudgeResult result = JudgeEngine.INSTANCE.judge(problem, sourceCode);
 
             assertThat(result.getStatusCode()).isEqualTo(statusCode.toString());
         } catch (IOException e) {
