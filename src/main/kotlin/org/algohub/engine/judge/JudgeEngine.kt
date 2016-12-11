@@ -118,14 +118,14 @@ object JudgeEngine {
     @Throws(ClassNotFoundException::class, CompileErrorException::class)
     private fun compileAndJudge(problem: Problem, userCode: String): JudgeResult {
 
-        val className = findClassName.`in`(userCode)
+        val className = findClassName.findIn(userCode)
 
         if (!className.isPresent) {
             return JudgeResult("ClassNotFoundException: No public class found")
         }
 
         val tmp = MemoryJavaCompiler().compileMethod(
-                className.get(), problem.function.name, userCode
+                className.get(), problem.function!!.name, userCode
         )
 
         val instance = tmp[0]
@@ -144,8 +144,8 @@ object JudgeEngine {
         val testCases = problem.testCases
         val function = problem.function
 
-        val internalTestCases = testCases.indices
-                .map { InternalTestCase(testCases[it], function) }
+        val internalTestCases = testCases!!.indices
+                .map { InternalTestCase(testCases[it], function!!) }
                 .toTypedArray()
 
 

@@ -5,7 +5,7 @@ import java.util.regex.Pattern
 
 internal class FindClassName {
 
-    fun `in`(javaCode: String): Optional<String> {
+    fun findIn(javaCode: String): Optional<String> {
         for (pattern in PATTERNS_FOR_FINDING_CLASS_NAME) {
             val matcher = pattern.matcher(javaCode)
             if (matcher.find()) {

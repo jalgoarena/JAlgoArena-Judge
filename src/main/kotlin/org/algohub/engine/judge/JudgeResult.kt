@@ -47,6 +47,7 @@ class JudgeResult {
 
     companion object {
 
+        @JvmStatic
         internal fun accepted(testCasesCount: Int, usedTimeInMs: Double, usedMemoryInKb: Long): JudgeResult {
 
             return JudgeResult(
@@ -58,6 +59,7 @@ class JudgeResult {
             )
         }
 
+        @JvmStatic
         internal fun timeLimitExceeded(): JudgeResult {
             return JudgeResult(
                     StatusCode.TIME_LIMIT_EXCEEDED.toString(),
@@ -68,6 +70,7 @@ class JudgeResult {
             )
         }
 
+        @JvmStatic
         internal fun memoryLimitExceeded(testCasesCount: Int, usedMemory: Long): JudgeResult {
             return JudgeResult(
                     StatusCode.MEMORY_LIMIT_EXCEEDED.toString(),
@@ -78,6 +81,7 @@ class JudgeResult {
             )
         }
 
+        @JvmStatic
         internal fun wrongAnswer(results: List<Boolean>): JudgeResult {
             return JudgeResult(
                     StatusCode.WRONG_ANSWER.toString(),
@@ -88,6 +92,7 @@ class JudgeResult {
             )
         }
 
+        @JvmStatic
         fun runtimeError(errorMessage: String?): JudgeResult {
             return JudgeResult(
                     StatusCode.RUNTIME_ERROR.toString(),

@@ -83,7 +83,7 @@ internal class JudgeController {
 
         private fun sourceCodeOf(problem: Problem): String {
             try {
-                return JavaCodeGenerator.generateEmptyFunction(problem.function)
+                return JavaCodeGenerator.generateEmptyFunction(problem.function!!)
             } catch (e: ClassNotFoundException) {
                 LOG.error(e.message, e)
                 throw IllegalArgumentException("Illegal type: " + e.message)
