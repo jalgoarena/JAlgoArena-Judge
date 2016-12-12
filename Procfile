@@ -1,1 +1,1 @@
-web: ./gradlew clean bootRun -PserverPort=$PORT
+web: java -Dserver.port=$PORT $JAVA_OPTS -jar build/libs/judge-engine-1.0.jar
