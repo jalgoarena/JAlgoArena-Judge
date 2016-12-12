@@ -1,6 +1,7 @@
 package org.algohub.engine.judge
 
 import com.google.common.base.Preconditions
+import org.jetbrains.kotlin.cli.jvm.K2JVMCompiler
 import org.slf4j.LoggerFactory
 import java.io.IOException
 import java.net.URL
@@ -153,9 +154,11 @@ internal class MemoryJavaCompiler {
 
         private val LOG = LoggerFactory.getLogger(MemoryJavaCompiler::class.java)
         private val javaCompiler: javax.tools.JavaCompiler
+        private val kotlinCompiler: K2JVMCompiler
 
         init {
             javaCompiler = ToolProvider.getSystemJavaCompiler()
+            kotlinCompiler = K2JVMCompiler()
             Preconditions.checkNotNull(
                     javaCompiler, "Could not get Java compiler. Please, ensure that JDK is used instead of JRE."
             )
