@@ -1,5 +1,8 @@
 package org.algohub.engine.judge
 
+import org.algohub.engine.compile.CompileErrorException
+import org.algohub.engine.compile.JvmCompiler
+import org.algohub.engine.compile.MemoryJavaCompiler
 import org.junit.Test
 
 import java.lang.reflect.Method
@@ -12,8 +15,8 @@ class MemoryJavaCompilerTest {
     @Throws(Throwable::class)
     fun compileAndRunStaticMethod() {
 
-        val greetingObject = MemoryJavaCompiler().compileMethod(
-                "Solution", "greeting", SOURCE_CODE
+        val greetingObject = JvmCompiler().compileMethod(
+                "Solution", "greeting", SOURCE_CODE, MemoryJavaCompiler()
         )
 
         val obj = greetingObject[0]
@@ -26,8 +29,8 @@ class MemoryJavaCompilerTest {
     @Test(expected = NoSuchMethodError::class)
     @Throws(Exception::class)
     fun throwsNoSuchMethodExceptionWhenInvokingNonExistingMethod() {
-        MemoryJavaCompiler().compileMethod(
-                "Solution", "dummy", SOURCE_CODE
+        JvmCompiler().compileMethod(
+                "Solution", "dummy", SOURCE_CODE, MemoryJavaCompiler()
         )
     }
 
@@ -36,8 +39,8 @@ class MemoryJavaCompilerTest {
     fun throwsIllegalStateExceptionWhenTryingToInvokeClassWithPrivateConstructor() {
         val sourceCode = "public final class Solution { private Solution() { }; public void dummy() {} }"
 
-        MemoryJavaCompiler().compileMethod(
-                "Solution", "dummy", sourceCode
+        JvmCompiler().compileMethod(
+                "Solution", "dummy", sourceCode, MemoryJavaCompiler()
         )
     }
 
@@ -46,8 +49,8 @@ class MemoryJavaCompilerTest {
     fun throwsCompileErrorExceptionWhenSourceCodeDoesNotCompile() {
         val sourceCodeMissingReturnString = "public final class Solution { private Solution() { }; public String dummy() {} }"
 
-        MemoryJavaCompiler().compileMethod(
-                "Solution", "dummy", sourceCodeMissingReturnString
+        JvmCompiler().compileMethod(
+                "Solution", "dummy", sourceCodeMissingReturnString, MemoryJavaCompiler()
         )
     }
 

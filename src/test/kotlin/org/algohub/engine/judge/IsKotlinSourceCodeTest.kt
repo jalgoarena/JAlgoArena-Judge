@@ -1,5 +1,6 @@
 package org.algohub.engine.judge
 
+import org.algohub.engine.compile.IsKotlinSourceCode
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 
