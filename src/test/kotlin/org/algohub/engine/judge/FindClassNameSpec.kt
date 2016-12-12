@@ -1,5 +1,6 @@
 package org.algohub.engine.judge
 
+import org.algohub.engine.compile.FindJavaClassName
 import org.junit.Test
 
 import java.util.Optional
@@ -13,7 +14,7 @@ class FindClassNameSpec {
     @Throws(Exception::class)
     fun findsClassInJavaCode() {
 
-        val result = FindClassName().findIn(JAVA_CODE)
+        val result = FindJavaClassName().findIn(JAVA_CODE)
 
         if (result.isPresent) {
             assertThat(result.get()).isEqualTo("MyClass")
@@ -26,7 +27,7 @@ class FindClassNameSpec {
     @Throws(Exception::class)
     fun indicatesIfThereIsNoClassInTheInput() {
 
-        val result = FindClassName().findIn(DUMMY_STRING)
+        val result = FindJavaClassName().findIn(DUMMY_STRING)
 
         assertThat(result.isPresent).isFalse()
     }

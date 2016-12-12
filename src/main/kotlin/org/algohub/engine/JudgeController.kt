@@ -82,7 +82,7 @@ internal class JudgeController {
 
         private val LOG = LoggerFactory.getLogger(JudgeController::class.java)
 
-        private val DATA_SERVICE_HOST = "https://jalgoarena-data.herokuapp.com/"
+        private val DATA_SERVICE_HOST = "http://localhost:5050/"
 
         private val CLIENT = OkHttpClient()
 

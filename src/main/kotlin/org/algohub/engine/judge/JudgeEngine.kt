@@ -1,5 +1,6 @@
 package org.algohub.engine.judge
 
+import org.algohub.engine.compile.*
 import org.slf4j.LoggerFactory
 import java.lang.reflect.Method
 import java.util.*
@@ -8,9 +9,6 @@ import java.util.concurrent.*
 object JudgeEngine {
 
     private val LOG = LoggerFactory.getLogger(JudgeEngine::class.java)
-
-    private val findClassName = FindClassName()
-    private val createFriendlyMessage = CreateFriendlyMessage()
 
     private val NUMBER_OF_ITERATIONS = 5
     private val RANDOM = Random()
@@ -107,7 +105,7 @@ object JudgeEngine {
             return JudgeResult(e.javaClass.toString() + " : " + e.message)
         } catch (e: CompileErrorException) {
             LOG.error("Compilation error", e)
-            return JudgeResult(createFriendlyMessage.from(e.message!!))
+            return JudgeResult(CreateFriendlyMessage().from(e.message!!))
         } catch (e: NoSuchMethodError) {
             LOG.error("No such method error", e)
             return JudgeResult("No such method: " + e.message)
@@ -118,14 +116,22 @@ object JudgeEngine {
     @Throws(ClassNotFoundException::class, CompileErrorException::class)
     private fun compileAndJudge(problem: Problem, userCode: String): JudgeResult {
 
-        val className = findClassName.findIn(userCode)
+        val isKotlin = IsKotlinSourceCode().findIn(userCode, problem.function!!)
+
+        val className = when (isKotlin) {
+            true -> FindKotlinClassName().findIn(userCode)
+            false -> FindJavaClassName().findIn(userCode)
+        }
 
         if (!className.isPresent) {
             return JudgeResult("ClassNotFoundException: No public class found")
         }
 
-        val tmp = MemoryJavaCompiler().compileMethod(
-                className.get(), problem.function!!.name, userCode
+        val tmp = JvmCompiler().compileMethod(
+                className.get(),
+                problem.function.name,
+                userCode,
+                if (isKotlin) KotlinCompiler() else MemoryJavaCompiler()
         )
 
         val instance = tmp[0]
