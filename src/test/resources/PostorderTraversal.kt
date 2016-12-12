@@ -3,7 +3,7 @@ import org.algohub.engine.type.*
 
 class PostorderTraversal {
 
-    fun postorderTraversal(root: TreeNode): IntArray {
+    fun postorderTraversal(root: TreeNode?): IntArray {
         val items = ArrayList<Int>()
         postorder(root, items)
         return items.toIntArray()

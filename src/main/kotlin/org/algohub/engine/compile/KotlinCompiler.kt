@@ -8,25 +8,35 @@ class KotlinCompiler : Compiler {
     override fun run(className: String, source: String): MutableMap<String, ByteArray?>? {
 
         val tmpDir = createTmpDir()
-        val sourceFile = writeSourceFile(tmpDir, "$className.kt", source)
-        val out = File(tmpDir, "out")
 
-        val exitCode = compiler.exec(
-                System.out,
-                sourceFile.absolutePath,
-                "-include-runtime",
-                "-d", out.absolutePath,
-                "-kotlin-home", File("kotlinHome").absolutePath
-        )
+        try {
+            val sourceFile = writeSourceFile(tmpDir, "$className.kt", source)
+            val out = File(tmpDir, "out")
 
-        println("ExitCode: $exitCode")
-        val byteCode = File(out, "$className.class").readBytes()
-        tmpDir.deleteRecursively()
+            val exitCode = compiler.exec(
+                    System.out,
+                    sourceFile.absolutePath,
+                    "-include-runtime",
+                    "-d", out.absolutePath,
+                    "-kotlin-home", File("kotlinHome").absolutePath,
+                    "-classpath", File("build/classes/main").absolutePath
+            )
 
-        val classBytes: MutableMap<String, ByteArray?>? = HashMap()
-        classBytes!!.put(className, byteCode);
+            println("ExitCode: $exitCode")
 
-        return classBytes
+            val classBytes: MutableMap<String, ByteArray?>? = HashMap()
+
+            out.listFiles()
+                    .filter { it.absolutePath.endsWith(".class") }
+                    .forEach {
+                        val byteCode = File(out, it.name).readBytes()
+                        classBytes!!.put(it.nameWithoutExtension, byteCode)
+                    }
+
+            return classBytes
+        } finally {
+            tmpDir.deleteRecursively()
+        }
     }
 
     private fun createTmpDir(): File {

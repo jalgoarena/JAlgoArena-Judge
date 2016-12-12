@@ -1,7 +1,7 @@
 import org.algohub.engine.type.*
 
 class KThToLast {
-    internal inner class Index {
+    inner class Index {
         var value = -1
     }
 
@@ -14,15 +14,15 @@ class KThToLast {
      */
     fun kthToLast(head: ListNode, k: Int): Int {
         val idx = Index()
-        return kthToLast(head, k, idx).value
+        return kthToLastPassingIndex(head, k, idx).value
     }
 
-    private fun kthToLast(head: ListNode?, k: Int, idx: Index): ListNode {
+    private fun kthToLastPassingIndex(head: ListNode?, k: Int, idx: Index): ListNode {
         if (head == null) {
             return ListNode(0)
         }
 
-        val node = kthToLast(head.next, k, idx)
+        val node = kthToLastPassingIndex(head.next, k, idx)
         idx.value += 1
 
         if (idx.value == k) {

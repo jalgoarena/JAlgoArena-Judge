@@ -3,7 +3,7 @@ import org.algohub.engine.type.*
 
 class PreorderTraversal {
 
-    fun preorderTraversal(root: TreeNode): IntArray {
+    fun preorderTraversal(root: TreeNode?): IntArray {
         val items = ArrayList<Int>()
         preorder(root, items)
         return items.toIntArray()

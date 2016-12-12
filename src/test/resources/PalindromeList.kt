@@ -6,7 +6,7 @@ class PalindromeList {
      * *
      * @return  Indicates if input linked list is palindrome
      */
-    fun isPalindrome(head: ListNode): Boolean {
+    fun isPalindrome(head: ListNode?): Boolean {
         val reversed = reverseAndClone(head)
         return isEqual(head, reversed)
     }

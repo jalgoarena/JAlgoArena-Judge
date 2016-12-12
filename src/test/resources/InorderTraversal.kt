@@ -3,7 +3,7 @@ import org.algohub.engine.type.*
 
 class InorderTraversal {
 
-    fun inorderTraversal(root: TreeNode): IntArray {
+    fun inorderTraversal(root: TreeNode?): IntArray {
         val items = ArrayList<Int>()
         inorder(root, items)
         return items.toIntArray()

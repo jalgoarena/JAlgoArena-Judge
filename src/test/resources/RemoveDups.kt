@@ -1,5 +1,5 @@
 import java.util.*
-import org.algohub.engine.type.*
+import org.algohub.engine.type.ListNode
 
 class RemoveDups {
     /**

@@ -8,11 +8,11 @@ class SumLists {
      * *
      * @return  linked list node containing result of sum
      */
-    fun addLists(l1: ListNode, l2: ListNode): ListNode {
-        return addLists(l1, l2, 0) as ListNode
+    fun addLists(l1: ListNode?, l2: ListNode?): ListNode? {
+        return addListsWithCarryNumber(l1, l2, 0)
     }
 
-    private fun addLists(l1: ListNode?, l2: ListNode?, carry: Int): ListNode? {
+    private fun addListsWithCarryNumber(l1: ListNode?, l2: ListNode?, carry: Int): ListNode? {
         if (l1 == null && l2 == null && carry == 0) {
             return null
         }
@@ -29,7 +29,7 @@ class SumLists {
         val result = ListNode(value % 10)
 
         if (l1 != null || l2 != null) {
-            val more = addLists(
+            val more = addListsWithCarryNumber(
                     l1?.next,
                     l2?.next,
                     if (value >= 10) 1 else 0

@@ -13,7 +13,7 @@ class SumLists2 {
      * *
      * @return  linked list node containing result of sum
      */
-    fun addLists(l1: ListNode, l2: ListNode): ListNode {
+    fun addLists(l1: ListNode?, l2: ListNode?): ListNode? {
         var node1 = l1
         var node2 = l2
         val len1 = length(node1)
@@ -28,7 +28,7 @@ class SumLists2 {
         val sum = addListsHelper(node1, node2)
 
         if (sum.carry == 0) {
-            return sum.sum!!
+            return sum.sum
         } else {
             val result = insertBefore(sum.sum, sum.carry)
             return result
@@ -59,7 +59,7 @@ class SumLists2 {
         return node
     }
 
-    private fun padList(list: ListNode, padding: Int): ListNode {
+    private fun padList(list: ListNode?, padding: Int): ListNode? {
         var head = list
         for (i in 0..padding - 1) {
             head = insertBefore(head, 0)
