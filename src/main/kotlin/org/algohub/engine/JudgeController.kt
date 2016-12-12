@@ -4,6 +4,7 @@ import io.swagger.annotations.*
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.algohub.engine.codegeneration.JavaCodeGenerator
+import org.algohub.engine.codegeneration.KotlinCodeGenerator
 import org.algohub.engine.judge.Function
 import org.algohub.engine.judge.JudgeEngine
 import org.algohub.engine.judge.JudgeResult
@@ -34,7 +35,9 @@ internal class JudgeController {
     @Throws(IOException::class)
     fun problems(): List<Problem> {
         return Arrays.stream(requestProblems())
-                .map { x -> x.problemWithoutFunctionAndTestCases(sourceCodeOf(x.function!!))}
+                .map { x -> x.problemWithoutFunctionAndTestCases(
+                        sourceCodeOf(x.function!!), kotlinSourceCodeOf(x.function)
+                )}
                 .collect(Collectors.toList<Problem>())
     }
 
@@ -60,7 +63,7 @@ internal class JudgeController {
         val problem = requestProblem(id) ?: throw IllegalArgumentException("Invalid problem id: " + id)
 
         return problem.problemWithoutFunctionAndTestCases(
-                sourceCodeOf(problem.function!!)
+                sourceCodeOf(problem.function!!), kotlinSourceCodeOf(problem.function)
         )
     }
 
@@ -86,6 +89,15 @@ internal class JudgeController {
         private fun sourceCodeOf(function: Function): String {
             try {
                 return JavaCodeGenerator.generateEmptyFunction(function)
+            } catch (e: ClassNotFoundException) {
+                LOG.error(e.message, e)
+                throw IllegalArgumentException("Illegal type: " + e.message)
+            }
+        }
+
+        private fun kotlinSourceCodeOf(function: Function): String {
+            try {
+                return KotlinCodeGenerator.generateEmptyFunction(function)
             } catch (e: ClassNotFoundException) {
                 LOG.error(e.message, e)
                 throw IllegalArgumentException("Illegal type: " + e.message)

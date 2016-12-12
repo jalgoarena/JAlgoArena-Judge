@@ -19,6 +19,7 @@ constructor(@JsonProperty("id") val id: String,
             @JsonProperty("function") val function: Function?,
             @JsonProperty("test_cases") val testCases: Array<Problem.TestCase>?,
             @JsonProperty("source_code") val skeletonCode: String?,
+            @JsonProperty("source_code_kotlin") val kotlinSkeletonCode: String?,
             @JsonProperty("level") val level: Int) {
 
     @JsonIgnoreProperties(ignoreUnknown = true)
@@ -33,7 +34,7 @@ constructor(@JsonProperty("id") val id: String,
     constructor(@JsonProperty("input") val input: String,
                 @JsonProperty("output") val output: String)
 
-    fun problemWithoutFunctionAndTestCases(skeletonCode: String): Problem {
+    fun problemWithoutFunctionAndTestCases(skeletonCode: String, kotlinSkeletonCode: String): Problem {
         return Problem(
                 id,
                 title,
@@ -43,6 +44,7 @@ constructor(@JsonProperty("id") val id: String,
                 null,
                 null,
                 skeletonCode,
+                kotlinSkeletonCode,
                 level
         )
     }
