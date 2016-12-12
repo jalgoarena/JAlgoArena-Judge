@@ -14,7 +14,6 @@ buildscript {
 plugins {
     id "java"
     id "jacoco"
-    id "org.sonarqube" version "1.2"
 }
 
 apply plugin: 'kotlin'
@@ -24,27 +23,10 @@ apply from: "$rootDir/gradle/versioning.gradle"
 group = 'org.algohub.engine'
 description = """Judge Engine"""
 
-//noinspection GroovyUnusedAssignment
 sourceCompatibility = 1.8
 
 repositories {
      mavenCentral()
-}
-
-sonarqube {
-    //noinspection GroovyAssignabilityCheck
-    properties {
-        //noinspection GroovyAssignabilityCheck
-        property "sonar.host.url", "https://sonarqube.com"
-        //noinspection GroovyAssignabilityCheck
-        property "sonar.projectKey", "JAlgoArena"
-        //noinspection GroovyAssignabilityCheck
-        property "sonar.projectName", "JAlgoArena"
-        //noinspection GroovyAssignabilityCheck
-        property "sonar.jacoco.reportPath", "${project.buildDir}/jacoco/test.exec"
-        //noinspection GroovyAssignabilityCheck
-        property "sonar.login", System.getenv("SONAR_TOKEN")
-    }
 }
 
 jar {
@@ -52,7 +34,6 @@ jar {
     version = '1.0'
 }
 
-//noinspection GroovyMissingReturnStatement
 test {
     testLogging {
         exceptionFormat = 'full'
@@ -65,24 +46,21 @@ dependencies {
             'com.fasterxml.jackson.core:jackson-databind',
             'com.fasterxml.jackson.core:jackson-core',
             'com.fasterxml.jackson.core:jackson-annotations',
-            'com.fasterxml.jackson.datatype:jackson-datatype-jdk8'
+            'com.fasterxml.jackson.datatype:jackson-datatype-jdk8',
+            'com.squareup.okhttp3:okhttp:3.4.2',
+            "org.springframework.boot:spring-boot-starter-web",
+            'io.springfox:springfox-swagger2:2.5.0',
+            'io.springfox:springfox-swagger-ui:2.5.0',
+            "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version",
+            "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version",
+            "org.jetbrains.kotlin:kotlin-compiler:$kotlin_version"
 
-    compile 'com.squareup.okhttp3:okhttp:3.4.2'
-
-    compile "org.springframework.boot:spring-boot-starter-web:1.4.0.RELEASE"
-    compile 'org.reflections:reflections:0.9.10'
-    compile 'io.springfox:springfox-swagger2:2.5.0'
-    compile 'io.springfox:springfox-swagger-ui:2.5.0'
-
-    runtime 'ch.qos.logback:logback-classic:1.1.7'
-    runtime 'ch.qos.logback:logback-core:1.1.7'
+    runtime 'ch.qos.logback:logback-classic:1.1.7',
+            'ch.qos.logback:logback-core:1.1.7'
 
     testCompile 'junit:junit:4.12',
                 'org.assertj:assertj-core:3.5.2',
                 'pl.pragmatists:JUnitParams:1.0.5'
-    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
-    compile "org.jetbrains.kotlin:kotlin-compiler:$kotlin_version"
 }
 
 if (!project.hasProperty("serverPort")) {
@@ -103,7 +81,6 @@ jacocoTestReport {
     }
 }
 
-//noinspection GroovyAssignabilityCheck
 check.dependsOn jacocoTestReport
 
 defaultTasks 'clean', 'bootRepackage'
