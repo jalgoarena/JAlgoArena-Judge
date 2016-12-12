@@ -1,6 +1,6 @@
 import java.util.*
 
-object WordLadder {
+class WordLadder {
     fun ladderLength(start: String, end: String,
                      dict: HashSet<String>): Int {
         var result = 0
