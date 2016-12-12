@@ -2,6 +2,7 @@ package org.algohub.engine.compile
 
 import com.google.common.base.Preconditions
 import org.slf4j.LoggerFactory
+import java.io.File
 import java.io.IOException
 import java.nio.CharBuffer
 import java.util.*
@@ -69,7 +70,11 @@ class MemoryJavaCompiler : Compiler {
     }
 
     private fun javacOptions(): List<String> {
-        return Arrays.asList("-Xlint:all", "-deprecation")
+        return Arrays.asList(
+                "-Xlint:all",
+                "-deprecation",
+                "-classpath", File("build/classes/main").absolutePath
+        )
     }
 
     @Throws(CompileErrorException::class)

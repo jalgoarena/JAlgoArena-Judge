@@ -33,8 +33,15 @@ class JudgeControllerTest {
 
     @Test
     @Parameters("fib", "2-sum", "stoi", "word-ladder")
-    fun generatesNonEmptySkeletonCode(problemId: String) {
+    fun generatesNonEmptyJavaSkeletonCode(problemId: String) {
         val skeletonCode = controller.problem(problemId).skeletonCode
+        assertThat(skeletonCode).isNotEmpty()
+    }
+
+    @Test
+    @Parameters("fib", "2-sum", "stoi", "word-ladder")
+    fun generatesNonEmptyKotlinSkeletonCode(problemId: String) {
+        val skeletonCode = controller.problem(problemId).kotlinSkeletonCode
         assertThat(skeletonCode).isNotEmpty()
     }
 
