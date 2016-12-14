@@ -29,6 +29,11 @@ internal class JudgeTask(private val clazz: Any, private val method: Method, pri
                 throw InterruptedException(cause.javaClass.name + ": " + cause.message)
             } catch (e: InvocationTargetException) {
                 val cause = getCause(e)
+
+                if (cause is NullPointerException) {
+                    return false
+                }
+
                 LOG.error("Error during processing of solution", cause)
                 throw InterruptedException(cause.javaClass.name + ": " + cause.message)
             } catch (e: IllegalArgumentException) {
