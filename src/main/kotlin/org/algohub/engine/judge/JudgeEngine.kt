@@ -11,7 +11,6 @@ object JudgeEngine {
     private val LOG = LoggerFactory.getLogger(JudgeEngine::class.java)
 
     private val NUMBER_OF_ITERATIONS = 5
-    private val RANDOM = Random()
 
     @Throws(InterruptedException::class)
     private fun judge(clazz: Any,
@@ -87,15 +86,6 @@ object JudgeEngine {
         return executorService.submit(JudgePerformanceTask(clazz, method, readInternalTestCases(problem)))
     }
 
-
-    /**
-     * Runs judge on given source code for a given problem
-     * @param problem  - problem to solve
-     * *
-     * @param userCode - source code solving the problem
-     * *
-     * @return - result of judge
-     */
     fun judge(problem: Problem, userCode: String): JudgeResult {
 
         try {
@@ -117,11 +107,7 @@ object JudgeEngine {
     private fun compileAndJudge(problem: Problem, userCode: String): JudgeResult {
 
         val isKotlin = IsKotlinSourceCode().findIn(userCode, problem.function!!)
-
-        val className = when (isKotlin) {
-            true -> FindKotlinClassName().findIn(userCode)
-            false -> FindJavaClassName().findIn(userCode)
-        }
+        val className = findClassName(isKotlin, userCode)
 
         if (!className.isPresent) {
             return JudgeResult("ClassNotFoundException: No public class found")
@@ -146,6 +132,14 @@ object JudgeEngine {
 
     }
 
+    private fun findClassName(isKotlin: Boolean, userCode: String): Optional<String> {
+        val className = when (isKotlin) {
+            true -> FindKotlinClassName().findIn(userCode)
+            false -> FindJavaClassName().findIn(userCode)
+        }
+        return className
+    }
+
     private fun readInternalTestCases(problem: Problem): Array<InternalTestCase> {
         val testCases = problem.testCases
         val function = problem.function
@@ -154,26 +148,17 @@ object JudgeEngine {
                 .map { InternalTestCase(testCases[it], function!!) }
                 .toTypedArray()
 
-
-        shuffle(internalTestCases)
-        return internalTestCases
+        return shuffle(internalTestCases)
     }
 
-    private fun shuffle(array: Array<InternalTestCase>) {
-        val count = array.size
-
-        for (i in count downTo 2) {
-            swap(array, i - 1, RANDOM.nextInt(i))
-        }
+    private fun shuffle(internalTestCases: Array<InternalTestCase>): Array<InternalTestCase> {
+        val internalTestCasesAsList = Arrays.asList(*internalTestCases)
+        Collections.shuffle(internalTestCasesAsList)
+        return internalTestCasesAsList.toTypedArray()
     }
 
-    private fun swap(array: Array<InternalTestCase>, i: Int, j: Int) {
-        val temp = array[i]
-        array[i] = array[j]
-        array[j] = temp
-    }
 
-    private class PerformanceSnapshot internal constructor(internal val currentNanoTime: Long, internal val usedMemoryInBytes: Long) {
+    private class PerformanceSnapshot(val currentNanoTime: Long, val usedMemoryInBytes: Long) {
         companion object {
             internal fun create(timeNanoSeconds: Long, memoryBytes: Long): PerformanceSnapshot {
                 return PerformanceSnapshot(timeNanoSeconds, memoryBytes)
@@ -181,7 +166,7 @@ object JudgeEngine {
         }
     }
 
-    private class PerformanceResult private constructor(internal val usedMemoryInBytes: Long, internal val usedTimeInMs: Double) {
+    private class PerformanceResult(val usedMemoryInBytes: Long, val usedTimeInMs: Double) {
 
         internal fun chooseBestResults(performanceResult: PerformanceResult): PerformanceResult {
             return PerformanceResult(
@@ -209,9 +194,8 @@ object JudgeEngine {
         }
     }
 
-    private class JudgePerformanceTask internal constructor(private val clazz: Any, private val method: Method, private val testCases: Array<InternalTestCase>) : Callable<PerformanceResult> {
+    private class JudgePerformanceTask(val clazz: Any, val method: Method, val testCases: Array<InternalTestCase>) : Callable<PerformanceResult> {
 
-        @Throws(Exception::class)
         override fun call(): PerformanceResult {
             val snapshotBeforeRun = takePerformanceSnapshot()
 
