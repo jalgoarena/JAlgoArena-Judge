@@ -46,7 +46,7 @@ dependencies {
             'com.fasterxml.jackson.core:jackson-databind',
             'com.fasterxml.jackson.core:jackson-core',
             'com.fasterxml.jackson.core:jackson-annotations',
-            'com.fasterxml.jackson.datatype:jackson-datatype-jdk8',
+            "com.fasterxml.jackson.module:jackson-module-kotlin",
             'com.squareup.okhttp3:okhttp:3.4.2',
             "org.springframework.boot:spring-boot-starter-web",
             'io.springfox:springfox-swagger2:2.5.0',

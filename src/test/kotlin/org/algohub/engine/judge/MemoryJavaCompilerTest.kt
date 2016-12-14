@@ -3,11 +3,8 @@ package org.algohub.engine.judge
 import org.algohub.engine.compile.CompileErrorException
 import org.algohub.engine.compile.JvmCompiler
 import org.algohub.engine.compile.MemoryJavaCompiler
-import org.junit.Test
-
-import java.lang.reflect.Method
-
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.Test
 
 class MemoryJavaCompilerTest {
 
@@ -19,8 +16,8 @@ class MemoryJavaCompilerTest {
                 "Solution", "greeting", SOURCE_CODE, MemoryJavaCompiler()
         )
 
-        val obj = greetingObject[0]
-        val greeting = greetingObject[1] as Method
+        val obj = greetingObject.first
+        val greeting = greetingObject.second
 
         val result = greeting.invoke(obj, "Julia")
         assertThat(result).isEqualTo("Hello Julia")

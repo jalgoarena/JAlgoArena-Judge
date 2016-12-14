@@ -5,7 +5,6 @@ import org.algohub.engine.compile.JvmCompiler
 import org.algohub.engine.compile.KotlinCompiler
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
-import java.lang.reflect.Method
 
 class KotlinCompilerTest {
 
@@ -17,8 +16,8 @@ class KotlinCompilerTest {
                 "Solution", "greeting", HELLO_WORLD_SOURCE_CODE, KotlinCompiler()
         )
 
-        val obj = greetingObject[0]
-        val greeting = greetingObject[1] as Method
+        val obj = greetingObject.first
+        val greeting = greetingObject.second
 
         val result = greeting.invoke(obj, "Julia")
         assertThat(result).isEqualTo("Hello Julia")
