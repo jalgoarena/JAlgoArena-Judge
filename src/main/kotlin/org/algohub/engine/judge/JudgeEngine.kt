@@ -92,13 +92,13 @@ object JudgeEngine {
             return compileAndJudge(problem, userCode)
         } catch (e: ClassNotFoundException) {
             LOG.warn("Class not found", e)
-            return JudgeResult("${e.javaClass} : ${e.message}")
+            return JudgeResult.compileError("${e.javaClass} : ${e.message}")
         } catch (e: CompileErrorException) {
             LOG.warn("Compilation error${e.message}")
-            return JudgeResult(CreateFriendlyMessage().from(e.message!!))
+            return JudgeResult.compileError(CreateFriendlyMessage().from(e.message!!))
         } catch (e: NoSuchMethodError) {
             LOG.warn("No such method error", e)
-            return JudgeResult("No such method: ${e.message}")
+            return JudgeResult.compileError("No such method: ${e.message}")
         }
 
     }
@@ -110,7 +110,7 @@ object JudgeEngine {
         val className = findClassName(isKotlin, userCode)
 
         if (!className.isPresent) {
-            return JudgeResult("ClassNotFoundException: No public class found")
+            return JudgeResult.compileError("ClassNotFoundException: No public class found")
         }
 
         val (instance, method) = JvmCompiler().compileMethod(

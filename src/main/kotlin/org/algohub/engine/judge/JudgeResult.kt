@@ -1,48 +1,28 @@
 package org.algohub.engine.judge
 
-import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import java.util.*
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-class JudgeResult {
-    @JsonProperty("status_code")
-    val statusCode: String
-    @JsonProperty("error_message")
-    val errorMessage: String?
-    @JsonProperty("elapsed_time")
-    val elapsedTime: Double // milliseconds
-    @JsonProperty("consumed_memory")
-    val consumedMemory: Long  // bytes
-    @JsonProperty("testcase_results")
-    val testCaseResults: List<Boolean>
-
-    @JsonCreator
-    constructor(@JsonProperty("status_code") statusCode: String,
-                @JsonProperty("error_message") errorMessage: String?,
-                @JsonProperty("elapsed_time") elapsedTime: Double,
-                @JsonProperty("consumed_memory") consumedMemory: Long,
-                @JsonProperty("testcase_results") testCaseResults: List<Boolean>) {
-        this.statusCode = statusCode
-        this.errorMessage = errorMessage
-        this.elapsedTime = elapsedTime
-        this.consumedMemory = consumedMemory
-        this.testCaseResults = testCaseResults
-    }
-
-    constructor(compileErrorMsg: String) {
-        this.statusCode = StatusCode.COMPILE_ERROR.toString()
-        this.errorMessage = compileErrorMsg
-        this.elapsedTime = 0.0
-        this.consumedMemory = 0
-        this.testCaseResults = emptyList<Boolean>()
-    }
-
-    override fun toString() =
-            "JudgeResult{statusCode=$statusCode, errorMessage='$errorMessage', elapsedTime=$elapsedTime, consumedMemory=$consumedMemory}"
+data class JudgeResult(@JsonProperty("status_code") val statusCode: String,
+                       @JsonProperty("error_message") val errorMessage: String?, // milliseconds
+                       @JsonProperty("elapsed_time") val elapsedTime: Double, // bytes
+                       @JsonProperty("consumed_memory") val consumedMemory: Long,
+                       @JsonProperty("testcase_results") val testCaseResults: List<Boolean>) {
 
     companion object {
+
+        @JvmStatic
+        fun compileError(compileErrorMsg: String): JudgeResult {
+            return JudgeResult(
+                    StatusCode.COMPILE_ERROR.toString(),
+                    compileErrorMsg,
+                    0.0,
+                    0,
+                    emptyList()
+            )
+        }
 
         @JvmStatic
         fun accepted(testCasesCount: Int, usedTimeInMs: Double, usedMemoryInKb: Long): JudgeResult {
