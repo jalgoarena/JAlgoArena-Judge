@@ -12,14 +12,11 @@ class KotlinCompilerTest {
     @Throws(Throwable::class)
     fun compileAndRunStaticMethod() {
 
-        val greetingObject = JvmCompiler().compileMethod(
+        val (instance, method) = JvmCompiler().compileMethod(
                 "Solution", "greeting", HELLO_WORLD_SOURCE_CODE, KotlinCompiler()
         )
 
-        val obj = greetingObject.first
-        val greeting = greetingObject.second
-
-        val result = greeting.invoke(obj, "Julia")
+        val result = method.invoke(instance, "Julia")
         assertThat(result).isEqualTo("Hello Julia")
     }
 

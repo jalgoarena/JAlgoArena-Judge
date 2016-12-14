@@ -12,14 +12,11 @@ class MemoryJavaCompilerTest {
     @Throws(Throwable::class)
     fun compileAndRunStaticMethod() {
 
-        val greetingObject = JvmCompiler().compileMethod(
+        val (instance, method) = JvmCompiler().compileMethod(
                 "Solution", "greeting", SOURCE_CODE, MemoryJavaCompiler()
         )
 
-        val obj = greetingObject.first
-        val greeting = greetingObject.second
-
-        val result = greeting.invoke(obj, "Julia")
+        val result = method.invoke(instance, "Julia")
         assertThat(result).isEqualTo("Hello Julia")
     }
 
