@@ -71,8 +71,7 @@ class MemoryJavaCompiler : Compiler {
 
     private fun javacOptions(): List<String> {
         return Arrays.asList(
-                "-Xlint:all",
-                "-deprecation",
+                "-nowarn",
                 "-classpath", File("build/classes/main").absolutePath
         )
     }
