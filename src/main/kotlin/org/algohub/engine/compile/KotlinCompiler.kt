@@ -1,43 +1,61 @@
 package org.algohub.engine.compile
 
+import org.jetbrains.kotlin.cli.common.ExitCode
 import org.jetbrains.kotlin.cli.jvm.K2JVMCompiler
+import java.io.ByteArrayOutputStream
 import java.io.File
+import java.io.PrintStream
 import java.util.*
+
 
 class KotlinCompiler : Compiler {
     override fun run(className: String, source: String): MutableMap<String, ByteArray?>? {
 
         val tmpDir = createTmpDir()
+        val origErr = System.err
 
         try {
             val sourceFile = writeSourceFile(tmpDir, "$className.kt", source)
             val out = File(tmpDir, "out")
 
-            val exitCode = compiler.exec(
-                    System.out,
-                    sourceFile.absolutePath,
-                    "-include-runtime",
-                    "-d", out.absolutePath,
-                    "-kotlin-home", File("kotlinHome").absolutePath,
-                    "-classpath", File("build/classes/main").absolutePath
-            )
+            val errMessageBytes = ByteArrayOutputStream()
+            System.setErr(PrintStream(errMessageBytes))
 
-            println("ExitCode: $exitCode")
-
-            val classBytes: MutableMap<String, ByteArray?>? = HashMap()
-
-            out.listFiles()
-                    .filter { it.absolutePath.endsWith(".class") }
-                    .forEach {
-                        val byteCode = File(out, it.name).readBytes()
-                        classBytes!!.put(it.nameWithoutExtension, byteCode)
-                    }
-
-            return classBytes
+            when (compileAndReturnExitCode(out, sourceFile)) {
+                ExitCode.OK -> return readClassBytes(out)
+                else -> {
+                    val errMessage = errMessageBytes.toString("utf-8")
+                    println(errMessage)
+                    throw CompileErrorException(errMessage)
+                }
+            }
         } finally {
             tmpDir.deleteRecursively()
+            System.setErr(origErr)
         }
     }
+
+    private fun readClassBytes(out: File): MutableMap<String, ByteArray?>? {
+        val classBytes: MutableMap<String, ByteArray?>? = HashMap()
+
+        out.listFiles()
+                .filter { it.absolutePath.endsWith(".class") }
+                .forEach {
+                    val byteCode = File(out, it.name).readBytes()
+                    classBytes!!.put(it.nameWithoutExtension, byteCode)
+                }
+
+        return classBytes
+    }
+
+    private fun compileAndReturnExitCode(out: File, sourceFile: File): ExitCode = compiler.exec(
+            System.err,
+            sourceFile.absolutePath,
+            "-include-runtime",
+            "-d", out.absolutePath,
+            "-kotlin-home", File("kotlinHome").absolutePath,
+            "-classpath", File("build/classes/main").absolutePath
+    )
 
     private fun createTmpDir(): File {
         val randomUUID = UUID.randomUUID()
