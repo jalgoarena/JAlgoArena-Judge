@@ -18,9 +18,6 @@ class JudgeResult {
     @JsonProperty("testcase_results")
     val testCaseResults: List<Boolean>
 
-    /**
-     * Since this class is immutable, need to provide a method for Jackson.
-     */
     @JsonCreator
     constructor(@JsonProperty("status_code") statusCode: String,
                 @JsonProperty("error_message") errorMessage: String?,

@@ -9,9 +9,6 @@ import java.io.OutputStream
 import java.net.URI
 import java.util.HashMap
 
-/**
- * JavaFileManager that keeps compiled .class bytes in memory.
- */
 internal class MemoryJavaFileManager(fileManager: JavaFileManager) : ForwardingJavaFileManager<JavaFileManager>(fileManager) {
 
     var classBytes: MutableMap<String, ByteArray?>? = HashMap()
@@ -31,9 +28,6 @@ internal class MemoryJavaFileManager(fileManager: JavaFileManager) : ForwardingJ
         }
     }
 
-    /**
-     * A file object that stores Java bytecode into the classBytes map.
-     */
     private inner class ClassOutputBuffer internal constructor(private val className: String)
         : SimpleJavaFileObject(Companion.toUri(className), Kind.CLASS) {
 

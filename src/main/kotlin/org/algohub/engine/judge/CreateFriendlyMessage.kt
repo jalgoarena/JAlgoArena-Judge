@@ -2,6 +2,8 @@ package org.algohub.engine.judge
 
 internal class CreateFriendlyMessage {
 
+    private val JAVA_EXT = ".java:"
+
     fun from(errorMessage: String): String {
         val lines = errorMessage
                 .split("\n")
@@ -35,9 +37,5 @@ internal class CreateFriendlyMessage {
     private fun getLineNumber(line: String, pos: Int, pos2: Int): Int {
         val numberStr = line.substring(pos + JAVA_EXT.length, pos2)
         return Integer.valueOf(numberStr)!!
-    }
-
-    companion object {
-        private val JAVA_EXT = ".java:"
     }
 }

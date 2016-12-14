@@ -8,21 +8,12 @@ import java.nio.CharBuffer
 import java.util.*
 import javax.tools.*
 
-/**
- * Simple interface to Java compiler using JSR 199 Compiler API.
- */
 class MemoryJavaCompiler : Compiler {
 
     private fun standardFileManager(): StandardJavaFileManager {
         return javaCompiler.getStandardFileManager(null, null, null)
     }
 
-    /**
-     * compile given String source and return bytecodes as a Map.
-     * @param className source className to be used for error messages etc.
-     * *
-     * @param source   Java source as String
-     */
     @Throws(CompileErrorException::class)
     override fun run(className: String, source: String): MutableMap<String, ByteArray?>? {
 
@@ -89,9 +80,6 @@ class MemoryJavaCompiler : Compiler {
         throw CompileErrorException(errorMsg.toString())
     }
 
-    /**
-     * A file object used to represent Java source coming from a string.
-     */
     private class SourceCodeStringInputBuffer internal constructor(fileName: String, internal val code: String)
         : SimpleJavaFileObject(MemoryJavaFileManager.toUri(fileName), JavaFileObject.Kind.SOURCE) {
 
@@ -99,8 +87,6 @@ class MemoryJavaCompiler : Compiler {
             return CharBuffer.wrap(code)
         }
     }
-
-
 
     companion object {
 

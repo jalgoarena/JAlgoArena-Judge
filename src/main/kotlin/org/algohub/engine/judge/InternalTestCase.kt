@@ -7,6 +7,8 @@ import java.io.IOException
 
 internal class InternalTestCase(testCase: Problem.TestCase, function: Function) {
 
+    private val LOG = LoggerFactory.getLogger(InternalTestCase::class.java)
+
     val input: Array<Any?>
     val output: Any?
     private val returnsVoid: Boolean
@@ -53,8 +55,4 @@ internal class InternalTestCase(testCase: Problem.TestCase, function: Function) 
     }
 
     fun returnsVoid() = returnsVoid
-
-    companion object {
-        private val LOG = LoggerFactory.getLogger(InternalTestCase::class.java)
-    }
 }
