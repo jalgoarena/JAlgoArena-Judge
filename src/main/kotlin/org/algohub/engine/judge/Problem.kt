@@ -15,8 +15,8 @@ class Problem(val id: String,
               @JsonProperty("memory_limit") val memoryLimit: Int,
               val function: Function?,
               @JsonProperty("test_cases") val testCases: Array<Problem.TestCase>?,
-              @JsonProperty("source_code") val skeletonCode: String?,
-              @JsonProperty("source_code_kotlin") val kotlinSkeletonCode: String?,
+              @JsonProperty("skeleton_code") val skeletonCode: String?,
+              @JsonProperty("kotlin_skeleton_code") val kotlinSkeletonCode: String?,
               val level: Int) {
 
     @JsonIgnoreProperties(ignoreUnknown = true)
