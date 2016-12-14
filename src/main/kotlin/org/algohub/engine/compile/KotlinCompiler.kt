@@ -23,11 +23,7 @@ class KotlinCompiler : Compiler {
 
             when (compileAndReturnExitCode(out, sourceFile)) {
                 ExitCode.OK -> return readClassBytes(out)
-                else -> {
-                    val errMessage = errMessageBytes.toString("utf-8")
-                    println(errMessage)
-                    throw CompileErrorException(errMessage)
-                }
+                else -> throw CompileErrorException(errMessageBytes.toString("utf-8"))
             }
         } finally {
             tmpDir.deleteRecursively()

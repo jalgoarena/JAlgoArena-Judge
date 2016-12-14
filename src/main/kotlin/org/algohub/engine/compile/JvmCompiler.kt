@@ -1,13 +1,14 @@
 package org.algohub.engine.compile
 
 import org.slf4j.LoggerFactory
+import java.lang.reflect.Method
 import java.net.URL
 import java.net.URLClassLoader
 
 class JvmCompiler {
 
     @Throws(ClassNotFoundException::class, CompileErrorException::class)
-    fun compileMethod(qualifiedClassName: String, methodName: String, source: String, compiler: Compiler): Array<Any> {
+    fun compileMethod(qualifiedClassName: String, methodName: String, source: String, compiler: Compiler): Pair<Any, Method> {
 
         val classBytes = compiler.run(qualifiedClassName, source)
         val clazz = Class.forName(
@@ -18,7 +19,7 @@ class JvmCompiler {
         methods.filter { it.name == methodName }
                 .forEach {
                     try {
-                        return arrayOf(clazz.newInstance(), it)
+                        return Pair<Any, Method>(clazz.newInstance(), it)
                     } catch (e: InstantiationException) {
                         LOG.error("Error during creating of new class instance", e)
                         throw IllegalStateException(e.message)
