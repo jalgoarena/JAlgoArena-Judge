@@ -113,11 +113,12 @@ object JudgeEngine {
             return JudgeResult.compileError("ClassNotFoundException: No public class found")
         }
 
-        val (instance, method) = JvmCompiler().compileMethod(
+        val compiler = if (isKotlin) KotlinCompiler() else MemoryJavaCompiler()
+
+        val (instance, method) = compiler.compileMethod(
                 className.get(),
                 problem.function.name,
-                userCode,
-                if (isKotlin) KotlinCompiler() else MemoryJavaCompiler()
+                userCode
         )
 
         try {

@@ -5,12 +5,12 @@ import java.lang.reflect.Method
 import java.net.URL
 import java.net.URLClassLoader
 
-class JvmCompiler {
+interface JvmCompiler {
 
     @Throws(ClassNotFoundException::class, CompileErrorException::class)
-    fun compileMethod(qualifiedClassName: String, methodName: String, source: String, compiler: Compiler): Pair<Any, Method> {
+    fun compileMethod(qualifiedClassName: String, methodName: String, source: String): Pair<Any, Method> {
 
-        val classBytes = compiler.run(qualifiedClassName, source)
+        val classBytes = run(qualifiedClassName, source)
         val clazz = Class.forName(
                 qualifiedClassName, true, MemoryClassLoader(classBytes)
         )
@@ -31,6 +31,8 @@ class JvmCompiler {
 
         throw NoSuchMethodError(methodName)
     }
+
+    fun run(className: String, source: String): MutableMap<String, ByteArray?>?
 
     /**
      * ClassLoader that loads .class bytes from memory.

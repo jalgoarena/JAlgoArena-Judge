@@ -8,7 +8,7 @@ import java.nio.CharBuffer
 import java.util.*
 import javax.tools.*
 
-class MemoryJavaCompiler : Compiler {
+class MemoryJavaCompiler : JvmCompiler {
 
     private fun standardFileManager(): StandardJavaFileManager {
         return javaCompiler.getStandardFileManager(null, null, null)

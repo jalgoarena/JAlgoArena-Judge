@@ -8,7 +8,7 @@ import java.io.PrintStream
 import java.util.*
 
 
-class KotlinCompiler : Compiler {
+class KotlinCompiler : JvmCompiler {
     override fun run(className: String, source: String): MutableMap<String, ByteArray?>? {
 
         val tmpDir = createTmpDir()

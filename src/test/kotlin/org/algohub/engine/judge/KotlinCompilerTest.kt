@@ -1,7 +1,6 @@
 package org.algohub.engine.judge
 
 import org.algohub.engine.compile.CompileErrorException
-import org.algohub.engine.compile.JvmCompiler
 import org.algohub.engine.compile.KotlinCompiler
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
@@ -12,8 +11,8 @@ class KotlinCompilerTest {
     @Throws(Throwable::class)
     fun compileAndRunStaticMethod() {
 
-        val (instance, method) = JvmCompiler().compileMethod(
-                "Solution", "greeting", HELLO_WORLD_SOURCE_CODE, KotlinCompiler()
+        val (instance, method) = KotlinCompiler().compileMethod(
+                "Solution", "greeting", HELLO_WORLD_SOURCE_CODE
         )
 
         val result = method.invoke(instance, "Julia")
@@ -23,8 +22,8 @@ class KotlinCompilerTest {
     @Test(expected = NoSuchMethodError::class)
     @Throws(Exception::class)
     fun throwsNoSuchMethodExceptionWhenInvokingNonExistingMethod() {
-        JvmCompiler().compileMethod(
-                "Solution", "dummy", SOURCE_CODE_CORRECT, KotlinCompiler()
+        KotlinCompiler().compileMethod(
+                "Solution", "dummy", SOURCE_CODE_CORRECT
         )
     }
 
@@ -36,8 +35,8 @@ class KotlinCompilerTest {
 }
 """
 
-        JvmCompiler().compileMethod(
-                "Solution", "dummy", sourceCode, KotlinCompiler()
+        KotlinCompiler().compileMethod(
+                "Solution", "dummy", sourceCode
         )
     }
 
@@ -45,8 +44,8 @@ class KotlinCompilerTest {
     @Throws(Exception::class)
     fun throwsCompileErrorExceptionWhenSourceCodeDoesNotCompile() {
 
-        JvmCompiler().compileMethod(
-                "Solution", "fib", SOURCE_CODE_WITH_ERROR, KotlinCompiler()
+        KotlinCompiler().compileMethod(
+                "Solution", "fib", SOURCE_CODE_WITH_ERROR
         )
     }
 

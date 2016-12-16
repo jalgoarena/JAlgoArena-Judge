@@ -1,7 +1,6 @@
 package org.algohub.engine.judge
 
 import org.algohub.engine.compile.CompileErrorException
-import org.algohub.engine.compile.JvmCompiler
 import org.algohub.engine.compile.MemoryJavaCompiler
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
@@ -12,8 +11,8 @@ class MemoryJavaCompilerTest {
     @Throws(Throwable::class)
     fun compileAndRunStaticMethod() {
 
-        val (instance, method) = JvmCompiler().compileMethod(
-                "Solution", "greeting", SOURCE_CODE, MemoryJavaCompiler()
+        val (instance, method) = MemoryJavaCompiler().compileMethod(
+                "Solution", "greeting", SOURCE_CODE
         )
 
         val result = method.invoke(instance, "Julia")
@@ -23,8 +22,8 @@ class MemoryJavaCompilerTest {
     @Test(expected = NoSuchMethodError::class)
     @Throws(Exception::class)
     fun throwsNoSuchMethodExceptionWhenInvokingNonExistingMethod() {
-        JvmCompiler().compileMethod(
-                "Solution", "dummy", SOURCE_CODE, MemoryJavaCompiler()
+        MemoryJavaCompiler().compileMethod(
+                "Solution", "dummy", SOURCE_CODE
         )
     }
 
@@ -33,8 +32,8 @@ class MemoryJavaCompilerTest {
     fun throwsIllegalStateExceptionWhenTryingToInvokeClassWithPrivateConstructor() {
         val sourceCode = "public final class Solution { private Solution() { }; public void dummy() {} }"
 
-        JvmCompiler().compileMethod(
-                "Solution", "dummy", sourceCode, MemoryJavaCompiler()
+        MemoryJavaCompiler().compileMethod(
+                "Solution", "dummy", sourceCode
         )
     }
 
@@ -43,8 +42,8 @@ class MemoryJavaCompilerTest {
     fun throwsCompileErrorExceptionWhenSourceCodeDoesNotCompile() {
         val sourceCodeMissingReturnString = "public final class Solution { private Solution() { }; public String dummy() {} }"
 
-        JvmCompiler().compileMethod(
-                "Solution", "dummy", sourceCodeMissingReturnString, MemoryJavaCompiler()
+        MemoryJavaCompiler().compileMethod(
+                "Solution", "dummy", sourceCodeMissingReturnString
         )
     }
 
