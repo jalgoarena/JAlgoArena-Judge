@@ -68,7 +68,7 @@ internal class JudgeController {
     }
 
     @Throws(IOException::class)
-    private fun requestProblem(problemId: String): Problem? {
+    internal fun requestProblem(problemId: String): Problem? {
         val request = Request.Builder()
                 .url("${DATA_SERVICE_HOST}problems/$problemId")
                 .build()

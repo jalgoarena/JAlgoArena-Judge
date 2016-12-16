@@ -10,7 +10,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(JUnitParamsRunner::class)
-class JudgeControllerTest {
+class JudgeControllerIntegrationTest {
 
     private val controller = JudgeController()
 
