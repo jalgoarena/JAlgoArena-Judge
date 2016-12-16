@@ -2,11 +2,6 @@ import java.util.*
 import org.algohub.engine.type.ListNode
 
 class RemoveDups {
-    /**
-     * @param linkedList Linked List where we need to remove duplicates
-     * *
-     * @return  Linked List with removed duplicates
-     */
     fun removeDuplicates(listNode: ListNode?): ListNode? {
         var node = listNode
         val root = node

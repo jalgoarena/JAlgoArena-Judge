@@ -11,14 +11,16 @@ class CheckPerm {
 
         var toCheck = StringBuilder(str1)
 
-        for (str in str2.split("".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()) {
-            val index = toCheck.indexOf(str)
-            if (index == -1) {
-                return false
-            } else {
-                toCheck = toCheck.replace(index, index + 1, "")
-            }
-        }
+        str2.split("".toRegex()).dropLastWhile(String::isEmpty).toTypedArray()
+                .asSequence()
+                .map { toCheck.indexOf(it) }
+                .forEach {
+                    if (it == -1) {
+                        return false
+                    } else {
+                        toCheck = toCheck.replace(it, it + 1, "")
+                    }
+                }
 
         return true
     }

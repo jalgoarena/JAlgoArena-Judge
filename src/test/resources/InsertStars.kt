@@ -1,6 +1,3 @@
-import java.util.*
-import org.algohub.engine.type.*
-
 class InsertStars {
 
     fun insertPairStar(str: String?): String? {

@@ -16,9 +16,9 @@ class ZeroMatrix {
     }
 
     private fun nullifyColumns(column: BooleanArray, matrix: Array<IntArray>) {
-        for (j in column.indices) {
-            if (column[j]) nullifyColumn(matrix, j)
-        }
+        column.indices
+                .filter { column[it] }
+                .forEach { nullifyColumn(matrix, it) }
     }
 
     private fun nullifyColumn(matrix: Array<IntArray>, column: Int) {
@@ -28,9 +28,9 @@ class ZeroMatrix {
     }
 
     private fun nullifyRows(row: BooleanArray, matrix: Array<IntArray>) {
-        for (i in row.indices) {
-            if (row[i]) nullifyRow(matrix, i)
-        }
+        row.indices
+                .filter { row[it] }
+                .forEach { nullifyRow(matrix, it) }
     }
 
     private fun nullifyRow(matrix: Array<IntArray>, row: Int) {

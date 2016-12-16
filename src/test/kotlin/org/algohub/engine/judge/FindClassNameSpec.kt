@@ -1,12 +1,9 @@
 package org.algohub.engine.judge
 
 import org.algohub.engine.compile.FindJavaClassName
-import org.junit.Test
-
-import java.util.Optional
-
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.fail
+import org.junit.Test
 
 class FindClassNameSpec {
 

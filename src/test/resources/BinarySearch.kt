@@ -1,6 +1,3 @@
-import java.util.*
-import org.algohub.engine.type.*
-
 class BinarySearch {
     /**
      * @param arr An array of Integers
