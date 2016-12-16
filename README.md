@@ -1,4 +1,4 @@
-# JAlgoArena [![Build Status](https://travis-ci.org/spolnik/JAlgoArena.svg?branch=master)](https://travis-ci.org/spolnik/JAlgoArena) [![codecov](https://codecov.io/gh/spolnik/JAlgoArena/branch/master/graph/badge.svg)](https://codecov.io/gh/spolnik/JAlgoArena) [![Quality Gate](https://sonarqube.com/api/badges/gate?key=JAlgoArena)](https://sonarqube.com/dashboard/index/JAlgoArena)
+# JAlgoArena [![Build Status](https://travis-ci.org/spolnik/JAlgoArena.svg?branch=master)](https://travis-ci.org/spolnik/JAlgoArena) [![codecov](https://codecov.io/gh/spolnik/JAlgoArena/branch/master/graph/badge.svg)](https://codecov.io/gh/spolnik/JAlgoArena)
 
 A modern versatile Java online judge engine.
 
