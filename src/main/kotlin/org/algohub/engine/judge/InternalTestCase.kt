@@ -11,14 +11,14 @@ internal class InternalTestCase(testCase: Problem.TestCase, function: Function) 
 
     val input: Array<Any?>
     val output: Any?
-    private val returnsVoid: Boolean
+    val returnsVoid: Boolean
 
     init {
         val parameters = function.parameters
         Preconditions.checkArgument(parameters.size == testCase.input.size())
 
         try {
-            input = arrayOfNulls<Any>(testCase.input.size())
+            input = arrayOfNulls(testCase.input.size())
             for (i in input.indices) {
                 input[i] = deserialize(
                         testCase.input.get(i).toString(),
@@ -28,17 +28,14 @@ internal class InternalTestCase(testCase: Problem.TestCase, function: Function) 
 
             returnsVoid = "void" == function.returnStatement.type
 
-            if (returnsVoid) {
-                this.output = deserialize(
-                        testCase.output.toString(),
-                        Class.forName(parameters[0].type)
-                )
-            } else {
-                this.output = deserialize(
-                        testCase.output.toString(),
-                        Class.forName(function.returnStatement.type)
-                )
-            }
+            val outputType =
+                    if (returnsVoid) Class.forName(parameters[0].type)
+                    else Class.forName(function.returnStatement.type)
+
+            this.output = deserialize(
+                    testCase.output.toString(),
+                    outputType
+            )
         } catch (e: ClassNotFoundException) {
             LOG.error(e.message, e)
             throw IllegalArgumentException(e.message)
@@ -49,10 +46,7 @@ internal class InternalTestCase(testCase: Problem.TestCase, function: Function) 
 
     }
 
-    @Throws(IOException::class)
     private fun deserialize(content: String, type: Class<*>): Any? {
         return ObjectMapperInstance.INSTANCE.readValue(content, type)
     }
-
-    fun returnsVoid() = returnsVoid
 }

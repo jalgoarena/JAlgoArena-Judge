@@ -1,19 +1,14 @@
 package org.algohub.engine.type
 
-import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-class TreeNode
-@JsonCreator
-constructor(
-        @JvmField @JsonProperty("data") var data: Int,
-        @JvmField @JsonProperty("left") var left: TreeNode?,
-        @JvmField @JsonProperty("right") var right: TreeNode?) {
+class TreeNode(@JvmField @JsonProperty("data") var data: Int,
+               @JvmField @JsonProperty("left") var left: TreeNode?,
+               @JvmField @JsonProperty("right") var right: TreeNode?) {
 
-    constructor(data: Int) : this(data, null, null) {
-    }
+    constructor(data: Int) : this(data, null, null)
 
     override fun equals(other: Any?): Boolean {
         if (this === other)

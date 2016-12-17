@@ -9,10 +9,8 @@ import java.util.concurrent.*
 object JudgeEngine {
 
     private val LOG = LoggerFactory.getLogger(JudgeEngine::class.java)
-
     private val NUMBER_OF_ITERATIONS = 5
 
-    @Throws(InterruptedException::class)
     private fun judge(clazz: Any,
                       method: Method,
                       problem: Problem): JudgeResult {
@@ -103,7 +101,6 @@ object JudgeEngine {
 
     }
 
-    @Throws(ClassNotFoundException::class, CompileErrorException::class)
     private fun compileAndJudge(problem: Problem, userCode: String): JudgeResult {
 
         val isKotlin = IsKotlinSourceCode().findIn(userCode, problem.function!!)
@@ -130,12 +127,9 @@ object JudgeEngine {
 
     }
 
-    private fun findClassName(isKotlin: Boolean, userCode: String): Optional<String> {
-        val className = when (isKotlin) {
-            true -> FindKotlinClassName().findIn(userCode)
-            false -> FindJavaClassName().findIn(userCode)
-        }
-        return className
+    private fun findClassName(isKotlin: Boolean, userCode: String): Optional<String> = when (isKotlin) {
+        true -> FindKotlinClassName().findIn(userCode)
+        false -> FindJavaClassName().findIn(userCode)
     }
 
     private fun readInternalTestCases(problem: Problem): Array<InternalTestCase> {
@@ -156,13 +150,7 @@ object JudgeEngine {
     }
 
 
-    private class PerformanceSnapshot(val currentNanoTime: Long, val usedMemoryInBytes: Long) {
-        companion object {
-            internal fun create(timeNanoSeconds: Long, memoryBytes: Long): PerformanceSnapshot {
-                return PerformanceSnapshot(timeNanoSeconds, memoryBytes)
-            }
-        }
-    }
+    private class PerformanceSnapshot(val currentNanoTime: Long, val usedMemoryInBytes: Long)
 
     private class PerformanceResult(val usedMemoryInBytes: Long, val usedTimeInMs: Double) {
 
@@ -207,7 +195,7 @@ object JudgeEngine {
         private fun takePerformanceSnapshot(): PerformanceSnapshot {
             val runtime = Runtime.getRuntime()
 
-            return PerformanceSnapshot.create(
+            return PerformanceSnapshot(
                     System.nanoTime(),
                     runtime.totalMemory() - runtime.freeMemory()
             )

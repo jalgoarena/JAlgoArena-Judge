@@ -42,7 +42,7 @@ internal class JudgeTask(private val clazz: Any, private val method: Method, pri
 
         return BetterObjects.equalForObjectsOrArrays(
                 testCase.output,
-                if (testCase.returnsVoid()) input[0] else output
+                if (testCase.returnsVoid) input[0] else output
         )
     }
 

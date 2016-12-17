@@ -6,9 +6,9 @@ import com.fasterxml.jackson.databind.JsonDeserializer
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.node.ArrayNode
 
-import java.io.IOException
+class ListNode(@JvmField var value: Int, @JvmField var next: ListNode?) {
 
-class ListNode @JvmOverloads constructor(@JvmField var value: Int, @JvmField var next: ListNode? = null) {
+    constructor(value: Int) : this(value, null)
 
     fun add(value: Int): ListNode {
         return add(ListNode(value))
@@ -73,19 +73,17 @@ class ListNode @JvmOverloads constructor(@JvmField var value: Int, @JvmField var
 
     class Deserializer : JsonDeserializer<ListNode>() {
 
-        @Throws(IOException::class)
-        override fun deserialize(p: JsonParser, ctxt: DeserializationContext): ListNode? {
-            val jsonNode = p.codec.readTree<JsonNode>(p)
-
+        override fun deserialize(jsonParser: JsonParser, context: DeserializationContext): ListNode? {
+            val jsonNode = jsonParser.codec.readTree<JsonNode>(jsonParser)
             val elements = jsonNode as ArrayNode
 
             var listNode: ListNode? = null
 
-            for (e in elements) {
+            for (element in elements) {
                 if (listNode == null) {
-                    listNode = ListNode(e.asInt())
+                    listNode = ListNode(element.asInt())
                 } else {
-                    listNode.add(e.asInt())
+                    listNode.add(element.asInt())
                 }
             }
 
