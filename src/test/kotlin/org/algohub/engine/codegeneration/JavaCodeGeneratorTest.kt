@@ -6,7 +6,6 @@ import org.junit.Test
 
 class JavaCodeGeneratorTest {
 
-
     @Test
     fun generates_skeleton_function_for_TWO_SUM() {
         val twoSumGenerated = JavaCodeGenerator.generateEmptyFunction(TWO_SUM)

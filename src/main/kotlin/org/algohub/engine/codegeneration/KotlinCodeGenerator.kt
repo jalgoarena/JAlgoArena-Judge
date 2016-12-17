@@ -4,47 +4,37 @@ import org.algohub.engine.judge.Function
 
 internal object KotlinCodeGenerator : JvmCodeGenerator {
 
-    private val CUSTOM_IMPORT = """import java.util.*
+    fun generateEmptyFunction(function: Function)= """import java.util.*
 import org.algohub.engine.type.*
 
+class Solution {
+    ${functionComment(function)}
+    ${functionDeclaration(function)} {
+        // Write your code here
+    }
+}
 """
 
-    fun generateEmptyFunction(function: Function)=  "${CUSTOM_IMPORT}class Solution {\n${generateFunction(function)}}\n"
-
-    private fun generateFunction(function: Function): String {
+    private fun functionDeclaration(function: Function): String {
         val result = StringBuilder()
+        result.append("fun ${function.name}(")
 
-        functionComment(function, result)
-        functionBody(function, result)
+        function.parameters.forEach { parameter ->
+            result.append(generateParameterDeclaration(parameter.type, parameter.name))
+                    .append(", ")
+        }
 
-        implementationPlaceHolder(function, result)
+        deleteLastUnnecessaryComma(result)
+        result.append(")${generateKotlinTypeDeclaration(function.returnStatement.type)}")
 
         return result.toString()
     }
 
-    private fun functionBody(function: Function, result: StringBuilder) {
-        appendIndentation(result, "fun")
-        result.append(" ").append(function.name).append("(")
-
-        for (p in function.parameters) {
-            result.append(generateParameterDeclaration(p.type, p.name))
-                    .append(", ")
-        }
-        deleteLastUnnecessaryComma(result)
-        result.append(")")
-    }
-
     private fun generateParameterDeclaration(type: String, parameterName: String) =
-            "$parameterName: ${generateKotlinTypeDeclaration(type)}"
+            "$parameterName${generateKotlinTypeDeclaration(type)}"
 
-    private fun implementationPlaceHolder(function: Function, result: StringBuilder) {
-        result.append(": ${generateKotlinTypeDeclaration(function.returnStatement.type)}")
-        result.append(" {\n")
-        appendIndentation(result, "    // Write your code here\n")
-        appendIndentation(result, "}\n")
-    }
-
-    private fun generateKotlinTypeDeclaration(type: String)=  if ("void" == type) "kotlin.Unit" else typeName(type)
+    private fun generateKotlinTypeDeclaration(type: String) =
+            if ("void" == type) "" else ": ${typeName(type)}"
 
     private fun typeName(type: String) = Class.forName(type).kotlin.simpleName!!
 }
