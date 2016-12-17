@@ -7,16 +7,15 @@ import java.net.URLClassLoader
 
 interface JvmCompiler {
 
-    @Throws(ClassNotFoundException::class, CompileErrorException::class)
     fun compileMethod(qualifiedClassName: String, methodName: String, source: String): Pair<Any, Method> {
 
         val classBytes = run(qualifiedClassName, source)
         val clazz = Class.forName(
                 qualifiedClassName, true, MemoryClassLoader(classBytes)
         )
-        val methods = clazz.declaredMethods
 
-        methods.filter { it.name == methodName }
+        clazz.declaredMethods
+                .filter { it.name == methodName }
                 .forEach {
                     try {
                         return Pair<Any, Method>(clazz.newInstance(), it)
@@ -34,20 +33,17 @@ interface JvmCompiler {
 
     fun run(className: String, source: String): MutableMap<String, ByteArray?>?
 
-    /**
-     * ClassLoader that loads .class bytes from memory.
-     */
-    private class MemoryClassLoader internal constructor(private val classNameToBytecode: MutableMap<String, ByteArray?>?)
+    private class MemoryClassLoader(val classNameToBytecode: MutableMap<String, ByteArray?>?)
         : URLClassLoader(arrayOfNulls<URL>(0), ClassLoader.getSystemClassLoader()) {
 
-        @Throws(ClassNotFoundException::class)
         override fun findClass(className: String): Class<*> {
             val buf = classNameToBytecode!![className]
-            if (buf == null) {
-                return super.findClass(className)
+
+            return if (buf == null) {
+                super.findClass(className)
             } else {
                 clearByteMap(className)
-                return defineClass(className, buf, 0, buf.size)
+                defineClass(className, buf, 0, buf.size)
             }
         }
 

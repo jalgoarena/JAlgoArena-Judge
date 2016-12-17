@@ -9,6 +9,9 @@ import java.util.*
 
 
 class KotlinCompiler : JvmCompiler {
+
+    private val compiler = K2JVMCompiler()
+
     override fun run(className: String, source: String): MutableMap<String, ByteArray?>? {
 
         val tmpDir = createTmpDir()
@@ -54,9 +57,7 @@ class KotlinCompiler : JvmCompiler {
     )
 
     private fun createTmpDir(): File {
-        val randomUUID = UUID.randomUUID()
-
-        val tmpDir = File("tmp", "$randomUUID")
+        val tmpDir = File("tmp", "${UUID.randomUUID()}")
         tmpDir.mkdirs()
         return tmpDir
     }
@@ -65,9 +66,5 @@ class KotlinCompiler : JvmCompiler {
         val sourceFile = File(tmpDir, fileName)
         sourceFile.writeText(sourceCode)
         return sourceFile
-    }
-
-    companion object {
-        private val compiler = K2JVMCompiler()
     }
 }

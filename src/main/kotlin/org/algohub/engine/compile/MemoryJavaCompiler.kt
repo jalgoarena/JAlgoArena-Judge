@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory
 import java.io.File
 import java.io.IOException
 import java.nio.CharBuffer
-import java.util.*
 import javax.tools.*
 
 class MemoryJavaCompiler : JvmCompiler {
@@ -14,7 +13,6 @@ class MemoryJavaCompiler : JvmCompiler {
         return javaCompiler.getStandardFileManager(null, null, null)
     }
 
-    @Throws(CompileErrorException::class)
     override fun run(className: String, source: String): MutableMap<String, ByteArray?>? {
 
         val javaFileName = "$className.java"
@@ -61,26 +59,26 @@ class MemoryJavaCompiler : JvmCompiler {
     }
 
     private fun javacOptions(): List<String> {
-        return Arrays.asList(
+        return listOf(
                 "-nowarn",
                 "-classpath", File("build/classes/main").absolutePath
         )
     }
 
-    @Throws(CompileErrorException::class)
     private fun getCompilationError(
             diagnostics: DiagnosticCollector<JavaFileObject>): MutableMap<String, ByteArray?> {
 
         val errorMsg = StringBuilder()
-        val diagnostics1 = diagnostics.diagnostics
-        for (aDiagnostics1 in diagnostics1) {
-            errorMsg.append(aDiagnostics1)
+
+        diagnostics.diagnostics.forEach { message ->
+            errorMsg.append(message)
             errorMsg.append(System.lineSeparator())
         }
+
         throw CompileErrorException(errorMsg.toString())
     }
 
-    private class SourceCodeStringInputBuffer internal constructor(fileName: String, internal val code: String)
+    private class SourceCodeStringInputBuffer(fileName: String, val code: String)
         : SimpleJavaFileObject(MemoryJavaFileManager.toUri(fileName), JavaFileObject.Kind.SOURCE) {
 
         override fun getCharContent(ignoreEncodingErrors: Boolean): CharBuffer {

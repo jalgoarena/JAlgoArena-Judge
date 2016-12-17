@@ -11,7 +11,7 @@ internal class FindJavaClassName {
                 .filter { it.find() }
                 .forEach { return Optional.of(it.group(1)) }
 
-        return Optional.empty<String>()
+        return Optional.empty()
     }
 
     companion object {
