@@ -15,23 +15,20 @@ class Solution {
 }
 """
 
+    override fun generateParameterDeclaration(type: String, parameterName: String) =
+            "$parameterName${generateKotlinTypeDeclaration(type)}"
+
     private fun functionDeclaration(function: Function): String {
         val result = StringBuilder()
         result.append("fun ${function.name}(")
 
-        function.parameters.forEach { parameter ->
-            result.append(generateParameterDeclaration(parameter.type, parameter.name))
-                    .append(", ")
-        }
+        val parameters = functionParameters(function)
 
-        deleteLastUnnecessaryComma(result)
+        result.append(parameters.toString())
         result.append(")${generateKotlinTypeDeclaration(function.returnStatement.type)}")
 
         return result.toString()
     }
-
-    private fun generateParameterDeclaration(type: String, parameterName: String) =
-            "$parameterName${generateKotlinTypeDeclaration(type)}"
 
     private fun generateKotlinTypeDeclaration(type: String) =
             if ("void" == type) "" else ": ${typeName(type)}"

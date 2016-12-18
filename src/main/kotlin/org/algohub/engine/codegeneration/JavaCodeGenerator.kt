@@ -16,6 +16,9 @@ public class Solution {
 }
 """
 
+    override fun generateParameterDeclaration(type: String, parameterName: String) =
+            "${generateJavaTypeDeclaration(type)} $parameterName"
+
     private fun generateJavaTypeDeclaration(type: String) =
             if ("void" == type) type else classOrPrimitiveName(type)
 
@@ -37,21 +40,13 @@ public class Solution {
         }
     }
 
-    private fun generateParameterDeclaration(type: String, parameterName: String) =
-            "${generateJavaTypeDeclaration(type)} $parameterName"
-
     private fun functionDeclaration(function: Function): String {
         val result = StringBuilder()
 
         result.append("public ${generateJavaTypeDeclaration(function.returnStatement.type)} ${function.name}(")
 
-        function.parameters.forEach { p ->
-            result.append(generateParameterDeclaration(p.type, p.name))
-                    .append(", ")
-        }
-
-        deleteLastUnnecessaryComma(result)
-        result.append(")")
+        val parameters = functionParameters(function)
+        result.append("$parameters)")
 
         return result.toString()
     }
