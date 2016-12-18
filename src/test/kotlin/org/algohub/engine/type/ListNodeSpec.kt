@@ -1,9 +1,7 @@
-package org.algohub.engine
-
-import org.algohub.engine.type.ListNode
-import org.junit.Test
+package org.algohub.engine.type
 
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.Test
 
 class ListNodeSpec {
 
