@@ -5,17 +5,21 @@ import java.util.*
 
 interface JvmCodeGenerator {
     fun functionComment(function: Function): String {
-        val result = StringBuilder()
-        result.append("/**\n")
+        return """/**
+${parametersComment(function)}
+     * @return ${function.returnStatement.comment}
+     */"""
+    }
+
+    fun parametersComment(function: Function): String {
+
+        val parametersComment = StringJoiner("\n")
 
         for (parameter in function.parameters) {
-            result.append("     * @param ${parameter.name} ${parameter.comment}\n")
+            parametersComment.add("     * @param ${parameter.name} ${parameter.comment}")
         }
 
-        result.append("     * @return ${function.returnStatement.comment}\n")
-        result.append("     */")
-
-        return result.toString()
+        return parametersComment.toString()
     }
 
     fun generateParameterDeclaration(type: String, parameterName: String) : String
