@@ -10,12 +10,12 @@ internal class CreateFriendlyMessage {
                 .dropLastWhile(String::isEmpty)
                 .toTypedArray()
 
-        val sb = StringBuilder()
+        val errorFriendlyMessage = StringBuilder()
         for (line in lines) {
-            processLine(sb, line)
+            processLine(errorFriendlyMessage, line)
         }
 
-        return sb.toString()
+        return errorFriendlyMessage.toString()
     }
 
     private fun processLine(sb: StringBuilder, line: String) {
@@ -28,14 +28,14 @@ internal class CreateFriendlyMessage {
         }
     }
 
-    private fun appendFriendlyMessage(sb: StringBuilder, line: String, pos: Int) {
+    private fun appendFriendlyMessage(errorFriendlyMessage: StringBuilder, line: String, pos: Int) {
         val pos2 = line.indexOf(':', pos + JAVA_EXT.length)
         val friendlyMessage = "Line:${getLineNumber(line, pos, pos2)}${line.substring(pos2)}"
-        sb.append(friendlyMessage).append('\n')
+        errorFriendlyMessage.append(friendlyMessage).append('\n')
     }
 
     private fun getLineNumber(line: String, pos: Int, pos2: Int): Int {
         val numberStr = line.substring(pos + JAVA_EXT.length, pos2)
-        return Integer.valueOf(numberStr)!!
+        return Integer.valueOf(numberStr)
     }
 }

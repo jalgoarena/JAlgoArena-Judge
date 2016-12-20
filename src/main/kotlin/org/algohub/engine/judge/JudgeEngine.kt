@@ -124,7 +124,6 @@ object JudgeEngine {
             LOG.error(e.message, e)
             return JudgeResult.runtimeError(e.message)
         }
-
     }
 
     private fun findClassName(isKotlin: Boolean, userCode: String): Optional<String> = when (isKotlin) {
