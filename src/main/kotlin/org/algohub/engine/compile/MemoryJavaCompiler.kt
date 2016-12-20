@@ -29,6 +29,7 @@ class MemoryJavaCompiler : JvmCompiler {
         }
 
         val classBytes = fileManager.classBytes
+
         try {
             fileManager.close()
         } catch (exp: IOException) {
@@ -55,7 +56,7 @@ class MemoryJavaCompiler : JvmCompiler {
     }
 
     private fun prepareTheCompilationUnit(fileName: String, source: String): List<JavaFileObject> {
-        return listOf(makeStringSource(fileName, source))
+        return listOf(SourceCodeStringInputBuffer(fileName, source))
     }
 
     private fun javacOptions(): List<String> {
@@ -96,10 +97,6 @@ class MemoryJavaCompiler : JvmCompiler {
             Preconditions.checkNotNull(
                     javaCompiler, "Could not get Java compiler. Please, ensure that JDK is used instead of JRE."
             )
-        }
-
-        private fun makeStringSource(fileName: String, code: String): JavaFileObject {
-            return SourceCodeStringInputBuffer(fileName, code)
         }
     }
 }

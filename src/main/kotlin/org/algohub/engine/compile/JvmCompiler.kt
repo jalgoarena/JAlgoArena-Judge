@@ -37,13 +37,13 @@ interface JvmCompiler {
         : URLClassLoader(arrayOfNulls<URL>(0), ClassLoader.getSystemClassLoader()) {
 
         override fun findClass(className: String): Class<*> {
-            val buf = classNameToBytecode[className]
+            val bufferOfBytecode = classNameToBytecode[className]
 
-            return if (buf == null) {
+            return if (bufferOfBytecode == null) {
                 super.findClass(className)
             } else {
                 clearByteMap(className)
-                defineClass(className, buf, 0, buf.size)
+                defineClass(className, bufferOfBytecode, 0, bufferOfBytecode.size)
             }
         }
 
