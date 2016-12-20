@@ -15,7 +15,7 @@ ${parametersComment(function)}
 
         val parametersComment = StringJoiner("\n")
 
-        for (parameter in function.parameters) {
+        function.parameters.forEach { parameter ->
             parametersComment.add("     * @param ${parameter.name} ${parameter.comment}")
         }
 
@@ -24,7 +24,7 @@ ${parametersComment(function)}
 
     fun generateParameterDeclaration(type: String, parameterName: String) : String
 
-    fun functionParameters(function: Function): StringJoiner {
+    fun parametersOf(function: Function): StringJoiner {
         val parameters = StringJoiner(", ")
 
         function.parameters.forEach { parameter ->

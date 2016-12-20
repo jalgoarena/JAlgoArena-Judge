@@ -17,10 +17,12 @@ public class Solution {
 """
 
     override fun generateParameterDeclaration(type: String, parameterName: String) =
-            "${generateJavaTypeDeclaration(type)} $parameterName"
+            "${javaTypeDeclaration(type)} $parameterName"
 
-    private fun generateJavaTypeDeclaration(type: String) =
-            if ("void" == type) type else classOrPrimitiveName(type)
+    private fun javaTypeDeclaration(type: String) = when (type) {
+        "void" -> type
+        else -> classOrPrimitiveName(type)
+    }
 
     private fun classOrPrimitiveName(type: String): String {
 
@@ -40,14 +42,8 @@ public class Solution {
         }
     }
 
-    private fun functionDeclaration(function: Function): String {
-        val result = StringBuilder()
-
-        result.append("public ${generateJavaTypeDeclaration(function.returnStatement.type)} ${function.name}(")
-
-        val parameters = functionParameters(function)
-        result.append("$parameters)")
-
-        return result.toString()
-    }
+    private fun functionDeclaration(function: Function): String =
+            "public ${javaTypeDeclaration(function.returnStatement.type)} ${function.name}(" +
+                    "${parametersOf(function)}" +
+            ")"
 }

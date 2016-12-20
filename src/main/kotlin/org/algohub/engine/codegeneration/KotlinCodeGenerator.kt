@@ -16,22 +16,15 @@ class Solution {
 """
 
     override fun generateParameterDeclaration(type: String, parameterName: String) =
-            "$parameterName${generateKotlinTypeDeclaration(type)}"
+            "$parameterName${kotlinTypeDeclaration(type)}"
 
-    private fun functionDeclaration(function: Function): String {
-        val result = StringBuilder()
-        result.append("fun ${function.name}(")
+    private fun functionDeclaration(function: Function): String =
+            "fun ${function.name}(" +
+                    "${parametersOf(function)}" +
+            ")${kotlinTypeDeclaration(function.returnStatement.type)}"
 
-        val parameters = functionParameters(function)
-
-        result.append(parameters.toString())
-        result.append(")${generateKotlinTypeDeclaration(function.returnStatement.type)}")
-
-        return result.toString()
+    private fun kotlinTypeDeclaration(type: String) = when(type) {
+        "void" -> ""
+        else -> ": ${Class.forName(type).kotlin.simpleName!!}"
     }
-
-    private fun generateKotlinTypeDeclaration(type: String) =
-            if ("void" == type) "" else ": ${typeName(type)}"
-
-    private fun typeName(type: String) = Class.forName(type).kotlin.simpleName!!
 }
