@@ -13,7 +13,7 @@ class MemoryJavaCompiler : JvmCompiler {
         return javaCompiler.getStandardFileManager(null, null, null)
     }
 
-    override fun run(className: String, source: String): MutableMap<String, ByteArray?>? {
+    override fun run(className: String, source: String): MutableMap<String, ByteArray?> {
 
         val javaFileName = "$className.java"
 

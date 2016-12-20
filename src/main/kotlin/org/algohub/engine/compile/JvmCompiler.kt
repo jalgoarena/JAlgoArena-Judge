@@ -18,7 +18,7 @@ interface JvmCompiler {
                 .filter { it.name == methodName }
                 .forEach {
                     try {
-                        return Pair<Any, Method>(clazz.newInstance(), it)
+                        return Pair(clazz.newInstance(), it)
                     } catch (e: InstantiationException) {
                         LOG.error("Error during creating of new class instance", e)
                         throw IllegalStateException(e.message)
@@ -31,13 +31,13 @@ interface JvmCompiler {
         throw NoSuchMethodError(methodName)
     }
 
-    fun run(className: String, source: String): MutableMap<String, ByteArray?>?
+    fun run(className: String, source: String): MutableMap<String, ByteArray?>
 
-    private class MemoryClassLoader(val classNameToBytecode: MutableMap<String, ByteArray?>?)
+    private class MemoryClassLoader(val classNameToBytecode: MutableMap<String, ByteArray?>)
         : URLClassLoader(arrayOfNulls<URL>(0), ClassLoader.getSystemClassLoader()) {
 
         override fun findClass(className: String): Class<*> {
-            val buf = classNameToBytecode!![className]
+            val buf = classNameToBytecode[className]
 
             return if (buf == null) {
                 super.findClass(className)
@@ -48,7 +48,7 @@ interface JvmCompiler {
         }
 
         private fun clearByteMap(className: String) {
-            classNameToBytecode!!.put(className, null)
+            classNameToBytecode.put(className, null)
         }
     }
 

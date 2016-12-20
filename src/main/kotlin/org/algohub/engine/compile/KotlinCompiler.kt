@@ -12,7 +12,7 @@ class KotlinCompiler : JvmCompiler {
 
     private val compiler = K2JVMCompiler()
 
-    override fun run(className: String, source: String): MutableMap<String, ByteArray?>? {
+    override fun run(className: String, source: String): MutableMap<String, ByteArray?> {
 
         val tmpDir = createTmpDir()
         val origErr = System.err
@@ -34,14 +34,14 @@ class KotlinCompiler : JvmCompiler {
         }
     }
 
-    private fun readClassBytes(out: File): MutableMap<String, ByteArray?>? {
-        val classBytes: MutableMap<String, ByteArray?>? = HashMap()
+    private fun readClassBytes(out: File): MutableMap<String, ByteArray?> {
+        val classBytes: MutableMap<String, ByteArray?> = HashMap()
 
         out.listFiles()
                 .filter { it.absolutePath.endsWith(".class") }
                 .forEach {
                     val byteCode = File(out, it.name).readBytes()
-                    classBytes!!.put(it.nameWithoutExtension, byteCode)
+                    classBytes.put(it.nameWithoutExtension, byteCode)
                 }
 
         return classBytes

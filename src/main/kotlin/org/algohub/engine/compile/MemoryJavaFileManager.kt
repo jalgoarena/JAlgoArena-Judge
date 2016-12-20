@@ -10,10 +10,10 @@ import javax.tools.JavaFileObject.Kind
 
 internal class MemoryJavaFileManager(fileManager: JavaFileManager) : ForwardingJavaFileManager<JavaFileManager>(fileManager) {
 
-    var classBytes: MutableMap<String, ByteArray?>? = HashMap()
+    var classBytes: MutableMap<String, ByteArray?> = HashMap()
 
     override fun close() {
-        classBytes = null
+        classBytes = HashMap()
     }
 
     override fun getJavaFileForOutput(location: JavaFileManager.Location, className: String,
@@ -33,7 +33,7 @@ internal class MemoryJavaFileManager(fileManager: JavaFileManager) : ForwardingJ
                 override fun close() {
                     out.close()
                     val bos = out as ByteArrayOutputStream
-                    classBytes!!.put(className, bos.toByteArray())
+                    classBytes.put(className, bos.toByteArray())
                 }
             }
         }
