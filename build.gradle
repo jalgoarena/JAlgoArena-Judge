@@ -49,6 +49,7 @@ dependencies {
             "com.fasterxml.jackson.module:jackson-module-kotlin",
             'com.squareup.okhttp3:okhttp:3.4.2',
             "org.springframework.boot:spring-boot-starter-web",
+            'org.springframework.cloud:spring-cloud-starter-eureka',
             'io.springfox:springfox-swagger2:2.5.0',
             'io.springfox:springfox-swagger-ui:2.5.0',
             "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version",
@@ -87,6 +88,12 @@ defaultTasks 'clean', 'bootRepackage'
 
 task stage {
     dependsOn 'bootRepackage'
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:Camden.SR3"
+    }
 }
 
 sourceSets {

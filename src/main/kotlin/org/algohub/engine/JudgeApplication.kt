@@ -2,6 +2,7 @@ package org.algohub.engine
 
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient
 import org.springframework.context.annotation.Bean
 import springfox.documentation.builders.ApiInfoBuilder
 import springfox.documentation.service.ApiInfo
@@ -13,6 +14,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2
 import springfox.documentation.builders.PathSelectors.regex
 
 @SpringBootApplication
+@EnableEurekaClient
 @EnableSwagger2
 open class JudgeApplication {
 
