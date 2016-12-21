@@ -1,18 +1,19 @@
 package org.algohub.engine.judge
 
+import org.algohub.engine.utils.BetterObjects
+import org.algohub.engine.utils.ThrowableEnhancements
 import org.slf4j.LoggerFactory
 import java.lang.reflect.InvocationTargetException
 import java.lang.reflect.Method
 import java.util.concurrent.Callable
 
-internal class JudgeTask(private val clazz: Any, private val method: Method, private val testCases: Array<InternalTestCase>) : Callable<List<Boolean>> {
+internal class JudgeTask(private val clazz: Any, private val method: Method, private val testCases: Array<InternalTestCase>)
+    : Callable<List<Boolean>>, ThrowableEnhancements {
 
     private val LOG = LoggerFactory.getLogger(JudgeTask::class.java)
 
-    @Throws(Exception::class)
     override fun call(): List<Boolean> = testCases.map { judge(clazz, method, it) }
 
-    @Throws(InterruptedException::class)
     private fun judge(clazz: Any, method: Method, testCase: InternalTestCase): Boolean {
 
         val output: Any?
@@ -44,16 +45,5 @@ internal class JudgeTask(private val clazz: Any, private val method: Method, pri
                 testCase.output,
                 if (testCase.returnsVoid) input[0] else output
         )
-    }
-
-    private fun getCause(e: Throwable): Throwable {
-        var cause: Throwable? = e.cause
-        var result = e
-
-        while (null != cause && result !== cause) {
-            result = cause
-            cause = result.cause
-        }
-        return result
     }
 }

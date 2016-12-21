@@ -1,8 +1,8 @@
-package org.algohub.engine.judge
+package org.algohub.engine.utils
 
 import java.util.Arrays
 
-internal object BetterObjects {
+object BetterObjects {
 
     fun equalForObjectsOrArrays(a: Any?, b: Any?): Boolean {
         return when {
