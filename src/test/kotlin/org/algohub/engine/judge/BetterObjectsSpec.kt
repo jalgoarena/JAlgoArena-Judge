@@ -1,5 +1,6 @@
 package org.algohub.engine.judge
 
+import org.algohub.engine.utils.BetterObjects
 import org.junit.Test
 import org.assertj.core.api.Assertions.assertThat
 

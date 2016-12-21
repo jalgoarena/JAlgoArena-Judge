@@ -1,3 +1,3 @@
 package org.algohub.engine.compile
 
-internal class CompileErrorException(message: String) : Exception(message)
+internal class CompileErrorException(message: String) : Throwable(message)
