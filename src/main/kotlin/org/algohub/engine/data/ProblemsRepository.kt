@@ -13,6 +13,8 @@ class ProblemsRepository {
 
         val response = CLIENT.newCall(request).execute()
         val problemAsJson = response.body().string()
+
+        if (problemAsJson.isEmpty()) return null
         return ObjectMapperInstance.INSTANCE.readValue(problemAsJson, Problem::class.java)
     }
 
@@ -28,7 +30,7 @@ class ProblemsRepository {
     }
 
     companion object {
-        private val DATA_SERVICE_HOST = "https://jalgoarena-data.herokuapp.com/"
+        private val DATA_SERVICE_HOST = "https://jalgoarena-api.herokuapp.com/problems/"
         private val CLIENT = OkHttpClient()
     }
 }
