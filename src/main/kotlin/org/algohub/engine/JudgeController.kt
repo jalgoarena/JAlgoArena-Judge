@@ -15,7 +15,6 @@ import java.io.IOException
 import java.util.*
 import java.util.stream.Collectors
 
-@CrossOrigin
 @RestController
 internal class JudgeController {
 
@@ -23,7 +22,7 @@ internal class JudgeController {
     @ApiImplicitParams(ApiImplicitParam(name = "id", value = "Problem's id", required = true, dataType = "string", paramType = "path", defaultValue = "fib"))
     @ApiResponses(value = *arrayOf(ApiResponse(code = 200, message = "Success", response = JudgeResult::class), ApiResponse(code = 404, message = "Not Found"), ApiResponse(code = 500, message = "Failure")))
     @RequestMapping(path = arrayOf("/problems/{id}/submit"), method = arrayOf(RequestMethod.POST), produces = arrayOf("application/json"))
-    @Throws(IOException::class)
+    @CrossOrigin
     fun judge(@PathVariable id: String, @RequestBody sourceCode: String): JudgeResult {
         val problem = requestProblem(id) ?: return JudgeResult.runtimeError("Wrong problem id: " + id)
         return JudgeEngine.judge(problem, sourceCode)
@@ -32,7 +31,7 @@ internal class JudgeController {
     @ApiOperation(value = "problems", nickname = "getProblems")
     @ApiResponses(value = *arrayOf(ApiResponse(code = 200, message = "Success", response = Problem::class, responseContainer = "List"), ApiResponse(code = 404, message = "Not Found"), ApiResponse(code = 500, message = "Failure")))
     @RequestMapping(path = arrayOf("/problems"), method = arrayOf(RequestMethod.GET), produces = arrayOf("application/json"))
-    @Throws(IOException::class)
+    @CrossOrigin
     fun problems(): List<Problem> {
         return Arrays.stream(requestProblems())
                 .map { x -> x.problemWithoutFunctionAndTestCases(
@@ -57,7 +56,7 @@ internal class JudgeController {
     @ApiImplicitParams(ApiImplicitParam(name = "id", value = "Problem's id", required = true, dataType = "string", paramType = "path", defaultValue = "fib"))
     @ApiResponses(value = *arrayOf(ApiResponse(code = 200, message = "Success", response = Problem::class), ApiResponse(code = 404, message = "Not Found"), ApiResponse(code = 500, message = "Failure")))
     @RequestMapping(path = arrayOf("/problems/{id}"), method = arrayOf(RequestMethod.GET), produces = arrayOf("application/json"))
-    @Throws(IOException::class)
+    @CrossOrigin
     fun problem(@PathVariable id: String): Problem {
 
         val problem = requestProblem(id) ?: throw IllegalArgumentException("Invalid problem id: " + id)
@@ -67,7 +66,6 @@ internal class JudgeController {
         )
     }
 
-    @Throws(IOException::class)
     internal fun requestProblem(problemId: String): Problem? {
         val request = Request.Builder()
                 .url("${DATA_SERVICE_HOST}problems/$problemId")
