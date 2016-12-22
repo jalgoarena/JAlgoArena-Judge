@@ -10,7 +10,8 @@ spring:
   profiles: heroku
 eureka:
   instance:
-    preferIpAddress: true
+    hostname: ${APP_NAME}.herokuapp.com
+    nonSecurePort: 80
 
 logging:
   level:
