@@ -12,7 +12,6 @@ buildscript {
 }
 
 plugins {
-    id "java"
     id "jacoco"
 }
 
@@ -51,8 +50,6 @@ dependencies {
             "org.springframework.boot:spring-boot-starter-web",
             "org.springframework.boot:spring-boot-starter-actuator",
             'org.springframework.cloud:spring-cloud-starter-eureka',
-            'io.springfox:springfox-swagger2:2.5.0',
-            'io.springfox:springfox-swagger-ui:2.5.0',
             "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version",
             "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version",
             "org.jetbrains.kotlin:kotlin-compiler:$kotlin_version"
@@ -95,8 +92,4 @@ dependencyManagement {
     imports {
         mavenBom "org.springframework.cloud:spring-cloud-dependencies:Camden.SR3"
     }
-}
-
-sourceSets {
-    main.kotlin.srcDirs += 'src/main/kotlin'
 }
