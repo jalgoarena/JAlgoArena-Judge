@@ -4,7 +4,7 @@ import com.google.common.base.Charsets
 import com.google.common.io.Resources
 import junitparams.JUnitParamsRunner
 import junitparams.Parameters
-import org.algohub.engine.JudgeController
+import org.algohub.engine.data.ProblemsRepository
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Assert.fail
 import org.junit.Test
@@ -13,11 +13,11 @@ import org.junit.runner.RunWith
 @RunWith(JUnitParamsRunner::class)
 class JavaEngineIntegrationTest {
 
-    private val controller = JudgeController()
+    val repository = ProblemsRepository()
 
     private fun judgeSolution(problemId: String, solutionId: String, statusCode: StatusCode) {
         try {
-            val problem = controller.requestProblem(problemId)!!
+            val problem = repository.find(problemId)!!
             val sourceCode = Resources.toString(Resources.getResource("$solutionId.java"), Charsets.UTF_8)
 
             val result = JudgeEngine.judge(problem, sourceCode)

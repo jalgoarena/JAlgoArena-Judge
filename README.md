@@ -17,6 +17,3 @@ These commands should be available in `$PAHT`: `java`, `javac`
     java -jar build/lib/judge-engine-1.0.jar
     or
     ./gradlew bootRun
-    
-* [Swagger API](https://jalgoarena.herokuapp.com/swagger-ui.html#/judge-controller)
-
