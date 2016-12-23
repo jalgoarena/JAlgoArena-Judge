@@ -62,15 +62,6 @@ dependencies {
                 'pl.pragmatists:JUnitParams:1.0.5'
 }
 
-if (!project.hasProperty("serverPort")) {
-    ext.serverPort = '8080'
-}
-
-bootRun {
-    systemProperty 'server.port', "$serverPort"
-    systemProperty 'sun.zip.disableMemoryMapping', 'true'
-}
-
 apply plugin: 'jacoco'
 
 jacocoTestReport {

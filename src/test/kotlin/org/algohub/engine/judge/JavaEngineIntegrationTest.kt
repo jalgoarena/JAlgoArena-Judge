@@ -14,13 +14,14 @@ import org.junit.runner.RunWith
 class JavaEngineIntegrationTest {
 
     val repository = ProblemsRepository()
+    val judgeEngine = JudgeEngine()
 
     private fun judgeSolution(problemId: String, solutionId: String, statusCode: StatusCode) {
         try {
             val problem = repository.find(problemId)!!
             val sourceCode = Resources.toString(Resources.getResource("$solutionId.java"), Charsets.UTF_8)
 
-            val result = JudgeEngine.judge(problem, sourceCode)
+            val result = judgeEngine.judge(problem, sourceCode)
 
             assertThat(result.statusCode).isEqualTo(statusCode.toString())
         } catch (e: Exception) {

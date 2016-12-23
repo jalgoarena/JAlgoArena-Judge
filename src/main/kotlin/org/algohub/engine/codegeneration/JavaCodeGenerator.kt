@@ -26,24 +26,21 @@ public class Solution {
 
     private fun classOrPrimitiveName(type: String): String {
 
-        fun typeNameOf(clazz: KClass<*>): String =
-                clazz.javaPrimitiveType!!.simpleName!!
-
         val typeName = Class.forName(type).simpleName
 
         return when (typeName) {
-            "Boolean" -> typeNameOf(Boolean::class)
-            "Long" -> typeNameOf(Long::class)
-            "Integer" -> typeNameOf(Int::class)
-            "Short" -> typeNameOf(Short::class)
-            "Double" -> typeNameOf(Double::class)
-            "Float" -> typeNameOf(Float::class)
+            "Boolean" -> Boolean::class.typeName()
+            "Long" -> Long::class.typeName()
+            "Integer" -> Int::class.typeName()
+            "Short" -> Short::class.typeName()
+            "Double" -> Double::class.typeName()
+            "Float" -> Float::class.typeName()
             else -> typeName
         }
     }
 
     private fun functionDeclaration(function: Function): String =
-            "public ${javaTypeDeclaration(function.returnStatement.type)} ${function.name}(" +
-                    "${parametersOf(function)}" +
-            ")"
+            "public ${javaTypeDeclaration(function.returnStatement.type)} ${function.name}(${parametersOf(function)})"
+
+    private fun KClass<*>.typeName() = this.javaPrimitiveType!!.simpleName!!
 }
