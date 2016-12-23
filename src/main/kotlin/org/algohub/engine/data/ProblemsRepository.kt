@@ -4,6 +4,7 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.algohub.engine.ObjectMapperInstance
 import org.algohub.engine.judge.Problem
+import org.slf4j.LoggerFactory
 
 class ProblemsRepository {
     fun find(problemId: String): Problem? {
@@ -14,7 +15,11 @@ class ProblemsRepository {
         val response = CLIENT.newCall(request).execute()
         val problemAsJson = response.body().string()
 
-        if (problemAsJson.isEmpty()) return null
+        if (problemAsJson.isEmpty() || problemAsJson.contains("com.netflix.zuul.exception.ZuulException")) {
+            LOG.error("There is error in querying for $problemId problem. Response: $problemAsJson")
+            return null
+        }
+
         return ObjectMapperInstance.INSTANCE.readValue(problemAsJson, Problem::class.java)
     }
 
@@ -32,5 +37,7 @@ class ProblemsRepository {
     companion object {
         private val DATA_SERVICE_HOST = "https://jalgoarena-api.herokuapp.com/problems/"
         private val CLIENT = OkHttpClient()
+
+        private val LOG = LoggerFactory.getLogger(ProblemsRepository::class.java)
     }
 }

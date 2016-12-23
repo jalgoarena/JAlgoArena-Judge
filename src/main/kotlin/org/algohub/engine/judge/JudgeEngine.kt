@@ -6,7 +6,7 @@ import java.lang.reflect.Method
 import java.util.*
 import java.util.concurrent.*
 
-object JudgeEngine {
+class JudgeEngine {
 
     private val LOG = LoggerFactory.getLogger(JudgeEngine::class.java)
     private val NUMBER_OF_ITERATIONS = 5
@@ -127,8 +127,8 @@ object JudgeEngine {
     }
 
     private fun findClassName(isKotlin: Boolean, userCode: String): Optional<String> = when (isKotlin) {
-        true -> FindKotlinClassName().findIn(userCode)
-        false -> FindJavaClassName().findIn(userCode)
+        true -> userCode.findKotlinClassName()
+        false -> userCode.findJavaClassName()
     }
 
     private fun readInternalTestCases(problem: Problem): Array<InternalTestCase> {

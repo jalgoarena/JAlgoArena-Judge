@@ -10,12 +10,16 @@ import org.springframework.web.bind.annotation.*
 class JudgeController {
 
     val problemsRepository = ProblemsRepository()
+    val judgeEngine = JudgeEngine()
 
-    @RequestMapping(path = arrayOf("/problems/{id}/submit"), method = arrayOf(RequestMethod.POST), produces = arrayOf("application/json"))
+    @RequestMapping(
+            path = arrayOf("/problems/{id}/submit"),
+            method = arrayOf(RequestMethod.POST),
+            produces = arrayOf("application/json"))
     fun judge(@PathVariable id: String, @RequestBody sourceCode: String): JudgeResult {
         val problem = problemsRepository.find(id) ?:
                 return JudgeResult.runtimeError("Wrong problem id: " + id)
 
-        return JudgeEngine.judge(problem, sourceCode)
+        return judgeEngine.judge(problem, sourceCode)
     }
 }
