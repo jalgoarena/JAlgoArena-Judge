@@ -12,10 +12,7 @@ class JudgeController {
     val problemsRepository = ProblemsRepository()
     val judgeEngine = JudgeEngine()
 
-    @RequestMapping(
-            path = arrayOf("/problems/{id}/submit"),
-            method = arrayOf(RequestMethod.POST),
-            produces = arrayOf("application/json"))
+    @PostMapping("/problems/{id}/submit", produces = arrayOf("application/json"))
     fun judge(@PathVariable id: String, @RequestBody sourceCode: String): JudgeResult {
         val problem = problemsRepository.find(id) ?:
                 return JudgeResult.runtimeError("Wrong problem id: " + id)

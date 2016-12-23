@@ -16,7 +16,7 @@ class ProblemsController {
 
     val problemsRepository = ProblemsRepository()
 
-    @RequestMapping(path = arrayOf("/problems"), method = arrayOf(RequestMethod.GET), produces = arrayOf("application/json"))
+    @GetMapping("/problems", produces = arrayOf("application/json"))
     fun problems(): List<Problem> {
         return Arrays.stream(problemsRepository.findAll())
                 .map { x -> x.problemWithoutFunctionAndTestCases(
@@ -25,7 +25,7 @@ class ProblemsController {
                 .collect(Collectors.toList<Problem>())
     }
 
-    @RequestMapping(path = arrayOf("/problems/{id}"), method = arrayOf(RequestMethod.GET), produces = arrayOf("application/json"))
+    @GetMapping("/problems/{id}", produces = arrayOf("application/json"))
     fun problem(@PathVariable id: String): Problem {
 
         val problem = problemsRepository.find(id) ?: throw IllegalArgumentException("Invalid problem id: " + id)
