@@ -14,7 +14,7 @@ ${parametersComment(function)}
     fun parametersComment(function: Function): String {
         return function.parameters.map { parameter ->
             "     * @param ${parameter.name} ${parameter.comment}"
-        }.joinToString("/n")
+        }.joinToString(System.lineSeparator())
     }
 
     fun generateParameterDeclaration(type: String, parameterName: String) : String
