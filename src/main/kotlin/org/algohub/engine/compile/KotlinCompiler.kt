@@ -50,14 +50,14 @@ class KotlinCompiler : JvmCompiler {
     private fun compileAndReturnExitCode(out: File, sourceFile: File): ExitCode = compiler.exec(
             System.err,
             sourceFile.absolutePath,
+            "-d", out.absolutePath,
+            "-no-stdlib",
             "-classpath", listOf(
                 File("build/classes/main").absolutePath,
                 File("build/resources/main").absolutePath,
-                File("lib/kotlin-runtime.jar").absolutePath,
-                File("lib/kotlin-compiler.jar").absolutePath,
-                File("lib/kotlin-reflect.jar").absolutePath
-            ).joinToString(File.pathSeparator),
-            "-d", out.absolutePath
+                File("lib/kotlin-runtime.jar").absolutePath
+            ).joinToString(File.pathSeparator)
+
     )
 
     private fun createTmpDir(): File {
