@@ -5,6 +5,9 @@ eureka:
   client:
     serviceUrl:
       defaultZone: ${EUREKA_URL:http://localhost:5000/eureka/}
+
+server:
+  port: 8080
 ---
 spring:
   profiles: heroku
