@@ -9,6 +9,8 @@ import javax.tools.*
 
 class MemoryJavaCompiler : JvmCompiler {
 
+    private val LOG = LoggerFactory.getLogger(this.javaClass)
+
     private fun standardFileManager(): StandardJavaFileManager {
         return javaCompiler.getStandardFileManager(null, null, null)
     }
@@ -89,7 +91,6 @@ class MemoryJavaCompiler : JvmCompiler {
 
     companion object {
 
-        private val LOG = LoggerFactory.getLogger(MemoryJavaCompiler::class.java)
         private val javaCompiler: JavaCompiler
 
         init {

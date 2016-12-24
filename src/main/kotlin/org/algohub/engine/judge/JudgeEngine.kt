@@ -8,7 +8,7 @@ import java.util.concurrent.*
 
 class JudgeEngine {
 
-    private val LOG = LoggerFactory.getLogger(JudgeEngine::class.java)
+    private val LOG = LoggerFactory.getLogger(this.javaClass)
     private val NUMBER_OF_ITERATIONS = 5
 
     private fun judge(clazz: Any,

@@ -15,6 +15,7 @@ import java.util.stream.Collectors
 class ProblemsController {
 
     val problemsRepository = ProblemsRepository()
+    private val LOG = LoggerFactory.getLogger(this.javaClass)
 
     @GetMapping("/problems", produces = arrayOf("application/json"))
     fun problems(): List<Problem> {
@@ -35,26 +36,21 @@ class ProblemsController {
         )
     }
 
-    companion object {
-
-        private val LOG = LoggerFactory.getLogger(JudgeController::class.java)
-
-        private fun sourceCodeOf(function: Function): String {
-            try {
-                return JavaCodeGenerator.generateEmptyFunction(function)
-            } catch (e: ClassNotFoundException) {
-                LOG.error(e.message, e)
-                throw IllegalArgumentException("Illegal type: " + e.message)
-            }
+    private fun sourceCodeOf(function: Function): String {
+        try {
+            return JavaCodeGenerator.generateEmptyFunction(function)
+        } catch (e: ClassNotFoundException) {
+            LOG.error(e.message, e)
+            throw IllegalArgumentException("Illegal type: " + e.message)
         }
+    }
 
-        private fun kotlinSourceCodeOf(function: Function): String {
-            try {
-                return KotlinCodeGenerator.generateEmptyFunction(function)
-            } catch (e: ClassNotFoundException) {
-                LOG.error(e.message, e)
-                throw IllegalArgumentException("Illegal type: " + e.message)
-            }
+    private fun kotlinSourceCodeOf(function: Function): String {
+        try {
+            return KotlinCodeGenerator.generateEmptyFunction(function)
+        } catch (e: ClassNotFoundException) {
+            LOG.error(e.message, e)
+            throw IllegalArgumentException("Illegal type: " + e.message)
         }
     }
 }

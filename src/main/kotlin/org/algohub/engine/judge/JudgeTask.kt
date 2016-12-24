@@ -10,7 +10,7 @@ import java.util.concurrent.Callable
 internal class JudgeTask(private val clazz: Any, private val method: Method, private val testCases: Array<InternalTestCase>)
     : Callable<List<Boolean>>, ThrowableEnhancements {
 
-    private val LOG = LoggerFactory.getLogger(JudgeTask::class.java)
+    private val LOG = LoggerFactory.getLogger(this.javaClass)
 
     override fun call(): List<Boolean> = testCases.map { judge(clazz, method, it) }
 

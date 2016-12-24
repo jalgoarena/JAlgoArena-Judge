@@ -5,8 +5,15 @@ import okhttp3.Request
 import org.algohub.engine.ObjectMapperInstance
 import org.algohub.engine.judge.Problem
 import org.slf4j.LoggerFactory
+import org.springframework.stereotype.Repository
 
+@Repository
 class ProblemsRepository {
+
+    private val LOG = LoggerFactory.getLogger(this.javaClass)
+    private val DATA_SERVICE_HOST = "https://jalgoarena-api.herokuapp.com/problems/"
+    private val CLIENT = OkHttpClient()
+
     fun find(problemId: String): Problem? {
         val request = Request.Builder()
                 .url("${DATA_SERVICE_HOST}problems/$problemId")
@@ -32,12 +39,5 @@ class ProblemsRepository {
         val problemsAsJsonArray = response.body().string()
 
         return ObjectMapperInstance.INSTANCE.readValue(problemsAsJsonArray, Array<Problem>::class.java)
-    }
-
-    companion object {
-        private val DATA_SERVICE_HOST = "https://jalgoarena-api.herokuapp.com/problems/"
-        private val CLIENT = OkHttpClient()
-
-        private val LOG = LoggerFactory.getLogger(ProblemsRepository::class.java)
     }
 }
