@@ -1,4 +1,4 @@
-package com.jalgoarena
+package com.jalgoarena.web
 
 import com.jalgoarena.codegeneration.JavaCodeGenerator
 import com.jalgoarena.codegeneration.KotlinCodeGenerator
@@ -9,12 +9,15 @@ import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.*
 import java.util.*
 import java.util.stream.Collectors
+import javax.inject.Inject
 
 @CrossOrigin
 @RestController
-class ProblemsController {
+class ProblemsController(
+        @Inject val problemsRepository: ProblemsRepository,
+        @Inject val kotlinCodeGenerator: KotlinCodeGenerator,
+        @Inject val javaCodeGenerator: JavaCodeGenerator) {
 
-    val problemsRepository = ProblemsRepository()
     private val LOG = LoggerFactory.getLogger(this.javaClass)
 
     @GetMapping("/problems", produces = arrayOf("application/json"))
@@ -38,7 +41,7 @@ class ProblemsController {
 
     private fun sourceCodeOf(function: Function): String {
         try {
-            return JavaCodeGenerator.generateEmptyFunction(function)
+            return javaCodeGenerator.generateEmptyFunction(function)
         } catch (e: ClassNotFoundException) {
             LOG.error(e.message, e)
             throw IllegalArgumentException("Illegal type: " + e.message)
@@ -47,7 +50,7 @@ class ProblemsController {
 
     private fun kotlinSourceCodeOf(function: Function): String {
         try {
-            return KotlinCodeGenerator.generateEmptyFunction(function)
+            return kotlinCodeGenerator.generateEmptyFunction(function)
         } catch (e: ClassNotFoundException) {
             LOG.error(e.message, e)
             throw IllegalArgumentException("Illegal type: " + e.message)

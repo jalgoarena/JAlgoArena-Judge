@@ -58,8 +58,9 @@ dependencies {
             'ch.qos.logback:logback-core:1.1.7'
 
     testCompile 'junit:junit:4.12',
-                'org.assertj:assertj-core:3.5.2',
-                'pl.pragmatists:JUnitParams:1.0.5'
+            'org.assertj:assertj-core:3.5.2',
+            'pl.pragmatists:JUnitParams:1.0.5',
+            "org.springframework.boot:spring-boot-starter-test"
 }
 
 apply plugin: 'jacoco'

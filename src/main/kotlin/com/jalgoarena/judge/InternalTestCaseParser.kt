@@ -1,24 +1,26 @@
 package com.jalgoarena.judge
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.google.common.base.Preconditions
-import com.jalgoarena.ObjectMapperInstance
 import org.slf4j.LoggerFactory
 import java.io.IOException
 
-internal class InternalTestCase(testCase: Problem.TestCase, function: Function) {
+class InternalTestCase(val input: Array<Any?>,
+                       val output: Any?,
+                       val returnsVoid: Boolean)
 
-    private val LOG = LoggerFactory.getLogger(InternalTestCase::class.java)
+class InternalTestCaseParser(val function: Function,
+                             val objectMapper: ObjectMapper) {
 
-    val input: Array<Any?>
-    val output: Any?
-    val returnsVoid: Boolean
+    private val LOG = LoggerFactory.getLogger(InternalTestCaseParser::class.java)
 
-    init {
+    fun parse(testCase: Problem.TestCase): InternalTestCase {
+
         val parameters = function.parameters
         Preconditions.checkArgument(parameters.size == testCase.input.size())
 
         try {
-            input = arrayOfNulls(testCase.input.size())
+            val input: Array<Any?> = arrayOfNulls(testCase.input.size())
             for (i in input.indices) {
                 input[i] = deserialize(
                         testCase.input.get(i).toString(),
@@ -26,16 +28,18 @@ internal class InternalTestCase(testCase: Problem.TestCase, function: Function) 
                 )
             }
 
-            returnsVoid = "void" == function.returnStatement.type
+            val returnsVoid = "void" == function.returnStatement.type
 
             val outputType =
                     if (returnsVoid) Class.forName(parameters[0].type)
                     else Class.forName(function.returnStatement.type)
 
-            this.output = deserialize(
+            val output = deserialize(
                     testCase.output.toString(),
                     outputType
             )
+
+            return InternalTestCase(input, output, returnsVoid)
         } catch (e: ClassNotFoundException) {
             LOG.error(e.message, e)
             throw IllegalArgumentException(e.message)
@@ -43,10 +47,9 @@ internal class InternalTestCase(testCase: Problem.TestCase, function: Function) 
             LOG.error(e.message, e)
             throw IllegalArgumentException(e.message)
         }
-
     }
 
     private fun deserialize(content: String, type: Class<*>): Any? {
-        return ObjectMapperInstance.INSTANCE.readValue(content, type)
+        return objectMapper.readValue(content, type)
     }
 }

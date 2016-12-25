@@ -2,7 +2,7 @@ package com.jalgoarena.utils
 
 import java.util.Arrays
 
-object BetterObjects {
+interface BetterEquals {
 
     fun equalForObjectsOrArrays(a: Any?, b: Any?): Boolean {
         return when {

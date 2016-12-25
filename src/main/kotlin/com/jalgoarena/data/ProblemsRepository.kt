@@ -1,14 +1,15 @@
 package com.jalgoarena.data
 
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.jalgoarena.judge.Problem
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import com.jalgoarena.ObjectMapperInstance
-import com.jalgoarena.judge.Problem
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Repository
 
 @Repository
-class ProblemsRepository {
+class ProblemsRepository(@Autowired val objectMapper: ObjectMapper) {
 
     private val LOG = LoggerFactory.getLogger(this.javaClass)
 
@@ -28,7 +29,7 @@ class ProblemsRepository {
             return null
         }
 
-        return ObjectMapperInstance.INSTANCE.readValue(problemAsJson, Problem::class.java)
+        return objectMapper.readValue(problemAsJson, Problem::class.java)
     }
 
     fun findAll(): Array<Problem> {
@@ -39,6 +40,6 @@ class ProblemsRepository {
         val response = CLIENT.newCall(request).execute()
         val problemsAsJsonArray = response.body().string()
 
-        return ObjectMapperInstance.INSTANCE.readValue(problemsAsJsonArray, Array<Problem>::class.java)
+        return objectMapper.readValue(problemsAsJsonArray, Array<Problem>::class.java)
     }
 }

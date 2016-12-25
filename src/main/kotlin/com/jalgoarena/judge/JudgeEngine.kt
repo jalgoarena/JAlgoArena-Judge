@@ -1,15 +1,19 @@
 package com.jalgoarena.judge
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.jalgoarena.compile.CompileErrorException
 import com.jalgoarena.compile.IsKotlinSourceCode
 import com.jalgoarena.compile.KotlinCompiler
 import com.jalgoarena.compile.MemoryJavaCompiler
 import org.slf4j.LoggerFactory
+import org.springframework.stereotype.Component
 import java.lang.reflect.Method
 import java.util.*
 import java.util.concurrent.*
+import javax.inject.Inject
 
-class JudgeEngine {
+@Component
+open class JudgeEngine(@Inject val objectMapper: ObjectMapper) {
 
     private val LOG = LoggerFactory.getLogger(this.javaClass)
     private val NUMBER_OF_ITERATIONS = 5
@@ -138,8 +142,10 @@ class JudgeEngine {
         val testCases = problem.testCases
         val function = problem.function
 
+        val parser = InternalTestCaseParser(function!!, objectMapper)
+
         val internalTestCases = testCases!!.indices
-                .map { InternalTestCase(testCases[it], function!!) }
+                .map { parser.parse(testCases[it]) }
                 .toTypedArray()
 
         return shuffle(internalTestCases)

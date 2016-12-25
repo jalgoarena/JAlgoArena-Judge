@@ -2,17 +2,37 @@ package com.jalgoarena
 
 import com.google.common.io.Resources
 import com.jalgoarena.judge.StatusCode
+import com.jalgoarena.web.JudgeController
+import com.jalgoarena.web.ProblemsController
 import junitparams.JUnitParamsRunner
 import junitparams.Parameters
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.ClassRule
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.springframework.test.context.ContextConfiguration
+import org.springframework.test.context.junit4.rules.SpringClassRule
+import org.springframework.test.context.junit4.rules.SpringMethodRule
+import javax.inject.Inject
 
 @RunWith(JUnitParamsRunner::class)
+@ContextConfiguration(classes = arrayOf(ApplicationConfiguration::class))
 class JudgeControllerIntegrationTest {
 
-    private val judgeController = JudgeController()
-    private val problemsController = ProblemsController()
+    companion object {
+        @ClassRule
+        @JvmField val SCR = SpringClassRule()
+    }
+
+    @Rule
+    @JvmField val springMethodRule = SpringMethodRule()
+
+    @Inject
+    lateinit var judgeController: JudgeController
+
+    @Inject
+    lateinit var problemsController: ProblemsController
 
     @Test
     @Parameters("fib, Fibonacci", "2-sum, 2 Sum", "stoi, String to Integer (stoi)", "word-ladder, Word Ladder")

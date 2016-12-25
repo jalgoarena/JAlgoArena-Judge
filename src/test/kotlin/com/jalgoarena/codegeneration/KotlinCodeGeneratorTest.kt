@@ -1,15 +1,25 @@
 package com.jalgoarena.codegeneration
 
+import com.jalgoarena.ApplicationConfiguration
 import com.jalgoarena.judge.Function
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.springframework.test.context.ContextConfiguration
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
+import javax.inject.Inject
 
+@RunWith(SpringJUnit4ClassRunner::class)
+@ContextConfiguration(classes = arrayOf(ApplicationConfiguration::class))
 class KotlinCodeGeneratorTest {
+
+    @Inject
+    lateinit var kotlinCodeGenerator: KotlinCodeGenerator
 
     @Test
     @Throws(Exception::class)
     fun generates_skeleton_function_for_TWO_SUM() {
-        val twoSumGenerated = KotlinCodeGenerator.generateEmptyFunction(TWO_SUM)
+        val twoSumGenerated = kotlinCodeGenerator.generateEmptyFunction(TWO_SUM)
 
         val twoSumExpected = """import java.util.*
 import com.jalgoarena.type.*
@@ -30,7 +40,7 @@ class Solution {
 
     @Test
     fun generates_skeleton_function_for_WORD_LADDER() {
-        val wordLadderGenerated = KotlinCodeGenerator.generateEmptyFunction(WORD_LADDER)
+        val wordLadderGenerated = kotlinCodeGenerator.generateEmptyFunction(WORD_LADDER)
 
         val wordLadderExpected = """import java.util.*
 import com.jalgoarena.type.*

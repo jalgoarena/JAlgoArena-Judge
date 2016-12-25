@@ -1,19 +1,38 @@
 package com.jalgoarena.judge
 
 import com.google.common.io.Resources
+import com.jalgoarena.ApplicationConfiguration
 import com.jalgoarena.data.ProblemsRepository
 import junitparams.JUnitParamsRunner
 import junitparams.Parameters
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Assert.fail
+import org.junit.ClassRule
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.springframework.test.context.ContextConfiguration
+import org.springframework.test.context.junit4.rules.SpringClassRule
+import org.springframework.test.context.junit4.rules.SpringMethodRule
+import javax.inject.Inject
 
 @RunWith(JUnitParamsRunner::class)
+@ContextConfiguration(classes = arrayOf(ApplicationConfiguration::class))
 class JavaEngineIntegrationTest {
 
-    val repository = ProblemsRepository()
-    val judgeEngine = JudgeEngine()
+    companion object {
+        @ClassRule
+        @JvmField val SCR = SpringClassRule()
+    }
+
+    @Rule
+    @JvmField val springMethodRule = SpringMethodRule()
+
+    @Inject
+    lateinit var repository: ProblemsRepository
+
+    @Inject
+    lateinit var judgeEngine: JudgeEngine
 
     private fun judgeSolution(problemId: String, solutionId: String, statusCode: StatusCode) {
         try {

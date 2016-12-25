@@ -3,7 +3,7 @@ package com.jalgoarena.codegeneration
 import com.jalgoarena.judge.Function
 import kotlin.reflect.KClass
 
-internal object JavaCodeGenerator : JvmCodeGenerator {
+class JavaCodeGenerator : JvmCodeGenerator {
 
     fun generateEmptyFunction(function: Function) = """import java.util.*;
 import com.jalgoarena.type.*;

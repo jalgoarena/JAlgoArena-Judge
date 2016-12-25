@@ -1,6 +1,6 @@
 package com.jalgoarena.judge
 
-import com.jalgoarena.utils.BetterObjects
+import com.jalgoarena.utils.BetterEquals
 import com.jalgoarena.utils.ThrowableEnhancements
 import org.slf4j.LoggerFactory
 import java.lang.reflect.InvocationTargetException
@@ -8,7 +8,7 @@ import java.lang.reflect.Method
 import java.util.concurrent.Callable
 
 internal class JudgeTask(private val clazz: Any, private val method: Method, private val testCases: Array<InternalTestCase>)
-    : Callable<List<Boolean>>, ThrowableEnhancements {
+    : Callable<List<Boolean>>, ThrowableEnhancements, BetterEquals {
 
     private val LOG = LoggerFactory.getLogger(this.javaClass)
 
@@ -41,7 +41,7 @@ internal class JudgeTask(private val clazz: Any, private val method: Method, pri
             throw InterruptedException(cause.javaClass.name + ": " + cause.message)
         }
 
-        return BetterObjects.equalForObjectsOrArrays(
+        return equalForObjectsOrArrays(
                 testCase.output,
                 if (testCase.returnsVoid) input[0] else output
         )
