@@ -1,5 +1,5 @@
 import java.util.*
-import org.algohub.engine.type.ListNode
+import com.jalgoarena.type.ListNode
 
 class RemoveDups {
     fun removeDuplicates(listNode: ListNode?): ListNode? {

@@ -1,5 +1,5 @@
 import java.util.*;
-import org.algohub.engine.type.*;
+import com.jalgoarena.type.*;
 
 public class Solution {
     /**

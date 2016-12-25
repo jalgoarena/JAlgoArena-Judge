@@ -1,4 +1,5 @@
-import org.algohub.engine.type.*
+import com.jalgoarena.type.ListNode
+import com.jalgoarena.type.*
 
 class KThToLast {
     inner class Index {

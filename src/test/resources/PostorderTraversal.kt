@@ -1,5 +1,6 @@
+import com.jalgoarena.type.TreeNode
 import java.util.*
-import org.algohub.engine.type.*
+import com.jalgoarena.type.*
 
 class PostorderTraversal {
 

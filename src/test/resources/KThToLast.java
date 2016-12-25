@@ -1,4 +1,4 @@
-import org.algohub.engine.type.*;
+import com.jalgoarena.type.ListNode;
 
 public class Solution {
     class Index {

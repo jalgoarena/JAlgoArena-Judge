@@ -1,4 +1,4 @@
-import org.algohub.engine.type.TreeNode
+import com.jalgoarena.type.TreeNode
 
 class HeightOfBinaryTree {
 
