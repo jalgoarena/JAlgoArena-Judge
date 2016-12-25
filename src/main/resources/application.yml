@@ -7,13 +7,13 @@ eureka:
       defaultZone: ${EUREKA_URL:http://localhost:5000/eureka/}
 
 server:
-  port: 8080
+  port: ${PORT:8080}
 ---
 spring:
   profiles: heroku
 eureka:
   instance:
-    hostname: ${APP_NAME}.herokuapp.com
+    hostname: ${APP_NAME:jalgoarena-judge-agent}.herokuapp.com
     nonSecurePort: 80
 
 logging:
