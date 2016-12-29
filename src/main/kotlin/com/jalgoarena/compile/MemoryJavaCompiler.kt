@@ -91,10 +91,9 @@ class MemoryJavaCompiler : JvmCompiler {
 
     companion object {
 
-        private val javaCompiler: JavaCompiler
+        private val javaCompiler: JavaCompiler = ToolProvider.getSystemJavaCompiler()
 
         init {
-            javaCompiler = ToolProvider.getSystemJavaCompiler()
             Preconditions.checkNotNull(
                     javaCompiler, "Could not get Java compiler. Please, ensure that JDK is used instead of JRE."
             )
