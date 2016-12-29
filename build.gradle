@@ -25,19 +25,12 @@ description = """JAlgoArena Judge Service"""
 sourceCompatibility = 1.8
 
 repositories {
-     mavenCentral()
+    mavenCentral()
 }
 
 jar {
     baseName = 'jalgoarena-judge'
     version = '1.1'
-}
-
-test {
-    testLogging {
-        exceptionFormat = 'full'
-        events "passed", "skipped", "failed", "standardOut", "standardError"
-    }
 }
 
 dependencies {
@@ -55,7 +48,8 @@ dependencies {
             "org.jetbrains.kotlin:kotlin-compiler:$kotlin_version"
 
     runtime 'ch.qos.logback:logback-classic:1.1.7',
-            'ch.qos.logback:logback-core:1.1.7'
+            'ch.qos.logback:logback-core:1.1.7',
+            "org.jetbrains.kotlin:kotlin-runtime:$kotlin_version"
 
     testCompile 'junit:junit:4.12',
             'org.assertj:assertj-core:3.5.2',
@@ -75,6 +69,10 @@ jacocoTestReport {
 check.dependsOn jacocoTestReport
 
 defaultTasks 'clean', 'bootRepackage'
+
+bootRun {
+    systemProperty 'sun.zip.disableMemoryMapping', 'true'
+}
 
 task stage {
     dependsOn 'bootRepackage'
