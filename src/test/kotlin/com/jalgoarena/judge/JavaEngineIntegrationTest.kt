@@ -1,7 +1,7 @@
 package com.jalgoarena.judge
 
 import com.google.common.io.Resources
-import com.jalgoarena.ApplicationConfiguration
+import com.jalgoarena.config.TestApplicationConfiguration
 import com.jalgoarena.data.ProblemsRepository
 import junitparams.JUnitParamsRunner
 import junitparams.Parameters
@@ -17,8 +17,8 @@ import org.springframework.test.context.junit4.rules.SpringMethodRule
 import javax.inject.Inject
 
 @RunWith(JUnitParamsRunner::class)
-@ContextConfiguration(classes = arrayOf(ApplicationConfiguration::class))
-class JavaEngineIntegrationTest {
+@ContextConfiguration(classes = arrayOf(TestApplicationConfiguration::class))
+open class JavaEngineIntegrationTest {
 
     companion object {
         @ClassRule

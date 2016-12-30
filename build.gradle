@@ -1,5 +1,5 @@
 buildscript {
-    ext.kotlin_version = '1.0.5-2'
+    ext.kotlin_version = '1.0.6'
     ext.spring_version = '1.4.0.RELEASE'
 
     repositories {
@@ -85,8 +85,8 @@ dependencyManagement {
 }
 
 task releaseZip(type: Zip, dependsOn: 'bootRepackage') {
-    from 'lib/', 'build/libs/'
-    include '*.jar'
+    from 'lib/', 'build/libs/', 'run.sh'
+    include '*.jar', '*.sh'
     include '*/*' //to include contents of a folder present inside Reports directory
     archiveName "JAlgoArena-Judge-${version}.zip"
     destinationDir(file('build/libs'))

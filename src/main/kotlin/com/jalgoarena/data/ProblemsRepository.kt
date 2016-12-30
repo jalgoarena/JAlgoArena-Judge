@@ -1,24 +1,28 @@
 package com.jalgoarena.data
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.jalgoarena.ProblemsConfiguration
 import com.jalgoarena.judge.Problem
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Repository
+import javax.inject.Inject
 
 @Repository
-class ProblemsRepository(@Autowired val objectMapper: ObjectMapper) {
+class ProblemsRepository(
+        @Inject val objectMapper: ObjectMapper,
+        @Inject val problemsConfiguration: ProblemsConfiguration
+) {
 
     private val LOG = LoggerFactory.getLogger(this.javaClass)
 
-    private val DATA_SERVICE_HOST = "https://jalgoarena-api.herokuapp.com/problems/api"
+    private fun problemsServiceUrl() = "${problemsConfiguration.gatewayUrl}/problems/api"
     private val CLIENT = OkHttpClient()
 
     fun find(problemId: String): Problem? {
         val request = Request.Builder()
-                .url("$DATA_SERVICE_HOST/problems/$problemId")
+                .url("${problemsServiceUrl()}/problems/$problemId")
                 .build()
 
         val response = CLIENT.newCall(request).execute()
@@ -34,7 +38,7 @@ class ProblemsRepository(@Autowired val objectMapper: ObjectMapper) {
 
     fun findAll(): Array<Problem> {
         val request = Request.Builder()
-                .url("$DATA_SERVICE_HOST/problems")
+                .url("${problemsServiceUrl()}/problems")
                 .build()
 
         val response = CLIENT.newCall(request).execute()

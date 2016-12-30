@@ -1,6 +1,7 @@
 package com.jalgoarena
 
 import com.google.common.io.Resources
+import com.jalgoarena.config.TestApplicationConfiguration
 import com.jalgoarena.judge.StatusCode
 import com.jalgoarena.web.JudgeController
 import com.jalgoarena.web.ProblemsController
@@ -17,7 +18,7 @@ import org.springframework.test.context.junit4.rules.SpringMethodRule
 import javax.inject.Inject
 
 @RunWith(JUnitParamsRunner::class)
-@ContextConfiguration(classes = arrayOf(ApplicationConfiguration::class))
+@ContextConfiguration(classes = arrayOf(TestApplicationConfiguration::class))
 class JudgeControllerIntegrationTest {
 
     companion object {

@@ -29,31 +29,8 @@ open class ApplicationConfiguration {
     }
 
     @Bean
-    open fun problemsRepository(objectMapper: ObjectMapper): ProblemsRepository =
-            ProblemsRepository(objectMapper)
-
-    @Bean
-    open fun judgeEngine(objectMapper: ObjectMapper) = JudgeEngine(objectMapper)
-
-    @Bean
-    open fun judgeController(problemsRepository: ProblemsRepository, judgeEngine: JudgeEngine) =
-            JudgeController(problemsRepository, judgeEngine)
-
-    @Bean
     open fun kotlinCodeGenerator() = KotlinCodeGenerator()
 
     @Bean
     open fun javaCodeGenerator() = JavaCodeGenerator()
-
-    @Bean
-    open fun problemsController(
-            problemsRepository: ProblemsRepository,
-            kotlinCodeGenerator: KotlinCodeGenerator,
-            javaCodeGenerator: JavaCodeGenerator): ProblemsController {
-
-        return ProblemsController(
-                problemsRepository,
-                kotlinCodeGenerator,
-                javaCodeGenerator)
-    }
 }
