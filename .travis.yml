@@ -11,12 +11,14 @@ cache:
   directories:
   - $HOME/.gradle/caches/
   - $HOME/.gradle/wrapper/
+before_deploy:
+- ./gradlew releaseZip
 deploy:
   - provider: releases
     api_key:
       secure: esdIxNVvOIBUkv72iDnQrs1Wog7VN0HoNWwfoNFumsXU5qKz4PCSDsaxrmaQdm27obcnBs7d5zO5AM+EZBqu2VCSwDwgasLvNXFxzQp2h/xxsJVCwgp2a9R/6qRHmnTs4H3knLdKrSbb+0cNPU6OGkDwfHAMGQIv8YspjCyWzSO0Lw/KAfwZk6aq/ferLihwRVJ7GZnWdJ7keH3ArMToDBwZFWQAgyGwuN7sEV/X9VLLm/nOSOXZV96XhKTGuYXk+Kso8oSJpmCcUsknErn1pHOjBsFDJwIUC/yLJ7GW4g5bpRczlT4uV/gA9WkqmOISEoxnb2vBMwvjZBd46Wyqibp/d0gP6GFa0cXQf6U/AfrtVVcwEqjp0XJRSzVxM0Po2gBdFArXuW82Ir8O6Dycl+8Lx/Bs2CFAWpLFlJsTC1T3mI/DlXyE+/PKMT4+tjyEKGx+L90e7dMJpdqOu6ZSOlaXVSwpqyvvi7LeQ3BxLPqQVvoPqZXqwDXKlGINrdF1etiRmkt8VUy4mDFE2dHdFMCLxHdUAU/1b4vlsrwN22Rv3/3wvtBwhUrUDymeXTaM7Z13s7jzq1HrJWQubaFS8eAsmVx1TZKi/wvM17+avFPdhWtjiPioTqNUxKsdUWnj12nb/9oYD5qheSw/tNlY4HA7TfPEPDOFK3nLBC7OdlQ=
     file_glob: true
-    file: "build/libs/JAlgoArena-Judge-*.zip"
+    file: "./build/libs/JAlgoArena-Judge-*.zip"
     skip_cleanup: true
     on:
       repo: spolnik/JAlgoArena-Judge
