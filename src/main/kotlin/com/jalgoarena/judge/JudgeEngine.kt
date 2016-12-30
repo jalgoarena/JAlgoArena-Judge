@@ -59,7 +59,8 @@ open class JudgeEngine(@Inject val objectMapper: ObjectMapper) {
 
             for (i in 0..NUMBER_OF_ITERATIONS - 1) {
                 performanceResultFuture = evaluatePerformance(clazz, method, problem, executorService)
-                performanceResult = performanceResult.chooseBestResults(performanceResultFuture.get(problem.timeLimit, TimeUnit.SECONDS))
+                val nextPerformanceResult = performanceResultFuture.get(problem.timeLimit, TimeUnit.SECONDS)
+                performanceResult = performanceResult chooseBetterComparingWith nextPerformanceResult
             }
 
             if (performanceResult.usedMemoryInBytes / 1024 > problem.memoryLimit) {
@@ -162,7 +163,7 @@ open class JudgeEngine(@Inject val objectMapper: ObjectMapper) {
 
     private class PerformanceResult(val usedMemoryInBytes: Long, val usedTimeInMs: Double) {
 
-        internal fun chooseBestResults(performanceResult: PerformanceResult): PerformanceResult {
+        infix fun chooseBetterComparingWith(performanceResult: PerformanceResult): PerformanceResult {
             return PerformanceResult(
                     Math.min(performanceResult.usedMemoryInBytes, usedMemoryInBytes),
                     Math.min(performanceResult.usedTimeInMs, usedTimeInMs)
