@@ -12,15 +12,16 @@ cache:
   - $HOME/.gradle/caches/
   - $HOME/.gradle/wrapper/
 deploy:
-  - provider: heroku
-    api_key:
-      secure: Sso62rEnBNZHcA0/6PUbhI/LMAlzOACPfoyc+t57XT7f43/ZUKU8meOvBrmqagIaB7sGDYxp+u9yJZwzb+beuobaXpkXP74S5YB1lg4fe92qTuLEdhh50VWJKJdch4jwmmCT60w0MvevZP9WiEdFM2E1gzbkMOvLYBpnOpfr6JJKcvD1WtRKWeTZUviSiA4Xd6wrOFRgtpgNXm7VdOXc78jYytyziB0sPnvgi1fXx5Ad8hhjWRg/bhhYHkmp2dIoKy0PdDYEB8q9vnmcyLlDfxw59AHPMJPqMqccJ+RBZsg5T1UQQK2Z6y4yOQwCu+BmD0j+bKY62F7uNGENXgZ2Uud0ld/cJzuOLjle4vevHJkwBR3B//GPdFQ3OWUUHOpVR3KiV3hqVgvgSsMnv2gu78O1lDb54Fh1OybGLCUz2AGFaZN87UM9kILRn20guePbk5kC50GBewiNA9f4Zl8Ze1IPsPqPsmRgirrBbwW3pjnMWSBjPYz6X5+OcEhgRLY2B8e48q00+ndzMs2dZwYvc+/IGHCAD5R75eC6IokOvCwwzV1fJazRru/prlVScVu3th3ehKsNF+wDS4Sz+eLFd5JKqIJvTyqCiViato2Ojd8LpcQSmeqAxfeC9JZS9HH3dZBywy2I8dmjSvCl0ep1l6s3JEAXyhT5E+mTHdWg+9E=
-    app: jalgoarena
-    on:
-      repo: spolnik/JAlgoArena-Judge
   - provider: releases
     api_key:
       secure: esdIxNVvOIBUkv72iDnQrs1Wog7VN0HoNWwfoNFumsXU5qKz4PCSDsaxrmaQdm27obcnBs7d5zO5AM+EZBqu2VCSwDwgasLvNXFxzQp2h/xxsJVCwgp2a9R/6qRHmnTs4H3knLdKrSbb+0cNPU6OGkDwfHAMGQIv8YspjCyWzSO0Lw/KAfwZk6aq/ferLihwRVJ7GZnWdJ7keH3ArMToDBwZFWQAgyGwuN7sEV/X9VLLm/nOSOXZV96XhKTGuYXk+Kso8oSJpmCcUsknErn1pHOjBsFDJwIUC/yLJ7GW4g5bpRczlT4uV/gA9WkqmOISEoxnb2vBMwvjZBd46Wyqibp/d0gP6GFa0cXQf6U/AfrtVVcwEqjp0XJRSzVxM0Po2gBdFArXuW82Ir8O6Dycl+8Lx/Bs2CFAWpLFlJsTC1T3mI/DlXyE+/PKMT4+tjyEKGx+L90e7dMJpdqOu6ZSOlaXVSwpqyvvi7LeQ3BxLPqQVvoPqZXqwDXKlGINrdF1etiRmkt8VUy4mDFE2dHdFMCLxHdUAU/1b4vlsrwN22Rv3/3wvtBwhUrUDymeXTaM7Z13s7jzq1HrJWQubaFS8eAsmVx1TZKi/wvM17+avFPdhWtjiPioTqNUxKsdUWnj12nb/9oYD5qheSw/tNlY4HA7TfPEPDOFK3nLBC7OdlQ=
     file: build/libs/jalgoarena-judge-1.0.$TRAVIS_BUILD_NUMBER.zip
+    skip_cleanup: true
+    on:
+      tags: true
+  - provider: heroku
+    api_key:
+      secure: Sso62rEnBNZHcA0/6PUbhI/LMAlzOACPfoyc+t57XT7f43/ZUKU8meOvBrmqagIaB7sGDYxp+u9yJZwzb+beuobaXpkXP74S5YB1lg4fe92qTuLEdhh50VWJKJdch4jwmmCT60w0MvevZP9WiEdFM2E1gzbkMOvLYBpnOpfr6JJKcvD1WtRKWeTZUviSiA4Xd6wrOFRgtpgNXm7VdOXc78jYytyziB0sPnvgi1fXx5Ad8hhjWRg/bhhYHkmp2dIoKy0PdDYEB8q9vnmcyLlDfxw59AHPMJPqMqccJ+RBZsg5T1UQQK2Z6y4yOQwCu+BmD0j+bKY62F7uNGENXgZ2Uud0ld/cJzuOLjle4vevHJkwBR3B//GPdFQ3OWUUHOpVR3KiV3hqVgvgSsMnv2gu78O1lDb54Fh1OybGLCUz2AGFaZN87UM9kILRn20guePbk5kC50GBewiNA9f4Zl8Ze1IPsPqPsmRgirrBbwW3pjnMWSBjPYz6X5+OcEhgRLY2B8e48q00+ndzMs2dZwYvc+/IGHCAD5R75eC6IokOvCwwzV1fJazRru/prlVScVu3th3ehKsNF+wDS4Sz+eLFd5JKqIJvTyqCiViato2Ojd8LpcQSmeqAxfeC9JZS9HH3dZBywy2I8dmjSvCl0ep1l6s3JEAXyhT5E+mTHdWg+9E=
+    app: jalgoarena
     on:
       repo: spolnik/JAlgoArena-Judge
