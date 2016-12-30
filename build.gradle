@@ -75,11 +75,19 @@ bootRun {
 }
 
 task stage {
-    dependsOn 'bootRepackage'
+    dependsOn 'releaseZip'
 }
 
 dependencyManagement {
     imports {
         mavenBom "org.springframework.cloud:spring-cloud-dependencies:Camden.SR3"
     }
+}
+
+task releaseZip(type: Zip, dependsOn: 'bootRepackage') {
+    from 'lib/', 'build/libs/'
+    include '*.jar'
+    include '*/*' //to include contents of a folder present inside Reports directory
+    archiveName "JAlgoArena-Judge-${version}.zip"
+    destinationDir(file('build/libs'))
 }
