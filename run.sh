@@ -1,3 +1,3 @@
 #!/bin/bash
-EUREKA_URL = http://localhost:5000/eureka/
-java -Dserver.port=8080 -Djalgoarena.problems.gatewayUrl=http://localhost:5001/ -classpath "kotlin-runtime.jar" -jar jalgoarena-judge-1.1.jar
+EUREKA_URL=http://localhost:5000/eureka/
+java -Dserver.port=8080 -Djalgoarena.problems.gatewayUrl=http://localhost:5001/ -classpath "kotlin-runtime.jar" -jar jalgoarena-judge-*.jar
