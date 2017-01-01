@@ -2,7 +2,7 @@ package com.jalgoarena.config
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.jalgoarena.ApplicationConfiguration
-import com.jalgoarena.ProblemsConfiguration
+import com.jalgoarena.ApiGatewayConfiguration
 import com.jalgoarena.codegeneration.JavaCodeGenerator
 import com.jalgoarena.codegeneration.KotlinCodeGenerator
 import com.jalgoarena.data.ProblemsRepository
@@ -16,13 +16,13 @@ import org.springframework.context.annotation.Configuration
 open class TestApplicationConfiguration : ApplicationConfiguration() {
 
     @Bean
-    open fun problemsConfiguration() = ProblemsConfiguration().apply {
-        gatewayUrl = "https://jalgoarena-api.herokuapp.com"
+    open fun problemsConfiguration() = ApiGatewayConfiguration().apply {
+        apiGatewayUrl = "https://jalgoarena-api.herokuapp.com"
     }
 
     @Bean
-    open fun problemsRepository(objectMapper: ObjectMapper, problemsConfiguration: ProblemsConfiguration) =
-            ProblemsRepository(objectMapper, problemsConfiguration)
+    open fun problemsRepository(objectMapper: ObjectMapper, apiGatewayConfiguration: ApiGatewayConfiguration) =
+            ProblemsRepository(objectMapper, apiGatewayConfiguration)
 
     @Bean
     open fun judgeEngine(objectMapper: ObjectMapper) = JudgeEngine(objectMapper)

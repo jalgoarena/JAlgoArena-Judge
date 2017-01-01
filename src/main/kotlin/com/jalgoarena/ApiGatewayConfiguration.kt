@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration
 
 @Configuration
 @EnableConfigurationProperties
-@ConfigurationProperties(prefix = "jalgoarena.problems")
-open class ProblemsConfiguration {
-    var gatewayUrl: String? = null
+@ConfigurationProperties(prefix = "jalgoarena")
+open class ApiGatewayConfiguration {
+    var apiGatewayUrl: String? = null
 }

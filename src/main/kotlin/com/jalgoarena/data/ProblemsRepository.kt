@@ -1,7 +1,7 @@
 package com.jalgoarena.data
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.jalgoarena.ProblemsConfiguration
+import com.jalgoarena.ApiGatewayConfiguration
 import com.jalgoarena.judge.Problem
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -12,12 +12,12 @@ import javax.inject.Inject
 @Repository
 class ProblemsRepository(
         @Inject val objectMapper: ObjectMapper,
-        @Inject val problemsConfiguration: ProblemsConfiguration
+        @Inject val apiGatewayConfiguration: ApiGatewayConfiguration
 ) {
 
     private val LOG = LoggerFactory.getLogger(this.javaClass)
 
-    private fun problemsServiceUrl() = "${problemsConfiguration.gatewayUrl}/problems/api"
+    private fun problemsServiceUrl() = "${apiGatewayConfiguration.apiGatewayUrl}/problems/api"
     private val CLIENT = OkHttpClient()
 
     fun find(problemId: String): Problem? {
