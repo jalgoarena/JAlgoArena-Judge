@@ -1,6 +1,6 @@
 //noinspection GroovyAssignabilityCheck
 version = new ProjectVersion(
-        '1', '0', '2', System.env.TRAVIS_BUILD_NUMBER
+        '1', '0', '3', System.env.TRAVIS_BUILD_NUMBER
 )
 
 println "Version number: " + version
