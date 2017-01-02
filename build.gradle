@@ -90,10 +90,15 @@ task releaseZip(type: Zip, dependsOn: 'bootRepackage') {
     from 'run.sh'
     from('lib/') {
         include('*.jar')
+        into('lib')
     }
     from('build/classes/main/com/jalgoarena/type') {
         into('build/classes/main/com/jalgoarena/type')
         include('*.class')
+    }
+    from('build/resources/main') {
+        into('build/resources/main')
+        include('**/*.yml', '**/*.xml')
     }
     archiveName "JAlgoArena-Judge-${version}.zip"
     destinationDir(file('build/libs'))
