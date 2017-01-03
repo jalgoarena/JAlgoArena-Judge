@@ -34,17 +34,17 @@ open class JudgeEngine(@Inject val objectMapper: ObjectMapper) {
             val failedTestCases = results.filter({ !it }).count()
 
             if (failedTestCases > 0) {
-                return JudgeResult.wrongAnswer(results)
+                return JudgeResult.WrongAnswer(results)
             }
         } catch (e: InterruptedException) {
             LOG.error("Error in processing solution", e)
-            return JudgeResult.runtimeError(e.message)
+            return JudgeResult.RuntimeError(e.message)
         } catch (e: ExecutionException) {
             LOG.error("Error in processing solution", e)
-            return JudgeResult.runtimeError(e.message)
+            return JudgeResult.RuntimeError(e.message)
         } catch (e: TimeoutException) {
             LOG.error("Timeout error", e)
-            return JudgeResult.timeLimitExceeded()
+            return JudgeResult.TimeLimitExceeded()
         }
 
         // # RUN 2 - hot runs, run the code couple of times gathering time and memory measurements to return best
@@ -64,26 +64,25 @@ open class JudgeEngine(@Inject val objectMapper: ObjectMapper) {
             }
 
             if (performanceResult.usedMemoryInBytes / 1024 > problem.memoryLimit) {
-                return JudgeResult.memoryLimitExceeded(
-                        testCases.size,
+                return JudgeResult.MemoryLimitExceeded(
                         performanceResult.usedMemoryInBytes
                 )
             }
 
-            return JudgeResult.accepted(
+            return JudgeResult.Accepted(
                     testCases.size,
                     performanceResult.usedTimeInMs,
                     performanceResult.usedMemoryInBytes
             )
         } catch (e: InterruptedException) {
             LOG.error("Error in processing solution", e)
-            return JudgeResult.runtimeError(e.message)
+            return JudgeResult.RuntimeError(e.message)
         } catch (e: ExecutionException) {
             LOG.error("Error in processing solution", e)
-            return JudgeResult.runtimeError(e.message)
+            return JudgeResult.RuntimeError(e.message)
         } catch (e: TimeoutException) {
             LOG.error("Timeout error", e)
-            return JudgeResult.timeLimitExceeded()
+            return JudgeResult.TimeLimitExceeded()
         }
 
     }
@@ -98,13 +97,13 @@ open class JudgeEngine(@Inject val objectMapper: ObjectMapper) {
             return compileAndJudge(problem, userCode)
         } catch (e: ClassNotFoundException) {
             LOG.warn("Class not found", e)
-            return JudgeResult.compileError("${e.javaClass} : ${e.message}")
+            return JudgeResult.CompileError("${e.javaClass} : ${e.message}")
         } catch (e: CompileErrorException) {
             LOG.warn("Compilation error${e.message}")
-            return JudgeResult.compileError(CreateFriendlyMessage().from(e.message!!))
+            return JudgeResult.CompileError(CreateFriendlyMessage().from(e.message!!))
         } catch (e: NoSuchMethodError) {
             LOG.warn("No such method error", e)
-            return JudgeResult.compileError("No such method: ${e.message}")
+            return JudgeResult.CompileError("No such method: ${e.message}")
         }
 
     }
@@ -115,7 +114,7 @@ open class JudgeEngine(@Inject val objectMapper: ObjectMapper) {
         val className = findClassName(isKotlin, userCode)
 
         if (!className.isPresent) {
-            return JudgeResult.compileError("ClassNotFoundException: No public class found")
+            return JudgeResult.CompileError("ClassNotFoundException: No public class found")
         }
 
         val compiler = if (isKotlin) KotlinCompiler() else MemoryJavaCompiler()
@@ -130,7 +129,7 @@ open class JudgeEngine(@Inject val objectMapper: ObjectMapper) {
             return judge(instance, method, problem)
         } catch (e: Exception) {
             LOG.error(e.message, e)
-            return JudgeResult.runtimeError(e.message)
+            return JudgeResult.RuntimeError(e.message)
         }
     }
 
