@@ -9,8 +9,6 @@ eureka:
 server:
   port: ${PORT:8080}
 
-jalgoarena:
-  apiGatewayUrl: https://jalgoarena-api.herokuapp.com
 ---
 spring:
   profiles: heroku

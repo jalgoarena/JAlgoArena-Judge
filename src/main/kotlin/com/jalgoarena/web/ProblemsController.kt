@@ -2,7 +2,7 @@ package com.jalgoarena.web
 
 import com.jalgoarena.codegeneration.JavaCodeGenerator
 import com.jalgoarena.codegeneration.KotlinCodeGenerator
-import com.jalgoarena.data.ProblemsRepository
+import com.jalgoarena.data.DataRepository
 import com.jalgoarena.judge.Function
 import com.jalgoarena.judge.Problem
 import org.slf4j.LoggerFactory
@@ -15,7 +15,7 @@ import javax.inject.Inject
 @CrossOrigin
 @RestController
 class ProblemsController(
-        @Inject val problemsRepository: ProblemsRepository,
+        @Inject val problemsClient: DataRepository<Problem>,
         @Inject val kotlinCodeGenerator: KotlinCodeGenerator,
         @Inject val javaCodeGenerator: JavaCodeGenerator) {
 
@@ -23,7 +23,7 @@ class ProblemsController(
 
     @GetMapping("/problems", produces = arrayOf("application/json"))
     fun problems(): List<Problem> {
-        return problemsRepository.findAll().asList()
+        return problemsClient.findAll().asList()
                 .map { x -> x.problemWithoutFunctionAndTestCases(
                         sourceCodeOf(x.function!!), kotlinSourceCodeOf(x.function)
                 )}
@@ -32,7 +32,7 @@ class ProblemsController(
     @GetMapping("/problems/{id}", produces = arrayOf("application/json"))
     fun problem(@PathVariable id: String): Problem {
 
-        val problem = problemsRepository.find(id) ?:
+        val problem = problemsClient.find(id) ?:
                 throw IllegalArgumentException("Invalid problem id: " + id)
 
         return problem.problemWithoutFunctionAndTestCases(

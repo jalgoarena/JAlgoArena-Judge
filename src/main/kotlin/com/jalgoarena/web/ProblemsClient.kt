@@ -1,42 +1,45 @@
-package com.jalgoarena.data
+package com.jalgoarena.web
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.jalgoarena.ApiGatewayConfiguration
+import com.jalgoarena.data.DataRepository
 import com.jalgoarena.judge.Problem
+import com.netflix.discovery.EurekaClient
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.slf4j.LoggerFactory
-import org.springframework.stereotype.Repository
+import org.springframework.stereotype.Service
 import javax.inject.Inject
 
-@Repository
-class ProblemsRepository(
+@Service
+class ProblemsClient(
         @Inject val objectMapper: ObjectMapper,
-        @Inject val apiGatewayConfiguration: ApiGatewayConfiguration
-) {
+        @Inject val discoveryClient: EurekaClient
+) : DataRepository<Problem> {
 
     private val LOG = LoggerFactory.getLogger(this.javaClass)
 
-    private fun problemsServiceUrl() = "${apiGatewayConfiguration.apiGatewayUrl}/problems/api"
+    private fun problemsServiceUrl(): String =
+            discoveryClient.getNextServerFromEureka("jalgoarena-problems", false).homePageUrl
+
     private val CLIENT = OkHttpClient()
 
-    fun find(problemId: String): Problem? {
+    override fun find(id: String): Problem? {
         val request = Request.Builder()
-                .url("${problemsServiceUrl()}/problems/$problemId")
+                .url("${problemsServiceUrl()}/problems/$id")
                 .build()
 
         val response = CLIENT.newCall(request).execute()
         val problemAsJson = response.body().string()
 
         if (problemAsJson.isEmpty() || problemAsJson.contains("com.netflix.zuul.exception.ZuulException")) {
-            LOG.error("There is error in querying for $problemId problem. Response: $problemAsJson")
+            LOG.error("There is error in querying for $id problem. Response: $problemAsJson")
             return null
         }
 
         return objectMapper.readValue(problemAsJson, Problem::class.java)
     }
 
-    fun findAll(): Array<Problem> {
+    override fun findAll(): Array<Problem> {
         val request = Request.Builder()
                 .url("${problemsServiceUrl()}/problems")
                 .build()

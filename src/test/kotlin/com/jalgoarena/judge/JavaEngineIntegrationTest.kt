@@ -2,7 +2,7 @@ package com.jalgoarena.judge
 
 import com.google.common.io.Resources
 import com.jalgoarena.config.TestApplicationConfiguration
-import com.jalgoarena.data.ProblemsRepository
+import com.jalgoarena.data.DataRepository
 import junitparams.JUnitParamsRunner
 import junitparams.Parameters
 import org.assertj.core.api.Assertions.assertThat
@@ -29,7 +29,7 @@ open class JavaEngineIntegrationTest {
     @JvmField val springMethodRule = SpringMethodRule()
 
     @Inject
-    lateinit var repository: ProblemsRepository
+    lateinit var repository: DataRepository<Problem>
 
     @Inject
     lateinit var judgeEngine: JudgeEngine
