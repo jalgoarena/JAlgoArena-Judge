@@ -17,7 +17,6 @@ class KotlinCodeGeneratorTest {
     lateinit var kotlinCodeGenerator: KotlinCodeGenerator
 
     @Test
-    @Throws(Exception::class)
     fun generates_skeleton_function_for_TWO_SUM() {
         val twoSumGenerated = kotlinCodeGenerator.generateEmptyFunction(TWO_SUM)
 
@@ -50,7 +49,7 @@ class Solution {
      * @param begin_word the begin word
      * @param end_word the end word
      * @param dict the dictionary
-     * @return Operation in-place
+     * @return The shortest length
      */
     fun ladderLength(begin_word: String, end_word: String, dict: HashSet): Int {
         // Write your code here
