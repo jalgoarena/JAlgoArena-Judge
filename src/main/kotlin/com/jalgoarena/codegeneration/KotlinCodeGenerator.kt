@@ -23,6 +23,7 @@ class Solution {
 
     private fun kotlinTypeDeclaration(type: String) = when(type) {
         "void" -> ""
+        "[[I" -> ": Array<IntArray>"
         else -> ": ${Class.forName(type).kotlin.simpleName!!}"
     }
 }

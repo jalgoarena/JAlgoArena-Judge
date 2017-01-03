@@ -50,7 +50,7 @@ class Solution {
      * @param begin_word the begin word
      * @param end_word the end word
      * @param dict the dictionary
-     * @return The shortest length
+     * @return Operation in-place
      */
     fun ladderLength(begin_word: String, end_word: String, dict: HashSet): Int {
         // Write your code here
@@ -58,6 +58,26 @@ class Solution {
 }
 """
         assertThat(wordLadderGenerated).isEqualTo(wordLadderExpected)
+    }
+
+    @Test
+    fun generates_skeleton_function_for_VERTICAL_FLIP() {
+        val verticalFlipGenerated = kotlinCodeGenerator.generateEmptyFunction(VERTICAL_FLIP)
+
+        val verticalFlipExpected = """import java.util.*
+import com.jalgoarena.type.*
+
+class Solution {
+    /**
+     * @param matrix Image matrix to flip
+     * @return Operation in-place
+     */
+    fun flipVerticalAxis(matrix: Array<IntArray>) {
+        // Write your code here
+    }
+}
+"""
+        assertThat(verticalFlipGenerated).isEqualTo(verticalFlipExpected)
     }
 
     companion object {
@@ -77,5 +97,9 @@ class Solution {
                         Function.Parameter("dict", "java.util.HashSet", "the dictionary")
                 )
         )
+
+        private val VERTICAL_FLIP = Function("flipVerticalAxis",
+                Function.Return("void", "Operation in-place"),
+                arrayOf(Function.Parameter("matrix", "[[I", "Image matrix to flip")))
     }
 }
