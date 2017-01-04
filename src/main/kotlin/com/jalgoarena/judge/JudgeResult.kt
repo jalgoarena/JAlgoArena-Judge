@@ -5,10 +5,10 @@ import com.fasterxml.jackson.annotation.JsonProperty
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 sealed class JudgeResult(val statusCode: String,
-                         val errorMessage: String?, // milliseconds
-                         val elapsedTime: Double, // bytes
-                         val consumedMemory: Long,
-                         val testCaseResults: List<Boolean>) {
+                         val errorMessage: String?,
+                         val elapsedTime: Double, // milliseconds
+                         val consumedMemory: Long, // bytes
+                         val testcaseResults: List<Boolean>) {
 
     class Accepted(testCasesCount: Int, usedTimeInMs: Double, usedMemoryInKb: Long) : JudgeResult(
             StatusCode.ACCEPTED.toString(),
