@@ -52,8 +52,8 @@ There are two ways to run it - from sources or from binaries.
 
 ### Running from binaries
 - go to [releases page](https://github.com/spolnik/JAlgoArena-Judge/releases) and download last app package (JAlgoArena-Judge-[version_number].zip)
-- after unpacking it, go to folder and run `./run.sh` (to make it runnable, invoke command `chmod +x run.sh`)
-- you can modify port, api gateway service and Eureka service urls in run.sh script, depending on your infrastructure settings. The script itself can be found in here: [run.sh](run.sh)
+- after unpacking it, go to folder and run `./run.sh`
+- you can modify port Eureka service url in run.sh script, depending on your infrastructure settings. The script itself can be found in here: [run.sh](run.sh)
 
 ### Running from sources
 - run `git clone https://github.com/spolnik/JAlgoArena-Judge` to clone locally the sources
