@@ -7,9 +7,11 @@ import com.fasterxml.jackson.databind.node.ArrayNode
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.jalgoarena.data.DataRepository
 import com.jalgoarena.domain.Problem
+import com.jalgoarena.domain.StatusCode
 import com.jalgoarena.judge.JudgeEngine
 import com.jalgoarena.type.ListNode
 import org.hamcrest.CoreMatchers.`is`
+import org.hamcrest.CoreMatchers.endsWith
 import org.hamcrest.Matchers.hasSize
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -41,17 +43,34 @@ class JudgeControllerSpec {
 
     @Test
     fun post_judge_returns_200_and_accepted_judge_result_for_correct_submission() {
-
-        val problem = jacksonObjectMapper().readValue(PROBLEM_AS_JSON, Problem::class.java)
-        given(problemsClient.find("fib")).willReturn(problem)
+        givenFibProblem()
 
         mockMvc.perform(post("/problems/fib/submit")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(FIB_SOURCE_CODE))
                 .andExpect(status().isOk)
-                .andExpect(jsonPath("$.statusCode", `is`("ACCEPTED")))
+                .andExpect(jsonPath("$.statusCode", `is`(StatusCode.ACCEPTED.name)))
                 .andExpect(jsonPath("$.elapsedTime", `is`(GreaterThan(0.0))))
                 .andExpect(jsonPath("$.testcaseResults", hasSize<ArrayNode>(8)))
+    }
+
+    @Test
+    fun post_judge_returns_200_and_compilation_error_judge_result_for_wrong_source_code() {
+        givenFibProblem()
+
+        mockMvc.perform(post("/problems/fib/submit")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(FIB_SOURCE_CODE_WITH_COMPILE_ERROR))
+                .andExpect(status().isOk)
+                .andExpect(jsonPath("$.statusCode", `is`(StatusCode.COMPILE_ERROR.name)))
+                .andExpect(jsonPath("$.elapsedTime", `is`(-1.0)))
+                .andExpect(jsonPath("$.consumedMemory", `is`(-1)))
+                .andExpect(jsonPath("$.errorMessage", endsWith("/Solution.kt:10:5: error: a 'return' expression required in a function with a block body ('{...}')\n    }\n    ^\n")))
+    }
+
+    private fun givenFibProblem() {
+        val problem = jacksonObjectMapper().readValue(PROBLEM_AS_JSON, Problem::class.java)
+        given(problemsClient.find("fib")).willReturn(problem)
     }
 
     @TestConfiguration
@@ -158,6 +177,19 @@ class Solution {
     fun fib(n: Int): Long {
         if (n < 2) return n.toLong()
         return fib(n - 1) + fib(n - 2)
+    }
+}
+"""
+
+    private val FIB_SOURCE_CODE_WITH_COMPILE_ERROR = """import java.util.*
+import com.jalgoarena.type.*
+
+class Solution {
+    /**
+     * @param n id of fibonacci term to be returned
+     * @return  N'th term of Fibonacci sequence
+     */
+    fun fib(n: Int): Long {
     }
 }
 """
