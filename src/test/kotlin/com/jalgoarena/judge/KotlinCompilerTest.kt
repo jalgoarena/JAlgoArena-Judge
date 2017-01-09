@@ -8,7 +8,6 @@ import org.junit.Test
 class KotlinCompilerTest {
 
     @Test
-    @Throws(Throwable::class)
     fun compileAndRunStaticMethod() {
 
         val (instance, method) = KotlinCompiler().compileMethod(
@@ -20,7 +19,6 @@ class KotlinCompilerTest {
     }
 
     @Test(expected = NoSuchMethodError::class)
-    @Throws(Exception::class)
     fun throwsNoSuchMethodExceptionWhenInvokingNonExistingMethod() {
         KotlinCompiler().compileMethod(
                 "Solution", "dummy", SOURCE_CODE_CORRECT
@@ -28,7 +26,6 @@ class KotlinCompilerTest {
     }
 
     @Test(expected = IllegalStateException::class)
-    @Throws(Exception::class)
     fun throwsIllegalStateExceptionWhenTryingToInvokeClassWithPrivateConstructor() {
         val sourceCode = """class Solution private constructor() {
   fun dummy() {}
@@ -41,7 +38,6 @@ class KotlinCompilerTest {
     }
 
     @Test(expected = CompileErrorException::class)
-    @Throws(Exception::class)
     fun throwsCompileErrorExceptionWhenSourceCodeDoesNotCompile() {
 
         KotlinCompiler().compileMethod(

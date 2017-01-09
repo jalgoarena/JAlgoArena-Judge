@@ -51,7 +51,6 @@ dependencies {
             "org.jetbrains.kotlin:kotlin-runtime:$kotlin_version"
 
     testCompile 'junit:junit:4.12',
-            'org.assertj:assertj-core:3.5.2',
             'pl.pragmatists:JUnitParams:1.0.5',
             "org.springframework.boot:spring-boot-starter-test"
 }
