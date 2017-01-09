@@ -7,19 +7,19 @@ import com.fasterxml.jackson.databind.node.ArrayNode
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-class Problem(val id: String,
+data class Problem(val id: String,
               val title: String,
               val description: String,
               val timeLimit: Long,
               val memoryLimit: Int,
               val function: Function?,
-              val testCases: Array<TestCase>?,
+              val testCases: List<TestCase>?,
               val skeletonCode: String?,
               val kotlinSkeletonCode: String?,
               val level: Int) {
 
     @JsonIgnoreProperties(ignoreUnknown = true)
-    class TestCase(val input: ArrayNode,
+    data class TestCase(val input: ArrayNode,
                    val output: JsonNode)
 
     fun problemWithoutFunctionAndTestCases(skeletonCode: String, kotlinSkeletonCode: String): Problem {

@@ -83,7 +83,7 @@ class Solution {
         private val TWO_SUM = Function("twoSum",
                 Function.Return("[I",
                         "[index1 + 1, index2 + 1] (index1 < index2)"),
-                arrayOf(Function.Parameter("numbers", "[I", "An array of Integers"),
+                listOf(Function.Parameter("numbers", "[I", "An array of Integers"),
                         Function.Parameter("target", "java.lang.Integer",
                                 "target = numbers[index1] + numbers[index2]")
                 )
@@ -91,7 +91,7 @@ class Solution {
 
         private val WORD_LADDER = Function("ladderLength",
                 Function.Return("java.lang.Integer", "The shortest length"),
-                arrayOf(Function.Parameter("begin_word", "java.lang.String", "the begin word"),
+                listOf(Function.Parameter("begin_word", "java.lang.String", "the begin word"),
                         Function.Parameter("end_word", "java.lang.String", "the end word"),
                         Function.Parameter("dict", "java.util.HashSet", "the dictionary")
                 )
@@ -99,6 +99,6 @@ class Solution {
 
         private val VERTICAL_FLIP = Function("flipVerticalAxis",
                 Function.Return("void", "Operation in-place"),
-                arrayOf(Function.Parameter("matrix", "[[I", "Image matrix to flip")))
+                listOf(Function.Parameter("matrix", "[[I", "Image matrix to flip")))
     }
 }

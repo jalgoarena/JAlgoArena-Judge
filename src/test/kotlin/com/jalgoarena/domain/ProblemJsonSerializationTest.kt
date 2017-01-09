@@ -25,10 +25,16 @@ class ProblemJsonSerializationTest {
                 .isEqualToJson("problem.json")
     }
 
+    @Test
+    fun deserialize_problem() {
+        assertThat(json.parse(PROBLEM_JSON))
+                .isEqualTo(PROBLEM)
+    }
+
     private val TWO_SUM_FUNCTION = Function("twoSum",
             Function.Return("[I",
                     "[index1 + 1, index2 + 1] (index1 < index2)"),
-            arrayOf(Function.Parameter("numbers", "[I", "An array of Integers"),
+            listOf(Function.Parameter("numbers", "[I", "An array of Integers"),
                     Function.Parameter("target", "java.lang.Integer",
                             "target = numbers[index1] + numbers[index2]")
             )
@@ -44,11 +50,44 @@ class ProblemJsonSerializationTest {
             function = TWO_SUM_FUNCTION,
             skeletonCode = "dummy code",
             kotlinSkeletonCode = "kotlin dummy code",
-            testCases = arrayOf(
+            testCases = listOf(
                     Problem.TestCase(
                             ArrayNode(JsonNodeFactory.instance).add(1).add(2),
                             IntNode(3)
                     )
             )
     )
+
+    //language=JSON
+    private val PROBLEM_JSON = """{
+  "id": "dummy_id",
+  "title": "dummy_title",
+  "description": "dummy description",
+  "timeLimit": 1,
+  "memoryLimit": 1,
+  "function": {
+    "name": "twoSum",
+    "return": {
+      "type": "[I",
+      "comment": "[index1 + 1, index2 + 1] (index1 < index2)"
+    },
+    "parameters": [
+      {
+        "name": "numbers",
+        "type": "[I",
+        "comment": "An array of Integers"
+      },
+      {
+        "name": "target",
+        "type": "java.lang.Integer",
+        "comment": "target = numbers[index1] + numbers[index2]"
+      }
+    ]
+  },
+  "testCases": [{"input":[1,2],"output":3}],
+  "skeletonCode": "dummy code",
+  "kotlinSkeletonCode": "kotlin dummy code",
+  "level": 3
+}
+"""
 }

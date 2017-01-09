@@ -52,7 +52,7 @@ public class Solution {
         private val TWO_SUM_FUNCTION = Function("twoSum",
                 Function.Return("[I",
                         "[index1 + 1, index2 + 1] (index1 < index2)"),
-                arrayOf(Function.Parameter("numbers", "[I", "An array of Integers"),
+                listOf(Function.Parameter("numbers", "[I", "An array of Integers"),
                         Function.Parameter("target", "java.lang.Integer",
                                 "target = numbers[index1] + numbers[index2]")
                 )
