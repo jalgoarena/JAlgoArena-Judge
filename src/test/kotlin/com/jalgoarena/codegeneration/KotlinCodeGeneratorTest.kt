@@ -1,7 +1,7 @@
 package com.jalgoarena.codegeneration
 
 import com.jalgoarena.ApplicationConfiguration
-import com.jalgoarena.judge.Function
+import com.jalgoarena.domain.Function
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import org.junit.runner.RunWith

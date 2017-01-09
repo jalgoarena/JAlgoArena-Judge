@@ -1,6 +1,7 @@
 package com.jalgoarena.judge
 
 import com.jalgoarena.compile.IsKotlinSourceCode
+import com.jalgoarena.domain.Function
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 

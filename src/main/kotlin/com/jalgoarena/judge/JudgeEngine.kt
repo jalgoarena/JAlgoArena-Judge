@@ -5,6 +5,8 @@ import com.jalgoarena.compile.CompileErrorException
 import com.jalgoarena.compile.IsKotlinSourceCode
 import com.jalgoarena.compile.KotlinCompiler
 import com.jalgoarena.compile.MemoryJavaCompiler
+import com.jalgoarena.domain.JudgeResult
+import com.jalgoarena.domain.Problem
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
 import java.lang.reflect.Method

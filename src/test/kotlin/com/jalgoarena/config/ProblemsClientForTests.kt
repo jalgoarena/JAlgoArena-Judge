@@ -2,7 +2,7 @@ package com.jalgoarena.config
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.jalgoarena.data.DataRepository
-import com.jalgoarena.judge.Problem
+import com.jalgoarena.domain.Problem
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.slf4j.LoggerFactory

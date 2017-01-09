@@ -2,8 +2,8 @@ package com.jalgoarena.web
 
 import com.jalgoarena.data.DataRepository
 import com.jalgoarena.judge.JudgeEngine
-import com.jalgoarena.judge.JudgeResult
-import com.jalgoarena.judge.Problem
+import com.jalgoarena.domain.JudgeResult
+import com.jalgoarena.domain.Problem
 import org.springframework.web.bind.annotation.*
 import javax.inject.Inject
 

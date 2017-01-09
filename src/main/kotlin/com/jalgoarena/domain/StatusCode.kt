@@ -1,4 +1,4 @@
-package com.jalgoarena.judge
+package com.jalgoarena.domain
 
 enum class StatusCode {
     ACCEPTED,

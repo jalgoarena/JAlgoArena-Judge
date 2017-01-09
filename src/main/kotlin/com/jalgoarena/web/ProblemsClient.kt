@@ -2,7 +2,7 @@ package com.jalgoarena.web
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.jalgoarena.data.DataRepository
-import com.jalgoarena.judge.Problem
+import com.jalgoarena.domain.Problem
 import com.netflix.discovery.EurekaClient
 import okhttp3.OkHttpClient
 import okhttp3.Request

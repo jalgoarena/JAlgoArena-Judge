@@ -2,12 +2,10 @@ package com.jalgoarena.judge
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.google.common.base.Preconditions
+import com.jalgoarena.domain.Function
+import com.jalgoarena.domain.Problem
 import org.slf4j.LoggerFactory
 import java.io.IOException
-
-class InternalTestCase(val input: Array<Any?>,
-                       val output: Any?,
-                       val returnsVoid: Boolean)
 
 class InternalTestCaseParser(val function: Function,
                              val objectMapper: ObjectMapper) {

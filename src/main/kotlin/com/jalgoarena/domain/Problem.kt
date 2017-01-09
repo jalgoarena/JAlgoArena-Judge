@@ -1,4 +1,4 @@
-package com.jalgoarena.judge
+package com.jalgoarena.domain
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonInclude
@@ -13,7 +13,7 @@ class Problem(val id: String,
               val timeLimit: Long,
               val memoryLimit: Int,
               val function: Function?,
-              val testCases: Array<Problem.TestCase>?,
+              val testCases: Array<TestCase>?,
               val skeletonCode: String?,
               val kotlinSkeletonCode: String?,
               val level: Int) {

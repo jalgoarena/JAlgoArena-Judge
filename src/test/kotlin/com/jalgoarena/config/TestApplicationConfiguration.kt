@@ -6,7 +6,7 @@ import com.jalgoarena.codegeneration.JavaCodeGenerator
 import com.jalgoarena.codegeneration.KotlinCodeGenerator
 import com.jalgoarena.data.DataRepository
 import com.jalgoarena.judge.JudgeEngine
-import com.jalgoarena.judge.Problem
+import com.jalgoarena.domain.Problem
 import com.jalgoarena.web.JudgeController
 import com.jalgoarena.web.ProblemsController
 import org.springframework.context.annotation.Bean

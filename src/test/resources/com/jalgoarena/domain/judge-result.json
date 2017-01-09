@@ -1,0 +1,6 @@
+{
+  "statusCode": "ACCEPTED",
+  "elapsedTime": 0.24,
+  "consumedMemory": 0,
+  "testcaseResults": [true, true, true, true, true]
+}

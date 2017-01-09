@@ -1,7 +1,6 @@
-package com.jalgoarena.judge
+package com.jalgoarena.domain
 
 import com.fasterxml.jackson.annotation.JsonInclude
-import com.fasterxml.jackson.annotation.JsonProperty
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 sealed class JudgeResult(val statusCode: String,
@@ -26,7 +25,7 @@ sealed class JudgeResult(val statusCode: String,
             emptyList()
     )
 
-    class TimeLimitExceeded() : JudgeResult(
+    class TimeLimitExceeded : JudgeResult(
             StatusCode.TIME_LIMIT_EXCEEDED.toString(),
             null,
             -1.0,

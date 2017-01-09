@@ -1,6 +1,6 @@
 package com.jalgoarena.codegeneration
 
-import com.jalgoarena.judge.Function
+import com.jalgoarena.domain.Function
 import kotlin.reflect.KClass
 
 class JavaCodeGenerator : JvmCodeGenerator {

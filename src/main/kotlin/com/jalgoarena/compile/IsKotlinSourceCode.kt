@@ -1,6 +1,6 @@
 package com.jalgoarena.compile
 
-import com.jalgoarena.judge.Function
+import com.jalgoarena.domain.Function
 import java.util.regex.Pattern
 
 internal class IsKotlinSourceCode {

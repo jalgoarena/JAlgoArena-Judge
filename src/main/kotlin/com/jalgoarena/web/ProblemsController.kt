@@ -3,8 +3,8 @@ package com.jalgoarena.web
 import com.jalgoarena.codegeneration.JavaCodeGenerator
 import com.jalgoarena.codegeneration.KotlinCodeGenerator
 import com.jalgoarena.data.DataRepository
-import com.jalgoarena.judge.Function
-import com.jalgoarena.judge.Problem
+import com.jalgoarena.domain.Function
+import com.jalgoarena.domain.Problem
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.GetMapping

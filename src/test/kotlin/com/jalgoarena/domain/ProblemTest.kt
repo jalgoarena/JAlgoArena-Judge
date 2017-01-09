@@ -1,7 +1,9 @@
-package com.jalgoarena.judge
+package com.jalgoarena.domain
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.jalgoarena.ApplicationConfiguration
+import com.jalgoarena.domain.Function
+import com.jalgoarena.domain.Problem
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -11,17 +13,30 @@ import javax.inject.Inject
 
 @RunWith(SpringJUnit4ClassRunner::class)
 @ContextConfiguration(classes = arrayOf(ApplicationConfiguration::class))
-class FunctionTest {
+class ProblemTest {
 
     @Inject
     lateinit var objectMapper: ObjectMapper
 
     @Test
     fun can_be_serialized_and_deserialized_from_json() {
-        val functionAsString = objectMapper.writeValueAsString(TWO_SUM_FUNCTION)
-        val deserializedFunction = objectMapper.readValue(functionAsString, Function::class.java)
+        val problem = Problem(
+                id = "dummy_id",
+                title = "dummy_title",
+                description = "dummy description",
+                level = 3,
+                memoryLimit = 1,
+                timeLimit = 1,
+                function = TWO_SUM_FUNCTION,
+                skeletonCode = "dummy code",
+                kotlinSkeletonCode = "kotlin dummy code",
+                testCases = emptyArray()
+        )
 
-        assertThat(deserializedFunction.name).isEqualTo(TWO_SUM_FUNCTION.name)
+        val problemAsString = objectMapper.writeValueAsString(problem)
+        val deserializedProblem = objectMapper.readValue(problemAsString, Problem::class.java)
+
+        assertThat(deserializedProblem.id).isEqualTo(problem.id)
     }
 
     private val TWO_SUM_FUNCTION = Function("twoSum",
