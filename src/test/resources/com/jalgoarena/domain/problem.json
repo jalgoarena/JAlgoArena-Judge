@@ -1,0 +1,30 @@
+{
+  "id": "dummy_id",
+  "title": "dummy_title",
+  "description": "dummy description",
+  "timeLimit": 1,
+  "memoryLimit": 1,
+  "function": {
+    "name": "twoSum",
+    "return": {
+      "type": "[I",
+      "comment": "[index1 + 1, index2 + 1] (index1 < index2)"
+    },
+    "parameters": [
+      {
+        "name": "numbers",
+        "type": "[I",
+        "comment": "An array of Integers"
+      },
+      {
+        "name": "target",
+        "type": "java.lang.Integer",
+        "comment": "target = numbers[index1] + numbers[index2]"
+      }
+    ]
+  },
+  "testCases": [{"input":[1,2],"output":3}],
+  "skeletonCode": "dummy code",
+  "kotlinSkeletonCode": "kotlin dummy code",
+  "level": 3
+}
