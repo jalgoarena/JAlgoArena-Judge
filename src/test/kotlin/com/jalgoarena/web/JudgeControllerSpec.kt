@@ -11,7 +11,7 @@ import com.jalgoarena.domain.StatusCode
 import com.jalgoarena.judge.JudgeEngine
 import com.jalgoarena.type.ListNode
 import org.hamcrest.CoreMatchers.`is`
-import org.hamcrest.CoreMatchers.endsWith
+import org.hamcrest.CoreMatchers.containsString
 import org.hamcrest.Matchers.hasSize
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -63,10 +63,7 @@ class JudgeControllerSpec {
                 .content(FIB_SOURCE_CODE_WITH_COMPILE_ERROR))
                 .andExpect(status().isOk)
                 .andExpect(jsonPath("$.statusCode", `is`(StatusCode.COMPILE_ERROR.name)))
-                .andExpect(jsonPath("$.errorMessage", endsWith("""/Solution.kt:11:5: error: a 'return' expression required in a function with a block body ('{...}')
-    }
-    ^
-""")))
+                .andExpect(jsonPath("$.errorMessage", containsString("/Solution.kt:12:5: error: a 'return' expression required in a function with a block body ('{...}')")))
     }
 
     @Test
@@ -91,6 +88,29 @@ class JudgeControllerSpec {
                 .andExpect(status().isOk)
                 .andExpect(jsonPath("$.statusCode", `is`(StatusCode.WRONG_ANSWER.name)))
                 .andExpect(jsonPath("$.testcaseResults", hasSize<ArrayNode>(8)))
+    }
+
+    @Test
+    fun post_judge_returns_200_and_time_limit_exceeded_judge_result() {
+        givenFibProblem()
+
+        mockMvc.perform(post("/problems/fib/submit")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(FIB_SOURCE_CODE_WITH_THREAD_SLEEP))
+                .andExpect(status().isOk)
+                .andExpect(jsonPath("$.statusCode", `is`(StatusCode.TIME_LIMIT_EXCEEDED.name)))
+    }
+
+    @Test
+    fun post_judge_returns_200_and_memory_limit_exceeded_judge_result() {
+        givenFibProblem()
+
+        mockMvc.perform(post("/problems/fib/submit")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(FIB_SOURCE_CODE_WITH_MEMORY_ARRAY))
+                .andExpect(status().isOk)
+                .andExpect(jsonPath("$.statusCode", `is`(StatusCode.MEMORY_LIMIT_EXCEEDED.name)))
+                .andExpect(jsonPath("$.consumedMemory", `is`(GreaterThan(32000))))
     }
 
     private fun givenFibProblem() {
@@ -198,9 +218,32 @@ class JudgeControllerSpec {
     private val FIB_SOURCE_CODE_WITH_COMPILE_ERROR = sourceCode("")
     private val FIB_SOURCE_CODE_WITH_RUNTIME_ERROR = sourceCode("throw Exception()")
     private val FIB_SOURCE_CODE_WITH_WRONG_ANSWER = sourceCode("return 1L")
+    private val FIB_SOURCE_CODE_WITH_THREAD_SLEEP = sourceCode("""TimeUnit.SECONDS.sleep(2)
+        return 1L
+""")
+
+    private val FIB_SOURCE_CODE_WITH_MEMORY_ARRAY = sourceCode("""val numbersFromOne = IntArray(100000) { it + 1 }
+        var a: Long = 0
+        var b: Long = 1
+
+        for (i in 31 - Integer.numberOfLeadingZeros(n) downTo 0) {
+            val d = a * ((b shl 1) - a)
+            val e = a * a + b * b
+            a = d
+            b = e
+            if (n.ushr(i) and 1 != 0) {
+                val c = a + b
+                a = b
+                b = c
+            }
+        }
+
+        return a
+""")
 
     private fun sourceCode(body: String) = """import java.util.*
 import com.jalgoarena.type.*
+import java.util.concurrent.*
 
 class Solution {
     /**
