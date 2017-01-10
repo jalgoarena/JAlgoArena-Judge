@@ -42,7 +42,7 @@ class JudgeControllerSpec {
     private lateinit var problemsClient: DataRepository<Problem>
 
     @Test
-    fun post_judge_returns_200_and_accepted_judge_result_for_correct_submission() {
+    fun post_judge_returns_200_and_accepted_judge_result() {
         givenFibProblem()
 
         mockMvc.perform(post("/problems/fib/submit")
@@ -55,7 +55,7 @@ class JudgeControllerSpec {
     }
 
     @Test
-    fun post_judge_returns_200_and_compilation_error_judge_result_for_wrong_source_code() {
+    fun post_judge_returns_200_and_compilation_error_judge() {
         givenFibProblem()
 
         mockMvc.perform(post("/problems/fib/submit")
@@ -63,11 +63,14 @@ class JudgeControllerSpec {
                 .content(FIB_SOURCE_CODE_WITH_COMPILE_ERROR))
                 .andExpect(status().isOk)
                 .andExpect(jsonPath("$.statusCode", `is`(StatusCode.COMPILE_ERROR.name)))
-                .andExpect(jsonPath("$.errorMessage", endsWith("/Solution.kt:10:5: error: a 'return' expression required in a function with a block body ('{...}')\n    }\n    ^\n")))
+                .andExpect(jsonPath("$.errorMessage", endsWith("""/Solution.kt:11:5: error: a 'return' expression required in a function with a block body ('{...}')
+    }
+    ^
+""")))
     }
 
     @Test
-    fun post_judge_returns_200_and_runtime_error_judge_result_for_source_code_with_runtime_error() {
+    fun post_judge_returns_200_and_runtime_error_judge_result() {
         givenFibProblem()
 
         mockMvc.perform(post("/problems/fib/submit")
@@ -76,6 +79,18 @@ class JudgeControllerSpec {
                 .andExpect(status().isOk)
                 .andExpect(jsonPath("$.statusCode", `is`(StatusCode.RUNTIME_ERROR.name)))
                 .andExpect(jsonPath("$.errorMessage", `is`("java.lang.InterruptedException: java.lang.Exception: null")))
+    }
+
+    @Test
+    fun post_judge_returns_200_and_wrong_answer_judge_result() {
+        givenFibProblem()
+
+        mockMvc.perform(post("/problems/fib/submit")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(FIB_SOURCE_CODE_WITH_WRONG_ANSWER))
+                .andExpect(status().isOk)
+                .andExpect(jsonPath("$.statusCode", `is`(StatusCode.WRONG_ANSWER.name)))
+                .andExpect(jsonPath("$.testcaseResults", hasSize<ArrayNode>(8)))
     }
 
     private fun givenFibProblem() {
@@ -176,22 +191,15 @@ class JudgeControllerSpec {
 }
 """
 
-    private val FIB_SOURCE_CODE = """import java.util.*
-import com.jalgoarena.type.*
-
-class Solution {
-    /**
-     * @param n id of fibonacci term to be returned
-     * @return  N'th term of Fibonacci sequence
-     */
-    fun fib(n: Int): Long {
-        if (n < 2) return n.toLong()
+    private val FIB_SOURCE_CODE = sourceCode("""if (n < 2) return n.toLong()
         return fib(n - 1) + fib(n - 2)
-    }
-}
-"""
+""")
 
-    private val FIB_SOURCE_CODE_WITH_COMPILE_ERROR = """import java.util.*
+    private val FIB_SOURCE_CODE_WITH_COMPILE_ERROR = sourceCode("")
+    private val FIB_SOURCE_CODE_WITH_RUNTIME_ERROR = sourceCode("throw Exception()")
+    private val FIB_SOURCE_CODE_WITH_WRONG_ANSWER = sourceCode("return 1L")
+
+    private fun sourceCode(body: String) = """import java.util.*
 import com.jalgoarena.type.*
 
 class Solution {
@@ -200,20 +208,7 @@ class Solution {
      * @return  N'th term of Fibonacci sequence
      */
     fun fib(n: Int): Long {
-    }
-}
-"""
-
-    private val FIB_SOURCE_CODE_WITH_RUNTIME_ERROR = """import java.util.*
-import com.jalgoarena.type.*
-
-class Solution {
-    /**
-     * @param n id of fibonacci term to be returned
-     * @return  N'th term of Fibonacci sequence
-     */
-    fun fib(n: Int): Long {
-        throw Exception()
+        $body
     }
 }
 """
