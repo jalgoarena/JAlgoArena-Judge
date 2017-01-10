@@ -1,4 +1,4 @@
-# JAlgoArena Judge Agent [![Build Status](https://travis-ci.org/spolnik/JAlgoArena-Judge.svg?branch=master)](https://travis-ci.org/spolnik/JAlgoArena-Judge) [![codecov](https://codecov.io/gh/spolnik/JAlgoArena-Judge/branch/master/graph/badge.svg)](https://codecov.io/gh/spolnik/JAlgoArena-Judge)
+# JAlgoArena Judge Agent [![Build Status](https://travis-ci.org/spolnik/JAlgoArena-Judge.svg?branch=master)](https://travis-ci.org/spolnik/JAlgoArena-Judge) [![codecov](https://codecov.io/gh/spolnik/JAlgoArena-Judge/branch/master/graph/badge.svg)](https://codecov.io/gh/spolnik/JAlgoArena-Judge) [![GitHub release](https://img.shields.io/github/release/spolnik/jalgoarena-judge.svg)]()
 
 JAlgoArena Judge Agent is heart of JAlgoArena platform. It is responsible for generation of skeleton code as well as judging submissions based on requirements specified in problem definiton.
 
