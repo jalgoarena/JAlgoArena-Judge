@@ -1,11 +1,10 @@
 package com.jalgoarena.judge
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.jalgoarena.compile.CompileErrorException
-import com.jalgoarena.compile.IsKotlinSourceCode
-import com.jalgoarena.compile.KotlinCompiler
-import com.jalgoarena.compile.MemoryJavaCompiler
+import com.jalgoarena.compile.*
+import com.jalgoarena.domain.Function
 import com.jalgoarena.domain.JudgeResult
+import com.jalgoarena.domain.JudgeResult.*
 import com.jalgoarena.domain.Problem
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
@@ -20,118 +19,88 @@ open class JudgeEngine(@Inject val objectMapper: ObjectMapper) {
     private val LOG = LoggerFactory.getLogger(this.javaClass)
     private val NUMBER_OF_ITERATIONS = 5
 
-    private fun judge(clazz: Any,
-                      method: Method,
-                      problem: Problem): JudgeResult {
-
-        val executorService = Executors.newSingleThreadExecutor()
-        val testCases = readInternalTestCases(problem)
-        val judge = executorService.submit(JudgeTask(clazz, method, testCases))
-
-
-        // # RUN 1 - cold run making JVM hot, mainly checks if all tests passes and we do not exceeded time limit
-        try {
-            val results: List<Boolean> = judge.get(problem.timeLimit, TimeUnit.SECONDS)
-
-            val failedTestCases = results.filter({ !it }).count()
-
-            if (failedTestCases > 0) {
-                return JudgeResult.WrongAnswer(results)
-            }
-        } catch (e: InterruptedException) {
-            LOG.error("Error in processing solution", e)
-            return JudgeResult.RuntimeError(e.message)
-        } catch (e: ExecutionException) {
-            LOG.error("Error in processing solution", e)
-            return JudgeResult.RuntimeError(e.message)
-        } catch (e: TimeoutException) {
-            LOG.error("Timeout error", e)
-            return JudgeResult.TimeLimitExceeded()
-        }
-
-        // # RUN 2 - hot runs, run the code couple of times gathering time and memory measurements to return best
-        return runPerformanceEvaluation(clazz, method, problem, testCases)
-    }
-
-    private fun runPerformanceEvaluation(clazz: Any, method: Method, problem: Problem, testCases: Array<InternalTestCase>): JudgeResult {
-        try {
-            val executorService = Executors.newSingleThreadExecutor()
-            var performanceResultFuture = evaluatePerformance(clazz, method, problem, executorService)
-            var performanceResult = performanceResultFuture.get(problem.timeLimit, TimeUnit.SECONDS)
-
-            for (i in 0..NUMBER_OF_ITERATIONS - 1) {
-                performanceResultFuture = evaluatePerformance(clazz, method, problem, executorService)
-                val nextPerformanceResult = performanceResultFuture.get(problem.timeLimit, TimeUnit.SECONDS)
-                performanceResult = performanceResult chooseBetterComparingWith nextPerformanceResult
-            }
-
-            if (performanceResult.usedMemoryInBytes / 1024 > problem.memoryLimit) {
-                return JudgeResult.MemoryLimitExceeded(
-                        performanceResult.usedMemoryInBytes
-                )
-            }
-
-            return JudgeResult.Accepted(
-                    testCases.size,
-                    performanceResult.usedTimeInMs,
-                    performanceResult.usedMemoryInBytes
-            )
-        } catch (e: InterruptedException) {
-            LOG.error("Error in processing solution", e)
-            return JudgeResult.RuntimeError(e.message)
-        } catch (e: ExecutionException) {
-            LOG.error("Error in processing solution", e)
-            return JudgeResult.RuntimeError(e.message)
-        } catch (e: TimeoutException) {
-            LOG.error("Timeout error", e)
-            return JudgeResult.TimeLimitExceeded()
-        }
-
-    }
-
-    private fun evaluatePerformance(clazz: Any, method: Method, problem: Problem, executorService: ExecutorService): Future<PerformanceResult> {
-        return executorService.submit(JudgePerformanceTask(clazz, method, readInternalTestCases(problem)))
-    }
-
     fun judge(problem: Problem, userCode: String): JudgeResult {
-
-        try {
-            return compileAndJudge(problem, userCode)
-        } catch (e: ClassNotFoundException) {
-            LOG.warn("Class not found", e)
-            return JudgeResult.CompileError("${e.javaClass} : ${e.message}")
-        } catch (e: CompileErrorException) {
-            LOG.warn("Compilation error${e.message}")
-            return JudgeResult.CompileError(CreateFriendlyMessage().from(e.message!!))
-        } catch (e: NoSuchMethodError) {
-            LOG.warn("No such method error", e)
-            return JudgeResult.CompileError("No such method: ${e.message}")
-        }
-
-    }
-
-    private fun compileAndJudge(problem: Problem, userCode: String): JudgeResult {
 
         val isKotlin = IsKotlinSourceCode().findIn(userCode, problem.function!!)
         val className = findClassName(isKotlin, userCode)
 
         if (!className.isPresent) {
-            return JudgeResult.CompileError("ClassNotFoundException: No public class found")
+            return CompileError("ClassNotFoundException: No public class found")
         }
 
         val compiler = if (isKotlin) KotlinCompiler() else MemoryJavaCompiler()
 
-        val (instance, method) = compiler.compileMethod(
-                className.get(),
-                problem.function.name,
-                userCode
-        )
+        return compileAndJudge(className, compiler, problem.function, problem, userCode)
+    }
 
-        try {
-            return judge(instance, method, problem)
-        } catch (e: Exception) {
-            LOG.error(e.message, e)
-            return JudgeResult.RuntimeError(e.message)
+    private fun judge(clazz: Any, method: Method, problem: Problem): JudgeResult {
+
+        val executorService = Executors.newSingleThreadExecutor()
+        val testCases = readInternalTestCases(problem)
+        val judge = executorService.submit(JudgeTask(clazz, method, testCases))
+
+        return handleFutureRunExceptions {
+            val results: List<Boolean> = coldRun(judge, problem)
+            val failedTestCases = results.filter({ !it }).count()
+
+            when {
+                failedTestCases > 0 -> JudgeResult.WrongAnswer(results)
+                else -> hotRun(clazz, method, problem, testCases)
+            }
+        }
+    }
+
+    private fun hotRun(clazz: Any, method: Method, problem: Problem, testCases: Array<InternalTestCase>) =
+            runPerformanceEvaluation(clazz, method, problem, testCases)
+
+    private fun coldRun(judge: Future<List<Boolean>>, problem: Problem) =
+            judge.get(problem.timeLimit, TimeUnit.SECONDS)
+
+    private fun runPerformanceEvaluation(
+            clazz: Any, method: Method, problem: Problem, testCases: Array<InternalTestCase>
+    ): JudgeResult {
+
+        val executorService = Executors.newSingleThreadExecutor()
+        var performanceResultFuture = evaluatePerformance(clazz, method, problem, executorService)
+        var performanceResult = performanceResultFuture.get(problem.timeLimit, TimeUnit.SECONDS)
+
+        for (i in 0..NUMBER_OF_ITERATIONS - 1) {
+            performanceResultFuture = evaluatePerformance(clazz, method, problem, executorService)
+            val nextPerformanceResult = performanceResultFuture.get(problem.timeLimit, TimeUnit.SECONDS)
+            performanceResult = performanceResult chooseBetterComparingWith nextPerformanceResult
+        }
+
+        if (performanceResult.usedMemoryInBytes / 1024 > problem.memoryLimit) {
+            return MemoryLimitExceeded(performanceResult.usedMemoryInBytes)
+        }
+
+        return Accepted(testCases.size, performanceResult.usedTimeInMs, performanceResult.usedMemoryInBytes)
+    }
+
+    private fun handleFutureRunExceptions(call: () -> JudgeResult) = try {
+        call()
+    } catch(e: Throwable) {
+        LOG.error("Error in processing solution", e)
+        when (e) {
+            is TimeoutException -> JudgeResult.TimeLimitExceeded()
+            else -> RuntimeError(e.message)
+        }
+    }
+
+    private fun evaluatePerformance(clazz: Any, method: Method, problem: Problem, executorService: ExecutorService) =
+            executorService.submit(JudgePerformanceTask(clazz, method, readInternalTestCases(problem)))
+
+    private fun compileAndJudge(
+            className: Optional<String>, compiler: JvmCompiler, function: Function, problem: Problem, userCode: String
+    ) = try {
+        val (instance, method) = compiler.compileMethod(className.get(), function.name, userCode)
+        judge(instance, method, problem)
+    } catch (e: Throwable) {
+        when (e) {
+            is ClassNotFoundException -> CompileError("${e.javaClass} : ${e.message}")
+            is CompileErrorException -> CompileError(CreateFriendlyMessage().from(e.message!!))
+            is NoSuchMethodError -> CompileError("No such method: ${e.message}")
+            else -> RuntimeError(e.message)
         }
     }
 
@@ -190,7 +159,9 @@ open class JudgeEngine(@Inject val objectMapper: ObjectMapper) {
         }
     }
 
-    private class JudgePerformanceTask(val clazz: Any, val method: Method, val testCases: Array<InternalTestCase>) : Callable<PerformanceResult> {
+    private class JudgePerformanceTask(
+            val clazz: Any, val method: Method, val testCases: Array<InternalTestCase>
+    ) : Callable<PerformanceResult> {
 
         override fun call(): PerformanceResult {
             val snapshotBeforeRun = takePerformanceSnapshot()

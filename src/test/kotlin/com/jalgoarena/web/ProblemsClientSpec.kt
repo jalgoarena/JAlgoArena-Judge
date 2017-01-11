@@ -49,8 +49,7 @@ class ProblemsClientSpec {
 
         val problem = problemsClient.find(PROBLEM_ID)
 
-        assertThat(problem).isNotNull()
-        assertThat(problem!!.id).isEqualTo(PROBLEM_ID)
+        assertThat(problem.id).isEqualTo(PROBLEM_ID)
     }
 
     private fun givenDiscoveryService() {

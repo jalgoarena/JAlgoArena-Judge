@@ -65,7 +65,7 @@ open class JavaEngineIntegrationTest {
 
     private fun judgeSolution(problemId: String, solutionId: String, statusCode: StatusCode) {
         try {
-            val problem = repository.find(problemId)!!
+            val problem = repository.find(problemId)
             val sourceCode = Resources.toString(Resources.getResource("$solutionId.java"), Charsets.UTF_8)
 
             val result = judgeEngine.judge(problem, sourceCode)
