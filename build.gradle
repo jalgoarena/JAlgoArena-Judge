@@ -38,7 +38,6 @@ dependencies {
             'com.fasterxml.jackson.core:jackson-core',
             'com.fasterxml.jackson.core:jackson-annotations',
             "com.fasterxml.jackson.module:jackson-module-kotlin",
-            'com.squareup.okhttp3:okhttp:3.4.2',
             "org.springframework.boot:spring-boot-starter-web",
             "org.springframework.boot:spring-boot-starter-actuator",
             'org.springframework.cloud:spring-cloud-starter-eureka',
@@ -52,7 +51,8 @@ dependencies {
 
     testCompile 'junit:junit:4.12',
             'pl.pragmatists:JUnitParams:1.0.5',
-            "org.springframework.boot:spring-boot-starter-test"
+            "org.springframework.boot:spring-boot-starter-test",
+            'com.squareup.okhttp3:okhttp:3.4.2'
 }
 
 apply plugin: 'jacoco'

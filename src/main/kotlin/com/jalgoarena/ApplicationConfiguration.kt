@@ -6,11 +6,7 @@ import com.fasterxml.jackson.databind.module.SimpleModule
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.jalgoarena.codegeneration.JavaCodeGenerator
 import com.jalgoarena.codegeneration.KotlinCodeGenerator
-import com.jalgoarena.web.ProblemsClient
-import com.jalgoarena.judge.JudgeEngine
 import com.jalgoarena.type.ListNode
-import com.jalgoarena.web.JudgeController
-import com.jalgoarena.web.ProblemsController
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
