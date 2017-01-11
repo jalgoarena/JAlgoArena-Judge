@@ -7,8 +7,10 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.jalgoarena.codegeneration.JavaCodeGenerator
 import com.jalgoarena.codegeneration.KotlinCodeGenerator
 import com.jalgoarena.type.ListNode
+import org.springframework.boot.web.client.RestTemplateBuilder
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+
 
 @Configuration
 open class ApplicationConfiguration {
@@ -23,6 +25,10 @@ open class ApplicationConfiguration {
         objectMapper.registerModule(customModule)
         return objectMapper
     }
+
+    @Bean
+    open fun restTemplate(restTemplateBuilder: RestTemplateBuilder) =
+            restTemplateBuilder.build()!!
 
     @Bean
     open fun kotlinCodeGenerator() = KotlinCodeGenerator()
