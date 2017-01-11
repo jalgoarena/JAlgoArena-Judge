@@ -14,7 +14,7 @@ import javax.inject.Inject
 class TreeNodeSpec {
 
     @Inject
-    lateinit var objectMapper: ObjectMapper
+    private lateinit var objectMapper: ObjectMapper
 
     @Test
     fun it_should_serialize_and_deserialize_single_tree_node() {
@@ -56,13 +56,13 @@ class TreeNodeSpec {
                         TreeNode(7)
                 )
         )
+
         val treeNodeAsString = objectMapper.writeValueAsString(root)
 
-        assertThat(treeNodeAsString).isEqualTo("{\"data\":1,\"left\":{\"data\":2,\"left\":{\"data\":4},\"right\":{\"data\":5}},\"right\":{\"data\":3,\"left\":{\"data\":6},\"right\":{\"data\":7}}}")
+        assertThat(treeNodeAsString).isEqualTo(TREE_NODE_JSON)
     }
 
     @Test
-    @Throws(Exception::class)
     fun two_trees_with_same_nodes_in_same_order_are_equal() {
         val root1 = TreeNode(
                 1,
@@ -97,7 +97,6 @@ class TreeNodeSpec {
     }
 
     @Test
-    @Throws(Exception::class)
     fun two_trees_with_same_nodes_in_different_order_are_not_equal() {
         val root1 = TreeNode(
                 1,
@@ -131,11 +130,13 @@ class TreeNodeSpec {
         assertThat(root1.hashCode()).isNotEqualTo(root2.hashCode())
     }
 
-    @Throws(java.io.IOException::class)
     private fun assertSerializationFor(root: TreeNode) {
         val treeNodeAsString = objectMapper.writeValueAsString(root)
         val deserializedTreeNode = objectMapper.readValue(treeNodeAsString, TreeNode::class.java)
 
         assertThat(deserializedTreeNode).isEqualTo(root)
     }
+
+    //language=JSON
+    private val TREE_NODE_JSON = """{"data":1,"left":{"data":2,"left":{"data":4},"right":{"data":5}},"right":{"data":3,"left":{"data":6},"right":{"data":7}}}"""
 }
