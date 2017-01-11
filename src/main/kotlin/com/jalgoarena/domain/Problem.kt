@@ -19,21 +19,5 @@ data class Problem(val id: String,
               val level: Int) {
 
     @JsonIgnoreProperties(ignoreUnknown = true)
-    data class TestCase(val input: ArrayNode,
-                   val output: JsonNode)
-
-    fun problemWithoutFunctionAndTestCases(skeletonCode: String, kotlinSkeletonCode: String): Problem {
-        return Problem(
-                id,
-                title,
-                description,
-                timeLimit,
-                memoryLimit,
-                null,
-                null,
-                skeletonCode,
-                kotlinSkeletonCode,
-                level
-        )
-    }
+    data class TestCase(val input: ArrayNode, val output: JsonNode)
 }

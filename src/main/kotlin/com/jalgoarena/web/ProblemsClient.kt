@@ -16,7 +16,7 @@ class ProblemsClient(
     private fun problemsServiceUrl(): String =
             discoveryClient.getNextServerFromEureka("jalgoarena-problems", false).homePageUrl
 
-    override fun find(id: String): Problem? = restTemplate.getForObject(
+    override fun find(id: String): Problem = restTemplate.getForObject(
             "${problemsServiceUrl()}/problems/$id", Problem::class.java
     )
 

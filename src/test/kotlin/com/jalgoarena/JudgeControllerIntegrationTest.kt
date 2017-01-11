@@ -119,11 +119,4 @@ class JudgeControllerIntegrationTest {
 
         assertThat(result.errorMessage).isEqualTo("Line:11: error: missing return statement\n    }\n    ^\n")
     }
-
-    @Test
-    fun returnsRuntimeErrorIfWePassWrongProblemId() {
-        val result = judgeController.judge("dummy", "")
-
-        assertThat(result.statusCode).isEqualTo(StatusCode.RUNTIME_ERROR.toString())
-    }
 }
