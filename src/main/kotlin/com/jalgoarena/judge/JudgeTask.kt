@@ -1,15 +1,14 @@
 package com.jalgoarena.judge
 
-import com.jalgoarena.utils.BetterEquals
-import com.jalgoarena.utils.ThrowableEnhancements
 import java.lang.reflect.Method
+import java.util.*
 import java.util.concurrent.Callable
 
 internal class JudgeTask(
         private val clazz: Any,
         private val method: Method,
         private val testCases: Array<InternalTestCase>
-) : Callable<List<Boolean>>, ThrowableEnhancements, BetterEquals {
+) : Callable<List<Boolean>> {
 
     override fun call() =
             testCases.map { judge(clazz, method, it) }
@@ -34,5 +33,33 @@ internal class JudgeTask(
                 testCase.output,
                 if (testCase.returnsVoid) input[0] else output
         )
+    }
+
+    private fun equalForObjectsOrArrays(a: Any?, b: Any?): Boolean {
+        return when {
+            a === b -> return true
+            a == null || b == null -> return false
+            a is Array<*> && b is Array<*> -> return Arrays.deepEquals(a, b)
+            a is ByteArray && b is ByteArray -> Arrays.equals(a, b)
+            a is ShortArray && b is ShortArray -> Arrays.equals(a, b)
+            a is IntArray && b is IntArray -> Arrays.equals(a, b)
+            a is LongArray && b is LongArray -> Arrays.equals(a, b)
+            a is CharArray && b is CharArray -> Arrays.equals(a, b)
+            a is FloatArray && b is FloatArray -> Arrays.equals(a, b)
+            a is DoubleArray && b is DoubleArray -> Arrays.equals(a, b)
+            a is BooleanArray && b is BooleanArray -> Arrays.equals(a, b)
+            else -> a == b
+        }
+    }
+
+    private fun getCause(e: Throwable): Throwable {
+        var cause: Throwable? = e.cause
+        var result = e
+
+        while (null != cause && result !== cause) {
+            result = cause
+            cause = result.cause
+        }
+        return result
     }
 }
