@@ -32,9 +32,7 @@ public class Solution {
             "Boolean" -> Boolean::class.typeName()
             "Long" -> Long::class.typeName()
             "Integer" -> Int::class.typeName()
-            "Short" -> Short::class.typeName()
             "Double" -> Double::class.typeName()
-            "Float" -> Float::class.typeName()
             else -> typeName
         }
     }

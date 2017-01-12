@@ -60,6 +60,27 @@ public class Solution {
         assertThat(wordLadderGenerated).isEqualTo(wordLadderExpected)
     }
 
+    @Test
+    fun generates_skeleton_function_for_DUMMY_FUNCTION_with_doubles() {
+        val generatedCode = javaCodeGenerator.generateEmptyFunction(DUMMY_FUNCTION)
+
+        val expectedCode = """import java.util.*;
+import com.jalgoarena.type.*;
+
+public class Solution {
+    /**
+     * @param param input
+     * @return Comment
+     */
+    public double dummy(double param) {
+        // Write your code here
+    }
+}
+"""
+
+        assertThat(generatedCode).isEqualTo(expectedCode)
+    }
+
     companion object {
 
 
@@ -79,5 +100,9 @@ public class Solution {
                                 Function.Parameter("dict", "java.util.HashSet", "the dictionary")
                         )
         )
+
+        private val DUMMY_FUNCTION = Function("dummy",
+                Function.Return("java.lang.Double", "Comment"),
+                listOf(Function.Parameter("param", "java.lang.Double", "input")))
     }
 }
