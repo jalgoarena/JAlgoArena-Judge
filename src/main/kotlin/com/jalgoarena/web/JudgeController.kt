@@ -9,8 +9,8 @@ import javax.inject.Inject
 @CrossOrigin
 @RestController
 class JudgeController(
-        @Inject val problemsClient: DataRepository<Problem>,
-        @Inject var judgeEngine: JudgeEngine) {
+        @Inject private val problemsClient: DataRepository<Problem>,
+        @Inject private val judgeEngine: JudgeEngine) {
 
     @PostMapping("/problems/{id}/submit", produces = arrayOf("application/json"))
     fun judge(@PathVariable id: String, @RequestBody sourceCode: String) =

@@ -14,9 +14,9 @@ import javax.inject.Inject
 @CrossOrigin
 @RestController
 class ProblemsController(
-        @Inject val problemsClient: DataRepository<Problem>,
-        @Inject val kotlinCodeGenerator: KotlinCodeGenerator,
-        @Inject val javaCodeGenerator: JavaCodeGenerator
+        @Inject private val problemsClient: DataRepository<Problem>,
+        @Inject private val kotlinCodeGenerator: KotlinCodeGenerator,
+        @Inject private val javaCodeGenerator: JavaCodeGenerator
 ) {
 
     @GetMapping("/problems", produces = arrayOf("application/json"))
