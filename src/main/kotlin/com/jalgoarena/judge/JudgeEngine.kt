@@ -14,7 +14,7 @@ import java.util.concurrent.*
 import javax.inject.Inject
 
 @Component
-open class JudgeEngine(@Inject val objectMapper: ObjectMapper) {
+open class JudgeEngine(@Inject private val objectMapper: ObjectMapper) {
 
     private val LOG = LoggerFactory.getLogger(this.javaClass)
     private val NUMBER_OF_ITERATIONS = 5

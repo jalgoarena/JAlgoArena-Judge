@@ -25,7 +25,7 @@ internal class MemoryJavaFileManager(fileManager: JavaFileManager) : ForwardingJ
         }
     }
 
-    private inner class ClassOutputBuffer(val className: String)
+    private inner class ClassOutputBuffer(private val className: String)
         : SimpleJavaFileObject(toUri(className), Kind.CLASS) {
 
         override fun openOutputStream(): OutputStream {
