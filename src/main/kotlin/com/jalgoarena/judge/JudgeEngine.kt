@@ -94,7 +94,7 @@ open class JudgeEngine(@Inject private val objectMapper: ObjectMapper) {
     private fun compileAndJudge(
             className: Optional<String>, compiler: JvmCompiler, function: Function, problem: Problem, userCode: String
     ) = try {
-        val (instance, method) = compiler.compileMethod(className.get(), function.name, userCode)
+        val (instance, method) = compiler.compileMethod(className.get(), function.name, function.parameters.size, userCode)
         judge(instance, method, problem)
     } catch (e: Throwable) {
         when (e) {

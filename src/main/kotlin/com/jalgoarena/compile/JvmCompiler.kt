@@ -8,7 +8,7 @@ import java.net.URLClassLoader
 
 interface JvmCompiler {
 
-    fun compileMethod(qualifiedClassName: String, methodName: String, source: String): Pair<Any, Method> {
+    fun compileMethod(qualifiedClassName: String, methodName: String, parameterCount: Int, source: String): Pair<Any, Method> {
 
         val classBytes = run(qualifiedClassName, source)
         val clazz = Class.forName(
@@ -16,7 +16,7 @@ interface JvmCompiler {
         )
 
         clazz.declaredMethods
-                .filter { it.name == methodName }
+                .filter { it.name == methodName && it.parameterCount == parameterCount }
                 .forEach {
                     try {
                         return Pair(clazz.newInstance(), it)
