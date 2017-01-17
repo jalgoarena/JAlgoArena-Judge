@@ -82,6 +82,7 @@ open class JudgeEngine(@Inject private val objectMapper: ObjectMapper) {
     } catch(e: Throwable) {
         LOG.error("Error in processing solution", e)
         when (e) {
+            is InterruptedException, is ExecutionException -> JudgeResult.RuntimeError(e.message)
             is TimeoutException -> JudgeResult.TimeLimitExceeded()
             else -> RuntimeError(e.message)
         }
