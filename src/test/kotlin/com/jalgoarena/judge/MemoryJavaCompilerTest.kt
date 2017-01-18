@@ -14,7 +14,7 @@ class MemoryJavaCompilerTest {
     fun compileAndRunStaticMethod() {
 
         val (instance, method) = MemoryJavaCompiler().compileMethod(
-                "Solution", "greeting", SOURCE_CODE
+                "Solution", "greeting", 1, SOURCE_CODE
         )
 
         val result = method.invoke(instance, "Julia")
@@ -24,7 +24,7 @@ class MemoryJavaCompilerTest {
     @Test(expected = NoSuchMethodError::class)
     fun throwsNoSuchMethodExceptionWhenInvokingNonExistingMethod() {
         MemoryJavaCompiler().compileMethod(
-                "Solution", "dummy", SOURCE_CODE
+                "Solution", "dummy", 1, SOURCE_CODE
         )
     }
 
@@ -33,7 +33,7 @@ class MemoryJavaCompilerTest {
         val sourceCode = "public final class Solution { private Solution() { }; public void dummy() {} }"
 
         MemoryJavaCompiler().compileMethod(
-                "Solution", "dummy", sourceCode
+                "Solution", "dummy", 0, sourceCode
         )
     }
 
@@ -42,7 +42,7 @@ class MemoryJavaCompilerTest {
         val sourceCodeMissingReturnString = "public final class Solution { private Solution() { }; public String dummy() {} }"
 
         MemoryJavaCompiler().compileMethod(
-                "Solution", "dummy", sourceCodeMissingReturnString
+                "Solution", "dummy", 0, sourceCodeMissingReturnString
         )
     }
 }

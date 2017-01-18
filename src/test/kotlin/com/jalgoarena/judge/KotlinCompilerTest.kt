@@ -11,7 +11,7 @@ class KotlinCompilerTest {
     fun compileAndRunStaticMethod() {
 
         val (instance, method) = KotlinCompiler().compileMethod(
-                "Solution", "greeting", HELLO_WORLD_SOURCE_CODE
+                "Solution", "greeting", 1, HELLO_WORLD_SOURCE_CODE
         )
 
         val result = method.invoke(instance, "Julia")
@@ -21,7 +21,7 @@ class KotlinCompilerTest {
     @Test(expected = NoSuchMethodError::class)
     fun throwsNoSuchMethodExceptionWhenInvokingNonExistingMethod() {
         KotlinCompiler().compileMethod(
-                "Solution", "dummy", SOURCE_CODE_CORRECT
+                "Solution", "dummy", 1, SOURCE_CODE_CORRECT
         )
     }
 
@@ -33,7 +33,7 @@ class KotlinCompilerTest {
 """
 
         KotlinCompiler().compileMethod(
-                "Solution", "dummy", sourceCode
+                "Solution", "dummy", 0, sourceCode
         )
     }
 
@@ -41,7 +41,7 @@ class KotlinCompilerTest {
     fun throwsCompileErrorExceptionWhenSourceCodeDoesNotCompile() {
 
         KotlinCompiler().compileMethod(
-                "Solution", "fib", SOURCE_CODE_WITH_ERROR
+                "Solution", "fib", 1, SOURCE_CODE_WITH_ERROR
         )
     }
 
