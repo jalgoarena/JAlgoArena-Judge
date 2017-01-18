@@ -92,7 +92,11 @@ open class JudgeEngine(@Inject private val objectMapper: ObjectMapper) {
             executorService.submit(JudgePerformanceTask(clazz, method, readInternalTestCases(problem)))
 
     private fun compileAndJudge(
-            className: Optional<String>, compiler: JvmCompiler, function: Function, problem: Problem, userCode: String
+            className: Optional<String>,
+            compiler: JvmCompiler,
+            function: Function,
+            problem: Problem,
+            userCode: String
     ) = try {
         val (instance, method) = compiler.compileMethod(className.get(), function.name, function.parameters.size, userCode)
         judge(instance, method, problem)
@@ -105,7 +109,10 @@ open class JudgeEngine(@Inject private val objectMapper: ObjectMapper) {
         }
     }
 
-    private fun findClassName(isKotlin: Boolean, userCode: String): Optional<String> = when (isKotlin) {
+    private fun findClassName(
+            isKotlin: Boolean,
+            userCode: String
+    ): Optional<String> = when (isKotlin) {
         true -> userCode.findKotlinClassName()
         false -> userCode.findJavaClassName()
     }

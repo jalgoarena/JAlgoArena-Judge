@@ -1,10 +1,13 @@
 package com.jalgoarena.judge
 
+import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.google.common.base.Preconditions
 import com.jalgoarena.domain.Function
 import com.jalgoarena.domain.Problem
+import com.jalgoarena.type.ListNode
 import org.slf4j.LoggerFactory
+import java.util.*
 
 class ProblemTestCaseParser(
         private val function: Function,
@@ -33,10 +36,19 @@ class ProblemTestCaseParser(
     private fun input(parameters: List<Function.Parameter>, testCase: Problem.TestCase): Array<Any?> {
         val input: Array<Any?> = arrayOfNulls(testCase.input.size())
         for (i in input.indices) {
-            input[i] = deserialize(
-                    testCase.input.get(i).toString(),
-                    Class.forName(parameters[i].type)
-            )
+            val parameter = parameters[i]
+
+            val type = parameter.type
+            val content = testCase.input.get(i).toString()
+
+            input[i] = when {
+                type == "java.util.ArrayList" && parameter.generic == "ListNode" -> {
+                    deserializeGeneric(content, object: TypeReference<ArrayList<ListNode>>() {})
+                }
+                else -> {
+                    deserialize(content, Class.forName(type))
+                }
+            }
         }
         return input
     }
@@ -55,4 +67,7 @@ class ProblemTestCaseParser(
 
     private fun deserialize(content: String, type: Class<*>) =
             objectMapper.readValue(content, type)
+
+    private fun<T> deserializeGeneric(content: String, type: TypeReference<T>) =
+            objectMapper.readValue<T>(content, type)
 }
