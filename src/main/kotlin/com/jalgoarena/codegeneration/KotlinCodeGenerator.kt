@@ -16,14 +16,14 @@ class Solution {
 """
 
     override fun generateParameterDeclaration(type: String, parameterName: String, generic: String?) =
-            "$parameterName${kotlinTypeDeclaration(type)}${typeGenericDeclaration(generic)}"
+            "$parameterName${kotlinTypeDeclaration(type, generic)}"
 
     private fun functionDeclaration(function: Function): String =
-            "fun ${function.name}(${parametersOf(function)})${kotlinTypeDeclaration(function.returnStatement.type)}"
+            "fun ${function.name}(${parametersOf(function)})${kotlinTypeDeclaration(function.returnStatement.type, function.returnStatement.generic)}"
 
-    private fun kotlinTypeDeclaration(type: String) = when(type) {
+    private fun kotlinTypeDeclaration(type: String, generic: String?) = when(type) {
         "void" -> ""
         "[[I" -> ": Array<IntArray>"
-        else -> ": ${Class.forName(type).kotlin.simpleName!!}"
+        else -> ": ${Class.forName(type).kotlin.simpleName!!}${typeGenericDeclaration(generic)}"
     }
 }

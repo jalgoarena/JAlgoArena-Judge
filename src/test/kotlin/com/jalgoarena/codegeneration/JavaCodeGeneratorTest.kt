@@ -81,24 +81,52 @@ public class Solution {
         assertThat(generatedCode).isEqualTo(expectedCode)
     }
 
+    @Test
+    fun generates_skeleton_function_for_INSERT_RANGES_with_generics() {
+        val generatedCode = javaCodeGenerator.generateEmptyFunction(INSERT_RANGE)
+
+        val expectedCode = """import java.util.*;
+import com.jalgoarena.type.*;
+
+public class Solution {
+    /**
+     * @param intervalsList sorted, non-overlapping list of Intervals
+     * @param insert interval to insert
+     * @return Array with inserted ranges
+     */
+    public ArrayList<Interval> insertRange(ArrayList<Interval> intervalsList, Interval insert) {
+        // Write your code here
+    }
+}
+"""
+        assertThat(generatedCode).isEqualTo(expectedCode)
+    }
+
     companion object {
 
 
         private val TWO_SUM = Function("twoSum",
                 Function.Return("[I",
                         "[index1 + 1, index2 + 1] (index1 < index2)"),
-                        listOf(Function.Parameter("numbers", "[I", "An array of Integers"),
-                                Function.Parameter("target", "java.lang.Integer",
+                listOf(Function.Parameter("numbers", "[I", "An array of Integers"),
+                        Function.Parameter("target", "java.lang.Integer",
                                 "target = numbers[index1] + numbers[index2]")
-                        )
+                )
         )
 
         private val WORD_LADDER = Function("ladderLength",
                 Function.Return("java.lang.Integer", "The shortest length"),
-                        listOf(Function.Parameter("begin_word", "java.lang.String", "the begin word"),
-                                Function.Parameter("end_word", "java.lang.String", "the end word"),
-                                Function.Parameter("dict", "java.util.HashSet", "the dictionary", "String")
-                        )
+                listOf(Function.Parameter("begin_word", "java.lang.String", "the begin word"),
+                        Function.Parameter("end_word", "java.lang.String", "the end word"),
+                        Function.Parameter("dict", "java.util.HashSet", "the dictionary", "String")
+                )
+        )
+
+        private val INSERT_RANGE = Function("insertRange",
+                Function.Return("java.util.ArrayList", "Array with inserted ranges", "Interval"),
+                listOf(Function.Parameter("intervalsList", "java.util.ArrayList", "sorted, non-overlapping list of Intervals", "Interval"),
+                    Function.Parameter("insert", "com.jalgoarena.type.Interval", "interval to insert")
+                )
         )
 
         private val DUMMY_FUNCTION = Function("dummy",

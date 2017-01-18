@@ -79,6 +79,27 @@ class Solution {
         assertThat(verticalFlipGenerated).isEqualTo(verticalFlipExpected)
     }
 
+    @Test
+    fun generates_skeleton_function_for_INSERT_RANGES_with_generics() {
+        val generatedCode = kotlinCodeGenerator.generateEmptyFunction(INSERT_RANGE)
+
+        val expectedCode = """import java.util.*
+import com.jalgoarena.type.*
+
+class Solution {
+    /**
+     * @param intervalsList sorted, non-overlapping list of Intervals
+     * @param insert interval to insert
+     * @return Array with inserted ranges
+     */
+    fun insertRange(intervalsList: ArrayList<Interval>, insert: Interval): ArrayList<Interval> {
+        // Write your code here
+    }
+}
+"""
+        assertThat(generatedCode).isEqualTo(expectedCode)
+    }
+
     companion object {
         private val TWO_SUM = Function("twoSum",
                 Function.Return("[I",
@@ -94,6 +115,13 @@ class Solution {
                 listOf(Function.Parameter("begin_word", "java.lang.String", "the begin word"),
                         Function.Parameter("end_word", "java.lang.String", "the end word"),
                         Function.Parameter("dict", "java.util.HashSet", "the dictionary", "String")
+                )
+        )
+
+        private val INSERT_RANGE = Function("insertRange",
+                Function.Return("java.util.ArrayList", "Array with inserted ranges", "Interval"),
+                listOf(Function.Parameter("intervalsList", "java.util.ArrayList", "sorted, non-overlapping list of Intervals", "Interval"),
+                        Function.Parameter("insert", "com.jalgoarena.type.Interval", "interval to insert")
                 )
         )
 

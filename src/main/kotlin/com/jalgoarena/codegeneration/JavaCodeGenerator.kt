@@ -17,11 +17,11 @@ public class Solution {
 """
 
     override fun generateParameterDeclaration(type: String, parameterName: String, generic: String?) =
-            "${javaTypeDeclaration(type)}${typeGenericDeclaration(generic)} $parameterName"
+            "${javaTypeDeclaration(type, generic)} $parameterName"
 
-    private fun javaTypeDeclaration(type: String) = when (type) {
+    private fun javaTypeDeclaration(type: String, generic: String?) = when (type) {
         "void" -> type
-        else -> classOrPrimitiveName(type)
+        else -> "${classOrPrimitiveName(type)}${typeGenericDeclaration(generic)}"
     }
 
     private fun classOrPrimitiveName(type: String): String {
@@ -38,7 +38,7 @@ public class Solution {
     }
 
     private fun functionDeclaration(function: Function): String =
-            "public ${javaTypeDeclaration(function.returnStatement.type)} ${function.name}(${parametersOf(function)})"
+            "public ${javaTypeDeclaration(function.returnStatement.type, function.returnStatement.generic)} ${function.name}(${parametersOf(function)})"
 
     private fun KClass<*>.typeName() = this.javaPrimitiveType!!.simpleName!!
 }
