@@ -51,7 +51,7 @@ class Solution {
      * @param dict the dictionary
      * @return The shortest length
      */
-    fun ladderLength(begin_word: String, end_word: String, dict: HashSet): Int {
+    fun ladderLength(begin_word: String, end_word: String, dict: HashSet<String>): Int {
         // Write your code here
     }
 }
@@ -93,7 +93,7 @@ class Solution {
                 Function.Return("java.lang.Integer", "The shortest length"),
                 listOf(Function.Parameter("begin_word", "java.lang.String", "the begin word"),
                         Function.Parameter("end_word", "java.lang.String", "the end word"),
-                        Function.Parameter("dict", "java.util.HashSet", "the dictionary")
+                        Function.Parameter("dict", "java.util.HashSet", "the dictionary", "String")
                 )
         )
 

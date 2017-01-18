@@ -12,5 +12,5 @@ data class Function(val name: String,
     data class Return(val type: String, val comment: String)
 
     @JsonIgnoreProperties(ignoreUnknown = true)
-    data class Parameter(val name: String, val type: String, val comment: String)
+    data class Parameter(val name: String, val type: String, val comment: String, val generic: String? = null)
 }

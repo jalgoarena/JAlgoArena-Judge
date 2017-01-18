@@ -15,8 +15,8 @@ class Solution {
 }
 """
 
-    override fun generateParameterDeclaration(type: String, parameterName: String) =
-            "$parameterName${kotlinTypeDeclaration(type)}"
+    override fun generateParameterDeclaration(type: String, parameterName: String, generic: String?) =
+            "$parameterName${kotlinTypeDeclaration(type)}${typeGenericDeclaration(generic)}"
 
     private fun functionDeclaration(function: Function): String =
             "fun ${function.name}(${parametersOf(function)})${kotlinTypeDeclaration(function.returnStatement.type)}"

@@ -16,8 +16,8 @@ public class Solution {
 }
 """
 
-    override fun generateParameterDeclaration(type: String, parameterName: String) =
-            "${javaTypeDeclaration(type)} $parameterName"
+    override fun generateParameterDeclaration(type: String, parameterName: String, generic: String?) =
+            "${javaTypeDeclaration(type)}${typeGenericDeclaration(generic)} $parameterName"
 
     private fun javaTypeDeclaration(type: String) = when (type) {
         "void" -> type
