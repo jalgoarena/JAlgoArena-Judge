@@ -9,7 +9,7 @@ data class Function(val name: String,
                val parameters: List<Parameter>) {
 
     @JsonIgnoreProperties(ignoreUnknown = true)
-    data class Return(val type: String, val comment: String)
+    data class Return(val type: String, val comment: String, val generic: String? = null)
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     data class Parameter(val name: String, val type: String, val comment: String, val generic: String? = null)

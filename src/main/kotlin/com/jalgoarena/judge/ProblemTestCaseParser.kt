@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.google.common.base.Preconditions
 import com.jalgoarena.domain.Function
 import com.jalgoarena.domain.Problem
+import com.jalgoarena.type.Interval
 import com.jalgoarena.type.ListNode
 import org.slf4j.LoggerFactory
 import java.util.*
@@ -41,28 +42,39 @@ class ProblemTestCaseParser(
             val type = parameter.type
             val content = testCase.input.get(i).toString()
 
-            input[i] = when {
-                type == "java.util.ArrayList" && parameter.generic == "ListNode" -> {
-                    deserializeGeneric(content, object: TypeReference<ArrayList<ListNode>>() {})
-                }
-                else -> {
-                    deserialize(content, Class.forName(type))
-                }
-            }
+            input[i] = deserialize(content, type, parameter.generic)
         }
         return input
     }
 
-    private fun output(parameters: List<Function.Parameter>, returnsVoid: Boolean, testCase: Problem.TestCase): Any? {
-        val outputType = when {
-            returnsVoid -> Class.forName(parameters[0].type)
-            else -> Class.forName(function.returnStatement.type)
+    private fun output(
+            parameters: List<Function.Parameter>,
+            returnsVoid: Boolean,
+            testCase: Problem.TestCase
+    ): Any? {
+
+        val (outputType, generic) = when {
+            returnsVoid -> parameters[0].type to parameters[0].generic
+            else -> function.returnStatement.type to function.returnStatement.generic
         }
 
         return deserialize(
                 testCase.output.toString(),
-                outputType
+                outputType,
+                generic
         )
+    }
+
+    private fun deserialize(content: String, type: String, generic: String?): Any? {
+        return when {
+            type == "java.util.ArrayList" && generic == "ListNode" ->
+                deserializeGeneric(content, object : TypeReference<ArrayList<ListNode>>() {})
+            type == "java.util.ArrayList" && generic == "Interval" ->
+                deserializeGeneric(content, object : TypeReference<ArrayList<Interval>>() {})
+            else -> {
+                deserialize(content, Class.forName(type))
+            }
+        }
     }
 
     private fun deserialize(content: String, type: Class<*>) =
