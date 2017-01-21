@@ -121,7 +121,7 @@ open class JudgeEngine(@Inject private val objectMapper: ObjectMapper) {
         val testCases = problem.testCases
         val function = problem.function
 
-        val parser = ProblemTestCaseParser(function!!, objectMapper)
+        val parser = InternalTestCaseParser(function!!, objectMapper)
 
         val internalTestCases = testCases!!.indices
                 .map { parser.parse(testCases[it]) }

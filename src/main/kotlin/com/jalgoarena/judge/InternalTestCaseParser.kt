@@ -10,12 +10,12 @@ import com.jalgoarena.type.ListNode
 import org.slf4j.LoggerFactory
 import java.util.*
 
-class ProblemTestCaseParser(
+class InternalTestCaseParser(
         private val function: Function,
         private val objectMapper: ObjectMapper
 ) {
 
-    private val LOG = LoggerFactory.getLogger(ProblemTestCaseParser::class.java)
+    private val LOG = LoggerFactory.getLogger(InternalTestCaseParser::class.java)
 
     fun parse(testCase: Problem.TestCase): InternalTestCase {
 
@@ -67,6 +67,8 @@ class ProblemTestCaseParser(
 
     private fun deserialize(content: String, type: String, generic: String?): Any? {
         return when {
+            type == "java.util.ArrayList" && generic == "String" && content == BoggleDictionary.KEY ->
+                BoggleDictionary.INSTANCE
             type == "java.util.ArrayList" && generic == "ListNode" ->
                 deserializeGeneric(content, object : TypeReference<ArrayList<ListNode>>() {})
             type == "java.util.ArrayList" && generic == "Interval" ->
