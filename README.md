@@ -1,14 +1,15 @@
 # JAlgoArena Judge Agent [![Build Status](https://travis-ci.org/spolnik/JAlgoArena-Judge.svg?branch=master)](https://travis-ci.org/spolnik/JAlgoArena-Judge) [![codecov](https://codecov.io/gh/spolnik/JAlgoArena-Judge/branch/master/graph/badge.svg)](https://codecov.io/gh/spolnik/JAlgoArena-Judge) [![GitHub release](https://img.shields.io/github/release/spolnik/jalgoarena-judge.svg)]()
 
-JAlgoArena Judge Agent is heart of JAlgoArena platform. It is responsible for generation of skeleton code as well as judging submissions based on requirements specified in problem definiton.
+JAlgoArena Judge Agent is heart of JAlgoArena platform. It is responsible for generation of skeleton code as well as judging submissions based on requirements specified in problem definition.
 
 Demo: https://jalgoarena-ui.herokuapp.com/
 
 - [Introduction](#introduction)
+- [REST API](#rest-api)
 - [Components](#components)
 - [Continuous Delivery](#continuous-delivery)
 - [Infrastructure](#infrastructure)
-- [Running Locally] (#running-locally)
+- [Running Locally](#running-locally)
 - [Notes](#notes)
 
 ## Introduction
@@ -16,10 +17,18 @@ Demo: https://jalgoarena-ui.herokuapp.com/
 - JAlgoArena Judge Agent can be easily scalable - it's stateless and together with Eureka and API using Ribbon load balancer gives unlimited way to scale judgement capability
 - It supports Kotlin and Java
 - JAlgoArena Judge Agent is generating skeleton code for particular problem - based on meta data received from Problems Service
-- It juges correctnes of the solution based on the pre-specified test cases as well as time and memory limits
+- It judges correctness of the solution based on the pre-specified test cases as well as time and memory limits
 - It's using simple heuristic to calculate time and memory results - running in couple iteration and looking for best results makes the judgement itself more predictable and repeatable
 
-![Component Diagram](https://github.com/spolnik/JAlgoArena/raw/master/design/component_diagram.png)
+![Component Diagram](https://github.com/spolnik/JAlgoArena-Judge/raw/master/design/component_diagram.png)
+
+# REST API
+
+| Endpoint | Description |
+| ---- | --------------- |
+| [GET /problems](https://jalgoarena.herokuapp.com/problems) | Get problems list |
+| [GET /problems/:id](https://jalgoarena.herokuapp.com/problems/fib) | Get problem by id |
+| [POST /problems/:id/submit](https://jalgoarena.herokuapp.com/problems/fib/submit) | Post problem solution to judge |
 
 ## Components
 
