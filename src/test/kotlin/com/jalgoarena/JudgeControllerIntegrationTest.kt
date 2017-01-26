@@ -82,14 +82,14 @@ class JudgeControllerIntegrationTest {
     @Test
     @Parameters("fib", "2-sum", "stoi", "word-ladder")
     fun generatesNonEmptyJavaSkeletonCode(problemId: String) {
-        val skeletonCode = problemsController.problem(problemId).skeletonCode
+        val skeletonCode = problemsController.problem(problemId).skeletonCode!!["java"]
         assertThat(skeletonCode).isNotEmpty()
     }
 
     @Test
     @Parameters("fib", "2-sum", "stoi", "word-ladder")
     fun generatesNonEmptyKotlinSkeletonCode(problemId: String) {
-        val skeletonCode = problemsController.problem(problemId).kotlinSkeletonCode
+        val skeletonCode = problemsController.problem(problemId).skeletonCode!!["kotlin"]
         assertThat(skeletonCode).isNotEmpty()
     }
 
@@ -114,8 +114,8 @@ class JudgeControllerIntegrationTest {
     @Test
     fun returnsFormattedMessageIfCompilationError() {
 
-        val skeletonCode = problemsController.problem("fib").skeletonCode
-        val result = judgeController.judge("fib", skeletonCode!!)
+        val skeletonCode = problemsController.problem("fib").skeletonCode!!["java"]!!
+        val result = judgeController.judge("fib", skeletonCode)
 
         assertThat(result.errorMessage).isEqualTo("Line:11: error: missing return statement\n    }\n    ^\n")
     }

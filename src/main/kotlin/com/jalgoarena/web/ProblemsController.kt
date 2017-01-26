@@ -31,12 +31,14 @@ class ProblemsController(
         return problem.copy(
                 function = null,
                 testCases = null,
-                skeletonCode = sourceCodeOf(problem.function!!),
-                kotlinSkeletonCode = kotlinSourceCodeOf(problem.function)
+                skeletonCode = mapOf(
+                        Pair("java", javaSourceCode(problem.function!!)),
+                        Pair("kotlin", kotlinSourceCodeOf(problem.function))
+                )
         )
     }
 
-    private fun sourceCodeOf(function: Function) =
+    private fun javaSourceCode(function: Function) =
             javaCodeGenerator.generateEmptyFunction(function)
 
     private fun kotlinSourceCodeOf(function: Function) =

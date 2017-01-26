@@ -77,8 +77,10 @@ class ProblemsClientSpec {
             memoryLimit = 1,
             timeLimit = 1,
             function = TWO_SUM_FUNCTION,
-            skeletonCode = "dummy code",
-            kotlinSkeletonCode = "kotlin dummy code",
+            skeletonCode = mapOf(
+                    Pair("java", "dummy code"),
+                    Pair("kotln", "kotlin dummy code")
+            ),
             testCases = listOf(
                     Problem.TestCase(
                             ArrayNode(JsonNodeFactory.instance).add(1).add(2),

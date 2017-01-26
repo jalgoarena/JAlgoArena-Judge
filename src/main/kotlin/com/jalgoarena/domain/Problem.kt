@@ -14,8 +14,7 @@ data class Problem(val id: String,
               val memoryLimit: Int,
               val function: Function?,
               val testCases: List<TestCase>?,
-              val skeletonCode: String?,
-              val kotlinSkeletonCode: String?,
+              val skeletonCode: Map<String, String>?,
               val level: Int) {
 
     @JsonIgnoreProperties(ignoreUnknown = true)
