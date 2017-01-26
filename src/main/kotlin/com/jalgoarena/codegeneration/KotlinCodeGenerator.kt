@@ -2,9 +2,10 @@ package com.jalgoarena.codegeneration
 
 import com.jalgoarena.domain.Function
 
-class KotlinCodeGenerator : JvmCodeGenerator {
+class KotlinCodeGenerator : JvmCodeGeneration {
+    override fun programmingLanguage() = "kotlin"
 
-    fun generateEmptyFunction(function: Function) = """import java.util.*
+    override fun generateEmptyFunction(function: Function) = """import java.util.*
 import com.jalgoarena.type.*
 
 class Solution {

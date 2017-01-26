@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.module.SimpleModule
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.jalgoarena.codegeneration.JavaCodeGenerator
+import com.jalgoarena.codegeneration.JvmCodeGenerator
 import com.jalgoarena.codegeneration.KotlinCodeGenerator
 import com.jalgoarena.type.ListNode
 import org.springframework.context.annotation.Bean
@@ -29,8 +30,8 @@ open class ApplicationConfiguration {
     open fun restTemplate() = RestTemplate()
 
     @Bean
-    open fun kotlinCodeGenerator() = KotlinCodeGenerator()
-
-    @Bean
-    open fun javaCodeGenerator() = JavaCodeGenerator()
+    open fun codeGenerators(): List<JvmCodeGenerator> = listOf(
+            JavaCodeGenerator(),
+            KotlinCodeGenerator()
+    )
 }

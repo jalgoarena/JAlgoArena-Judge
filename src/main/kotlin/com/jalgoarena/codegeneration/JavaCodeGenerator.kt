@@ -3,9 +3,10 @@ package com.jalgoarena.codegeneration
 import com.jalgoarena.domain.Function
 import kotlin.reflect.KClass
 
-class JavaCodeGenerator : JvmCodeGenerator {
+class JavaCodeGenerator : JvmCodeGeneration {
+    override fun programmingLanguage() = "java"
 
-    fun generateEmptyFunction(function: Function) = """import java.util.*;
+    override fun generateEmptyFunction(function: Function) = """import java.util.*;
 import com.jalgoarena.type.*;
 
 public class Solution {

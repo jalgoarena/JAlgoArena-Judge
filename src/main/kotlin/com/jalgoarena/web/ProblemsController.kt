@@ -1,7 +1,6 @@
 package com.jalgoarena.web
 
-import com.jalgoarena.codegeneration.JavaCodeGenerator
-import com.jalgoarena.codegeneration.KotlinCodeGenerator
+import com.jalgoarena.codegeneration.JvmCodeGenerator
 import com.jalgoarena.data.DataRepository
 import com.jalgoarena.domain.Function
 import com.jalgoarena.domain.Problem
@@ -15,8 +14,7 @@ import javax.inject.Inject
 @RestController
 class ProblemsController(
         @Inject private val problemsClient: DataRepository<Problem>,
-        @Inject private val kotlinCodeGenerator: KotlinCodeGenerator,
-        @Inject private val javaCodeGenerator: JavaCodeGenerator
+        @Inject private val codeGenerators: List<JvmCodeGenerator>
 ) {
 
     @GetMapping("/problems", produces = arrayOf("application/json"))
@@ -31,16 +29,11 @@ class ProblemsController(
         return problem.copy(
                 function = null,
                 testCases = null,
-                skeletonCode = mapOf(
-                        Pair("java", javaSourceCode(problem.function!!)),
-                        Pair("kotlin", kotlinSourceCodeOf(problem.function))
-                )
+                skeletonCode = generateSkeletonCodes(problem.function!!)
         )
     }
 
-    private fun javaSourceCode(function: Function) =
-            javaCodeGenerator.generateEmptyFunction(function)
-
-    private fun kotlinSourceCodeOf(function: Function) =
-            kotlinCodeGenerator.generateEmptyFunction(function)
+    private fun generateSkeletonCodes(function: Function) = codeGenerators.map {
+        it.programmingLanguage() to it.generateEmptyFunction(function)
+    }.toMap()
 }

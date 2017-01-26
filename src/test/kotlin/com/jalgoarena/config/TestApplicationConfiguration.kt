@@ -2,11 +2,10 @@ package com.jalgoarena.config
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.jalgoarena.ApplicationConfiguration
-import com.jalgoarena.codegeneration.JavaCodeGenerator
-import com.jalgoarena.codegeneration.KotlinCodeGenerator
+import com.jalgoarena.codegeneration.JvmCodeGenerator
 import com.jalgoarena.data.DataRepository
-import com.jalgoarena.judge.JudgeEngine
 import com.jalgoarena.domain.Problem
+import com.jalgoarena.judge.JudgeEngine
 import com.jalgoarena.web.JudgeController
 import com.jalgoarena.web.ProblemsController
 import org.springframework.context.annotation.Bean
@@ -27,14 +26,6 @@ open class TestApplicationConfiguration : ApplicationConfiguration() {
             JudgeController(problemsClient, judgeEngine)
 
     @Bean
-    open fun problemsController(
-            problemsClient: DataRepository<Problem>,
-            kotlinCodeGenerator: KotlinCodeGenerator,
-            javaCodeGenerator: JavaCodeGenerator): ProblemsController {
-
-        return ProblemsController(
-                problemsClient,
-                kotlinCodeGenerator,
-                javaCodeGenerator)
-    }
+    open fun problemsController(problemsClient: DataRepository<Problem>, codeGenerators: List<JvmCodeGenerator>) =
+            ProblemsController(problemsClient, codeGenerators)
 }
