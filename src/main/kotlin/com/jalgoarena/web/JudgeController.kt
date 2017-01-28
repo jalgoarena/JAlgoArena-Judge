@@ -6,7 +6,6 @@ import com.jalgoarena.judge.JudgeEngine
 import org.springframework.web.bind.annotation.*
 import javax.inject.Inject
 
-@CrossOrigin
 @RestController
 class JudgeController(
         @Inject private val problemsClient: DataRepository<Problem>,
