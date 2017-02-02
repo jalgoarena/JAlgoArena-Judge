@@ -79,7 +79,7 @@ open class JudgeEngine(@Inject private val objectMapper: ObjectMapper) {
         call()
     } catch(e: Throwable) {
         when (e) {
-            is InterruptedException, is ExecutionException -> RuntimeError(e.javaClass.simpleName)
+            is InterruptedException, is ExecutionException -> RuntimeError(e.message)
             is TimeoutException -> TimeLimitExceeded()
             else -> RuntimeError(e.message)
         }

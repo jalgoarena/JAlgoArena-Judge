@@ -1,5 +1,6 @@
 package com.jalgoarena.judge
 
+import org.apache.commons.lang.exception.ExceptionUtils.getCause
 import java.lang.reflect.Method
 import java.util.*
 import java.util.concurrent.Callable
@@ -21,7 +22,7 @@ internal class JudgeTask(
         if (cause is NullPointerException) {
             false
         } else {
-            throw InterruptedException("${cause.javaClass.name}: ${cause.message}")
+            throw InterruptedException(cause.javaClass.name)
         }
     }
 
@@ -43,16 +44,5 @@ internal class JudgeTask(
             a is IntArray && b is IntArray -> Arrays.equals(a, b)
             else -> a == b
         }
-    }
-
-    private fun getCause(e: Throwable): Throwable {
-        var cause: Throwable? = e.cause
-        var result = e
-
-        while (null != cause && result !== cause) {
-            result = cause
-            cause = result.cause
-        }
-        return result
     }
 }

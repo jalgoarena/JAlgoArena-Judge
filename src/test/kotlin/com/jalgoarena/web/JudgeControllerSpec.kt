@@ -75,7 +75,7 @@ class JudgeControllerSpec {
                 .content(FIB_SOURCE_CODE_WITH_RUNTIME_ERROR))
                 .andExpect(status().isOk)
                 .andExpect(jsonPath("$.statusCode", `is`(StatusCode.RUNTIME_ERROR.name)))
-                .andExpect(jsonPath("$.errorMessage", `is`("java.lang.InterruptedException: java.lang.Exception: null")))
+                .andExpect(jsonPath("$.errorMessage", `is`("java.lang.InterruptedException: java.lang.Exception")))
     }
 
     @Test
