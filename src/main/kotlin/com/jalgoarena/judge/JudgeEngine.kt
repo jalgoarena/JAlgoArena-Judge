@@ -6,7 +6,6 @@ import com.jalgoarena.domain.Function
 import com.jalgoarena.domain.JudgeResult
 import com.jalgoarena.domain.JudgeResult.*
 import com.jalgoarena.domain.Problem
-import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
 import java.lang.reflect.Method
 import java.util.*
@@ -16,7 +15,6 @@ import javax.inject.Inject
 @Component
 open class JudgeEngine(@Inject private val objectMapper: ObjectMapper) {
 
-    private val LOG = LoggerFactory.getLogger(this.javaClass)
     private val NUMBER_OF_ITERATIONS = 5
 
     fun judge(problem: Problem, userCode: String): JudgeResult {
@@ -80,10 +78,9 @@ open class JudgeEngine(@Inject private val objectMapper: ObjectMapper) {
     private fun handleFutureRunExceptions(call: () -> JudgeResult) = try {
         call()
     } catch(e: Throwable) {
-        LOG.error("Error in processing solution", e)
         when (e) {
-            is InterruptedException, is ExecutionException -> JudgeResult.RuntimeError(e.message)
-            is TimeoutException -> JudgeResult.TimeLimitExceeded()
+            is InterruptedException, is ExecutionException -> RuntimeError(e.javaClass.simpleName)
+            is TimeoutException -> TimeLimitExceeded()
             else -> RuntimeError(e.message)
         }
     }
