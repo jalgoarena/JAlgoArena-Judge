@@ -5,6 +5,9 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.module.SimpleModule
 import com.fasterxml.jackson.databind.node.ArrayNode
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.jalgoarena.compile.InMemoryJavaCompiler
+import com.jalgoarena.compile.JvmCompiler
+import com.jalgoarena.compile.KotlinCompiler
 import com.jalgoarena.config.TestApplicationConfiguration
 import com.jalgoarena.data.ProblemsRepository
 import com.jalgoarena.domain.Problem
@@ -135,10 +138,16 @@ class JudgeControllerSpec {
         }
 
         @Bean
-        open fun judgeEngine(objectMapper: ObjectMapper) = JvmJudgeEngine(objectMapper)
+        open fun judgeEngine(objectMapper: ObjectMapper, codeCompilers: List<JvmCompiler>) =
+                JvmJudgeEngine(objectMapper, codeCompilers)
 
         @Bean
         open fun submissionsRepository() = TestApplicationConfiguration.FakeSubmissionRepository()
+
+        @Bean
+        open fun codeCompilers() = listOf(
+                InMemoryJavaCompiler(), KotlinCompiler()
+        )
     }
 
     //language=JSON
@@ -219,7 +228,7 @@ class JudgeControllerSpec {
     private fun judgeRequest(sourceCode: String) = """{
     "sourceCode": "${StringEscapeUtils.escapeJava(sourceCode)}",
     "userId": "0-0",
-    "language": "java"
+    "language": "kotlin"
 }
 """
 

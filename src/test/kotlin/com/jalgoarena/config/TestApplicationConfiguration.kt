@@ -3,6 +3,8 @@ package com.jalgoarena.config
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.jalgoarena.ApplicationConfiguration
 import com.jalgoarena.codegeneration.JvmCodeGenerator
+import com.jalgoarena.compile.InMemoryJavaCompiler
+import com.jalgoarena.compile.KotlinCompiler
 import com.jalgoarena.data.ProblemsRepository
 import com.jalgoarena.data.SubmissionsRepository
 import com.jalgoarena.domain.Submission
@@ -20,7 +22,9 @@ open class TestApplicationConfiguration : ApplicationConfiguration() {
             ProblemsClientForTests()
 
     @Bean
-    open fun judgeEngine(objectMapper: ObjectMapper) = JvmJudgeEngine(objectMapper)
+    open fun judgeEngine(objectMapper: ObjectMapper) = JvmJudgeEngine(objectMapper, listOf(
+            InMemoryJavaCompiler(), KotlinCompiler()
+    ))
 
     @Bean
     open fun submissionsRepository() = FakeSubmissionRepository()

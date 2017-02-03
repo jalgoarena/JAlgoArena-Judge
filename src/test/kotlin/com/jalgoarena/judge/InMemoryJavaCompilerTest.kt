@@ -1,11 +1,11 @@
 package com.jalgoarena.judge
 
 import com.jalgoarena.compile.CompileErrorException
-import com.jalgoarena.compile.MemoryJavaCompiler
+import com.jalgoarena.compile.InMemoryJavaCompiler
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 
-class MemoryJavaCompilerTest {
+class InMemoryJavaCompilerTest {
 
     private val SOURCE_CODE =
             "public final class Solution {\npublic static String greeting(String name) {\n\treturn \"Hello \" + name;\n}\n}\n"
@@ -13,7 +13,7 @@ class MemoryJavaCompilerTest {
     @Test
     fun compileAndRunStaticMethod() {
 
-        val (instance, method) = MemoryJavaCompiler().compileMethod(
+        val (instance, method) = InMemoryJavaCompiler().compileMethod(
                 "Solution", "greeting", 1, SOURCE_CODE
         )
 
@@ -23,7 +23,7 @@ class MemoryJavaCompilerTest {
 
     @Test(expected = NoSuchMethodError::class)
     fun throwsNoSuchMethodExceptionWhenInvokingNonExistingMethod() {
-        MemoryJavaCompiler().compileMethod(
+        InMemoryJavaCompiler().compileMethod(
                 "Solution", "dummy", 1, SOURCE_CODE
         )
     }
@@ -32,7 +32,7 @@ class MemoryJavaCompilerTest {
     fun throwsIllegalStateExceptionWhenTryingToInvokeClassWithPrivateConstructor() {
         val sourceCode = "public final class Solution { private Solution() { }; public void dummy() {} }"
 
-        MemoryJavaCompiler().compileMethod(
+        InMemoryJavaCompiler().compileMethod(
                 "Solution", "dummy", 0, sourceCode
         )
     }
@@ -41,7 +41,7 @@ class MemoryJavaCompilerTest {
     fun throwsCompileErrorExceptionWhenSourceCodeDoesNotCompile() {
         val sourceCodeMissingReturnString = "public final class Solution { private Solution() { }; public String dummy() {} }"
 
-        MemoryJavaCompiler().compileMethod(
+        InMemoryJavaCompiler().compileMethod(
                 "Solution", "dummy", 0, sourceCodeMissingReturnString
         )
     }

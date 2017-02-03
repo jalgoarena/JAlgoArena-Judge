@@ -7,13 +7,11 @@ import java.io.IOException
 import java.nio.CharBuffer
 import javax.tools.*
 
-class MemoryJavaCompiler : JvmCompiler {
+class InMemoryJavaCompiler : JvmCompiler {
 
     private val LOG = LoggerFactory.getLogger(this.javaClass)
 
-    private fun standardFileManager(): StandardJavaFileManager {
-        return javaCompiler.getStandardFileManager(null, null, null)
-    }
+    override fun programmingLanguage() = "java"
 
     override fun run(className: String, source: String): MutableMap<String, ByteArray?> {
 
@@ -39,6 +37,10 @@ class MemoryJavaCompiler : JvmCompiler {
         }
 
         return classBytes
+    }
+
+    private fun standardFileManager(): StandardJavaFileManager {
+        return javaCompiler.getStandardFileManager(null, null, null)
     }
 
     private fun compilationTask(

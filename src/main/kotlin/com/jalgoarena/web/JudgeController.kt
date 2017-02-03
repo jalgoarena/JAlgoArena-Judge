@@ -23,7 +23,7 @@ class JudgeController(
             @RequestBody judgeRequest: JudgeRequest,
             @RequestHeader("X-Authorization", required = false) token: String? = null
     ): JudgeResult {
-        val judgeResult = judgeEngine.judge(problemsRepository.find(id), judgeRequest.sourceCode)
+        val judgeResult = judgeEngine.judge(problemsRepository.find(id), judgeRequest)
 
         return when {
             judgeResult.statusCode == StatusCode.ACCEPTED.toString() ->

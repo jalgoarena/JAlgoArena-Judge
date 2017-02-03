@@ -12,6 +12,8 @@ class KotlinCompiler : JvmCompiler {
 
     private val compiler = K2JVMCompiler()
 
+    override fun programmingLanguage() = "kotlin"
+
     override fun run(className: String, source: String): MutableMap<String, ByteArray?> {
 
         val tmpDir = createTmpDir()

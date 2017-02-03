@@ -32,7 +32,7 @@ class JudgeControllerTest {
                 FIB_PROBLEM
         )
 
-        given(judgeEngine.judge(FIB_PROBLEM, DUMMY_SOURCE_CODE)).willReturn(
+        given(judgeEngine.judge(FIB_PROBLEM, JudgeRequest(DUMMY_SOURCE_CODE, "0-0", "java"))).willReturn(
                 JudgeResult.Accepted(NUMBER_OF_TEST_CASES, ELAPSED_TIME, USED_MEMORY)
         )
 

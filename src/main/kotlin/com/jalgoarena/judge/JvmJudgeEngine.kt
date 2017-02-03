@@ -3,6 +3,7 @@ package com.jalgoarena.judge
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.jalgoarena.compile.*
 import com.jalgoarena.domain.Function
+import com.jalgoarena.domain.JudgeRequest
 import com.jalgoarena.domain.JudgeResult
 import com.jalgoarena.domain.JudgeResult.*
 import com.jalgoarena.domain.Problem
@@ -13,22 +14,26 @@ import java.util.concurrent.*
 import javax.inject.Inject
 
 @Component
-open class JvmJudgeEngine(@Inject private val objectMapper: ObjectMapper) : JudgeEngine {
+open class JvmJudgeEngine(
+        @Inject private val objectMapper: ObjectMapper,
+        @Inject private val compilers: List<JvmCompiler>
+) : JudgeEngine {
 
     private val NUMBER_OF_ITERATIONS = 5
 
-    override fun judge(problem: Problem, userCode: String): JudgeResult {
+    override fun judge(problem: Problem, judgeRequest: JudgeRequest): JudgeResult {
 
-        val isKotlin = IsKotlinSourceCode().findIn(userCode, problem.function!!)
-        val className = findClassName(isKotlin, userCode)
+        val (sourceCode, userId, language) = judgeRequest
+
+        val className = findClassName(language, sourceCode)
 
         if (!className.isPresent) {
             return CompileError("ClassNotFoundException: No public class found")
         }
 
-        val compiler = if (isKotlin) KotlinCompiler() else MemoryJavaCompiler()
+        val compiler = compilers.first { it.programmingLanguage() == language }
 
-        return compileAndJudge(className, compiler, problem.function, problem, userCode)
+        return compileAndJudge(className, compiler, problem.function!!, problem, judgeRequest.sourceCode)
     }
 
     private fun judge(clazz: Any, method: Method, problem: Problem): JudgeResult {
@@ -106,12 +111,9 @@ open class JvmJudgeEngine(@Inject private val objectMapper: ObjectMapper) : Judg
         }
     }
 
-    private fun findClassName(
-            isKotlin: Boolean,
-            userCode: String
-    ): Optional<String> = when (isKotlin) {
-        true -> userCode.findKotlinClassName()
-        false -> userCode.findJavaClassName()
+    private fun findClassName(language: String, sourceCode: String) = when (language) {
+        "kotlin" -> sourceCode.findKotlinClassName()
+        else -> sourceCode.findJavaClassName()
     }
 
     private fun readInternalTestCases(problem: Problem): Array<InternalTestCase> {

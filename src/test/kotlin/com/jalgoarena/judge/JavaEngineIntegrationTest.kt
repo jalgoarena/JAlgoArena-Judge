@@ -3,6 +3,7 @@ package com.jalgoarena.judge
 import com.google.common.io.Resources
 import com.jalgoarena.config.TestApplicationConfiguration
 import com.jalgoarena.data.ProblemsRepository
+import com.jalgoarena.domain.JudgeRequest
 import com.jalgoarena.domain.StatusCode
 import junitparams.JUnitParamsRunner
 import junitparams.Parameters
@@ -67,7 +68,7 @@ open class JavaEngineIntegrationTest {
             val problem = repository.find(problemId)
             val sourceCode = Resources.toString(Resources.getResource("$solutionId.java"), Charsets.UTF_8)
 
-            val result = judgeEngine.judge(problem, sourceCode)
+            val result = judgeEngine.judge(problem, JudgeRequest(sourceCode, "0-0", "java"))
 
             assertThat(result.statusCode).isEqualTo(statusCode.toString())
         } catch (e: Exception) {
