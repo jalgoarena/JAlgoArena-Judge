@@ -21,7 +21,7 @@ class Solution {
      * @param target target = numbers[index1] + numbers[index2]
      * @return [index1 + 1, index2 + 1] (index1 < index2)
      */
-    fun twoSum(numbers: IntArray, target: Int): IntArray {
+    fun twoSum(numbers: IntArray?, target: Int): IntArray? {
         // Write your code here
     }
 }
@@ -43,7 +43,7 @@ class Solution {
      * @param dict the dictionary
      * @return The shortest length
      */
-    fun ladderLength(begin_word: String, end_word: String, dict: HashSet<String>): Int {
+    fun ladderLength(begin_word: String?, end_word: String?, dict: HashSet<String>?): Int {
         // Write your code here
     }
 }
@@ -63,7 +63,7 @@ class Solution {
      * @param matrix Image matrix to flip
      * @return Operation in-place
      */
-    fun flipVerticalAxis(matrix: Array<IntArray>) {
+    fun flipVerticalAxis(matrix: Array<IntArray>?) {
         // Write your code here
     }
 }
@@ -84,7 +84,7 @@ class Solution {
      * @param insert interval to insert
      * @return Array with inserted ranges
      */
-    fun insertRange(intervalsList: ArrayList<Interval>, insert: Interval): ArrayList<Interval> {
+    fun insertRange(intervalsList: ArrayList<Interval>?, insert: Interval?): ArrayList<Interval>? {
         // Write your code here
     }
 }

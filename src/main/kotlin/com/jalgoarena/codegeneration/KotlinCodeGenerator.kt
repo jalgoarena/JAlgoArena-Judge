@@ -24,8 +24,12 @@ class Solution {
 
     private fun kotlinTypeDeclaration(type: String, generic: String?) = when(type) {
         "void" -> ""
-        "[[I" -> ": Array<IntArray>"
-        "[[C" -> ": Array<CharArray>"
-        else -> ": ${Class.forName(type).kotlin.simpleName}${typeGenericDeclaration(generic)}"
+        "[[I" -> ": Array<IntArray>?"
+        "[[C" -> ": Array<CharArray>?"
+        "java.lang.Integer" -> ": Int"
+        "java.lang.Boolean" -> ": Boolean"
+        "java.lang.Long" -> ": Long"
+        "java.lang.Double" -> ": Double"
+        else -> ": ${Class.forName(type).kotlin.simpleName}${typeGenericDeclaration(generic)}?"
     }
 }
