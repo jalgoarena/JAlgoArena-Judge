@@ -2,8 +2,7 @@ package com.jalgoarena.judge
 
 import com.google.common.io.Resources
 import com.jalgoarena.config.TestApplicationConfiguration
-import com.jalgoarena.data.DataRepository
-import com.jalgoarena.domain.Problem
+import com.jalgoarena.data.ProblemsRepository
 import com.jalgoarena.domain.StatusCode
 import junitparams.JUnitParamsRunner
 import junitparams.Parameters
@@ -58,10 +57,10 @@ open class JavaEngineIntegrationTest {
     @JvmField val springMethodRule = SpringMethodRule()
 
     @Inject
-    lateinit var repository: DataRepository<Problem>
+    lateinit var repository: ProblemsRepository
 
     @Inject
-    lateinit var judgeEngine: JudgeEngine
+    lateinit var judgeEngine: JvmJudgeEngine
 
     private fun judgeSolution(problemId: String, solutionId: String, statusCode: StatusCode) {
         try {

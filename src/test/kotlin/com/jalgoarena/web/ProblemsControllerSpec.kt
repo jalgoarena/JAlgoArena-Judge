@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.jalgoarena.codegeneration.JavaCodeGenerator
 import com.jalgoarena.codegeneration.KotlinCodeGenerator
-import com.jalgoarena.data.DataRepository
+import com.jalgoarena.data.ProblemsRepository
 import com.jalgoarena.domain.Problem
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.Matchers.hasSize
@@ -33,11 +33,11 @@ class ProblemsControllerSpec {
     private lateinit var mockMvc: MockMvc
 
     @MockBean
-    private lateinit var problemsClient: DataRepository<Problem>
+    private lateinit var problemsClient: ProblemsRepository
 
     @Test
     fun get_problems_returns_200_and_all_available_problems() {
-        given(problemsClient.findAll()).willReturn(arrayOf(PROBLEM))
+        given(problemsClient.findAll()).willReturn(listOf(PROBLEM))
 
         mockMvc.perform(get("/problems")
                 .accept(MediaType.APPLICATION_JSON))

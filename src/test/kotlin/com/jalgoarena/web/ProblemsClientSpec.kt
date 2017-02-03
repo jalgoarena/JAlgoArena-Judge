@@ -60,13 +60,10 @@ class ProblemsClientSpec {
     }
 
 
-    private val TWO_SUM_FUNCTION = Function("twoSum",
-            Function.Return("[I",
-                    "[index1 + 1, index2 + 1] (index1 < index2)"),
-            listOf(Function.Parameter("numbers", "[I", "An array of Integers"),
-                    Function.Parameter("target", "java.lang.Integer",
-                            "target = numbers[index1] + numbers[index2]")
-            )
+    private val FIB_FUNCTION = Function("fib",
+            Function.Return("java.lang.Integer",
+                    "Fibonacci number"),
+            listOf(Function.Parameter("input", "java.lang.Integer", "Input"))
     )
 
     private val PROBLEM = Problem(
@@ -76,7 +73,7 @@ class ProblemsClientSpec {
             level = 3,
             memoryLimit = 1,
             timeLimit = 1,
-            function = TWO_SUM_FUNCTION,
+            function = FIB_FUNCTION,
             skeletonCode = mapOf(
                     Pair("java", "dummy code"),
                     Pair("kotln", "kotlin dummy code")

@@ -26,6 +26,6 @@ class Solution {
         "void" -> ""
         "[[I" -> ": Array<IntArray>"
         "[[C" -> ": Array<CharArray>"
-        else -> ": ${Class.forName(type).kotlin.simpleName!!}${typeGenericDeclaration(generic)}"
+        else -> ": ${Class.forName(type).kotlin.simpleName}${typeGenericDeclaration(generic)}"
     }
 }

@@ -3,9 +3,10 @@ package com.jalgoarena.config
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.jalgoarena.ApplicationConfiguration
 import com.jalgoarena.codegeneration.JvmCodeGenerator
-import com.jalgoarena.data.DataRepository
-import com.jalgoarena.domain.Problem
-import com.jalgoarena.judge.JudgeEngine
+import com.jalgoarena.data.ProblemsRepository
+import com.jalgoarena.data.SubmissionsRepository
+import com.jalgoarena.domain.Submission
+import com.jalgoarena.judge.JvmJudgeEngine
 import com.jalgoarena.web.JudgeController
 import com.jalgoarena.web.ProblemsController
 import org.springframework.context.annotation.Bean
@@ -15,17 +16,31 @@ import org.springframework.context.annotation.Configuration
 open class TestApplicationConfiguration : ApplicationConfiguration() {
 
     @Bean
-    open fun problemsRepository(): DataRepository<Problem> =
+    open fun problemsRepository(): ProblemsRepository =
             ProblemsClientForTests()
 
     @Bean
-    open fun judgeEngine(objectMapper: ObjectMapper) = JudgeEngine(objectMapper)
+    open fun judgeEngine(objectMapper: ObjectMapper) = JvmJudgeEngine(objectMapper)
 
     @Bean
-    open fun judgeController(problemsClient: DataRepository<Problem>, judgeEngine: JudgeEngine) =
-            JudgeController(problemsClient, judgeEngine)
+    open fun submissionsRepository() = FakeSubmissionRepository()
 
     @Bean
-    open fun problemsController(problemsClient: DataRepository<Problem>, codeGenerators: List<JvmCodeGenerator>) =
+    open fun judgeController(
+            problemsClient: ProblemsRepository,
+            submissionsRepository: SubmissionsRepository,
+            judgeEngine: JvmJudgeEngine
+    ) = JudgeController(problemsClient, submissionsRepository, judgeEngine)
+
+    @Bean
+    open fun problemsController(problemsClient: ProblemsRepository, codeGenerators: List<JvmCodeGenerator>) =
             ProblemsController(problemsClient, codeGenerators)
+
+    class FakeSubmissionRepository : SubmissionsRepository {
+        override fun save(submission: Submission, token: String?): Submission? {
+            return submission.copy(id = "0-0")
+        }
+
+    }
 }
+

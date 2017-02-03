@@ -1,14 +1,14 @@
 package com.jalgoarena.config
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.jalgoarena.data.DataRepository
+import com.jalgoarena.data.ProblemsRepository
 import com.jalgoarena.domain.Problem
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.springframework.stereotype.Repository
 
 @Repository
-class ProblemsClientForTests : DataRepository<Problem> {
+class ProblemsClientForTests : ProblemsRepository {
 
     private val objectMapper = jacksonObjectMapper()
 
@@ -26,7 +26,7 @@ class ProblemsClientForTests : DataRepository<Problem> {
         return objectMapper.readValue(problemAsJson, Problem::class.java)
     }
 
-    override fun findAll(): Array<Problem> {
+    override fun findAll(): List<Problem> {
         val request = Request.Builder()
                 .url("${problemsServiceUrl()}/problems")
                 .build()
@@ -34,6 +34,6 @@ class ProblemsClientForTests : DataRepository<Problem> {
         val response = CLIENT.newCall(request).execute()
         val problemsAsJsonArray = response.body().string()
 
-        return objectMapper.readValue(problemsAsJsonArray, Array<Problem>::class.java)
+        return objectMapper.readValue(problemsAsJsonArray, Array<Problem>::class.java).asList()
     }
 }

@@ -5,11 +5,13 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.module.SimpleModule
 import com.fasterxml.jackson.databind.node.ArrayNode
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.jalgoarena.data.DataRepository
+import com.jalgoarena.config.TestApplicationConfiguration
+import com.jalgoarena.data.ProblemsRepository
 import com.jalgoarena.domain.Problem
 import com.jalgoarena.domain.StatusCode
-import com.jalgoarena.judge.JudgeEngine
+import com.jalgoarena.judge.JvmJudgeEngine
 import com.jalgoarena.type.ListNode
+import org.apache.commons.lang.StringEscapeUtils
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.CoreMatchers.containsString
 import org.hamcrest.Matchers.hasSize
@@ -39,7 +41,7 @@ class JudgeControllerSpec {
     private lateinit var mockMvc: MockMvc
 
     @MockBean
-    private lateinit var problemsClient: DataRepository<Problem>
+    private lateinit var problemsRepository: ProblemsRepository
 
     @Test
     fun post_judge_returns_200_and_accepted_judge_result() {
@@ -47,7 +49,7 @@ class JudgeControllerSpec {
 
         mockMvc.perform(post("/problems/fib/submit")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(FIB_SOURCE_CODE))
+                .content(judgeRequest(FIB_SOURCE_CODE)))
                 .andExpect(status().isOk)
                 .andExpect(jsonPath("$.statusCode", `is`(StatusCode.ACCEPTED.name)))
                 .andExpect(jsonPath("$.elapsedTime", `is`(GreaterThan(0.0))))
@@ -60,7 +62,7 @@ class JudgeControllerSpec {
 
         mockMvc.perform(post("/problems/fib/submit")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(FIB_SOURCE_CODE_WITH_COMPILE_ERROR))
+                .content(judgeRequest(FIB_SOURCE_CODE_WITH_COMPILE_ERROR)))
                 .andExpect(status().isOk)
                 .andExpect(jsonPath("$.statusCode", `is`(StatusCode.COMPILE_ERROR.name)))
                 .andExpect(jsonPath("$.errorMessage", containsString("/Solution.kt:12:5: error: a 'return' expression required in a function with a block body ('{...}')")))
@@ -72,7 +74,7 @@ class JudgeControllerSpec {
 
         mockMvc.perform(post("/problems/fib/submit")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(FIB_SOURCE_CODE_WITH_RUNTIME_ERROR))
+                .content(judgeRequest(FIB_SOURCE_CODE_WITH_RUNTIME_ERROR)))
                 .andExpect(status().isOk)
                 .andExpect(jsonPath("$.statusCode", `is`(StatusCode.RUNTIME_ERROR.name)))
                 .andExpect(jsonPath("$.errorMessage", `is`("java.lang.InterruptedException: java.lang.Exception")))
@@ -84,7 +86,7 @@ class JudgeControllerSpec {
 
         mockMvc.perform(post("/problems/fib/submit")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(FIB_SOURCE_CODE_WITH_WRONG_ANSWER))
+                .content(judgeRequest(FIB_SOURCE_CODE_WITH_WRONG_ANSWER)))
                 .andExpect(status().isOk)
                 .andExpect(jsonPath("$.statusCode", `is`(StatusCode.WRONG_ANSWER.name)))
                 .andExpect(jsonPath("$.testcaseResults", hasSize<ArrayNode>(8)))
@@ -96,7 +98,7 @@ class JudgeControllerSpec {
 
         mockMvc.perform(post("/problems/fib/submit")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(FIB_SOURCE_CODE_WITH_THREAD_SLEEP))
+                .content(judgeRequest(FIB_SOURCE_CODE_WITH_THREAD_SLEEP)))
                 .andExpect(status().isOk)
                 .andExpect(jsonPath("$.statusCode", `is`(StatusCode.TIME_LIMIT_EXCEEDED.name)))
     }
@@ -107,7 +109,7 @@ class JudgeControllerSpec {
 
         mockMvc.perform(post("/problems/fib/submit")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(FIB_SOURCE_CODE_WITH_MEMORY_ARRAY))
+                .content(judgeRequest(FIB_SOURCE_CODE_WITH_MEMORY_ARRAY)))
                 .andExpect(status().isOk)
                 .andExpect(jsonPath("$.statusCode", `is`(StatusCode.MEMORY_LIMIT_EXCEEDED.name)))
                 .andExpect(jsonPath("$.consumedMemory", `is`(GreaterThan(32000))))
@@ -115,7 +117,7 @@ class JudgeControllerSpec {
 
     private fun givenFibProblem() {
         val problem = jacksonObjectMapper().readValue(PROBLEM_AS_JSON, Problem::class.java)
-        given(problemsClient.find("fib")).willReturn(problem)
+        given(problemsRepository.find("fib")).willReturn(problem)
     }
 
     @TestConfiguration
@@ -133,7 +135,10 @@ class JudgeControllerSpec {
         }
 
         @Bean
-        open fun judgeEngine(objectMapper: ObjectMapper) = JudgeEngine(objectMapper)
+        open fun judgeEngine(objectMapper: ObjectMapper) = JvmJudgeEngine(objectMapper)
+
+        @Bean
+        open fun submissionsRepository() = TestApplicationConfiguration.FakeSubmissionRepository()
     }
 
     //language=JSON
@@ -208,6 +213,13 @@ class JudgeControllerSpec {
     }
   ],
   "level": 1
+}
+"""
+
+    private fun judgeRequest(sourceCode: String) = """{
+    "sourceCode": "${StringEscapeUtils.escapeJava(sourceCode)}",
+    "userId": "0-0",
+    "language": "java"
 }
 """
 
