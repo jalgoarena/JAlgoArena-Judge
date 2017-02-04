@@ -33,7 +33,7 @@ open class JvmJudgeEngine(
 
         val compiler = compilers.first { it.programmingLanguage() == language }
 
-        return compileAndJudge(className, compiler, problem.function!!, problem, judgeRequest.sourceCode)
+        return compileAndJudge(className, compiler, problem.func!!, problem, judgeRequest.sourceCode)
     }
 
     private fun judge(clazz: Any, method: Method, problem: Problem): JudgeResult {
@@ -118,7 +118,7 @@ open class JvmJudgeEngine(
 
     private fun readInternalTestCases(problem: Problem): Array<InternalTestCase> {
         val testCases = problem.testCases
-        val function = problem.function
+        val function = problem.func
 
         val parser = InternalTestCaseParser(function!!, objectMapper)
 

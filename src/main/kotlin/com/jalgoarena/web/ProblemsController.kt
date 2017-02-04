@@ -25,9 +25,9 @@ class ProblemsController(
 
     private fun enhancedProblem(problem: Problem): Problem {
         return problem.copy(
-                function = null,
+                func = null,
                 testCases = null,
-                skeletonCode = generateSkeletonCodes(problem.function!!)
+                skeletonCode = generateSkeletonCodes(problem.func!!)
         )
     }
 

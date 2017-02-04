@@ -64,7 +64,7 @@ class JudgeControllerTest {
             level = 1,
             memoryLimit = 1,
             timeLimit = 1,
-            function = FIB_FUNCTION,
+            func = FIB_FUNCTION,
             skeletonCode = mapOf(
                     Pair("java", "dummy code"),
                     Pair("kotln", "kotlin dummy code")

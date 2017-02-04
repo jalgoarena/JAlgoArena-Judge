@@ -157,9 +157,9 @@ class JudgeControllerSpec {
   "description": "Write the `fib` function to return the N'th term.\r\nWe start counting from:\r\n* fib(0) = 0\r\n* fib(1) = 1.\r\n\r\n### Examples\r\n\r\n* `0` -> `0`\r\n* `6` -> `8`",
   "timeLimit": 1,
   "memoryLimit": 32,
-  "function": {
+  "func": {
     "name": "fib",
-    "return": {
+    "returnStatement": {
       "type": "java.lang.Long",
       "comment": " N'th term of Fibonacci sequence"
     },

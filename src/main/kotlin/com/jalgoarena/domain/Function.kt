@@ -1,11 +1,10 @@
 package com.jalgoarena.domain
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
-import com.fasterxml.jackson.annotation.JsonProperty
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class Function(val name: String,
-               @JsonProperty("return") val returnStatement: Return,
+               val returnStatement: Return,
                val parameters: List<Parameter>) {
 
     @JsonIgnoreProperties(ignoreUnknown = true)

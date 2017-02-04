@@ -47,7 +47,7 @@ class ProblemJsonSerializationTest {
             level = 3,
             memoryLimit = 1,
             timeLimit = 1,
-            function = TWO_SUM_FUNCTION,
+            func = TWO_SUM_FUNCTION,
             skeletonCode = mapOf(
                     Pair("java", "dummy code"),
                     Pair("kotlin", "kotlin dummy code")
@@ -67,9 +67,9 @@ class ProblemJsonSerializationTest {
   "description": "dummy description",
   "timeLimit": 1,
   "memoryLimit": 1,
-  "function": {
+  "func": {
     "name": "twoSum",
-    "return": {
+    "returnStatement": {
       "type": "[I",
       "comment": "[index1 + 1, index2 + 1] (index1 < index2)"
     },
