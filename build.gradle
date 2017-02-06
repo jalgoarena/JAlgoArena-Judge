@@ -1,6 +1,6 @@
 buildscript {
     ext.kotlin_version = '1.0.6'
-    ext.spring_version = '1.4.0.RELEASE'
+    ext.spring_version = '1.5.1.RELEASE'
 
     repositories {
         jcenter()
@@ -28,6 +28,10 @@ repositories {
     mavenCentral()
 }
 
+configurations {
+    compile.exclude module: "spring-boot-starter-tomcat"
+}
+
 jar {
     baseName = 'jalgoarena-judge'
 }
@@ -39,6 +43,7 @@ dependencies {
             'com.fasterxml.jackson.core:jackson-annotations',
             "com.fasterxml.jackson.module:jackson-module-kotlin",
             "org.springframework.boot:spring-boot-starter-web",
+            "org.springframework.boot:spring-boot-starter-undertow",
             "org.springframework.boot:spring-boot-starter-actuator",
             'org.springframework.cloud:spring-cloud-starter-eureka',
             "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version",
