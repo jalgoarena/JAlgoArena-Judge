@@ -243,7 +243,7 @@ class JudgeControllerSpec {
         return 1L
 """)
 
-    private val FIB_SOURCE_CODE_WITH_MEMORY_ARRAY = sourceCode("""val numbersFromOne = IntArray(100000) { it + 1 }
+    private val FIB_SOURCE_CODE_WITH_MEMORY_ARRAY = sourceCode("""val numbersFromOne = IntArray(200000) { it + 1 }
         var a: Long = 0
         var b: Long = 1
 

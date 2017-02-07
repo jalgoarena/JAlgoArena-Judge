@@ -3,6 +3,7 @@ package com.jalgoarena.compile
 import com.jalgoarena.JudgeApplication
 import org.slf4j.LoggerFactory
 import java.lang.reflect.Method
+import java.lang.reflect.Modifier
 import java.net.URL
 import java.net.URLClassLoader
 
@@ -16,7 +17,7 @@ interface JvmCompiler {
         )
 
         clazz.declaredMethods
-                .filter { it.name == methodName && it.parameterCount == parameterCount }
+                .filter { it.name == methodName && it.parameterCount == parameterCount && Modifier.isPublic(it.modifiers)}
                 .forEach {
                     try {
                         return Pair(clazz.newInstance(), it)
