@@ -1,6 +1,7 @@
 package com.jalgoarena.judge
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.google.common.util.concurrent.ThreadFactoryBuilder
 import com.jalgoarena.compile.*
 import com.jalgoarena.domain.Function
 import com.jalgoarena.domain.JudgeRequest
@@ -21,6 +22,11 @@ open class JvmJudgeEngine(
 
     private val NUMBER_OF_ITERATIONS = 5
 
+    private val threadFactory = ThreadFactoryBuilder()
+            .setNameFormat("Judge-%d")
+            .setDaemon(true)
+            .build()
+
     override fun judge(problem: Problem, judgeRequest: JudgeRequest): JudgeResult {
 
         val (sourceCode, userId, language) = judgeRequest
@@ -38,18 +44,22 @@ open class JvmJudgeEngine(
 
     private fun judge(clazz: Any, method: Method, problem: Problem): JudgeResult {
 
-        val executorService = Executors.newSingleThreadExecutor()
-        val testCases = readInternalTestCases(problem)
-        val judge = executorService.submit(JudgeTask(clazz, method, testCases))
+        val executorService = Executors.newSingleThreadExecutor(threadFactory)
+        try {
+            val testCases = readInternalTestCases(problem)
+            val judge = executorService.submit(JudgeTask(clazz, method, testCases))
 
-        return handleFutureRunExceptions {
-            val results: List<Boolean> = coldRun(judge, problem)
-            val failedTestCases = results.filter({ !it }).count()
+            return handleFutureRunExceptions {
+                val results: List<Boolean> = coldRun(judge, problem)
+                val failedTestCases = results.filter({ !it }).count()
 
-            when {
-                failedTestCases > 0 -> JudgeResult.WrongAnswer(results)
-                else -> hotRun(clazz, method, problem, testCases)
+                when {
+                    failedTestCases > 0 -> JudgeResult.WrongAnswer(results)
+                    else -> hotRun(clazz, method, problem, testCases)
+                }
             }
+        } finally {
+            executorService.shutdownNow()
         }
     }
 
@@ -63,21 +73,25 @@ open class JvmJudgeEngine(
             clazz: Any, method: Method, problem: Problem, testCases: Array<InternalTestCase>
     ): JudgeResult {
 
-        val executorService = Executors.newSingleThreadExecutor()
-        var performanceResultFuture = evaluatePerformance(clazz, method, problem, executorService)
-        var performanceResult = performanceResultFuture.get(problem.timeLimit, TimeUnit.SECONDS)
+        val executorService = Executors.newSingleThreadExecutor(threadFactory)
+        try {
+            var performanceResultFuture = evaluatePerformance(clazz, method, problem, executorService)
+            var performanceResult = performanceResultFuture.get(problem.timeLimit, TimeUnit.SECONDS)
 
-        for (i in 0..NUMBER_OF_ITERATIONS - 1) {
-            performanceResultFuture = evaluatePerformance(clazz, method, problem, executorService)
-            val nextPerformanceResult = performanceResultFuture.get(problem.timeLimit, TimeUnit.SECONDS)
-            performanceResult = performanceResult chooseBetterComparingWith nextPerformanceResult
+            for (i in 0..NUMBER_OF_ITERATIONS - 1) {
+                performanceResultFuture = evaluatePerformance(clazz, method, problem, executorService)
+                val nextPerformanceResult = performanceResultFuture.get(problem.timeLimit, TimeUnit.SECONDS)
+                performanceResult = performanceResult chooseBetterComparingWith nextPerformanceResult
+            }
+
+            if (performanceResult.usedMemoryInBytes / 1024 > problem.memoryLimit) {
+                return MemoryLimitExceeded(performanceResult.usedMemoryInBytes)
+            }
+
+            return Accepted(testCases.size, performanceResult.usedTimeInMs, performanceResult.usedMemoryInBytes)
+        } finally {
+            executorService.shutdownNow()
         }
-
-        if (performanceResult.usedMemoryInBytes / 1024 > problem.memoryLimit) {
-            return MemoryLimitExceeded(performanceResult.usedMemoryInBytes)
-        }
-
-        return Accepted(testCases.size, performanceResult.usedTimeInMs, performanceResult.usedMemoryInBytes)
     }
 
     private fun handleFutureRunExceptions(call: () -> JudgeResult) = try {
@@ -130,7 +144,7 @@ open class JvmJudgeEngine(
     }
 
     private fun shuffle(internalTestCases: Array<InternalTestCase>): Array<InternalTestCase> {
-        val internalTestCasesAsList = Arrays.asList(*internalTestCases)
+        val internalTestCasesAsList = internalTestCases.asList()
         Collections.shuffle(internalTestCasesAsList)
         return internalTestCasesAsList.toTypedArray()
     }
