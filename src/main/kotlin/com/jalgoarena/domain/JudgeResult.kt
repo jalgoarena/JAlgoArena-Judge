@@ -9,11 +9,11 @@ sealed class JudgeResult(val statusCode: String,
                          val consumedMemory: Long, // bytes
                          val testcaseResults: List<Boolean>) {
 
-    class Accepted(testCasesCount: Int, usedTimeInMs: Double, usedMemoryInKb: Long) : JudgeResult(
+    class Accepted(testCasesCount: Int, usedTimeInMs: Double, usedMemoryInBytes: Long) : JudgeResult(
             StatusCode.ACCEPTED.toString(),
             null,
             usedTimeInMs,
-            usedMemoryInKb,
+            usedMemoryInBytes,
             BooleanArray(testCasesCount) { true }.toList()
     )
 
