@@ -2,7 +2,8 @@ package com.jalgoarena.judge
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.google.common.util.concurrent.ThreadFactoryBuilder
-import com.jalgoarena.compile.*
+import com.jalgoarena.compile.CompileErrorException
+import com.jalgoarena.compile.JvmCompiler
 import com.jalgoarena.domain.Function
 import com.jalgoarena.domain.JudgeRequest
 import com.jalgoarena.domain.JudgeResult
@@ -21,6 +22,7 @@ open class JvmJudgeEngine(
 ) : JudgeEngine {
 
     private val NUMBER_OF_ITERATIONS = 5
+    private val MEMORY_LIMIT_32_MB = 32L
 
     private val threadFactory = ThreadFactoryBuilder()
             .setNameFormat("Judge-%d")
@@ -50,11 +52,13 @@ open class JvmJudgeEngine(
             val judge = executorService.submit(JudgeTask(clazz, method, testCases))
 
             return handleFutureRunExceptions {
-                val results: List<Boolean> = coldRun(judge, problem)
-                val failedTestCases = results.filter({ !it }).count()
+                val (testCasesResults, performanceResult) = coldRun(judge, problem)
+
+                val failedTestCases = testCasesResults.filter({ !it }).count()
 
                 when {
-                    failedTestCases > 0 -> JudgeResult.WrongAnswer(results)
+                    isMemoryLimitExceeded(performanceResult) -> MemoryLimitExceeded(performanceResult.usedMemoryInBytes)
+                    failedTestCases > 0 -> JudgeResult.WrongAnswer(testCasesResults)
                     else -> hotRun(clazz, method, problem, testCases)
                 }
             }
@@ -66,7 +70,7 @@ open class JvmJudgeEngine(
     private fun hotRun(clazz: Any, method: Method, problem: Problem, testCases: Array<InternalTestCase>) =
             runPerformanceEvaluation(clazz, method, problem, testCases)
 
-    private fun coldRun(judge: Future<List<Boolean>>, problem: Problem) =
+    private fun coldRun(judge: Future<Pair<List<Boolean>, PerformanceResult>>, problem: Problem) =
             judge.get(problem.timeLimit, TimeUnit.SECONDS)
 
     private fun runPerformanceEvaluation(
@@ -78,20 +82,29 @@ open class JvmJudgeEngine(
             var performanceResultFuture = evaluatePerformance(clazz, method, problem, executorService)
             var performanceResult = performanceResultFuture.get(problem.timeLimit, TimeUnit.SECONDS)
 
+            if (isMemoryLimitExceeded(performanceResult)) {
+                return MemoryLimitExceeded(performanceResult.usedMemoryInBytes)
+            }
+
             for (i in 0..NUMBER_OF_ITERATIONS - 1) {
                 performanceResultFuture = evaluatePerformance(clazz, method, problem, executorService)
                 val nextPerformanceResult = performanceResultFuture.get(problem.timeLimit, TimeUnit.SECONDS)
-                performanceResult = performanceResult chooseBetterComparingWith nextPerformanceResult
-            }
 
-            if (performanceResult.usedMemoryInBytes / 1024 > problem.memoryLimit) {
-                return MemoryLimitExceeded(performanceResult.usedMemoryInBytes)
+                if (isMemoryLimitExceeded(nextPerformanceResult)) {
+                    return MemoryLimitExceeded(nextPerformanceResult.usedMemoryInBytes)
+                }
+
+                performanceResult = performanceResult chooseBetterComparingWith nextPerformanceResult
             }
 
             return Accepted(testCases.size, performanceResult.usedTimeInMs, performanceResult.usedMemoryInBytes)
         } finally {
             executorService.shutdownNow()
         }
+    }
+
+    private fun isMemoryLimitExceeded(performanceResult: PerformanceResult): Boolean {
+        return performanceResult.usedMemoryInBytes / (1024L * 1024L) > MEMORY_LIMIT_32_MB
     }
 
     private fun handleFutureRunExceptions(call: () -> JudgeResult) = try {
@@ -148,60 +161,4 @@ open class JvmJudgeEngine(
         Collections.shuffle(internalTestCasesAsList)
         return internalTestCasesAsList.toTypedArray()
     }
-
-
-    private class PerformanceSnapshot(val currentNanoTime: Long, val usedMemoryInBytes: Long)
-
-    private class PerformanceResult(val usedMemoryInBytes: Long, val usedTimeInMs: Double) {
-
-        infix fun chooseBetterComparingWith(performanceResult: PerformanceResult): PerformanceResult {
-            return PerformanceResult(
-                    Math.min(performanceResult.usedMemoryInBytes, usedMemoryInBytes),
-                    Math.min(performanceResult.usedTimeInMs, usedTimeInMs)
-            )
-        }
-
-        companion object {
-
-            internal fun create(before: PerformanceSnapshot, after: PerformanceSnapshot): PerformanceResult {
-                return PerformanceResult(
-                        usedMemoryInBytes(before, after),
-                        usedTimeInMs(before, after)
-                )
-            }
-
-            private fun usedTimeInMs(before: PerformanceSnapshot, after: PerformanceSnapshot): Double {
-                return (after.currentNanoTime - before.currentNanoTime) / (1000.0 * 1000.0)
-            }
-
-            private fun usedMemoryInBytes(before: PerformanceSnapshot, after: PerformanceSnapshot): Long {
-                return after.usedMemoryInBytes - before.usedMemoryInBytes
-            }
-        }
-    }
-
-    private class JudgePerformanceTask(
-            val clazz: Any, val method: Method, val testCases: Array<InternalTestCase>
-    ) : Callable<PerformanceResult> {
-
-        override fun call(): PerformanceResult {
-            val snapshotBeforeRun = takePerformanceSnapshot()
-
-            JudgeTask(this.clazz, this.method, this.testCases).call()
-
-            val snapshotAfterRun = takePerformanceSnapshot()
-
-            return PerformanceResult.create(snapshotBeforeRun, snapshotAfterRun)
-        }
-
-        private fun takePerformanceSnapshot(): PerformanceSnapshot {
-            val runtime = Runtime.getRuntime()
-
-            return PerformanceSnapshot(
-                    System.nanoTime(),
-                    runtime.totalMemory() - runtime.freeMemory()
-            )
-        }
-    }
 }
-

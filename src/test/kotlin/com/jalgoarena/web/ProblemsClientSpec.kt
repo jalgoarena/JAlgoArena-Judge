@@ -71,7 +71,6 @@ class ProblemsClientSpec {
             title = "Fibonacci",
             description = "dummy description",
             level = 3,
-            memoryLimit = 1,
             timeLimit = 1,
             func = FIB_FUNCTION,
             skeletonCode = mapOf(

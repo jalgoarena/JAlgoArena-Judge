@@ -45,7 +45,6 @@ class ProblemJsonSerializationTest {
             title = "dummy_title",
             description = "dummy description",
             level = 3,
-            memoryLimit = 1,
             timeLimit = 1,
             func = TWO_SUM_FUNCTION,
             skeletonCode = mapOf(
@@ -66,7 +65,6 @@ class ProblemJsonSerializationTest {
   "title": "dummy_title",
   "description": "dummy description",
   "timeLimit": 1,
-  "memoryLimit": 1,
   "func": {
     "name": "twoSum",
     "returnStatement": {

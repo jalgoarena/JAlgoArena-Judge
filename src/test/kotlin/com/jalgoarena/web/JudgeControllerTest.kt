@@ -62,7 +62,6 @@ class JudgeControllerTest {
             title = "Fibonacci",
             description = "dummy description",
             level = 1,
-            memoryLimit = 1,
             timeLimit = 1,
             func = FIB_FUNCTION,
             skeletonCode = mapOf(

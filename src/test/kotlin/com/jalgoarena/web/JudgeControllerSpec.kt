@@ -156,7 +156,6 @@ class JudgeControllerSpec {
   "title": "Fibonacci",
   "description": "Write the `fib` function to return the N'th term.\r\nWe start counting from:\r\n* fib(0) = 0\r\n* fib(1) = 1.\r\n\r\n### Examples\r\n\r\n* `0` -> `0`\r\n* `6` -> `8`",
   "timeLimit": 1,
-  "memoryLimit": 32,
   "func": {
     "name": "fib",
     "returnStatement": {
@@ -243,7 +242,7 @@ class JudgeControllerSpec {
         return 1L
 """)
 
-    private val FIB_SOURCE_CODE_WITH_MEMORY_ARRAY = sourceCode("""val numbersFromOne = IntArray(200000) { it + 1 }
+    private val FIB_SOURCE_CODE_WITH_MEMORY_ARRAY = sourceCode("""val numbersFromOne = IntArray(50000000) { it + 1 }
         var a: Long = 0
         var b: Long = 1
 

@@ -1,5 +1,6 @@
 package com.jalgoarena.judge
 
+import com.jalgoarena.judge.PerformanceSnapshot.Companion.takePerformanceSnapshot
 import org.apache.commons.lang.exception.ExceptionUtils.getCause
 import java.lang.reflect.Method
 import java.util.*
@@ -9,10 +10,17 @@ internal class JudgeTask(
         private val clazz: Any,
         private val method: Method,
         private val testCases: Array<InternalTestCase>
-) : Callable<List<Boolean>> {
+) : Callable<Pair<List<Boolean>, PerformanceResult>> {
 
-    override fun call() =
-            testCases.map { judge(clazz, method, it) }
+    override fun call(): Pair<List<Boolean>, PerformanceResult> {
+        val before = takePerformanceSnapshot()
+        val testCasesResults = testCases.map { judge(clazz, method, it) }
+        val after = takePerformanceSnapshot()
+
+        return Pair(testCasesResults, PerformanceResult.create(
+              before, after
+        ))
+    }
 
     private fun judge(clazz: Any, method: Method, testCase: InternalTestCase) = try {
         invokeAndCheck(clazz, method, testCase)
