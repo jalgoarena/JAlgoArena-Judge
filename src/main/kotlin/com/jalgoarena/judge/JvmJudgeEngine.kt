@@ -22,7 +22,7 @@ open class JvmJudgeEngine(
 ) : JudgeEngine {
 
     private val NUMBER_OF_ITERATIONS = 5
-    private val MEMORY_LIMIT_32_MB = 32L
+    private val MEMORY_LIMIT_256_MB = 256L
 
     private val threadFactory = ThreadFactoryBuilder()
             .setNameFormat("Judge-%d")
@@ -104,7 +104,7 @@ open class JvmJudgeEngine(
     }
 
     private fun isMemoryLimitExceeded(performanceResult: PerformanceResult): Boolean {
-        return performanceResult.usedMemoryInBytes / (1024L * 1024L) > MEMORY_LIMIT_32_MB
+        return performanceResult.usedMemoryInBytes / (1024L * 1024L) > MEMORY_LIMIT_256_MB
     }
 
     private fun handleFutureRunExceptions(call: () -> JudgeResult) = try {
