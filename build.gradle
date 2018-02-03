@@ -1,6 +1,7 @@
 buildscript {
     ext.kotlin_version = '1.0.6'
     ext.spring_version = '1.5.1.RELEASE'
+    ext.jruby_version = '9.1.14.0'
 
     repositories {
         jcenter()
@@ -48,7 +49,8 @@ dependencies {
             'org.springframework.cloud:spring-cloud-starter-eureka',
             "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version",
             "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version",
-            "org.jetbrains.kotlin:kotlin-compiler:$kotlin_version"
+            "org.jetbrains.kotlin:kotlin-compiler:$kotlin_version",
+            "org.jruby:jruby-complete:$jruby_version"
 
     runtime "org.jetbrains.kotlin:kotlin-runtime:$kotlin_version"
 

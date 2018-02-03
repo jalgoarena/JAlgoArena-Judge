@@ -2,6 +2,7 @@ package com.jalgoarena.judge
 
 import com.jalgoarena.judge.PerformanceSnapshot.Companion.takePerformanceSnapshot
 import org.apache.commons.lang.exception.ExceptionUtils.getCause
+import org.jruby.RubyArray
 import java.lang.reflect.Method
 import java.util.*
 import java.util.concurrent.Callable
@@ -50,7 +51,16 @@ internal class JudgeTask(
             a == null || b == null -> return false
             a is Array<*> && b is Array<*> -> return Arrays.deepEquals(a, b)
             a is IntArray && b is IntArray -> Arrays.equals(a, b)
-            else -> a == b
+            a is IntArray && b is RubyArray -> equalRubyArray(a, b)
+            a == b -> return true
+            else -> return a.toString() == b.toString()
         }
+    }
+
+    private fun equalRubyArray(a: IntArray, b: RubyArray): Boolean {
+        return equalForObjectsOrArrays(
+                a.map { it.toString() },
+                b.map { it.toString() }
+        )
     }
 }

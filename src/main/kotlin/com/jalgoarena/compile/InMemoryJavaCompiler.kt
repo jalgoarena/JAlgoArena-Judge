@@ -7,7 +7,7 @@ import java.io.IOException
 import java.nio.CharBuffer
 import javax.tools.*
 
-class InMemoryJavaCompiler : JvmCompiler {
+open class InMemoryJavaCompiler : JvmCompiler {
 
     private val LOG = LoggerFactory.getLogger(this.javaClass)
 
@@ -63,7 +63,7 @@ class InMemoryJavaCompiler : JvmCompiler {
         return listOf(SourceCodeStringInputBuffer(fileName, source))
     }
 
-    private fun javacOptions(): List<String> {
+    open protected fun javacOptions(): List<String> {
         return listOf(
                 "-nowarn",
                 "-classpath", File("build/classes/main").absolutePath
