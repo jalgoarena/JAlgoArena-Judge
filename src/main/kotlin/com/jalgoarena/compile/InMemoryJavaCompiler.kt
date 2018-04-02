@@ -66,7 +66,7 @@ open class InMemoryJavaCompiler : JvmCompiler {
     open protected fun javacOptions(): List<String> {
         return listOf(
                 "-nowarn",
-                "-classpath", File("build/classes/main").absolutePath
+                "-classpath", File("build/classes/kotlin/main").absolutePath
         )
     }
 

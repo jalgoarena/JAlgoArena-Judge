@@ -61,8 +61,10 @@ dependencies {
 
     testCompile 'junit:junit:4.12',
             'pl.pragmatists:JUnitParams:1.0.5',
+            "org.springframework.kafka:spring-kafka-test",
             "org.springframework.boot:spring-boot-starter-test",
-            'com.squareup.okhttp3:okhttp:3.4.2'
+            'com.squareup.okhttp3:okhttp:3.4.2',
+            'com.nhaarman:mockito-kotlin-kt1.1:1.5.0'
 }
 
 apply plugin: 'jacoco'

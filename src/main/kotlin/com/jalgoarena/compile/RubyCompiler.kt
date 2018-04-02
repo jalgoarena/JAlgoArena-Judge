@@ -16,7 +16,7 @@ class RubyCompiler : JvmCompiler {
                     "-classpath",
                     listOf(
                             File("lib/jruby-complete-9.1.14.0.jar"),
-                            File("build/classes/main").absolutePath
+                            File("build/classes/kotlin/main").absolutePath
                     ).joinToString(File.pathSeparator)
             )
         }

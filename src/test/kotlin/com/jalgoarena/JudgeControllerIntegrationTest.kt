@@ -5,7 +5,7 @@ import com.jalgoarena.config.TestApplicationConfiguration
 import com.jalgoarena.domain.Submission
 import com.jalgoarena.domain.StatusCode
 import com.jalgoarena.web.ProblemsController
-import com.jalgoarena.web.SubmissionsProcessor
+import com.jalgoarena.web.SubmissionsListener
 import junitparams.JUnitParamsRunner
 import junitparams.Parameters
 import okhttp3.OkHttpClient
@@ -24,7 +24,7 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @RunWith(JUnitParamsRunner::class)
-@ContextConfiguration(classes = arrayOf(TestApplicationConfiguration::class))
+@ContextConfiguration(classes = [(TestApplicationConfiguration::class)])
 class JudgeControllerIntegrationTest {
 
     companion object {
@@ -58,7 +58,7 @@ class JudgeControllerIntegrationTest {
     @JvmField val springMethodRule = SpringMethodRule()
 
     @Inject
-    lateinit var submissionsProcessor: SubmissionsProcessor
+    lateinit var submissionsListener: SubmissionsListener
 
     @Inject
     lateinit var problemsController: ProblemsController
@@ -105,7 +105,7 @@ class JudgeControllerIntegrationTest {
     @Parameters("2-sum, TwoSum", "fib, FibFast", "stoi, MyStoi", "word-ladder, WordLadder", "is-string-unique, IsStringUnique2", "check-perm, CheckPerm", "palindrome-perm, PalindromePerm", "one-away, OneAway", "string-compress, StringCompress", "rotate-matrix, RotateMatrix", "zero-matrix, ZeroMatrix", "remove-dups, RemoveDups", "kth-to-last, KThToLast", "string-rotation, StringRotation", "sum-lists, SumLists", "sum-lists-2, SumLists2", "palindrome-list, PalindromeList", "binary-search, BinarySearch", "delete-tail-node, DeleteTailNode", "repeated-elements, RepeatedElements", "first-non-repeated-char, FirstNonRepeatedChar", "find-middle-node, FindMiddleNode", "horizontal-flip, HorizontalFlip", "vertical-flip, VerticalFlip", "single-number, SingleNumber", "preorder-traversal, PreorderTraversal", "inorder-traversal, InorderTraversal", "postorder-traversal, PostorderTraversal", "height-binary-tree, HeightOfBinaryTree", "sum-binary-tree, SumBinaryTree", "insert-stars, InsertStars", "transpose-matrix, TransposeMatrix", "merge-k-sorted-linked-lists, MergeKSortedLinkedLists")
     fun judgesJavaCorrectSolution(problemId: String, solutionId: String) {
         val sourceCode = Resources.toString(Resources.getResource(solutionId + ".java"), Charsets.UTF_8)
-        val result = submissionsProcessor.judge(Submission(sourceCode, "0-0", "java", "0", problemId, null))
+        val result = submissionsListener.judge(Submission(sourceCode, "0-0", "java", "0", problemId, null))
 
         assertThat(result.statusCode).isEqualTo(StatusCode.ACCEPTED.toString())
     }
@@ -114,7 +114,7 @@ class JudgeControllerIntegrationTest {
     @Parameters("2-sum, TwoSum", "fib, FibFast", "stoi, MyStoi", "word-ladder, WordLadder", "is-string-unique, IsStringUnique2", "check-perm, CheckPerm", "palindrome-perm, PalindromePerm", "one-away, OneAway", "string-compress, StringCompress", "rotate-matrix, RotateMatrix", "zero-matrix, ZeroMatrix", "remove-dups, RemoveDups", "kth-to-last, KThToLast", "string-rotation, StringRotation", "sum-lists, SumLists", "sum-lists-2, SumLists2", "palindrome-list, PalindromeList", "binary-search, BinarySearch", "delete-tail-node, DeleteTailNode", "repeated-elements, RepeatedElements", "first-non-repeated-char, FirstNonRepeatedChar", "find-middle-node, FindMiddleNode", "horizontal-flip, HorizontalFlip", "vertical-flip, VerticalFlip", "single-number, SingleNumber", "preorder-traversal, PreorderTraversal", "inorder-traversal, InorderTraversal", "postorder-traversal, PostorderTraversal", "height-binary-tree, HeightOfBinaryTree", "sum-binary-tree, SumBinaryTree", "insert-stars, InsertStars", "transpose-matrix, TransposeMatrix", "merge-k-sorted-linked-lists, MergeKSortedLinkedLists")
     fun judgesKotlinCorrectSolution(problemId: String, solutionId: String) {
         val sourceCode = Resources.toString(Resources.getResource(solutionId + ".kt"), Charsets.UTF_8)
-        val result = submissionsProcessor.judge(Submission(sourceCode, "0-0", "kotlin", "1", problemId, null))
+        val result = submissionsListener.judge(Submission(sourceCode, "0-0", "kotlin", "1", problemId, null))
 
         assertThat(result.statusCode).isEqualTo(StatusCode.ACCEPTED.toString())
     }
@@ -122,7 +122,7 @@ class JudgeControllerIntegrationTest {
     @Parameters("2-sum, TwoSum", "fib, FibFast", "stoi, MyStoi", "is-string-unique, IsStringUnique2", "check-perm, CheckPerm", "palindrome-perm, PalindromePerm", "one-away, OneAway", "string-compress, StringCompress", "rotate-matrix, RotateMatrix", "zero-matrix, ZeroMatrix", "remove-dups, RemoveDups", "kth-to-last, KThToLast", "string-rotation, StringRotation", "sum-lists, SumLists", "sum-lists-2, SumLists2", "palindrome-list, PalindromeList", "binary-search, BinarySearch", "delete-tail-node, DeleteTailNode", "repeated-elements, RepeatedElements", "first-non-repeated-char, FirstNonRepeatedChar", "find-middle-node, FindMiddleNode", "horizontal-flip, HorizontalFlip", "vertical-flip, VerticalFlip", "single-number, SingleNumber", "preorder-traversal, PreorderTraversal", "inorder-traversal, InorderTraversal", "postorder-traversal, PostorderTraversal", "height-binary-tree, HeightOfBinaryTree", "sum-binary-tree, SumBinaryTree", "insert-stars, InsertStars", "transpose-matrix, TransposeMatrix", "merge-k-sorted-linked-lists, MergeKSortedLinkedLists")
     fun judgesRubyCorrectSolution(problemId: String, solutionId: String) {
         val sourceCode = Resources.toString(Resources.getResource(solutionId + ".rb"), Charsets.UTF_8)
-        val result = submissionsProcessor.judge(Submission(sourceCode, "0-0", "ruby", "2", problemId, null))
+        val result = submissionsListener.judge(Submission(sourceCode, "0-0", "ruby", "2", problemId, null))
 
         assertThat(result.statusCode).isEqualTo(StatusCode.ACCEPTED.toString())
     }
@@ -131,7 +131,7 @@ class JudgeControllerIntegrationTest {
     fun returnsFormattedMessageIfCompilationError() {
 
         val skeletonCode = problemsController.problem("fib").skeletonCode!!["java"]!!
-        val result = submissionsProcessor.judge(Submission(skeletonCode, "0-0", "java", "3", "fib", null))
+        val result = submissionsListener.judge(Submission(skeletonCode, "0-0", "java", "3", "fib", null))
 
         assertThat(result.errorMessage).isEqualTo("Line:11: error: missing return statement\n    }\n    ^\n")
     }

@@ -16,11 +16,8 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.*
 import org.junit.Assert.fail
-import org.junit.BeforeClass
-import org.junit.ClassRule
-import org.junit.Rule
-import org.junit.Test
 import org.junit.runner.RunWith
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.junit4.rules.SpringClassRule
@@ -100,6 +97,7 @@ open class JavaEngineIntegrationTest {
     }
 
     @Test
+    @Ignore
     fun infiniteLoop() {
         val executor = Executors.newCachedThreadPool()
         val futures = mutableListOf<Future<*>>()

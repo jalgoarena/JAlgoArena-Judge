@@ -18,7 +18,7 @@ import javax.inject.Inject
 
 @Service
 @KafkaListener(topics = ["submissions"])
-class SubmissionsProcessor(
+class SubmissionsListener(
         @Inject private val problemsRepository: ProblemsRepository,
         @Inject private val judgeEngine: JudgeEngine
 ) {
@@ -32,11 +32,21 @@ class SubmissionsProcessor(
     fun judge(message: String): SubmissionResult {
 
         val submission = jacksonObjectMapper().readValue(message, Submission::class.java)
+        logger.info("Received submission as String [submissionId={}]", submission.submissionId)
 
+        return judge(submission)
+    }
+
+    @KafkaHandler
+    fun judge(submission: Submission): SubmissionResult {
+
+        logger.info("Judge for submission [submissionId={}] is starting", submission.submissionId)
         val judgeResult = judgeEngine.judge(
                 problemsRepository.find(submission.problemId),
                 submission
         )
+
+        logger.info("Submission result [submissionId={}] is ready", submission.submissionId)
 
         return submitAndReturnResult(submission, judgeResult)
     }
@@ -56,7 +66,8 @@ class SubmissionsProcessor(
                 testcaseResults = judgeResult.testcaseResults
         )
 
-        logger.info("Submit result for submission id: {}", submissionResult.submissionId)
+        logger.info("Publishing submission result [submissionId={}]", submissionResult.submissionId)
+
         template.send("results", submissionResult)
                 .addCallback(SubmissionResultHandler(submissionResult.submissionId))
 
@@ -74,7 +85,7 @@ class SubmissionsProcessor(
         }
 
         override fun onFailure(ex: Throwable?) {
-            logger.error("Couldn't publish submission result [submissionId={}]", submissionId, ex)
+            logger.error("Error during publishing submission result [submissionId={}]", submissionId, ex)
         }
 
     }
