@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.node.ArrayNode
 import com.fasterxml.jackson.databind.node.IntNode
 import com.fasterxml.jackson.databind.node.JsonNodeFactory
 import com.jalgoarena.data.ProblemsRepository
-import com.jalgoarena.data.SubmissionsRepository
 import com.jalgoarena.domain.*
 import com.jalgoarena.domain.Function
 import com.jalgoarena.judge.JvmJudgeEngine
@@ -17,12 +16,10 @@ import org.mockito.internal.verification.Only
 class JudgeControllerTest {
 
     private val problemsRepository = mock(ProblemsRepository::class.java)
-    private val submissionsRepository = mock(SubmissionsRepository::class.java)
     private val judgeEngine = mock(JvmJudgeEngine::class.java)
 
-    private val controller: JudgeController = JudgeController(
+    private val controller: SubmissionsProcessor = SubmissionsProcessor(
             problemsRepository,
-            submissionsRepository,
             judgeEngine
     )
 
@@ -32,16 +29,16 @@ class JudgeControllerTest {
                 FIB_PROBLEM
         )
 
-        given(judgeEngine.judge(FIB_PROBLEM, JudgeRequest(DUMMY_SOURCE_CODE, "0-0", "java"))).willReturn(
+        val submission = Submission(DUMMY_SOURCE_CODE, "0-0", "java", "0", FIB_PROBLEM.id, null)
+        given(judgeEngine.judge(FIB_PROBLEM, submission)).willReturn(
                 JudgeResult.Accepted(NUMBER_OF_TEST_CASES, ELAPSED_TIME, USED_MEMORY)
         )
 
         controller.judge(
-                FIB_PROBLEM.id,
-                JudgeRequest(DUMMY_SOURCE_CODE, USER_ID, LANGUAGE)
+                Submission(DUMMY_SOURCE_CODE, USER_ID, LANGUAGE, "0", FIB_PROBLEM.id, null)
         )
 
-        then(submissionsRepository).should(Only()).save(SUBMISSION, null)
+//        then(submissionsRepository).should(Only()).save(SUBMISSION, null)
     }
 
     private val DUMMY_SOURCE_CODE = "dummy source code"
@@ -76,12 +73,16 @@ class JudgeControllerTest {
             )
     )
 
-    private val SUBMISSION = Submission(
+    private val SUBMISSION = SubmissionResult(
+            sourceCode = DUMMY_SOURCE_CODE,
+            userId = USER_ID,
             problemId = FIB_PROBLEM.id,
             elapsedTime = ELAPSED_TIME,
-            language = LANGUAGE,
-            sourceCode = DUMMY_SOURCE_CODE,
             statusCode = StatusCode.ACCEPTED.toString(),
-            userId = USER_ID
+            language = LANGUAGE,
+            submissionId = "0",
+            consumedMemory = 0L,
+            errorMessage = null,
+            testcaseResults = arrayListOf()
     )
 }

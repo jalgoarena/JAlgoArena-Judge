@@ -36,8 +36,8 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import javax.inject.Inject
 
 @RunWith(SpringRunner::class)
-@WebMvcTest(JudgeController::class)
-@ContextConfiguration(classes = arrayOf(JudgeControllerSpec.ControllerTestConfiguration::class))
+//@WebMvcTest(JudgeController::class)
+@ContextConfiguration(classes = [(JudgeControllerSpec.ControllerTestConfiguration::class)])
 class JudgeControllerSpec {
 
     @Inject
@@ -140,9 +140,6 @@ class JudgeControllerSpec {
         @Bean
         open fun judgeEngine(objectMapper: ObjectMapper, codeCompilers: List<JvmCompiler>) =
                 JvmJudgeEngine(objectMapper, codeCompilers)
-
-        @Bean
-        open fun submissionsRepository() = TestApplicationConfiguration.FakeSubmissionRepository()
 
         @Bean
         open fun codeCompilers() = listOf(

@@ -1,13 +1,14 @@
 buildscript {
-    ext.kotlin_version = '1.0.6'
-    ext.spring_version = '1.5.1.RELEASE'
+    ext.kotlin_version = '1.2.31'
+    ext.spring_boot_version = '1.5.10.RELEASE'
     ext.jruby_version = '9.1.14.0'
+    ext.fasterxml_version = '2.9.5'
 
     repositories {
         jcenter()
     }
     dependencies {
-        classpath "org.springframework.boot:spring-boot-gradle-plugin:$spring_version"
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:$spring_boot_version"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
@@ -16,8 +17,11 @@ plugins {
     id "jacoco"
 }
 
+apply plugin: 'idea'
 apply plugin: 'kotlin'
 apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
 apply from: "$rootDir/gradle/versioning.gradle"
 
 group = 'jalgoarena'
@@ -39,10 +43,11 @@ jar {
 
 dependencies {
     compile 'com.google.guava:guava:18.0',
-            'com.fasterxml.jackson.core:jackson-databind',
-            'com.fasterxml.jackson.core:jackson-core',
-            'com.fasterxml.jackson.core:jackson-annotations',
-            "com.fasterxml.jackson.module:jackson-module-kotlin",
+            "com.fasterxml.jackson.core:jackson-databind:$fasterxml_version",
+            "com.fasterxml.jackson.core:jackson-core:$fasterxml_version",
+            "com.fasterxml.jackson.core:jackson-annotations:$fasterxml_version",
+            "com.fasterxml.jackson.module:jackson-module-kotlin:$fasterxml_version",
+            "org.springframework.kafka:spring-kafka",
             "org.springframework.boot:spring-boot-starter-web",
             "org.springframework.boot:spring-boot-starter-undertow",
             "org.springframework.boot:spring-boot-starter-actuator",
@@ -83,7 +88,7 @@ task stage {
 
 dependencyManagement {
     imports {
-        mavenBom "org.springframework.cloud:spring-cloud-dependencies:Camden.SR3"
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:Edgware.SR3"
     }
 }
 
@@ -106,4 +111,11 @@ task releaseZip(type: Zip, dependsOn: 'bootRepackage') {
     }
     archiveName "JAlgoArena-Judge-${version}.zip"
     destinationDir(file('build/libs'))
+}
+
+compileKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+compileTestKotlin {
+    kotlinOptions.jvmTarget = "1.8"
 }

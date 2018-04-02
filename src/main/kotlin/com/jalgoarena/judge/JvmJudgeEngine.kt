@@ -5,7 +5,7 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder
 import com.jalgoarena.compile.CompileErrorException
 import com.jalgoarena.compile.JvmCompiler
 import com.jalgoarena.domain.Function
-import com.jalgoarena.domain.JudgeRequest
+import com.jalgoarena.domain.Submission
 import com.jalgoarena.domain.JudgeResult
 import com.jalgoarena.domain.JudgeResult.*
 import com.jalgoarena.domain.Problem
@@ -29,9 +29,9 @@ open class JvmJudgeEngine(
             .setDaemon(true)
             .build()
 
-    override fun judge(problem: Problem, judgeRequest: JudgeRequest): JudgeResult {
+    override fun judge(problem: Problem, submission: Submission): JudgeResult {
 
-        val (sourceCode, userId, language) = judgeRequest
+        val (sourceCode, userId, language) = submission
 
         val className = findClassName(language, sourceCode)
 
@@ -41,7 +41,7 @@ open class JvmJudgeEngine(
 
         val compiler = compilers.first { it.programmingLanguage() == language }
 
-        return compileAndJudge(className, compiler, problem.func!!, problem, judgeRequest.sourceCode)
+        return compileAndJudge(className, compiler, problem.func!!, problem, submission.sourceCode)
     }
 
     private fun judge(clazz: Any, method: Method, problem: Problem): JudgeResult {
