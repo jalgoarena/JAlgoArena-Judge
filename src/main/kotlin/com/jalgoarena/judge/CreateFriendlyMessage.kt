@@ -1,8 +1,8 @@
 package com.jalgoarena.judge
 
-internal class CreateFriendlyMessage {
+internal class CreateFriendlyMessage(fileExtension: String) {
 
-    private val JAVA_EXT = ".java:"
+    private val extension = ".$fileExtension:"
 
     fun from(errorMessage: String): String {
         val lines = errorMessage
@@ -19,7 +19,7 @@ internal class CreateFriendlyMessage {
     }
 
     private fun processLine(sb: StringBuilder, line: String) {
-        val pos = line.indexOf(JAVA_EXT)
+        val pos = line.indexOf(extension)
 
         if (pos > 0) {
             appendFriendlyMessage(sb, line, pos)
@@ -29,13 +29,13 @@ internal class CreateFriendlyMessage {
     }
 
     private fun appendFriendlyMessage(errorFriendlyMessage: StringBuilder, line: String, pos: Int) {
-        val pos2 = line.indexOf(':', pos + JAVA_EXT.length)
+        val pos2 = line.indexOf(':', pos + extension.length)
         val friendlyMessage = "Line:${getLineNumber(line, pos, pos2)}${line.substring(pos2)}"
         errorFriendlyMessage.append(friendlyMessage).append('\n')
     }
 
     private fun getLineNumber(line: String, pos: Int, pos2: Int): Int {
-        val numberStr = line.substring(pos + JAVA_EXT.length, pos2)
+        val numberStr = line.substring(pos + extension.length, pos2)
         return Integer.valueOf(numberStr)
     }
 }

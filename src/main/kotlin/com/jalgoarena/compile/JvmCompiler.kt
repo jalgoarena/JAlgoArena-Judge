@@ -8,6 +8,7 @@ import java.net.URL
 import java.net.URLClassLoader
 
 interface JvmCompiler {
+    val fileExtension: String
 
     fun compileMethod(qualifiedClassName: String, methodName: String, parameterCount: Int, source: String): Pair<Any, Method> {
 

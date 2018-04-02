@@ -9,6 +9,7 @@ import com.jalgoarena.domain.Submission
 import com.jalgoarena.domain.JudgeResult
 import com.jalgoarena.domain.JudgeResult.*
 import com.jalgoarena.domain.Problem
+import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
 import java.lang.reflect.Method
 import java.util.*
@@ -23,6 +24,8 @@ open class JvmJudgeEngine(
 
     private val NUMBER_OF_ITERATIONS = 5
     private val MEMORY_LIMIT_256_MB = 256L
+
+    private val logger = LoggerFactory.getLogger(this.javaClass)
 
     private val threadFactory = ThreadFactoryBuilder()
             .setNameFormat("Judge-%d")
@@ -130,9 +133,10 @@ open class JvmJudgeEngine(
         val (instance, method) = compiler.compileMethod(className.get(), function.name, function.parameters.size, userCode)
         judge(instance, method, problem)
     } catch (e: Throwable) {
+        logger.info("Cannot judge code: ", e)
         when (e) {
             is ClassNotFoundException -> CompileError("${e.javaClass} : ${e.message}")
-            is CompileErrorException -> CompileError(CreateFriendlyMessage().from(e.message!!))
+            is CompileErrorException -> CompileError(CreateFriendlyMessage(compiler.fileExtension).from(e.message!!))
             is NoSuchMethodError -> CompileError("No such method: ${e.message}")
             else -> RuntimeError(e.message)
         }

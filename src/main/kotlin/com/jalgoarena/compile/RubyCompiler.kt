@@ -9,7 +9,11 @@ import org.jruby.Ruby
 
 
 class RubyCompiler : JvmCompiler {
+    override val fileExtension = "rb"
+
     open class InMemoryJRubyCompiler : InMemoryJavaCompiler() {
+        override val fileExtension = "rb"
+
         override fun javacOptions(): List<String> {
             return listOf(
                     "-nowarn",

@@ -9,6 +9,8 @@ import javax.tools.*
 
 open class InMemoryJavaCompiler : JvmCompiler {
 
+    override val fileExtension = "java"
+
     private val LOG = LoggerFactory.getLogger(this.javaClass)
 
     override fun programmingLanguage() = "java"

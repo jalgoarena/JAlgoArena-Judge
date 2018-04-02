@@ -63,7 +63,8 @@ class SubmissionsListener(
                 submissionId = submission.submissionId,
                 consumedMemory = judgeResult.consumedMemory,
                 errorMessage = judgeResult.errorMessage,
-                testcaseResults = judgeResult.testcaseResults
+                testcaseResults = judgeResult.testcaseResults,
+                token = submission.token
         )
 
         logger.info("Publishing submission result [submissionId={}]", submissionResult.submissionId)
