@@ -1,8 +1,8 @@
 package com.jalgoarena.judge
 
-internal class CreateFriendlyMessage(fileExtension: String) {
+internal class CreateFriendlyMessage {
 
-    private val extension = ".$fileExtension:"
+    private val extension = ".java:"
 
     fun from(errorMessage: String): String {
         val lines = errorMessage

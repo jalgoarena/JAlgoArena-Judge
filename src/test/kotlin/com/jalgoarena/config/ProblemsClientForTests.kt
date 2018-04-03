@@ -8,7 +8,7 @@ import okhttp3.Request
 import org.springframework.stereotype.Repository
 
 @Repository
-class ProblemsClientForTests : ProblemsRepository {
+open class ProblemsClientForTests : ProblemsRepository {
 
     private val objectMapper = jacksonObjectMapper()
 

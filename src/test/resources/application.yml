@@ -1,6 +1,8 @@
 spring:
   kafka:
     bootstrap-servers: ${spring.embedded.kafka.brokers}
+    consumer:
+          group-id: judge-agent
     producer:
       retries: 3
       key-serializer: org.apache.kafka.common.serialization.StringSerializer

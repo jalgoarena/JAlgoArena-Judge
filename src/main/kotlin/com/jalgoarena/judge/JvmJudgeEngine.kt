@@ -136,7 +136,7 @@ open class JvmJudgeEngine(
         logger.info("Cannot judge code: ", e)
         when (e) {
             is ClassNotFoundException -> CompileError("${e.javaClass} : ${e.message}")
-            is CompileErrorException -> CompileError(CreateFriendlyMessage(compiler.fileExtension).from(e.message!!))
+            is CompileErrorException -> CompileError(CreateFriendlyMessage().from(e.message!!))
             is NoSuchMethodError -> CompileError("No such method: ${e.message}")
             else -> RuntimeError(e.message)
         }

@@ -24,7 +24,7 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @RunWith(JUnitParamsRunner::class)
-@ContextConfiguration(classes = [(TestApplicationConfiguration::class)])
+@ContextConfiguration(classes = [TestApplicationConfiguration::class])
 class JudgeControllerIntegrationTest {
 
     companion object {

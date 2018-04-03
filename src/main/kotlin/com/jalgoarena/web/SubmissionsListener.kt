@@ -26,7 +26,7 @@ class SubmissionsListener(
     private val logger = LoggerFactory.getLogger(this.javaClass)
 
     @Autowired
-    private lateinit var template: KafkaTemplate<Int, SubmissionResult>
+    lateinit var template: KafkaTemplate<Int, SubmissionResult>
 
     @KafkaHandler
     fun judge(message: String): SubmissionResult {

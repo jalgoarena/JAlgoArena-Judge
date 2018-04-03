@@ -10,8 +10,6 @@ import java.util.*
 
 class KotlinCompiler : JvmCompiler {
 
-    override val fileExtension = "kt"
-
     private val compiler = K2JVMCompiler()
 
     override fun programmingLanguage() = "kotlin"

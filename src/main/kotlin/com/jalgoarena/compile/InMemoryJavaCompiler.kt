@@ -9,9 +9,7 @@ import javax.tools.*
 
 open class InMemoryJavaCompiler : JvmCompiler {
 
-    override val fileExtension = "java"
-
-    private val LOG = LoggerFactory.getLogger(this.javaClass)
+    private val logger = LoggerFactory.getLogger(this.javaClass)
 
     override fun programmingLanguage() = "java"
 
@@ -35,7 +33,7 @@ open class InMemoryJavaCompiler : JvmCompiler {
         try {
             fileManager.close()
         } catch (exp: IOException) {
-            LOG.error("Cannot close in memory file", exp)
+            logger.error("Cannot close in memory file", exp)
         }
 
         return classBytes

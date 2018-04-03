@@ -8,8 +8,6 @@ import java.net.URL
 import java.net.URLClassLoader
 
 interface JvmCompiler {
-    val fileExtension: String
-
     fun compileMethod(qualifiedClassName: String, methodName: String, parameterCount: Int, source: String): Pair<Any, Method> {
 
         val classBytes = run(qualifiedClassName, source)
@@ -53,7 +51,7 @@ interface JvmCompiler {
         }
 
         private fun clearByteMap(className: String) {
-            classNameToBytecode.put(className, null)
+            classNameToBytecode[className] = null
         }
     }
 
