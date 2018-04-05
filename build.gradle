@@ -48,7 +48,7 @@ dependencies {
             "com.fasterxml.jackson.core:jackson-core:$fasterxml_version",
             "com.fasterxml.jackson.core:jackson-annotations:$fasterxml_version",
             "com.fasterxml.jackson.module:jackson-module-kotlin:$fasterxml_version",
-            "org.springframework.kafka:spring-kafka:$spring_kafka_version",
+            "org.springframework.kafka:spring-kafka",
             "org.springframework.boot:spring-boot-starter-web",
             "org.springframework.boot:spring-boot-starter-undertow",
             "org.springframework.boot:spring-boot-starter-actuator",
