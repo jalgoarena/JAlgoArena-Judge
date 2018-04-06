@@ -14,10 +14,10 @@ import org.apache.kafka.clients.producer.ProducerConfig
 import org.apache.kafka.common.serialization.IntegerSerializer
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
+import org.junit.ClassRule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory
 import org.springframework.kafka.core.DefaultKafkaProducerFactory
@@ -26,7 +26,6 @@ import org.springframework.kafka.listener.KafkaMessageListenerContainer
 import org.springframework.kafka.listener.MessageListener
 import org.springframework.kafka.listener.config.ContainerProperties
 import org.springframework.kafka.support.serializer.JsonSerializer
-import org.springframework.kafka.test.context.EmbeddedKafka
 import org.springframework.kafka.test.rule.KafkaEmbedded
 import org.springframework.kafka.test.utils.ContainerTestUtils
 import org.springframework.kafka.test.utils.KafkaTestUtils
@@ -41,14 +40,10 @@ import java.util.concurrent.TimeUnit
 @RunWith(SpringRunner::class)
 @SpringBootTest
 @DirtiesContext
-@EmbeddedKafka(partitions = 1, topics = ["submissions", "results"])
 @ContextConfiguration(classes = [TestApplicationConfiguration::class])
 class SubmissionListenerSpec {
 
     private val logger = LoggerFactory.getLogger(this.javaClass)
-
-    @Autowired
-    private lateinit var embeddedKafka: KafkaEmbedded
 
     private lateinit var submissionTemplate: KafkaTemplate<Int, String>
     private lateinit var submissionResultsRecords: LinkedBlockingQueue<ConsumerRecord<Int, String>>
@@ -173,6 +168,11 @@ class SubmissionListenerSpec {
     }
 
     companion object {
+
+        @ClassRule
+        @JvmField
+        val embeddedKafka: KafkaEmbedded = KafkaEmbedded(1, true, "submissions", "results")
+
 
         private val submissionsListener = SubmissionsListener(
                 ProblemsOnlyFibRepo(),
