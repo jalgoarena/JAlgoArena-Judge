@@ -7,6 +7,7 @@ data class SubmissionResult(
         val sourceCode: String,
         val userId: String,
         val problemId: String,
+        val submissionTime: String,
         val elapsedTime: Double,
         val statusCode: String,
         val language: String,

@@ -22,8 +22,10 @@ open class JvmJudgeEngine(
         @Inject private val compilers: List<JvmCompiler>
 ) : JudgeEngine {
 
-    private val NUMBER_OF_ITERATIONS = 5
-    private val MEMORY_LIMIT_256_MB = 256L
+    companion object {
+        private const val NUMBER_OF_ITERATIONS = 5
+        private const val MEMORY_LIMIT_256_MB = 256L
+    }
 
     private val logger = LoggerFactory.getLogger(this.javaClass)
 
@@ -34,7 +36,7 @@ open class JvmJudgeEngine(
 
     override fun judge(problem: Problem, submission: Submission): JudgeResult {
 
-        val (sourceCode, userId, language) = submission
+        val (sourceCode, _, language) = submission
 
         val className = findClassName(language, sourceCode)
 

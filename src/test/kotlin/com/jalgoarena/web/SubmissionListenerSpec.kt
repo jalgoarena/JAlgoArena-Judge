@@ -32,6 +32,7 @@ import org.springframework.kafka.test.utils.KafkaTestUtils
 import org.springframework.test.annotation.DirtiesContext
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.junit4.SpringRunner
+import java.time.LocalDateTime
 import java.util.concurrent.BlockingQueue
 import java.util.concurrent.LinkedBlockingQueue
 import java.util.concurrent.TimeUnit
@@ -214,6 +215,7 @@ class SubmissionListenerSpec {
                 "java",
                 "0-1-2-3",
                 "fib",
+                LocalDateTime.now().toString(),
                 "dummy"
         )
 
@@ -223,6 +225,7 @@ class SubmissionListenerSpec {
                 "java",
                 "0-1-2-3",
                 "fib",
+                LocalDateTime.now().toString(),
                 "dummy"
         )
 
@@ -232,6 +235,7 @@ class SubmissionListenerSpec {
                 "java",
                 "0-1-2-3",
                 "fib",
+                LocalDateTime.now().toString(),
                 "dummy"
         )
 
@@ -241,6 +245,7 @@ class SubmissionListenerSpec {
                 "java",
                 "0-1-2-3",
                 "fib",
+                LocalDateTime.now().toString(),
                 "dummy"
         )
     }

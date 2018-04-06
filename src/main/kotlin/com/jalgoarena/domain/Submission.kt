@@ -9,5 +9,6 @@ data class Submission(
         val language: String,
         val submissionId: String,
         val problemId: String,
-        val token: String?
+        val submissionTime: String,
+        val token: String? = null
 )

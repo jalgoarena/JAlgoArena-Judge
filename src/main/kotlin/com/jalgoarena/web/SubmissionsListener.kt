@@ -65,6 +65,7 @@ class SubmissionsListener(
                 errorMessage = judgeResult.errorMessage,
                 passedTestCases = judgeResult.testcaseResults.count { it },
                 failedTestCases = judgeResult.testcaseResults.count { !it },
+                submissionTime = submission.submissionTime,
                 token = submission.token
         )
 
