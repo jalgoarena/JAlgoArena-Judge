@@ -14,6 +14,7 @@ data class SubmissionResult(
         val submissionId: String,
         val consumedMemory: Long,
         val errorMessage: String?,
-        val testcaseResults: List<Boolean>,
+        val passedTestCases: Int,
+        val failedTestCases: Int,
         val token: String?
 )

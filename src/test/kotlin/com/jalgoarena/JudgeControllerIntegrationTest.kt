@@ -47,10 +47,10 @@ class JudgeControllerIntegrationTest {
                 return client.newCall(apiServiceRequest).execute()
             }
 
-            val response = ping("https://jalgoarena-api.herokuapp.com/health")
-            assertThat(response.isSuccessful).isTrue()
             val response2 = ping("https://jalgoarena-problems.herokuapp.com/health")
             assertThat(response2.isSuccessful).isTrue()
+            val response = ping("https://jalgoarena-api.herokuapp.com/health")
+            assertThat(response.isSuccessful).isTrue()
         }
     }
 

@@ -63,7 +63,8 @@ class SubmissionsListener(
                 submissionId = submission.submissionId,
                 consumedMemory = judgeResult.consumedMemory,
                 errorMessage = judgeResult.errorMessage,
-                testcaseResults = judgeResult.testcaseResults,
+                passedTestCases = judgeResult.testcaseResults.count { it },
+                failedTestCases = judgeResult.testcaseResults.count { !it },
                 token = submission.token
         )
 
