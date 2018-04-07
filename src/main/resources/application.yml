@@ -7,7 +7,7 @@ eureka:
       defaultZone: ${EUREKA_URL:http://localhost:5000/eureka/}
 
 server:
-  port: ${PORT:8080}
+  port: ${PORT:0}
 
 spring:
   kafka:
