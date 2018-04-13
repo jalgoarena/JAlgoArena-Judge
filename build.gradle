@@ -103,8 +103,8 @@ task releaseZip(type: Zip, dependsOn: 'bootRepackage') {
         include('*.jar')
         into('lib')
     }
-    from('build/classes/main/com/jalgoarena/type') {
-        into('build/classes/main/com/jalgoarena/type')
+    from('build/classes/kotlin/main/com/jalgoarena/type') {
+        into('build/classes/kotlin/main/com/jalgoarena/type')
         include('*.class')
     }
     from('build/resources/main') {
