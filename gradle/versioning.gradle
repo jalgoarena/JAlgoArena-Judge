@@ -1,6 +1,6 @@
 //noinspection GroovyAssignabilityCheck
 version = new ProjectVersion(
-        '2', '0', '0', System.env.TRAVIS_BUILD_NUMBER
+        '2', '0', System.env.TRAVIS_BUILD_NUMBER
 )
 
 println "Version number: " + version
@@ -9,23 +9,15 @@ class ProjectVersion {
     String major
     String minor
     String patch
-    String build
 
-    ProjectVersion(String major, String minor, String patch, String build) {
+    ProjectVersion(String major, String minor, String patch) {
         this.major = major
         this.minor = minor
         this.patch = patch
-        this.build = build
     }
 
     @Override
     String toString() {
-        String fullVersion = "$major.$minor.$patch"
-
-        if (build) {
-            fullVersion += ".$build"
-        }
-
-        fullVersion
+        patch ? "$major.$minor.$patch" : "$major.$minor.0-SNAPSHOT"
     }
 }

@@ -1,25 +1,15 @@
 buildscript {
-    ext.kotlin_version = '1.2.31'
-    ext.spring_boot_version = '1.5.10.RELEASE'
     ext.jruby_version = '9.1.14.0'
     ext.fasterxml_version = '2.9.5'
-
-    repositories {
-        jcenter()
-    }
-    dependencies {
-        classpath "org.springframework.boot:spring-boot-gradle-plugin:$spring_boot_version"
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-    }
 }
 
 plugins {
+    id "org.jetbrains.kotlin.jvm" version "1.2.40"
+    id 'org.springframework.boot' version '1.5.10.RELEASE'
     id "jacoco"
 }
 
 apply plugin: 'idea'
-apply plugin: 'kotlin'
-apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
 apply from: "$rootDir/gradle/versioning.gradle"
@@ -52,12 +42,12 @@ dependencies {
             "org.springframework.boot:spring-boot-starter-undertow",
             "org.springframework.boot:spring-boot-starter-actuator",
             'org.springframework.cloud:spring-cloud-starter-eureka',
-            "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version",
-            "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version",
-            "org.jetbrains.kotlin:kotlin-compiler:$kotlin_version",
+            "org.jetbrains.kotlin:kotlin-stdlib",
+            "org.jetbrains.kotlin:kotlin-reflect",
+            "org.jetbrains.kotlin:kotlin-compiler",
             "org.jruby:jruby-complete:$jruby_version"
 
-    runtime "org.jetbrains.kotlin:kotlin-runtime:$kotlin_version"
+    runtime "org.jetbrains.kotlin:kotlin-runtime"
 
     testCompile 'junit:junit:4.12',
             'pl.pragmatists:JUnitParams:1.0.5',
