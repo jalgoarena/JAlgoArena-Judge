@@ -4,8 +4,20 @@
     <property name="LOG_FILE" value="./logs/spring-boot.log}"/>
     <include resource="org/springframework/boot/logging/logback/file-appender.xml" />
     <include resource="org/springframework/boot/logging/logback/console-appender.xml" />
+
+    <appender name="stash" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <destination>127.0.0.1:4560</destination>
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+            <customFields>{"appname":"JAlgoArena-Judge"}}</customFields>
+        </encoder>
+    </appender>
+
     <root level="INFO">
         <appender-ref ref="FILE" />
         <appender-ref ref="CONSOLE" />
+        <appender-ref ref="stash" />
     </root>
+
+    <logger name="com.netflix" level="WARN"/>
+    <logger name="org.springframework" level="WARN"/>
 </configuration>

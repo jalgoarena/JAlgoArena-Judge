@@ -45,7 +45,8 @@ dependencies {
             "org.jetbrains.kotlin:kotlin-stdlib",
             "org.jetbrains.kotlin:kotlin-reflect",
             "org.jetbrains.kotlin:kotlin-compiler",
-            "org.jruby:jruby-complete:$jruby_version"
+            "org.jruby:jruby-complete:$jruby_version",
+            'net.logstash.logback:logstash-logback-encoder:5.1'
 
     runtime "org.jetbrains.kotlin:kotlin-runtime"
 

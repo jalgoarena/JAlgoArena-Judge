@@ -32,7 +32,7 @@ class SubmissionsListener(
     fun judge(message: String): SubmissionResult {
 
         val submission = jacksonObjectMapper().readValue(message, Submission::class.java)
-        logger.info("Received submission as String [submissionId={}]", submission.submissionId)
+        logger.info("Received submission [submissionId={}][status=WAITING]", submission.submissionId)
 
         return judge(submission)
     }
@@ -40,13 +40,15 @@ class SubmissionsListener(
     @KafkaHandler
     fun judge(submission: Submission): SubmissionResult {
 
-        logger.info("Judge for submission [submissionId={}] is starting", submission.submissionId)
+        logger.info("Start checking submission [submissionId={}]", submission.submissionId)
         val judgeResult = judgeEngine.judge(
                 problemsRepository.find(submission.problemId),
                 submission
         )
 
-        logger.info("Submission result [submissionId={}] is ready", submission.submissionId)
+        logger.info("Checking submission is done [submissionId={}][status={}]",
+                submission.submissionId,
+                judgeResult.statusCode)
 
         return submitAndReturnResult(submission, judgeResult)
     }
@@ -69,7 +71,9 @@ class SubmissionsListener(
                 token = submission.token
         )
 
-        logger.info("Publishing submission result [submissionId={}]", submissionResult.submissionId)
+        logger.info("Publishing submission result [submissionId={}][status={}]",
+                submissionResult.submissionId,
+                submissionResult.statusCode)
 
         template.send("results", submissionResult)
                 .addCallback(SubmissionResultHandler(submissionResult.submissionId))
