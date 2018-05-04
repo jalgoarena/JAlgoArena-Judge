@@ -20,9 +20,9 @@ class InternalTestCaseParser(
     fun parse(testCase: Problem.TestCase): InternalTestCase {
 
         val parameters = function.parameters
-        Preconditions.checkArgument(parameters.size == testCase.input.size())
 
         try {
+            Preconditions.checkArgument(parameters.size == testCase.input.size(), "Wrongly defined test case! Contact with admin.")
             val input = input(parameters, testCase)
             val returnsVoid = "void" == function.returnStatement.type
             val output = output(parameters, returnsVoid, testCase)
