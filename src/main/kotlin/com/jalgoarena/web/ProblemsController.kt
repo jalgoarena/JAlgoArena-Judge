@@ -19,6 +19,10 @@ class ProblemsController(
     fun problems() = problemsRepository.findAll()
             .map { enhancedProblem(it) }
 
+    @GetMapping("/rawProblems", produces = ["application/json"])
+    fun rawProblems() = problemsRepository.findAll()
+            .map { enhancedRawProblem(it) }
+
     @GetMapping("/problems/{id}", produces = ["application/json"])
     fun problem(@PathVariable id: String) =
             enhancedProblem(problemsRepository.find(id)!!)
@@ -27,6 +31,12 @@ class ProblemsController(
         return problem.copy(
                 func = null,
                 testCases = null,
+                skeletonCode = generateSkeletonCodes(problem.func!!)
+        )
+    }
+
+    private fun enhancedRawProblem(problem: Problem): Problem {
+        return problem.copy(
                 skeletonCode = generateSkeletonCodes(problem.func!!)
         )
     }
