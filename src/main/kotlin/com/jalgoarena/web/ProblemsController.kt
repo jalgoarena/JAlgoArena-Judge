@@ -15,13 +15,13 @@ class ProblemsController(
         @Inject private val codeGenerators: List<JvmCodeGenerator>
 ) {
 
-    @GetMapping("/problems", produces = arrayOf("application/json"))
+    @GetMapping("/problems", produces = ["application/json"])
     fun problems() = problemsRepository.findAll()
             .map { enhancedProblem(it) }
 
-    @GetMapping("/problems/{id}", produces = arrayOf("application/json"))
+    @GetMapping("/problems/{id}", produces = ["application/json"])
     fun problem(@PathVariable id: String) =
-            enhancedProblem(problemsRepository.find(id))
+            enhancedProblem(problemsRepository.find(id)!!)
 
     private fun enhancedProblem(problem: Problem): Problem {
         return problem.copy(

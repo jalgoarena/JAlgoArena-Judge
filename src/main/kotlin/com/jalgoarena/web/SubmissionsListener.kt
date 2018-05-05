@@ -42,7 +42,7 @@ class SubmissionsListener(
 
         logger.info("Start checking submission [submissionId={}]", submission.submissionId)
         val judgeResult = judgeEngine.judge(
-                problemsRepository.find(submission.problemId),
+                problemsRepository.find(submission.problemId)!!,
                 submission
         )
 

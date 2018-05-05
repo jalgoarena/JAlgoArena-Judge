@@ -30,29 +30,8 @@ class JudgeControllerIntegrationTest {
 
     companion object {
 
-        private val client = OkHttpClient.Builder()
-                .connectTimeout(2, TimeUnit.MINUTES)
-                .readTimeout(2, TimeUnit.MINUTES)
-                .build()
-
         @ClassRule
         @JvmField val SCR = SpringClassRule()
-
-        @BeforeClass
-        @JvmStatic fun setUp() {
-
-            fun ping(url: String): Response {
-                val apiServiceRequest = Request.Builder()
-                        .url(url)
-                        .build()
-                return client.newCall(apiServiceRequest).execute()
-            }
-
-            val response2 = ping("https://jalgoarena-problems.herokuapp.com/health")
-            assertThat(response2.isSuccessful).isTrue()
-            val response = ping("https://jalgoarena-api.herokuapp.com/health")
-            assertThat(response.isSuccessful).isTrue()
-        }
     }
 
     @Rule

@@ -18,6 +18,6 @@ class FindMiddleNode {
             fast = fast.next!!.next
         }
 
-        return slow
+        return if (fast == null) slow else slow!!.next
     }
 }

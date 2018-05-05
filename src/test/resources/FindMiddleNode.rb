@@ -11,6 +11,10 @@ class Solution
       fast = fast.next.next
     end
 
-    slow
+    if fast == nil then
+        slow
+    else
+        slow.next
+    end
   end
 end
