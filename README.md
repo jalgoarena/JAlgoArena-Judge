@@ -26,9 +26,9 @@ Demo: https://jalgoarena-ui.herokuapp.com/
 
 | Endpoint | Description |
 | ---- | --------------- |
-| [GET /problems](https://jalgoarena.herokuapp.com/problems) | Get problems list |
-| [GET /problems/:id](https://jalgoarena.herokuapp.com/problems/fib) | Get problem by id |
-| [POST /problems/:id/submit](https://jalgoarena.herokuapp.com/problems/fib/submit) | Post problem solution to judge |
+| [GET /problems](#rest-api) | Get problems list |
+| [GET /problems/:id](#rest-api) | Get problem by id |
+| [POST /problems/:id/submit](#rest-api) | Post problem solution to judge |
 
 ## Components
 
