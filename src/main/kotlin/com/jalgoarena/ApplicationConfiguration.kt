@@ -12,11 +12,11 @@ import com.jalgoarena.compile.InMemoryJavaCompiler
 import com.jalgoarena.compile.JvmCompiler
 import com.jalgoarena.compile.KotlinCompiler
 import com.jalgoarena.compile.RubyCompiler
+import com.jalgoarena.type.GraphNode
 import com.jalgoarena.type.ListNode
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.web.client.RestTemplate
-
 
 @Configuration
 open class ApplicationConfiguration {
@@ -28,6 +28,7 @@ open class ApplicationConfiguration {
 
         val customModule = SimpleModule()
         customModule.addDeserializer(ListNode::class.java, ListNode.Deserializer())
+        customModule.addDeserializer(GraphNode::class.java, GraphNode.Deserializer())
         objectMapper.registerModule(customModule)
         return objectMapper
     }

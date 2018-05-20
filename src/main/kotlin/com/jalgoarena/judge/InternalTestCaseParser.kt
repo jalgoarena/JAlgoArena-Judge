@@ -15,7 +15,7 @@ class InternalTestCaseParser(
         private val objectMapper: ObjectMapper
 ) {
 
-    private val LOG = LoggerFactory.getLogger(InternalTestCaseParser::class.java)
+    private val logger = LoggerFactory.getLogger(InternalTestCaseParser::class.java)
 
     fun parse(testCase: Problem.TestCase): InternalTestCase {
 
@@ -29,7 +29,7 @@ class InternalTestCaseParser(
 
             return InternalTestCase(input, output, returnsVoid)
         } catch(e: Throwable) {
-            LOG.error(e.message, e)
+            logger.error(e.message, e)
             throw IllegalArgumentException(e.message)
         }
     }

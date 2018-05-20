@@ -91,7 +91,7 @@ open class JvmJudgeEngine(
                 return MemoryLimitExceeded(performanceResult.usedMemoryInBytes)
             }
 
-            for (i in 0..NUMBER_OF_ITERATIONS - 1) {
+            for (i in 0 until NUMBER_OF_ITERATIONS) {
                 performanceResultFuture = evaluatePerformance(clazz, method, problem, executorService)
                 val nextPerformanceResult = performanceResultFuture.get(problem.timeLimit, TimeUnit.SECONDS)
 
@@ -165,7 +165,6 @@ open class JvmJudgeEngine(
 
     private fun shuffle(internalTestCases: Array<InternalTestCase>): Array<InternalTestCase> {
         val internalTestCasesAsList = internalTestCases.asList()
-        Collections.shuffle(internalTestCasesAsList)
-        return internalTestCasesAsList.toTypedArray()
+        return internalTestCasesAsList.shuffled().toTypedArray()
     }
 }
