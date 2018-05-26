@@ -54,7 +54,7 @@ open class JvmJudgeEngine(
         val executorService = Executors.newSingleThreadExecutor(threadFactory)
         try {
             val testCases = readInternalTestCases(problem)
-            val judge = executorService.submit(JudgeTask(clazz, method, testCases))
+            val judge = executorService.submit(JudgeTask(clazz, method, testCases, JudgeResultVerifier()))
 
             return handleFutureRunExceptions {
                 val (testCasesResults, performanceResult) = coldRun(judge, problem)

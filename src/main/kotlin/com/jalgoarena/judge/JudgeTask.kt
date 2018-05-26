@@ -2,17 +2,14 @@ package com.jalgoarena.judge
 
 import com.jalgoarena.judge.PerformanceSnapshot.Companion.takePerformanceSnapshot
 import org.apache.commons.lang.exception.ExceptionUtils.getCause
-import org.jruby.RubyArray
 import java.lang.reflect.Method
-import java.math.RoundingMode
-import java.text.DecimalFormat
-import java.util.*
 import java.util.concurrent.Callable
 
 internal class JudgeTask(
         private val clazz: Any,
         private val method: Method,
-        private val testCases: Array<InternalTestCase>
+        private val testCases: Array<InternalTestCase>,
+        private val verifier: JudgeResultVerifier
 ) : Callable<Pair<List<Boolean>, PerformanceResult>> {
 
     override fun call(): Pair<List<Boolean>, PerformanceResult> {
@@ -41,36 +38,9 @@ internal class JudgeTask(
         val input = testCase.input
         val output = method.invoke(clazz, *input)
 
-        return equalForObjectsOrArrays(
+        return verifier.isValidAnswer(
                 testCase.output,
                 if (testCase.returnsVoid) input[0] else output
-        )
-    }
-
-    private fun equalForObjectsOrArrays(a: Any?, b: Any?): Boolean {
-        return when {
-            a === b -> return true
-            a == null || b == null -> return false
-            a is Array<*> && b is Array<*> -> return Arrays.deepEquals(a, b)
-            a is IntArray && b is IntArray -> Arrays.equals(a, b)
-            a is IntArray && b is RubyArray -> equalRubyArray(a, b)
-            a is Double && b is Double -> equalDouble(a, b)
-            a == b -> return true
-            else -> return a.toString() == b.toString()
-        }
-    }
-
-    private fun equalDouble(a: Double, b: Double): Boolean {
-        val df = DecimalFormat("#.######")
-        df.roundingMode = RoundingMode.CEILING
-
-        return df.format(a) == df.format(b)
-    }
-
-    private fun equalRubyArray(a: IntArray, b: RubyArray): Boolean {
-        return equalForObjectsOrArrays(
-                a.map { it.toString() },
-                b.map { it.toString() }
         )
     }
 }
