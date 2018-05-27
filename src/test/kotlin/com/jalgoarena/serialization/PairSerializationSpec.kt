@@ -19,7 +19,7 @@ class PairSerializationSpec {
 
     @Test
     fun deserialize_simple_graph() {
-        val pair = objectMapper.readValue<Pair<Double, Double>>(PAIR_JSON)
+       val pair = objectMapper.readValue<Pair<Double, Double>>(PAIR_JSON)
 
        assertThat(pair.first).isEqualTo(30.12345)
        assertThat(pair.second).isEqualTo(0.00001)
