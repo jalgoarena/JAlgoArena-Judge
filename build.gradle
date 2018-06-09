@@ -31,6 +31,12 @@ jar {
     baseName = 'jalgoarena-judge'
 }
 
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-consul-dependencies:1.3.3.RELEASE"
+    }
+}
+
 dependencies {
     compile 'com.google.guava:guava:18.0',
             "com.fasterxml.jackson.core:jackson-databind:$fasterxml_version",
@@ -41,12 +47,12 @@ dependencies {
             "org.springframework.boot:spring-boot-starter-web",
             "org.springframework.boot:spring-boot-starter-undertow",
             "org.springframework.boot:spring-boot-starter-actuator",
-            'org.springframework.cloud:spring-cloud-starter-eureka',
             "org.jetbrains.kotlin:kotlin-stdlib",
             "org.jetbrains.kotlin:kotlin-reflect",
             "org.jetbrains.kotlin:kotlin-compiler",
             "org.jruby:jruby-complete:$jruby_version",
-            'net.logstash.logback:logstash-logback-encoder:5.1'
+            'net.logstash.logback:logstash-logback-encoder:5.1',
+            'org.springframework.cloud:spring-cloud-starter-consul-all'
 
     runtime "org.jetbrains.kotlin:kotlin-runtime"
 

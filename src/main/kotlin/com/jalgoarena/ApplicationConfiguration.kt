@@ -14,6 +14,7 @@ import com.jalgoarena.compile.KotlinCompiler
 import com.jalgoarena.compile.RubyCompiler
 import com.jalgoarena.type.GraphNode
 import com.jalgoarena.type.ListNode
+import org.springframework.cloud.client.loadbalancer.LoadBalanced
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.web.client.RestTemplate

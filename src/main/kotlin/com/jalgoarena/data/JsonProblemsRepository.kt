@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository
 import java.util.ArrayList
 
 @Repository
-class JsonProblemsRepository : ProblemsRepository {
+open class JsonProblemsRepository : ProblemsRepository {
 
     override fun find(id: String): Problem? {
         return db[id]
