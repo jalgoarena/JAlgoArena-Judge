@@ -1,6 +1,6 @@
 package com.jalgoarena.compile
 
-import com.jalgoarena.JudgeApplication
+import com.jalgoarena.JAlgoArenaJudgeApp
 import org.slf4j.LoggerFactory
 import java.lang.reflect.Method
 import java.lang.reflect.Modifier
@@ -37,7 +37,7 @@ interface JvmCompiler {
     fun run(className: String, source: String): MutableMap<String, ByteArray?>
 
     private class MemoryClassLoader(val classNameToBytecode: MutableMap<String, ByteArray?>)
-        : URLClassLoader(arrayOfNulls<URL>(0), JudgeApplication::class.java.classLoader) {
+        : URLClassLoader(arrayOfNulls<URL>(0), JAlgoArenaJudgeApp::class.java.classLoader) {
 
         override fun findClass(className: String): Class<*> {
             val bufferOfBytecode = classNameToBytecode[className]

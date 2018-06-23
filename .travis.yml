@@ -1,25 +1,33 @@
-language: java
+sudo: required
+language: Java
+services:
+  - docker
 jdk:
-- oraclejdk8
+  - oraclejdk8
 before_install:
-- pip install --user codecov
+  - pip install --user codecov
 after_success:
-- codecov
+  - codecov
 before_cache:
-- rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
 cache:
   directories:
-  - "$HOME/.gradle/caches/"
-  - "$HOME/.gradle/wrapper/"
+    - "$HOME/.gradle/caches/"
+    - "$HOME/.gradle/wrapper/"
 before_deploy:
-- "./gradlew releaseZip"
+  - "./gradlew releaseZip"
 deploy:
-  provider: releases
-  api_key:
-    secure: lHpKfLy/ZFZO+hWwifbJUyO83bCR3Dmtg/ILZ9hDjc+8k3Ya8A2zfo79rsl6eP+36b1ffHP0N9f9XeLxw4jPBtVMMDrVagSR7WQzUw1WBXrtWnAJu3gsDOd0U/T9cj6/lHGo0vx8n6mcJbNjRFm7LCzxhXU/P2yiy2VfMvVKFeFM6KkISMr49fCd9PdFIs1ejqizVgj2TjsdNstlor+pn2UC6hPmZ6qpkhkhpA/rLVQHJuDzQDxQwKGAjVU7n1wfBxstb9Q6qJHmwFzzP7bLbRb0gmj4tA1cfZWLUfQf9s02vzsi45Go2q1f2j+0ISIoAlsvQlA+Y5lLwbMblvAlP2TZze9c1bYRiv6gSwNpSC/TKmildVnSd3VEgjpdsX9ovPXvSWvkIFzhgufiobTGQf3+ccz/Z0EKYwLuUK6E2g1g4dvtzAhTOx1IOwxHRkEF20amea4BPBooxAZMLlVndPH0kg7Vj6uKrXjWGrrIwOEKiLHuJemHxH+190n71FGTaHGgiD3ygnJL/ZXT2iDcVeyDPwhA8HZy0nXpDs7Sk8PGPO9TFsH+XJeaC3URWGmePF/1eMmOI/6zM741XslE46R3wvA6rHY2mmB1b4+vAUTcoUVgCi1ky/VrKaKBhclv4wmxOSf8XsOu0aseC6p3tnzo7+YwcbVMEot4KNJJOXM=
-  file_glob: true
-  file: "./build/libs/JAlgoArena-Judge-*.zip"
-  skip_cleanup: true
-  on:
-    repo: spolnik/JAlgoArena-Judge
-    tags: true
+  - provider: releases
+    api_key:
+      secure: lHpKfLy/ZFZO+hWwifbJUyO83bCR3Dmtg/ILZ9hDjc+8k3Ya8A2zfo79rsl6eP+36b1ffHP0N9f9XeLxw4jPBtVMMDrVagSR7WQzUw1WBXrtWnAJu3gsDOd0U/T9cj6/lHGo0vx8n6mcJbNjRFm7LCzxhXU/P2yiy2VfMvVKFeFM6KkISMr49fCd9PdFIs1ejqizVgj2TjsdNstlor+pn2UC6hPmZ6qpkhkhpA/rLVQHJuDzQDxQwKGAjVU7n1wfBxstb9Q6qJHmwFzzP7bLbRb0gmj4tA1cfZWLUfQf9s02vzsi45Go2q1f2j+0ISIoAlsvQlA+Y5lLwbMblvAlP2TZze9c1bYRiv6gSwNpSC/TKmildVnSd3VEgjpdsX9ovPXvSWvkIFzhgufiobTGQf3+ccz/Z0EKYwLuUK6E2g1g4dvtzAhTOx1IOwxHRkEF20amea4BPBooxAZMLlVndPH0kg7Vj6uKrXjWGrrIwOEKiLHuJemHxH+190n71FGTaHGgiD3ygnJL/ZXT2iDcVeyDPwhA8HZy0nXpDs7Sk8PGPO9TFsH+XJeaC3URWGmePF/1eMmOI/6zM741XslE46R3wvA6rHY2mmB1b4+vAUTcoUVgCi1ky/VrKaKBhclv4wmxOSf8XsOu0aseC6p3tnzo7+YwcbVMEot4KNJJOXM=
+    file_glob: true
+    file: "./build/libs/JAlgoArena-Judge-*.zip"
+    skip_cleanup: true
+    on:
+      repo: spolnik/JAlgoArena-Judge
+      tags: true
+  - provider: script
+    script: bash docker_push
+    on:
+      repo: spolnik/JAlgoArena-Judge
+      tags: true

@@ -4,8 +4,8 @@ buildscript {
 }
 
 plugins {
-    id "org.jetbrains.kotlin.jvm" version "1.2.40"
-    id 'org.springframework.boot' version '1.5.10.RELEASE'
+    id "org.jetbrains.kotlin.jvm" version "1.2.50"
+    id 'org.springframework.boot' version '2.0.1.RELEASE'
     id "jacoco"
 }
 
@@ -33,7 +33,7 @@ jar {
 
 dependencyManagement {
     imports {
-        mavenBom "org.springframework.cloud:spring-cloud-consul-dependencies:1.3.3.RELEASE"
+        mavenBom 'org.springframework.cloud:spring-cloud-dependencies:Finchley.RELEASE'
     }
 }
 
@@ -44,8 +44,7 @@ dependencies {
             "com.fasterxml.jackson.core:jackson-annotations:$fasterxml_version",
             "com.fasterxml.jackson.module:jackson-module-kotlin:$fasterxml_version",
             "org.springframework.kafka:spring-kafka",
-            "org.springframework.boot:spring-boot-starter-web",
-            "org.springframework.boot:spring-boot-starter-undertow",
+            "org.springframework.boot:spring-boot-starter-webflux",
             "org.springframework.boot:spring-boot-starter-actuator",
             "org.jetbrains.kotlin:kotlin-stdlib",
             "org.jetbrains.kotlin:kotlin-reflect",
@@ -83,12 +82,6 @@ bootRun {
 
 task stage {
     dependsOn 'bootRepackage'
-}
-
-dependencyManagement {
-    imports {
-        mavenBom "org.springframework.cloud:spring-cloud-dependencies:Edgware.SR3"
-    }
 }
 
 task releaseZip(type: Zip, dependsOn: 'bootRepackage') {

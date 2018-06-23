@@ -10,8 +10,8 @@ import org.springframework.kafka.annotation.EnableKafka
 @EnableDiscoveryClient
 @EnableCaching
 @EnableKafka
-open class JudgeApplication
+open class JAlgoArenaJudgeApp
 
 fun main(args: Array<String>) {
-    SpringApplication.run(JudgeApplication::class.java, *args)
+    SpringApplication.run(JAlgoArenaJudgeApp::class.java, *args)
 }
