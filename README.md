@@ -2,8 +2,6 @@
 
 JAlgoArena Judge Agent is heart of JAlgoArena platform. It is responsible for generation of skeleton code as well as judging submissions based on requirements specified in problem definition.
 
-Demo: https://jalgoarena-ui.herokuapp.com/
-
 - [Introduction](#introduction)
 - [REST API](#rest-api)
 - [Components](#components)
@@ -14,7 +12,7 @@ Demo: https://jalgoarena-ui.herokuapp.com/
 
 ## Introduction
 
-- JAlgoArena Judge Agent can be easily scalable - it's stateless and together with Eureka and API using Ribbon load balancer gives unlimited way to scale judgement capability
+- JAlgoArena Judge Agent can be easily scalable - it's stateless and together with Consul and API using Ribbon load balancer gives unlimited way to scale judgement capability
 - It supports Kotlin and Java
 - JAlgoArena Judge Agent is generating skeleton code for particular problem - based on meta data received from Problems Service
 - It judges correctness of the solution based on the pre-specified test cases as well as time and memory limits
@@ -36,7 +34,6 @@ Demo: https://jalgoarena-ui.herokuapp.com/
 - [JAlgoArena UI](https://github.com/spolnik/JAlgoArena-UI)
 - [JAlgoArena Judge](https://github.com/spolnik/JAlgoArena-Judge)
 - [JAlgoArena Problems](https://github.com/spolnik/JAlgoArena-Problems)
-- [JAlgoArena Eureka Server](https://github.com/spolnik/JAlgoArena-Eureka)
 - [JAlgoArena API Gateway](https://github.com/spolnik/JAlgoArena-API)
 
 ## Continuous Delivery
@@ -45,13 +42,11 @@ Demo: https://jalgoarena-ui.herokuapp.com/
 - in next stage, GitHub notifies Travis CI about changes
 - Travis CI runs whole continuous integration flow, running compilation, tests and generating reports
 - coverage report is sent to Codecov
-- application is deployed into Heroku machine
 
 ## Infrastructure
 
-- Heroku (PaaS)
 - Kotlin Compiler (K2JVMCompiler), MemoryClassLoader, MemoryJavaCompiler
-- Spring Boot, Spring Cloud (Eureka Client)
+- Spring Boot, Spring Cloud
 - TravisCI - https://travis-ci.org/spolnik/JAlgoArena-Judge
 
 ## Running locally
@@ -62,7 +57,7 @@ There are two ways to run it - from sources or from binaries.
 ### Running from binaries
 - go to [releases page](https://github.com/spolnik/JAlgoArena-Judge/releases) and download last app package (JAlgoArena-Judge-[version_number].zip)
 - after unpacking it, go to folder and run `./run.sh`
-- you can modify port Eureka service url in run.sh script, depending on your infrastructure settings. The script itself can be found in here: [run.sh](run.sh)
+- you can modify port in run.sh script, depending on your infrastructure settings. The script itself can be found in here: [run.sh](run.sh)
 
 ### Running from sources
 - run `git clone https://github.com/spolnik/JAlgoArena-Judge` to clone locally the sources
