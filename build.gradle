@@ -38,20 +38,22 @@ dependencyManagement {
 }
 
 dependencies {
+
     compile 'com.google.guava:guava:18.0',
             "com.fasterxml.jackson.core:jackson-databind:$fasterxml_version",
             "com.fasterxml.jackson.core:jackson-core:$fasterxml_version",
             "com.fasterxml.jackson.core:jackson-annotations:$fasterxml_version",
             "com.fasterxml.jackson.module:jackson-module-kotlin:$fasterxml_version",
-            "org.springframework.kafka:spring-kafka",
             "org.springframework.boot:spring-boot-starter-webflux",
             "org.springframework.boot:spring-boot-starter-actuator",
+            "org.springframework.kafka:spring-kafka",
             "org.jetbrains.kotlin:kotlin-stdlib",
             "org.jetbrains.kotlin:kotlin-reflect",
             "org.jetbrains.kotlin:kotlin-compiler",
             "org.jruby:jruby-complete:$jruby_version",
             'net.logstash.logback:logstash-logback-encoder:5.1',
-            'org.springframework.cloud:spring-cloud-starter-consul-all'
+            'org.springframework.cloud:spring-cloud-starter-consul-all',
+            "org.apache.kafka:kafka-clients:1.1.0"
 
     runtime "org.jetbrains.kotlin:kotlin-runtime"
 
@@ -60,7 +62,8 @@ dependencies {
             "org.springframework.kafka:spring-kafka-test",
             "org.springframework.boot:spring-boot-starter-test",
             'com.squareup.okhttp3:okhttp:3.4.2',
-            'com.nhaarman:mockito-kotlin-kt1.1:1.5.0'
+            'com.nhaarman:mockito-kotlin-kt1.1:1.5.0',
+            'org.apache.kafka:kafka_2.11:1.1.0'
 }
 
 apply plugin: 'jacoco'
