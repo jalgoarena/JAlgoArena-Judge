@@ -5,7 +5,6 @@ import com.jalgoarena.codegeneration.JavaCodeGenerator
 import com.jalgoarena.codegeneration.KotlinCodeGenerator
 import com.jalgoarena.data.ProblemsRepository
 import com.jalgoarena.domain.Problem
-import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.BDDMockito.given
