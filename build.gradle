@@ -77,17 +77,17 @@ jacocoTestReport {
 
 check.dependsOn jacocoTestReport
 
-defaultTasks 'clean', 'bootRepackage'
+defaultTasks 'clean', 'bootJar'
 
 bootRun {
     systemProperty 'sun.zip.disableMemoryMapping', 'true'
 }
 
 task stage {
-    dependsOn 'bootRepackage'
+    dependsOn 'bootJar'
 }
 
-task releaseZip(type: Zip, dependsOn: 'bootRepackage') {
+task releaseZip(type: Zip, dependsOn: 'bootJar') {
     from('build/libs/') {
         include('*.jar')
     }
@@ -116,7 +116,7 @@ compileTestKotlin {
     kotlinOptions.jvmTarget = "1.8"
 }
 
-task buildDockerImage(type: Exec, dependsOn: 'bootRepackage') {
+task buildDockerImage(type: Exec, dependsOn: 'bootJar') {
     commandLine 'docker',  'build', '-t', "spolnik/${rootProject.name}:latest", '-t', "spolnik/${rootProject.name}:${version}", '.'
 }
 

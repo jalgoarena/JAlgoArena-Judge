@@ -5,6 +5,10 @@ server:
   port: ${PORT:5008}
 
 spring:
+  cloud:
+    consul:
+      discovery:
+        tags: traefik.frontend.rule=PathPrefixStrip:/judge/api
   kafka:
     bootstrap-servers: ${BOOTSTRAP_SERVERS:localhost:9092,localhost:9093,localhost:9094}
     consumer:
