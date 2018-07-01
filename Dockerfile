@@ -1,4 +1,4 @@
-FROM openjdk:8
+FROM openjdk:8-jre-alpine
 
 MAINTAINER Jacek Spolnik <jacek.spolnik@gmail.com>
 
