@@ -2,6 +2,7 @@ package com.jalgoarena.compile
 
 import org.jetbrains.kotlin.cli.common.ExitCode
 import org.jetbrains.kotlin.cli.jvm.K2JVMCompiler
+import org.slf4j.LoggerFactory
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.PrintStream
@@ -11,6 +12,8 @@ import java.util.*
 class KotlinCompiler : JvmCompiler {
 
     private val compiler = K2JVMCompiler()
+
+    private val logger = LoggerFactory.getLogger(this.javaClass)
 
     override fun programmingLanguage() = "kotlin"
 
@@ -54,17 +57,32 @@ class KotlinCompiler : JvmCompiler {
             sourceFile.absolutePath,
             "-d", out.absolutePath,
             "-no-stdlib",
-            "-classpath", listOf(
-                File("build/classes/kotlin/main").absolutePath,
-                File("lib/kotlin-runtime-1.2.50.jar").absolutePath,
-                File("/app/lib/kotlin-runtime-1.2.50.jar").absolutePath,
-                File("lib/kotlin-stdlib-1.2.50.jar").absolutePath,
-                File("/app/lib/kotlin-stdlib-1.2.50.jar").absolutePath,
-                File("lib/kotlin-compiler-1.2.50.jar").absolutePath,
-                File("/app/lib/kotlin-compiler-1.2.50.jar").absolutePath
-            ).joinToString(File.pathSeparator)
-
+            "-classpath", buildClassPath()
     )
+
+    private fun buildClassPath(): String {
+        val classpath = mutableListOf<String>()
+
+        addToClassPath(classpath, "build/classes/kotlin/main")
+        addToClassPath(classpath, "lib/extensions/compiler.xml")
+        addToClassPath(classpath, "lib/kotlin-runtime-1.2.50.jar")
+        addToClassPath(classpath, "lib/kotlin-stdlib-1.2.50.jar")
+        addToClassPath(classpath, "lib/kotlin-compiler-1.2.50.jar")
+
+        val result = classpath.joinToString(File.pathSeparator)
+        logger.info("Classpath: $result")
+        return result
+    }
+
+    private fun addToClassPath(classpath: MutableList<String>, path: String) {
+        val dockerPath = "/app/$path"
+
+        when {
+            File(path).exists() -> classpath.add(File(path).absolutePath)
+            File(dockerPath).exists() -> classpath.add(File(dockerPath).absolutePath)
+            else -> logger.error("Could not find $path nor $dockerPath!!")
+        }
+    }
 
     private fun createTmpDir(): File {
         val tmpDir = File("tmp", "${UUID.randomUUID()}")
