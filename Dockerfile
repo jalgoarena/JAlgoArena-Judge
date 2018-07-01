@@ -9,8 +9,8 @@ ADD lib/* /app/lib/
 RUN mkdir -p /app/build/classes/kotlin/main/com/jalgoarena/type
 ADD build/classes/kotlin/main/com/jalgoarena/type/* /app/build/classes/kotlin/main/com/jalgoarena/type/
 
-RUN mkdir -p /app/build/resources/main
-ADD build/resources/main/* /app/build/resources/main/
+RUN mkdir -p /app/build/resources/main/extensions
+ADD build/resources/main/extensions/* /app/build/resources/main/extensions/
 
 EXPOSE 5008
 
