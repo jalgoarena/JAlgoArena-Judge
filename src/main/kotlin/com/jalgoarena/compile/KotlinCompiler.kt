@@ -57,8 +57,11 @@ class KotlinCompiler : JvmCompiler {
             "-classpath", listOf(
                 File("build/classes/kotlin/main").absolutePath,
                 File("lib/kotlin-runtime-1.2.50.jar").absolutePath,
+                File("/app/lib/kotlin-runtime-1.2.50.jar").absolutePath,
                 File("lib/kotlin-stdlib-1.2.50.jar").absolutePath,
-                File("lib/kotlin-compiler-1.2.50.jar").absolutePath
+                File("/app/lib/kotlin-stdlib-1.2.50.jar").absolutePath,
+                File("lib/kotlin-compiler-1.2.50.jar").absolutePath,
+                File("/app/lib/kotlin-compiler-1.2.50.jar").absolutePath
             ).joinToString(File.pathSeparator)
 
     )
