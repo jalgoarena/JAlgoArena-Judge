@@ -48,8 +48,7 @@ class ProblemJsonSerializationTest {
             timeLimit = 1,
             func = TWO_SUM_FUNCTION,
             skeletonCode = mapOf(
-                    Pair("java", "dummy code"),
-                    Pair("kotlin", "kotlin dummy code")
+                    Pair("java", "dummy code")
             ),
             testCases = listOf(
                     Problem.TestCase(
@@ -86,8 +85,7 @@ class ProblemJsonSerializationTest {
   },
   "testCases": [{"input":[1,2],"output":3}],
   "skeletonCode": {
-    "java": "dummy code",
-    "kotlin": "kotlin dummy code"
+    "java": "dummy code"
   },
   "level": 3
 }

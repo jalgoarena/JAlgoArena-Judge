@@ -49,8 +49,7 @@ open class JavaEngineIntegrationTest {
                 timeLimit = 5,
                 func = WORD_LADDER_FUNCTION,
                 skeletonCode = mapOf(
-                        Pair("java", "dummy code"),
-                        Pair("kotlin", "kotlin dummy code")
+                        Pair("java", "dummy code")
                 ),
                 testCases = listOf(
                         Problem.TestCase(

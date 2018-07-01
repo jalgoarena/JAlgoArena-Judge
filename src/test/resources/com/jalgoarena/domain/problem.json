@@ -24,8 +24,7 @@
   },
   "testCases": [{"input":[1,2],"output":3}],
   "skeletonCode": {
-    "java": "dummy code",
-    "kotlin": "kotlin dummy code"
+    "java": "dummy code"
   },
   "level": 3
 }

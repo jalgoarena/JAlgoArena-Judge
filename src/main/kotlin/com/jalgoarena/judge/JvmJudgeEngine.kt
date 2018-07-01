@@ -38,7 +38,7 @@ open class JvmJudgeEngine(
 
         val (sourceCode, _, language) = submission
 
-        val className = findClassName(language, sourceCode)
+        val className = sourceCode.findJavaClassName()
 
         if (!className.isPresent) {
             return CompileError("ClassNotFoundException: No public class found")
@@ -59,7 +59,7 @@ open class JvmJudgeEngine(
             return handleFutureRunExceptions {
                 val (testCasesResults, performanceResult) = coldRun(judge, problem)
 
-                val failedTestCases = testCasesResults.filter({ !it }).count()
+                val failedTestCases = testCasesResults.filter { !it }.count()
 
                 when {
                     isMemoryLimitExceeded(performanceResult) -> MemoryLimitExceeded(performanceResult.usedMemoryInBytes)
@@ -142,12 +142,6 @@ open class JvmJudgeEngine(
             is NoSuchMethodError -> CompileError("No such method: ${e.message}")
             else -> RuntimeError(e.message)
         }
-    }
-
-    private fun findClassName(language: String, sourceCode: String) = when (language) {
-        "kotlin" -> sourceCode.findKotlinClassName()
-        "ruby" -> sourceCode.findRubyClassName()
-        else -> sourceCode.findJavaClassName()
     }
 
     private fun readInternalTestCases(problem: Problem): Array<InternalTestCase> {

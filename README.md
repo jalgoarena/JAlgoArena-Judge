@@ -13,7 +13,7 @@ JAlgoArena Judge Agent is heart of JAlgoArena platform. It is responsible for ge
 ## Introduction
 
 - JAlgoArena Judge Agent can be easily scalable - it's stateless and together with Consul and API using Ribbon load balancer gives unlimited way to scale judgement capability
-- It supports Kotlin and Java
+- It supports Java 8
 - JAlgoArena Judge Agent is generating skeleton code for particular problem - based on meta data received from Problems Service
 - It judges correctness of the solution based on the pre-specified test cases as well as time and memory limits
 - It's using simple heuristic to calculate time and memory results - running in couple iteration and looking for best results makes the judgement itself more predictable and repeatable
@@ -45,7 +45,7 @@ JAlgoArena Judge Agent is heart of JAlgoArena platform. It is responsible for ge
 
 ## Infrastructure
 
-- Kotlin Compiler (K2JVMCompiler), MemoryClassLoader, MemoryJavaCompiler
+- MemoryClassLoader, MemoryJavaCompiler
 - Spring Boot, Spring Cloud
 - TravisCI - https://travis-ci.org/spolnik/JAlgoArena-Judge
 

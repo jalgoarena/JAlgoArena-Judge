@@ -2,7 +2,6 @@ package com.jalgoarena.web
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.jalgoarena.codegeneration.JavaCodeGenerator
-import com.jalgoarena.codegeneration.KotlinCodeGenerator
 import com.jalgoarena.data.ProblemsRepository
 import com.jalgoarena.domain.Problem
 import org.junit.Test
@@ -61,8 +60,6 @@ class ProblemsControllerSpec {
     @TestConfiguration
     open class ControllerTestConfiguration {
 
-        @Bean
-        open fun kotlinCodeGenerator() = KotlinCodeGenerator()
         @Bean
         open fun javaCodeGenerator() = JavaCodeGenerator()
 

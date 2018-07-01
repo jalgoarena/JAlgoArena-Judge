@@ -1,5 +1,4 @@
 buildscript {
-    ext.jruby_version = '9.1.14.0'
     ext.fasterxml_version = '2.9.5'
 }
 
@@ -49,8 +48,6 @@ dependencies {
             "org.springframework.kafka:spring-kafka",
             "org.jetbrains.kotlin:kotlin-stdlib",
             "org.jetbrains.kotlin:kotlin-reflect",
-            "org.jetbrains.kotlin:kotlin-compiler",
-            "org.jruby:jruby-complete:$jruby_version",
             'net.logstash.logback:logstash-logback-encoder:5.1',
             'org.springframework.cloud:spring-cloud-starter-consul-all',
             "org.apache.kafka:kafka-clients:1.1.0"
@@ -92,17 +89,9 @@ task releaseZip(type: Zip, dependsOn: 'bootJar') {
         include('*.jar')
     }
     from 'run.sh'
-    from('lib/') {
-        include('*.jar')
-        into('lib')
-    }
     from('build/classes/kotlin/main/com/jalgoarena/type') {
         into('build/classes/kotlin/main/com/jalgoarena/type')
         include('*.class')
-    }
-    from('build/resources/main') {
-        into('build/resources/main')
-        include('**/*.yml', '**/*.xml')
     }
     archiveName "JAlgoArena-Judge-${version}.zip"
     destinationDir(file('build/libs'))

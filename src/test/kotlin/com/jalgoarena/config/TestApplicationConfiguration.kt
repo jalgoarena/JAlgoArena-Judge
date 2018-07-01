@@ -4,8 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.jalgoarena.ApplicationConfiguration
 import com.jalgoarena.codegeneration.JvmCodeGenerator
 import com.jalgoarena.compile.InMemoryJavaCompiler
-import com.jalgoarena.compile.KotlinCompiler
-import com.jalgoarena.compile.RubyCompiler
 import com.jalgoarena.data.JsonProblemsRepository
 import com.jalgoarena.data.ProblemsRepository
 import com.jalgoarena.judge.JvmJudgeEngine
@@ -28,7 +26,7 @@ open class TestApplicationConfiguration : ApplicationConfiguration() {
 
     @Bean
     open fun judgeEngine(objectMapper: ObjectMapper) = JvmJudgeEngine(objectMapper, listOf(
-            InMemoryJavaCompiler(), KotlinCompiler(), RubyCompiler()
+            InMemoryJavaCompiler()
     ))
 
     @Bean

@@ -1,6 +1,5 @@
 package com.jalgoarena.judge
 
-import org.jruby.RubyArray
 import java.math.RoundingMode
 import java.text.DecimalFormat
 import java.util.*
@@ -18,7 +17,6 @@ class JudgeResultVerifier {
             a is Pair && b is Pair -> return comparePairs(a, b)
             a is Array<*> && b is Array<*> -> return Arrays.deepEquals(a, b)
             a is IntArray && b is IntArray -> Arrays.equals(a, b)
-            a is IntArray && b is RubyArray -> equalRubyArray(a, b)
             a is Double && b is Double -> equalDouble(a, b)
             a is Int && b is Double -> equalDouble(a.toDouble(), b)
             a is Double && b is Int -> equalDouble(a, b.toDouble())
@@ -38,12 +36,4 @@ class JudgeResultVerifier {
 
         return df.format(a) == df.format(b)
     }
-
-    private fun equalRubyArray(a: IntArray, b: RubyArray): Boolean {
-        return equalForObjectsOrArrays(
-                a.map { it.toString() },
-                b.map { it.toString() }
-        )
-    }
-
 }
