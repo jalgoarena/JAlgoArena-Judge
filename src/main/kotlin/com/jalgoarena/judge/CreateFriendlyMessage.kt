@@ -1,21 +1,30 @@
 package com.jalgoarena.judge
 
+import org.slf4j.LoggerFactory
+
 internal class CreateFriendlyMessage {
+
+    private val logger = LoggerFactory.getLogger(this.javaClass)
 
     private val extension = ".java:"
 
     fun from(errorMessage: String): String {
-        val lines = errorMessage
-                .split("\n")
-                .dropLastWhile(String::isEmpty)
-                .toTypedArray()
+        try {
+            val lines = errorMessage
+                    .split("\n")
+                    .dropLastWhile(String::isEmpty)
+                    .toTypedArray()
 
-        val errorFriendlyMessage = StringBuilder()
-        for (line in lines) {
-            processLine(errorFriendlyMessage, line)
+            val errorFriendlyMessage = StringBuilder()
+            for (line in lines) {
+                processLine(errorFriendlyMessage, line)
+            }
+
+            return errorFriendlyMessage.toString()
+        } catch (e: Exception) {
+            logger.warn("Cannot generate error friendly message", e)
+            return errorMessage
         }
-
-        return errorFriendlyMessage.toString()
     }
 
     private fun processLine(sb: StringBuilder, line: String) {
