@@ -14,4 +14,4 @@ ADD build/resources/main/* /app/build/resources/main/
 
 EXPOSE 5008
 
-CMD java -jar /app/jalgoarena-judge-*.jar
+CMD java -Xms1g -Xmx2g -classpath "/app/lib/*" -jar /app/jalgoarena-judge-*.jar
