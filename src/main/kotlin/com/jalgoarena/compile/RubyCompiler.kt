@@ -6,19 +6,42 @@ import java.io.PrintStream
 import java.util.*
 import org.jruby.javasupport.JavaEmbedUtils
 import org.jruby.Ruby
+import org.slf4j.LoggerFactory
 
 
 class RubyCompiler : JvmCompiler {
+
     open class InMemoryJRubyCompiler : InMemoryJavaCompiler() {
+
+        private val logger = LoggerFactory.getLogger(this.javaClass)
+
         override fun javacOptions(): List<String> {
             return listOf(
                     "-nowarn",
                     "-classpath",
-                    listOf(
-                            File("lib/jruby-complete-9.1.14.0.jar"),
-                            File("build/classes/kotlin/main").absolutePath
-                    ).joinToString(File.pathSeparator)
+                    buildClassPath()
             )
+        }
+
+        private fun buildClassPath(): String {
+            val classpath = mutableListOf<String>()
+
+            addToClassPath(classpath, "build/classes/kotlin/main")
+            addToClassPath(classpath, "lib/jruby-complete-9.1.14.0.jar")
+
+            val result = classpath.joinToString(File.pathSeparator)
+            logger.info("Classpath: $result")
+            return result
+        }
+
+        private fun addToClassPath(classpath: MutableList<String>, path: String) {
+            val dockerPath = "/app/$path"
+
+            when {
+                File(path).exists() -> classpath.add(File(path).absolutePath)
+                File(dockerPath).exists() -> classpath.add(File(dockerPath).absolutePath)
+                else -> logger.error("Could not find $path nor $dockerPath!!")
+            }
         }
     }
 

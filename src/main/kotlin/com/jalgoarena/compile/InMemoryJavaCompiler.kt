@@ -63,11 +63,31 @@ open class InMemoryJavaCompiler : JvmCompiler {
         return listOf(SourceCodeStringInputBuffer(fileName, source))
     }
 
-    open protected fun javacOptions(): List<String> {
+    protected open fun javacOptions(): List<String> {
         return listOf(
                 "-nowarn",
-                "-classpath", File("build/classes/kotlin/main").absolutePath
+                "-classpath", buildClassPath()
         )
+    }
+
+    private fun buildClassPath(): String {
+        val classpath = mutableListOf<String>()
+
+        addToClassPath(classpath, "build/classes/kotlin/main")
+
+        val result = classpath.joinToString(File.pathSeparator)
+        logger.info("Classpath: $result")
+        return result
+    }
+
+    private fun addToClassPath(classpath: MutableList<String>, path: String) {
+        val dockerPath = "/app/$path"
+
+        when {
+            File(path).exists() -> classpath.add(File(path).absolutePath)
+            File(dockerPath).exists() -> classpath.add(File(dockerPath).absolutePath)
+            else -> logger.error("Could not find $path nor $dockerPath!!")
+        }
     }
 
     private fun getCompilationError(

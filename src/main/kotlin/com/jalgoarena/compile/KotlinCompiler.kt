@@ -64,7 +64,7 @@ class KotlinCompiler : JvmCompiler {
         val classpath = mutableListOf<String>()
 
         addToClassPath(classpath, "build/classes/kotlin/main")
-        addToClassPath(classpath, "lib/extensions/compiler.xml")
+        addToClassPath(classpath, "lib")
         addToClassPath(classpath, "lib/kotlin-runtime-1.2.50.jar")
         addToClassPath(classpath, "lib/kotlin-stdlib-1.2.50.jar")
         addToClassPath(classpath, "lib/kotlin-compiler-1.2.50.jar")
