@@ -10,7 +10,6 @@ data class SubmissionResult(
         val submissionTime: String,
         val elapsedTime: Double,
         val statusCode: String,
-        val language: String,
         var id: String? = null,
         val submissionId: String,
         val consumedMemory: Long,

@@ -13,7 +13,7 @@ data class Problem(val id: String,
                    val timeLimit: Long,
                    val func: Function?,
                    val testCases: List<TestCase>?,
-                   val skeletonCode: Map<String, String>?,
+                   val skeletonCode: String?,
                    val level: Int) {
 
     @JsonIgnoreProperties(ignoreUnknown = true)

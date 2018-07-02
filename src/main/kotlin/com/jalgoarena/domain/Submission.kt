@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 data class Submission(
         val sourceCode: String,
         val userId: String,
-        val language: String,
         val submissionId: String,
         val problemId: String,
         val submissionTime: String,

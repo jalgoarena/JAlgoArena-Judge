@@ -19,7 +19,7 @@ import javax.inject.Inject
 @Component
 open class JvmJudgeEngine(
         @Inject private val objectMapper: ObjectMapper,
-        @Inject private val compilers: List<JvmCompiler>
+        @Inject private val compiler: JvmCompiler
 ) : JudgeEngine {
 
     companion object {
@@ -36,15 +36,13 @@ open class JvmJudgeEngine(
 
     override fun judge(problem: Problem, submission: Submission): JudgeResult {
 
-        val (sourceCode, _, language) = submission
+        val sourceCode = submission.sourceCode
 
         val className = sourceCode.findJavaClassName()
 
         if (!className.isPresent) {
             return CompileError("ClassNotFoundException: No public class found")
         }
-
-        val compiler = compilers.first { it.programmingLanguage() == language }
 
         return compileAndJudge(className, compiler, problem.func!!, problem, submission.sourceCode)
     }

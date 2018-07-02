@@ -32,8 +32,6 @@ interface JvmCompiler {
         throw NoSuchMethodError(methodName)
     }
 
-    fun programmingLanguage(): String
-
     fun run(className: String, source: String): MutableMap<String, ByteArray?>
 
     private class MemoryClassLoader(val classNameToBytecode: MutableMap<String, ByteArray?>)

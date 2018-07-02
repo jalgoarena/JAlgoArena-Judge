@@ -2,17 +2,13 @@ package com.jalgoarena
 
 import com.google.common.io.Resources
 import com.jalgoarena.config.TestApplicationConfiguration
-import com.jalgoarena.domain.Submission
 import com.jalgoarena.domain.StatusCode
+import com.jalgoarena.domain.Submission
 import com.jalgoarena.web.ProblemsController
 import com.jalgoarena.web.SubmissionsListener
 import junitparams.JUnitParamsRunner
 import junitparams.Parameters
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.Response
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.BeforeClass
 import org.junit.ClassRule
 import org.junit.Rule
 import org.junit.Test
@@ -21,7 +17,6 @@ import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.junit4.rules.SpringClassRule
 import org.springframework.test.context.junit4.rules.SpringMethodRule
 import java.time.LocalDateTime
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @RunWith(JUnitParamsRunner::class)
@@ -54,7 +49,7 @@ class JudgeControllerIntegrationTest {
     @Parameters("fib", "2-sum", "stoi", "word-ladder")
     fun includesProblemInListOfAllProblems(problemId: String) {
         val problemIds = problemsController.problems()
-                .map({ it.id })
+                .map { it.id }
 
         val result = problemIds.contains(problemId)
         assertThat(result).isTrue()
@@ -63,7 +58,7 @@ class JudgeControllerIntegrationTest {
     @Test
     @Parameters("fib", "2-sum", "stoi", "word-ladder")
     fun generatesNonEmptyJavaSkeletonCode(problemId: String) {
-        val skeletonCode = problemsController.problem(problemId).skeletonCode!!["java"]
+        val skeletonCode = problemsController.problem(problemId).skeletonCode
         assertThat(skeletonCode).isNotEmpty()
     }
 
@@ -71,7 +66,7 @@ class JudgeControllerIntegrationTest {
     @Parameters("2-sum, TwoSum", "fib, FibFast", "stoi, MyStoi", "word-ladder, WordLadder", "is-string-unique, IsStringUnique2", "check-perm, CheckPerm", "palindrome-perm, PalindromePerm", "one-away, OneAway", "string-compress, StringCompress", "rotate-matrix, RotateMatrix", "zero-matrix, ZeroMatrix", "remove-dups, RemoveDups", "kth-to-last, KThToLast", "string-rotation, StringRotation", "sum-lists, SumLists", "sum-lists-2, SumLists2", "palindrome-list, PalindromeList", "binary-search, BinarySearch", "delete-tail-node, DeleteTailNode", "repeated-elements, RepeatedElements", "first-non-repeated-char, FirstNonRepeatedChar", "find-middle-node, FindMiddleNode", "horizontal-flip, HorizontalFlip", "vertical-flip, VerticalFlip", "single-number, SingleNumber", "preorder-traversal, PreorderTraversal", "inorder-traversal, InorderTraversal", "postorder-traversal, PostorderTraversal", "height-binary-tree, HeightOfBinaryTree", "sum-binary-tree, SumBinaryTree", "insert-stars, InsertStars", "transpose-matrix, TransposeMatrix", "merge-k-sorted-linked-lists, MergeKSortedLinkedLists")
     fun judgesJavaCorrectSolution(problemId: String, solutionId: String) {
         val sourceCode = Resources.toString(Resources.getResource("$solutionId.java"), Charsets.UTF_8)
-        val result = submissionsListener.judge(Submission(sourceCode, "0-0", "java", "0", problemId, LocalDateTime.now().toString()))
+        val result = submissionsListener.judge(Submission(sourceCode, "0-0", "0", problemId, LocalDateTime.now().toString()))
 
         assertThat(result.statusCode).isEqualTo(StatusCode.ACCEPTED.toString())
     }
@@ -79,8 +74,8 @@ class JudgeControllerIntegrationTest {
     @Test
     fun returnsFormattedMessageIfCompilationError() {
 
-        val skeletonCode = problemsController.problem("fib").skeletonCode!!["java"]!!
-        val result = submissionsListener.judge(Submission(skeletonCode, "0-0", "java", "3", "fib", LocalDateTime.now().toString()))
+        val skeletonCode = problemsController.problem("fib").skeletonCode!!
+        val result = submissionsListener.judge(Submission(skeletonCode, "0-0", "3", "fib", LocalDateTime.now().toString()))
 
         assertThat(result.errorMessage).isEqualTo("Line:11: error: missing return statement\n    }\n    ^\n")
     }

@@ -2,6 +2,7 @@ package com.jalgoarena.config
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.jalgoarena.ApplicationConfiguration
+import com.jalgoarena.codegeneration.JavaCodeGenerator
 import com.jalgoarena.codegeneration.JvmCodeGenerator
 import com.jalgoarena.compile.InMemoryJavaCompiler
 import com.jalgoarena.data.JsonProblemsRepository
@@ -25,9 +26,7 @@ open class TestApplicationConfiguration : ApplicationConfiguration() {
             JsonProblemsRepository()
 
     @Bean
-    open fun judgeEngine(objectMapper: ObjectMapper) = JvmJudgeEngine(objectMapper, listOf(
-            InMemoryJavaCompiler()
-    ))
+    open fun judgeEngine(objectMapper: ObjectMapper) = JvmJudgeEngine(objectMapper, InMemoryJavaCompiler())
 
     @Bean
     open fun submissionsListener(
@@ -36,8 +35,8 @@ open class TestApplicationConfiguration : ApplicationConfiguration() {
     ) = SubmissionsListener(problemsRepository, judgeEngine)
 
     @Bean
-    open fun problemsController(problemsRepository: ProblemsRepository, codeGenerators: List<JvmCodeGenerator>) =
-            ProblemsController(problemsRepository, codeGenerators)
+    open fun problemsController(problemsRepository: ProblemsRepository) =
+            ProblemsController(problemsRepository, JavaCodeGenerator())
 
     @Bean
     open fun kafkaTemplate(): KafkaTemplate<*, *> {

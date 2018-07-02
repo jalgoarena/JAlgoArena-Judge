@@ -33,12 +33,8 @@ open class ApplicationConfiguration {
     open fun restTemplate() = RestTemplate()
 
     @Bean
-    open fun codeGenerators(): List<JvmCodeGenerator> = listOf(
-            JavaCodeGenerator()
-    )
+    open fun javaCompiler() = InMemoryJavaCompiler()
 
     @Bean
-    open fun codeCompilers(): List<JvmCompiler> = listOf(
-            InMemoryJavaCompiler()
-    )
+    open fun javaCodeGenerator() = JavaCodeGenerator()
 }

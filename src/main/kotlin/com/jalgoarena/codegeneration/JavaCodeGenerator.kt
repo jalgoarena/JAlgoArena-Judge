@@ -4,7 +4,6 @@ import com.jalgoarena.domain.Function
 import kotlin.reflect.KClass
 
 class JavaCodeGenerator : JvmCodeGeneration {
-    override fun programmingLanguage() = "java"
 
     override fun generateEmptyFunction(function: Function) = """import java.util.*;
 import com.jalgoarena.type.*;

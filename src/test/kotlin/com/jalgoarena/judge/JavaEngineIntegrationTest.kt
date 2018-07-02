@@ -48,9 +48,7 @@ open class JavaEngineIntegrationTest {
                 level = 3,
                 timeLimit = 5,
                 func = WORD_LADDER_FUNCTION,
-                skeletonCode = mapOf(
-                        Pair("java", "dummy code")
-                ),
+                skeletonCode = "dummy code",
                 testCases = listOf(
                         Problem.TestCase(
                                 ArrayNode(JsonNodeFactory.instance).add("a").add("c").add(
@@ -75,7 +73,7 @@ open class JavaEngineIntegrationTest {
             val problem = repository.find(problemId)!!
             val sourceCode = Resources.toString(Resources.getResource("$solutionId.java"), Charsets.UTF_8)
 
-            val result = judgeEngine.judge(problem, Submission(sourceCode, "0-0", "java", "0", problemId, LocalDateTime.now().toString()))
+            val result = judgeEngine.judge(problem, Submission(sourceCode, "0-0", "0", problemId, LocalDateTime.now().toString()))
 
             assertThat(result.statusCode).isEqualTo(statusCode.toString())
         } catch (e: Exception) {
@@ -111,7 +109,7 @@ open class JavaEngineIntegrationTest {
                 try {
                     val problem = PROBLEM
                     val sourceCode = Resources.toString(Resources.getResource("InfiniteLoop.java"), Charsets.UTF_8)
-                    val result = judgeEngine.judge(problem, Submission(sourceCode, "0-0", "java", "0", "InfiniteLoop", LocalDateTime.now().toString()))
+                    val result = judgeEngine.judge(problem, Submission(sourceCode, "0-0", "0", "InfiniteLoop", LocalDateTime.now().toString()))
 
                     assertThat(result.statusCode).isEqualTo(StatusCode.TIME_LIMIT_EXCEEDED.toString())
                 } catch (e: Exception) {

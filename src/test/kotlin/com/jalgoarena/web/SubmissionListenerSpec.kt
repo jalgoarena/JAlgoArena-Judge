@@ -212,7 +212,6 @@ class SubmissionListenerSpec {
         private val SUBMISSION_FIB = Submission(
                 SOURCE_CODE_FIB,
                 "0-0",
-                "java",
                 "0-1-2-3",
                 "fib",
                 LocalDateTime.now().toString(),
@@ -222,7 +221,6 @@ class SubmissionListenerSpec {
         private val SUBMISSION_FIB_INCORRECT = Submission(
                 SOURCE_CODE_FIB_INCORRECT,
                 "0-0",
-                "java",
                 "0-1-2-3",
                 "fib",
                 LocalDateTime.now().toString(),
@@ -232,7 +230,6 @@ class SubmissionListenerSpec {
         private val SUBMISSION_FIB_NOT_COMPILING = Submission(
                 "dummy",
                 "0-0",
-                "java",
                 "0-1-2-3",
                 "fib",
                 LocalDateTime.now().toString(),
@@ -242,7 +239,6 @@ class SubmissionListenerSpec {
         private val SUBMISSION_FIB_RUNTIME_ERROR = Submission(
                 SOURCE_CODE_FIB_RUNTIME_ERROR,
                 "0-0",
-                "java",
                 "0-1-2-3",
                 "fib",
                 LocalDateTime.now().toString(),

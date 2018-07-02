@@ -2,6 +2,7 @@ package com.jalgoarena.compile
 
 import com.google.common.base.Preconditions
 import org.slf4j.LoggerFactory
+import org.springframework.stereotype.Service
 import java.io.File
 import java.io.IOException
 import java.nio.CharBuffer
@@ -10,8 +11,6 @@ import javax.tools.*
 open class InMemoryJavaCompiler : JvmCompiler {
 
     private val logger = LoggerFactory.getLogger(this.javaClass)
-
-    override fun programmingLanguage() = "java"
 
     override fun run(className: String, source: String): MutableMap<String, ByteArray?> {
 

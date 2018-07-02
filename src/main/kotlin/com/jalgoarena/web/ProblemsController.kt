@@ -12,7 +12,7 @@ import javax.inject.Inject
 @RestController
 class ProblemsController(
         @Inject private val problemsRepository: ProblemsRepository,
-        @Inject private val codeGenerators: List<JvmCodeGenerator>
+        @Inject private val codeGenerator: JvmCodeGenerator
 ) {
 
     @GetMapping("/problems", produces = ["application/json"])
@@ -31,17 +31,13 @@ class ProblemsController(
         return problem.copy(
                 func = null,
                 testCases = null,
-                skeletonCode = generateSkeletonCodes(problem.func!!)
+                skeletonCode = codeGenerator.generateEmptyFunction(problem.func!!)
         )
     }
 
     private fun enhancedRawProblem(problem: Problem): Problem {
         return problem.copy(
-                skeletonCode = generateSkeletonCodes(problem.func!!)
+                skeletonCode = codeGenerator.generateEmptyFunction(problem.func!!)
         )
     }
-
-    private fun generateSkeletonCodes(function: Function) = codeGenerators.map {
-        it.programmingLanguage() to it.generateEmptyFunction(function)
-    }.toMap()
 }

@@ -61,7 +61,6 @@ class SubmissionsListener(
                 statusCode = judgeResult.statusCode,
                 sourceCode = submission.sourceCode,
                 elapsedTime = judgeResult.elapsedTime,
-                language = submission.language,
                 submissionId = submission.submissionId,
                 consumedMemory = judgeResult.consumedMemory,
                 errorMessage = judgeResult.errorMessage,

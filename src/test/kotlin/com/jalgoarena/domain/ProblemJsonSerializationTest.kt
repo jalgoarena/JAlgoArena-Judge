@@ -47,9 +47,7 @@ class ProblemJsonSerializationTest {
             level = 3,
             timeLimit = 1,
             func = TWO_SUM_FUNCTION,
-            skeletonCode = mapOf(
-                    Pair("java", "dummy code")
-            ),
+            skeletonCode = "dummy code",
             testCases = listOf(
                     Problem.TestCase(
                             ArrayNode(JsonNodeFactory.instance).add(1).add(2),
@@ -84,9 +82,7 @@ class ProblemJsonSerializationTest {
     ]
   },
   "testCases": [{"input":[1,2],"output":3}],
-  "skeletonCode": {
-    "java": "dummy code"
-  },
+  "skeletonCode": "dummy code",
   "level": 3
 }
 """
