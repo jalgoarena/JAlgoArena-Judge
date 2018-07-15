@@ -106,9 +106,9 @@ compileTestKotlin {
 }
 
 task buildDockerImage(type: Exec, dependsOn: 'bootJar') {
-    commandLine 'docker',  'build', '-t', "spolnik/${rootProject.name}:${version}", '.'
+    commandLine 'docker',  'build', '-t', "jalgoarena/judge:${version}", '.'
 }
 
 task pushDockerImages(type: Exec, dependsOn: 'buildDockerImage') {
-    commandLine 'docker',  'push', "spolnik/${rootProject.name}:${version}"
+    commandLine 'docker',  'push', "jalgoarena/judge:${version}"
 }
