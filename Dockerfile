@@ -9,4 +9,4 @@ COPY build/classes/kotlin/main/com/jalgoarena/type/ /app/build/classes/kotlin/ma
 
 EXPOSE 5008
 
-CMD java -Xms1g -Xmx2g -jar /app/jalgoarena-judge-*.jar
+CMD java -XX:+PrintFlagsFinal $JAVA_OPTS -jar /app/jalgoarena-judge-*.jar
