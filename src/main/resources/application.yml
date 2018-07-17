@@ -12,7 +12,7 @@ spring:
   kafka:
     bootstrap-servers: ${BOOTSTRAP_SERVERS:localhost:9092,localhost:9093,localhost:9094}
     consumer:
-      group-id: judge-agent
+      group-id: ${KAFKA_CONSUMER_GROUP_ID:judge-agent}
     producer:
       retries: 3
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
