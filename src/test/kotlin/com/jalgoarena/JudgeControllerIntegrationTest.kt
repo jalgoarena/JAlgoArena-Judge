@@ -13,11 +13,11 @@ import org.junit.ClassRule
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.junit4.rules.SpringClassRule
 import org.springframework.test.context.junit4.rules.SpringMethodRule
 import java.time.LocalDateTime
-import javax.inject.Inject
 
 @RunWith(JUnitParamsRunner::class)
 @ContextConfiguration(classes = [TestApplicationConfiguration::class])
@@ -32,10 +32,10 @@ class JudgeControllerIntegrationTest {
     @Rule
     @JvmField val springMethodRule = SpringMethodRule()
 
-    @Inject
+    @Autowired
     private lateinit var submissionsListener: SubmissionsListener
 
-    @Inject
+    @Autowired
     private lateinit var problemsController: ProblemsController
 
     @Test

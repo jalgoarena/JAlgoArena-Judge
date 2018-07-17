@@ -5,15 +5,15 @@ import com.jalgoarena.ApplicationConfiguration
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
-import javax.inject.Inject
 
 @RunWith(SpringJUnit4ClassRunner::class)
-@ContextConfiguration(classes = arrayOf(ApplicationConfiguration::class))
+@ContextConfiguration(classes = [(ApplicationConfiguration::class)])
 class TreeNodeSpec {
 
-    @Inject
+    @Autowired
     private lateinit var objectMapper: ObjectMapper
 
     @Test
@@ -137,6 +137,8 @@ class TreeNodeSpec {
         assertThat(deserializedTreeNode).isEqualTo(root)
     }
 
-    //language=JSON
-    private val TREE_NODE_JSON = """{"data":1,"left":{"data":2,"left":{"data":4},"right":{"data":5}},"right":{"data":3,"left":{"data":6},"right":{"data":7}}}"""
+    companion object {
+        //language=JSON
+        private const val TREE_NODE_JSON = """{"data":1,"left":{"data":2,"left":{"data":4},"right":{"data":5}},"right":{"data":3,"left":{"data":6},"right":{"data":7}}}"""
+    }
 }

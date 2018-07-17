@@ -2,7 +2,6 @@ package com.jalgoarena.compile
 
 import com.google.common.base.Preconditions
 import org.slf4j.LoggerFactory
-import org.springframework.stereotype.Service
 import java.io.File
 import java.io.IOException
 import java.nio.CharBuffer

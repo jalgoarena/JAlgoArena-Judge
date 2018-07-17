@@ -1,7 +1,6 @@
 package com.jalgoarena.judge
 
 import com.jalgoarena.judge.PerformanceSnapshot.Companion.takePerformanceSnapshot
-import org.apache.commons.lang.exception.ExceptionUtils.getCause
 import java.lang.reflect.Method
 import java.util.concurrent.Callable
 
@@ -25,7 +24,7 @@ internal class JudgeTask(
     private fun judge(clazz: Any, method: Method, testCase: InternalTestCase) = try {
         invokeAndCheck(clazz, method, testCase)
     } catch(e: Throwable) {
-        val cause = getCause(e)
+        val cause = e.cause!!
 
         if (cause is NullPointerException) {
             false

@@ -10,5 +10,5 @@ object BoggleDictionary {
             Array<String>::class.java
     ).asList())
 
-    val KEY = "\"<ENGLISH-DICTIONARY>\""
+    const val KEY = "\"<ENGLISH-DICTIONARY>\""
 }

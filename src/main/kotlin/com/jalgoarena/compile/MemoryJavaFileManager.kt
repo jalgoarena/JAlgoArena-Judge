@@ -33,7 +33,7 @@ internal class MemoryJavaFileManager(fileManager: JavaFileManager) : ForwardingJ
                 override fun close() {
                     out.close()
                     val bos = out as ByteArrayOutputStream
-                    classBytes.put(className, bos.toByteArray())
+                    classBytes[className] = bos.toByteArray()
                 }
             }
         }
@@ -41,7 +41,7 @@ internal class MemoryJavaFileManager(fileManager: JavaFileManager) : ForwardingJ
 
     companion object {
 
-        private val JAVA_SOURCE_FILE_EXT = ".java"
+        private const val JAVA_SOURCE_FILE_EXT = ".java"
 
         fun toUri(name: String): URI {
             val newUri = StringBuilder()

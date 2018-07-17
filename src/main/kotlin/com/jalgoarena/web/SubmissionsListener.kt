@@ -14,13 +14,12 @@ import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.kafka.support.SendResult
 import org.springframework.stereotype.Service
 import org.springframework.util.concurrent.ListenableFutureCallback
-import javax.inject.Inject
 
 @Service
 @KafkaListener(topics = ["submissions"])
 class SubmissionsListener(
-        @Inject private val problemsRepository: ProblemsRepository,
-        @Inject private val judgeEngine: JudgeEngine
+        @Autowired private val problemsRepository: ProblemsRepository,
+        @Autowired private val judgeEngine: JudgeEngine
 ) {
 
     private val logger = LoggerFactory.getLogger(this.javaClass)

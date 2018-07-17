@@ -10,16 +10,16 @@ import com.jalgoarena.domain.JudgeResult
 import com.jalgoarena.domain.JudgeResult.*
 import com.jalgoarena.domain.Problem
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import java.lang.reflect.Method
 import java.util.*
 import java.util.concurrent.*
-import javax.inject.Inject
 
 @Component
 open class JvmJudgeEngine(
-        @Inject private val objectMapper: ObjectMapper,
-        @Inject private val compiler: JvmCompiler
+        @Autowired private val objectMapper: ObjectMapper,
+        @Autowired private val compiler: JvmCompiler
 ) : JudgeEngine {
 
     companion object {

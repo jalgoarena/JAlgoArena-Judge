@@ -11,17 +11,17 @@ ${parametersComment(function)}
     }
 
     fun parametersComment(function: Function): String {
-        return function.parameters.map { parameter ->
+        return function.parameters.joinToString(System.lineSeparator()) { parameter ->
             "     * @param ${parameter.name} ${parameter.comment}"
-        }.joinToString(System.lineSeparator())
+        }
     }
 
     fun generateParameterDeclaration(type: String, parameterName: String, generic: String?) : String
 
     fun parametersOf(function: Function): String {
-        return function.parameters.map { parameter ->
+        return function.parameters.joinToString(", ") { parameter ->
             generateParameterDeclaration(parameter.type, parameter.name, parameter.generic)
-        }.joinToString(", ")
+        }
     }
 
     fun typeGenericDeclaration(generic: String?) = when(generic) {
