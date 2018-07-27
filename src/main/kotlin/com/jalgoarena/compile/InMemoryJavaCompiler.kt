@@ -72,6 +72,8 @@ open class InMemoryJavaCompiler : JvmCompiler {
         val classpath = mutableListOf<String>()
 
         addToClassPath(classpath, "build/classes/kotlin/main")
+        // local/ for nomad alloc
+        addToClassPath(classpath, "local/build/classes/kotlin/main")
 
         val result = classpath.joinToString(File.pathSeparator)
         logger.info("Classpath: $result")
