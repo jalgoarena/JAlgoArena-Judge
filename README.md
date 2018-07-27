@@ -3,10 +3,7 @@
 JAlgoArena Judge Agent is heart of JAlgoArena platform. It is responsible for generation of skeleton code as well as judging submissions based on requirements specified in problem definition.
 
 - [Introduction](#introduction)
-- [REST API](#rest-api)
-- [Components](#components)
-- [Continuous Delivery](#continuous-delivery)
-- [Infrastructure](#infrastructure)
+- [API](#api)
 - [Running Locally](#running-locally)
 - [Notes](#notes)
 
@@ -26,28 +23,52 @@ JAlgoArena Judge Agent is heart of JAlgoArena platform. It is responsible for ge
 | ---- | --------------- |
 | [GET /problems](#rest-api) | Get problems list |
 | [GET /problems/:id](#rest-api) | Get problem by id |
-| [POST /problems/:id/submit](#rest-api) | Post problem solution to judge |
 
-## Components
+## API
 
-- [JAlgoArena](https://github.com/spolnik/JAlgoArena)
-- [JAlgoArena UI](https://github.com/spolnik/JAlgoArena-UI)
-- [JAlgoArena Judge](https://github.com/spolnik/JAlgoArena-Judge)
-- [JAlgoArena Problems](https://github.com/spolnik/JAlgoArena-Problems)
-- [JAlgoArena API Gateway](https://github.com/spolnik/JAlgoArena-API)
+#### Get all problems
 
-## Continuous Delivery
+  _Request definition of all problems_
 
-- initially, developer push his changes to GitHub
-- in next stage, GitHub notifies Travis CI about changes
-- Travis CI runs whole continuous integration flow, running compilation, tests and generating reports
-- coverage report is sent to Codecov
+|URL|Method|
+|---|------|
+|_/problems_|`GET`|
 
-## Infrastructure
+* **Success Response:**
 
-- MemoryClassLoader, MemoryJavaCompiler
-- Spring Boot, Spring Cloud
-- TravisCI - https://travis-ci.org/spolnik/JAlgoArena-Judge
+  _List of available problems_
+
+  * **Code:** 200 <br />
+    **Content:** `[{"id":"fib","title":"Fibonacci","description":"<description>","timeLimit":1,"skeletonCode":"<skeleton code>","level":1},{...},...]`
+
+* **Sample Call:**
+
+  ```bash
+  curl --header "Accept: application/json" \
+       http://localhost:5008/problems
+  ```
+
+#### Get specific problem
+
+  _Request definition of requested problem_
+
+|URL|Method|
+|---|------|
+|_/problems/:id_|`GET`|
+
+* **Success Response:**
+
+  _Details of requested problem_
+
+  * **Code:** 200 <br />
+    **Content:** `{"id":"fib","title":"Fibonacci","description":"<description>","timeLimit":1,"skeletonCode":"<skeleton code>","level":1}`
+
+* **Sample Call:**
+
+  ```bash
+  curl --header "Accept: application/json" \
+       http://localhost:5008/problems/fib
+  ```
 
 ## Running locally
 
