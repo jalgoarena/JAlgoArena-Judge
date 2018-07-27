@@ -27,6 +27,6 @@ class JAlgoArenaJudgeAppIntegrationTest {
     companion object {
         @ClassRule
         @JvmField
-        var embeddedKafka = KafkaEmbedded(1, true, "results", "submissions")
+        var embeddedKafka = KafkaEmbedded(1, true, "results", "submissionsToJudge")
     }
 }

@@ -172,7 +172,7 @@ class SubmissionListenerSpec {
 
         @ClassRule
         @JvmField
-        val embeddedKafka: KafkaEmbedded = KafkaEmbedded(1, true, "submissions", "results")
+        val embeddedKafka: KafkaEmbedded = KafkaEmbedded(1, true, "submissionsToJudge", "results")
 
 
         private val submissionsListener = SubmissionsListener(
@@ -180,7 +180,7 @@ class SubmissionListenerSpec {
                 TestApplicationConfiguration().judgeEngine(ApplicationConfiguration().objectMapper())
         )
 
-        private const val SUBMISSIONS_TOPIC = "submissions"
+        private const val SUBMISSIONS_TOPIC = "submissionsToJudge"
         private const val RESULTS_TOPIC = "results"
 
         private val OBJECT_MAPPER = ObjectMapper()
@@ -215,6 +215,7 @@ class SubmissionListenerSpec {
                 "0-1-2-3",
                 "fib",
                 LocalDateTime.now().toString(),
+                0,
                 "dummy"
         )
 
@@ -224,6 +225,7 @@ class SubmissionListenerSpec {
                 "0-1-2-3",
                 "fib",
                 LocalDateTime.now().toString(),
+                0,
                 "dummy"
         )
 
@@ -233,6 +235,7 @@ class SubmissionListenerSpec {
                 "0-1-2-3",
                 "fib",
                 LocalDateTime.now().toString(),
+                0,
                 "dummy"
         )
 
@@ -242,6 +245,7 @@ class SubmissionListenerSpec {
                 "0-1-2-3",
                 "fib",
                 LocalDateTime.now().toString(),
+                0,
                 "dummy"
         )
     }

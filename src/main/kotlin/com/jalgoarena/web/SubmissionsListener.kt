@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service
 import org.springframework.util.concurrent.ListenableFutureCallback
 
 @Service
-@KafkaListener(topics = ["submissions"])
+@KafkaListener(topics = ["submissionsToJudge"])
 class SubmissionsListener(
         @Autowired private val problemsRepository: ProblemsRepository,
         @Autowired private val judgeEngine: JudgeEngine
@@ -61,6 +61,7 @@ class SubmissionsListener(
                 sourceCode = submission.sourceCode,
                 elapsedTime = judgeResult.elapsedTime,
                 submissionId = submission.submissionId,
+                id = submission.id,
                 consumedMemory = judgeResult.consumedMemory,
                 errorMessage = judgeResult.errorMessage,
                 passedTestCases = judgeResult.testcaseResults.count { it },
@@ -81,7 +82,7 @@ class SubmissionsListener(
 
     class SubmissionResultHandler(
             private val submissionId: String
-    ) : ListenableFutureCallback< SendResult<Int, SubmissionResult>> {
+    ) : ListenableFutureCallback<SendResult<Int, SubmissionResult>> {
 
         private val logger = LoggerFactory.getLogger(this.javaClass)
 
