@@ -10,5 +10,5 @@ data class Submission(
         val problemId: String,
         val submissionTime: String,
         val id: Int,
-        val token: String? = null
+        val token: String
 )

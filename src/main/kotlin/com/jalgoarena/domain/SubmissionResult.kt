@@ -16,5 +16,5 @@ data class SubmissionResult(
         val errorMessage: String?,
         val passedTestCases: Int,
         val failedTestCases: Int,
-        val token: String?
+        val token: String
 )

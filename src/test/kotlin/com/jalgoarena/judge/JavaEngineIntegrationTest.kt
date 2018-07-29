@@ -73,7 +73,7 @@ open class JavaEngineIntegrationTest {
             val problem = repository.find(problemId)!!
             val sourceCode = Resources.toString(Resources.getResource("$solutionId.java"), Charsets.UTF_8)
 
-            val result = judgeEngine.judge(problem, Submission(sourceCode, "0-0", "0", problemId, LocalDateTime.now().toString(), 0))
+            val result = judgeEngine.judge(problem, Submission(sourceCode, "0-0", "0", problemId, LocalDateTime.now().toString(), 0, "dummy_token"))
 
             assertThat(result.statusCode).isEqualTo(statusCode.toString())
         } catch (e: Exception) {
@@ -109,7 +109,7 @@ open class JavaEngineIntegrationTest {
                 try {
                     val problem = PROBLEM
                     val sourceCode = Resources.toString(Resources.getResource("InfiniteLoop.java"), Charsets.UTF_8)
-                    val result = judgeEngine.judge(problem, Submission(sourceCode, "0-0", "0", "InfiniteLoop", LocalDateTime.now().toString(), 0))
+                    val result = judgeEngine.judge(problem, Submission(sourceCode, "0-0", "0", "InfiniteLoop", LocalDateTime.now().toString(), 0, "dummy_token"))
 
                     assertThat(result.statusCode).isEqualTo(StatusCode.TIME_LIMIT_EXCEEDED.toString())
                 } catch (e: Exception) {
