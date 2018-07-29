@@ -216,7 +216,7 @@ class SubmissionListenerSpec {
                 "0-0",
                 "0-1-2-3",
                 "fib",
-                LocalDateTime.now().toString(),
+                LocalDateTime.now(),
                 0,
                 "dummy"
         )
@@ -226,7 +226,7 @@ class SubmissionListenerSpec {
                 "0-0",
                 "0-1-2-3",
                 "fib",
-                LocalDateTime.now().toString(),
+                LocalDateTime.now(),
                 0,
                 "dummy"
         )
@@ -236,7 +236,7 @@ class SubmissionListenerSpec {
                 "0-0",
                 "0-1-2-3",
                 "fib",
-                LocalDateTime.now().toString(),
+                LocalDateTime.now(),
                 0,
                 "dummy"
         )
@@ -246,7 +246,7 @@ class SubmissionListenerSpec {
                 "0-0",
                 "0-1-2-3",
                 "fib",
-                LocalDateTime.now().toString(),
+                LocalDateTime.now(),
                 0,
                 "dummy"
         )

@@ -1,6 +1,7 @@
 package com.jalgoarena.domain
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import java.time.LocalDateTime
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class Submission(
@@ -8,7 +9,7 @@ data class Submission(
         val userId: String,
         val submissionId: String,
         val problemId: String,
-        val submissionTime: String,
+        val submissionTime: LocalDateTime,
         val id: Int,
         val token: String
 )

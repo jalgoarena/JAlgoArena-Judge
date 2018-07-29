@@ -1,8 +1,11 @@
 package com.jalgoarena
 
 import com.fasterxml.jackson.annotation.JsonInclude
+import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.databind.module.SimpleModule
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.jalgoarena.codegeneration.JavaCodeGenerator
 import com.jalgoarena.compile.InMemoryJavaCompiler
@@ -24,6 +27,11 @@ open class ApplicationConfiguration {
         customModule.addDeserializer(ListNode::class.java, ListNode.Deserializer())
         customModule.addDeserializer(GraphNode::class.java, GraphNode.Deserializer())
         objectMapper.registerModule(customModule)
+
+        objectMapper.registerModule(JavaTimeModule())
+        objectMapper.disable(DeserializationFeature.ADJUST_DATES_TO_CONTEXT_TIME_ZONE)
+        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
+
         return objectMapper
     }
 
