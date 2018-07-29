@@ -1,6 +1,6 @@
 package com.jalgoarena.web
 
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.jalgoarena.data.ProblemsRepository
 import com.jalgoarena.domain.Submission
 import com.jalgoarena.domain.JudgeResult
@@ -19,7 +19,8 @@ import org.springframework.util.concurrent.ListenableFutureCallback
 @KafkaListener(topics = ["submissionsToJudge"])
 class SubmissionsListener(
         @Autowired private val problemsRepository: ProblemsRepository,
-        @Autowired private val judgeEngine: JudgeEngine
+        @Autowired private val judgeEngine: JudgeEngine,
+        @Autowired private val objectMapper: ObjectMapper
 ) {
 
     private val logger = LoggerFactory.getLogger(this.javaClass)
@@ -30,7 +31,7 @@ class SubmissionsListener(
     @KafkaHandler
     fun judge(message: String): SubmissionResult {
 
-        val submission = jacksonObjectMapper().readValue(message, Submission::class.java)
+        val submission = objectMapper.readValue(message, Submission::class.java)
         logger.info("Received submission [submissionId={}][status=WAITING]", submission.submissionId)
 
         return judge(submission)

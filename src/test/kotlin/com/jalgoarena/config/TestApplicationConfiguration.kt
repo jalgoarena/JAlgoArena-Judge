@@ -31,8 +31,9 @@ open class TestApplicationConfiguration : ApplicationConfiguration() {
     @Bean
     open fun submissionsListener(
             problemsRepository: ProblemsRepository,
-            judgeEngine: JvmJudgeEngine
-    ) = SubmissionsListener(problemsRepository, judgeEngine)
+            judgeEngine: JvmJudgeEngine,
+            objectMapper: ObjectMapper
+    ) = SubmissionsListener(problemsRepository, judgeEngine, objectMapper)
 
     @Bean
     open fun problemsController(problemsRepository: ProblemsRepository) =
