@@ -1,6 +1,5 @@
 package com.jalgoarena.web
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.jalgoarena.ApplicationConfiguration
 import com.jalgoarena.config.TestApplicationConfiguration
@@ -12,13 +11,13 @@ import com.jalgoarena.domain.SubmissionResult
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.apache.kafka.clients.producer.ProducerConfig
 import org.apache.kafka.common.serialization.IntegerSerializer
+import org.apache.kafka.common.serialization.StringSerializer
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.ClassRule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory
 import org.springframework.kafka.core.DefaultKafkaProducerFactory
@@ -26,7 +25,6 @@ import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.kafka.listener.KafkaMessageListenerContainer
 import org.springframework.kafka.listener.MessageListener
 import org.springframework.kafka.listener.config.ContainerProperties
-import org.springframework.kafka.support.serializer.JsonSerializer
 import org.springframework.kafka.test.rule.KafkaEmbedded
 import org.springframework.kafka.test.utils.ContainerTestUtils
 import org.springframework.kafka.test.utils.KafkaTestUtils
@@ -54,9 +52,9 @@ class SubmissionListenerSpec {
     fun setUp() {
         val props = KafkaTestUtils.producerProps(embeddedKafka)
         props[ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG] = IntegerSerializer::class.java
-        props[ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG] = JsonSerializer::class.java
+        props[ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG] = StringSerializer::class.java
 
-        val producerFactoryForSubmissionResult = DefaultKafkaProducerFactory<Int, SubmissionResult>(props)
+        val producerFactoryForSubmissionResult = DefaultKafkaProducerFactory<Int, String>(props)
 
         val resultTopicTemplate = KafkaTemplate(producerFactoryForSubmissionResult)
         resultTopicTemplate.defaultTopic = RESULTS_TOPIC
@@ -97,7 +95,7 @@ class SubmissionListenerSpec {
 
         logger.info("Received record: {}", consumerRecord)
 
-        return jacksonObjectMapper()
+        return OBJECT_MAPPER
                 .readValue(consumerRecord.value(), SubmissionResult::class.java)
     }
 
@@ -176,16 +174,16 @@ class SubmissionListenerSpec {
         val embeddedKafka: KafkaEmbedded = KafkaEmbedded(1, true, "submissionsToJudge", "results")
 
 
+        private val OBJECT_MAPPER = ApplicationConfiguration().objectMapper()
+
         private val submissionsListener = SubmissionsListener(
                 ProblemsOnlyFibRepo(),
-                TestApplicationConfiguration().judgeEngine(ApplicationConfiguration().objectMapper()),
-                ApplicationConfiguration().objectMapper()
+                TestApplicationConfiguration().judgeEngine(OBJECT_MAPPER),
+                OBJECT_MAPPER
         )
-
         private const val SUBMISSIONS_TOPIC = "submissionsToJudge"
-        private const val RESULTS_TOPIC = "results"
 
-        private val OBJECT_MAPPER = ObjectMapper()
+        private const val RESULTS_TOPIC = "results"
 
         private const val SOURCE_CODE_FIB = """public class Solution {
     public long fib(int n) {

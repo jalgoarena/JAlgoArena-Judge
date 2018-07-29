@@ -26,7 +26,7 @@ class SubmissionsListener(
     private val logger = LoggerFactory.getLogger(this.javaClass)
 
     @Autowired
-    lateinit var template: KafkaTemplate<Int, SubmissionResult>
+    lateinit var template: KafkaTemplate<Int, String>
 
     @KafkaHandler
     fun judge(message: String): SubmissionResult {
@@ -75,7 +75,7 @@ class SubmissionsListener(
                 submissionResult.submissionId,
                 submissionResult.statusCode)
 
-        template.send("results", submissionResult)
+        template.send("results", objectMapper.writeValueAsString(submissionResult))
                 .addCallback(SubmissionResultHandler(submissionResult.submissionId))
 
         return submissionResult
@@ -83,11 +83,11 @@ class SubmissionsListener(
 
     class SubmissionResultHandler(
             private val submissionId: String
-    ) : ListenableFutureCallback<SendResult<Int, SubmissionResult>> {
+    ) : ListenableFutureCallback<SendResult<Int, String>> {
 
         private val logger = LoggerFactory.getLogger(this.javaClass)
 
-        override fun onSuccess(result: SendResult<Int, SubmissionResult>?) {
+        override fun onSuccess(result: SendResult<Int, String>?) {
             logger.info("Published submission result [submissionId={}]", submissionId)
         }
 
