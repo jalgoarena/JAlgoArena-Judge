@@ -15,6 +15,9 @@ cache:
     - "$HOME/.gradle/caches/"
     - "$HOME/.gradle/wrapper/"
 before_deploy:
+  - git config --local user.name "Jacek Spólnik"
+  - git config --local user.email "jacek.spolnik@gmail.com"
+  - git tag "$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)"
   - "./gradlew releaseZip"
 deploy:
   - provider: releases
@@ -24,8 +27,8 @@ deploy:
     file: "./build/libs/JAlgoArena-Judge-*.zip"
     skip_cleanup: true
     on:
-      tags: true
+      tags: false
   - provider: script
     script: bash docker_push
     on:
-      tags: true
+      tags: false
