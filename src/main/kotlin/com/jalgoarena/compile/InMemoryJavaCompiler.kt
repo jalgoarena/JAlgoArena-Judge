@@ -72,8 +72,6 @@ open class InMemoryJavaCompiler : JvmCompiler {
         val classpath = mutableListOf<String>()
 
         addToClassPath(classpath, "build/classes/kotlin/main")
-        // local/ for nomad alloc
-        addToClassPath(classpath, "local/build/classes/kotlin/main")
 
         val result = classpath.joinToString(File.pathSeparator)
         logger.info("Classpath: $result")
@@ -82,11 +80,13 @@ open class InMemoryJavaCompiler : JvmCompiler {
 
     private fun addToClassPath(classpath: MutableList<String>, path: String) {
         val dockerPath = "/app/$path"
+        val nomadPath = "local/$path"
 
         when {
             File(path).exists() -> classpath.add(File(path).absolutePath)
             File(dockerPath).exists() -> classpath.add(File(dockerPath).absolutePath)
-            else -> logger.error("Could not find $path nor $dockerPath!!")
+            File(nomadPath).exists() -> classpath.add(File(nomadPath).absolutePath)
+            else -> logger.warn("[err] Could not find any of paths: [$path, $dockerPath, $nomadPath]")
         }
     }
 
