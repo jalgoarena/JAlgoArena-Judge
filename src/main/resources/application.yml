@@ -4,6 +4,10 @@ logging:
 server:
   port: ${PORT:5008}
 
+jalgoarena:
+  problems:
+    source: ${PROBLEMS_SOURCE:problems.json}
+
 spring:
   kafka:
     bootstrap-servers: ${BOOTSTRAP_SERVERS:localhost:9092,localhost:9093,localhost:9094}
