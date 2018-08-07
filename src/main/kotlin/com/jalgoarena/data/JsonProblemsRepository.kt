@@ -10,13 +10,13 @@ import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.CopyOnWriteArrayList
 
 @Repository
-open class JsonProblemsRepository : ProblemsRepository {
+open class JsonProblemsRepository(
+        @Value("\${jalgoarena.problems.source:problems.json}")
+        private val jalgoarenaProblemsSource: String = "problems.json"
+) : ProblemsRepository {
 
     private val problems: CopyOnWriteArrayList<Problem> = CopyOnWriteArrayList()
     private val problemsById: ConcurrentHashMap<String, Problem> = ConcurrentHashMap()
-
-    @Value("\${jalgoarena.problems.source}")
-    private lateinit var jalgoarenaProblemsSource: String
 
     override fun find(id: String): Problem? {
         if (problemsById.isEmpty()) {

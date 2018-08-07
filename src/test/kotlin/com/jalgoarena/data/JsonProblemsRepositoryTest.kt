@@ -3,7 +3,9 @@ package com.jalgoarena.data
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Test
+import org.springframework.boot.test.context.SpringBootTest
 
+@SpringBootTest
 class JsonProblemsRepositoryTest {
 
     private lateinit var problemsRepository: ProblemsRepository
