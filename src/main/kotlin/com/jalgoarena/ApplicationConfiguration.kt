@@ -11,12 +11,16 @@ import com.jalgoarena.codegeneration.JavaCodeGenerator
 import com.jalgoarena.compile.InMemoryJavaCompiler
 import com.jalgoarena.type.GraphNode
 import com.jalgoarena.type.ListNode
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.web.client.RestTemplate
 
 @Configuration
 open class ApplicationConfiguration {
+
+    @Value("\${jalgoarena.judge.classpath:build/classes/kotlin/main}")
+    private lateinit var jalgoarenaJudgeClasspath: String
 
     @Bean
     open fun objectMapper(): ObjectMapper {
@@ -36,11 +40,14 @@ open class ApplicationConfiguration {
     }
 
     @Bean
-    open fun restTemplate() = RestTemplate()
+    open fun restTemplate() =
+            RestTemplate()
 
     @Bean
-    open fun javaCompiler() = InMemoryJavaCompiler()
+    open fun javaCompiler() =
+            InMemoryJavaCompiler(jalgoarenaJudgeClasspath)
 
     @Bean
-    open fun javaCodeGenerator() = JavaCodeGenerator()
+    open fun javaCodeGenerator() =
+            JavaCodeGenerator()
 }

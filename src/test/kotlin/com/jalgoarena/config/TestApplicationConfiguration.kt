@@ -3,7 +3,6 @@ package com.jalgoarena.config
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.jalgoarena.ApplicationConfiguration
 import com.jalgoarena.codegeneration.JavaCodeGenerator
-import com.jalgoarena.codegeneration.JvmCodeGenerator
 import com.jalgoarena.compile.InMemoryJavaCompiler
 import com.jalgoarena.data.JsonProblemsRepository
 import com.jalgoarena.data.ProblemsRepository

@@ -7,7 +7,9 @@ import java.io.IOException
 import java.nio.CharBuffer
 import javax.tools.*
 
-open class InMemoryJavaCompiler : JvmCompiler {
+open class InMemoryJavaCompiler(
+        private val jalgoarenaJudgeClasspath: String = "build/classes/kotlin/main"
+) : JvmCompiler {
 
     private val logger = LoggerFactory.getLogger(this.javaClass)
 
@@ -71,7 +73,7 @@ open class InMemoryJavaCompiler : JvmCompiler {
     private fun buildClassPath(): String {
         val classpath = mutableListOf<String>()
 
-        addToClassPath(classpath, "build/classes/kotlin/main")
+        addToClassPath(classpath, jalgoarenaJudgeClasspath)
 
         val result = classpath.joinToString(File.pathSeparator)
         logger.info("Classpath: $result")
@@ -79,14 +81,9 @@ open class InMemoryJavaCompiler : JvmCompiler {
     }
 
     private fun addToClassPath(classpath: MutableList<String>, path: String) {
-        val dockerPath = "/app/$path"
-        val nomadPath = "local/$path"
-
         when {
             File(path).exists() -> classpath.add(File(path).absolutePath)
-            File(dockerPath).exists() -> classpath.add(File(dockerPath).absolutePath)
-            File(nomadPath).exists() -> classpath.add(File(nomadPath).absolutePath)
-            else -> logger.warn("[err] Could not find any of paths: [$path, $dockerPath, $nomadPath]")
+            else -> logger.warn("[err] Could not find class path: $path")
         }
     }
 
