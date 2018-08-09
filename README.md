@@ -1,4 +1,4 @@
-# JAlgoArena Judge Agent [![Build Status](https://travis-ci.org/spolnik/JAlgoArena-Judge.svg?branch=master)](https://travis-ci.org/spolnik/JAlgoArena-Judge) [![codecov](https://codecov.io/gh/spolnik/JAlgoArena-Judge/branch/master/graph/badge.svg)](https://codecov.io/gh/spolnik/JAlgoArena-Judge) [![GitHub release](https://img.shields.io/github/release/spolnik/jalgoarena-judge.svg)]()
+# JAlgoArena Judge Agent [![Build Status](https://travis-ci.org/jalgoarena/JAlgoArena-Judge.svg?branch=master)](https://travis-ci.org/jalgoarena/JAlgoArena-Judge) [![codecov](https://codecov.io/gh/spolnik/JAlgoArena-Judge/branch/master/graph/badge.svg)](https://codecov.io/gh/spolnik/JAlgoArena-Judge) [![GitHub release](https://img.shields.io/github/release/spolnik/jalgoarena-judge.svg)]()
 
 JAlgoArena Judge Agent is heart of JAlgoArena platform. It is responsible for generation of skeleton code as well as judging submissions based on requirements specified in problem definition.
 
@@ -86,6 +86,6 @@ There are two ways to run it - from sources or from binaries.
 - there is second way to run app with gradle. Instead of running above, you can just run `./gradlew clean bootRun`
 
 ## Notes
-- [Travis Builds](https://travis-ci.org/spolnik)
+- [Travis Builds](https://travis-ci.org/jalgoarena)
 
 ![Component Diagram](https://github.com/spolnik/JAlgoArena/raw/master/design/JAlgoArena_Logo.png)
