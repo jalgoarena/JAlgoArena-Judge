@@ -1,10 +1,9 @@
 package com.jalgoarena
 
+import com.jalgoarena.security.SandboxSecurityManger
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.kafka.annotation.EnableKafka
-import java.io.FileDescriptor
-import java.security.Permission
 
 @SpringBootApplication
 @EnableKafka
@@ -16,28 +15,3 @@ fun main(args: Array<String>) {
     SpringApplication.run(JAlgoArenaJudgeApp::class.java, *args)
 }
 
-class SandboxSecurityManger : SecurityManager() {
-    override fun checkExit(p: Int) {
-        throw SecurityException()
-    }
-
-    override fun checkDelete(p0: String?) {
-        throw SecurityException()
-    }
-
-    override fun checkExec(p0: String?) {
-        throw SecurityException()
-    }
-
-    override fun checkWrite(p0: FileDescriptor?) {
-        throw SecurityException()
-    }
-
-    override fun checkWrite(p0: String?) {
-        throw SecurityException()
-    }
-
-    override fun checkPermission(p0: Permission?) {
-        // allow on all others
-    }
-}

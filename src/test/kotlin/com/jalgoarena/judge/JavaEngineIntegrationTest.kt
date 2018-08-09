@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode
 import com.fasterxml.jackson.databind.node.IntNode
 import com.fasterxml.jackson.databind.node.JsonNodeFactory
 import com.google.common.io.Resources
-import com.jalgoarena.SandboxSecurityManger
+import com.jalgoarena.security.SandboxSecurityManger
 import com.jalgoarena.config.TestApplicationConfiguration
 import com.jalgoarena.data.ProblemsRepository
 import com.jalgoarena.domain.Function
