@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode
 import com.fasterxml.jackson.databind.node.IntNode
 import com.fasterxml.jackson.databind.node.JsonNodeFactory
 import com.google.common.io.Resources
+import com.jalgoarena.SandboxSecurityManger
 import com.jalgoarena.config.TestApplicationConfiguration
 import com.jalgoarena.data.ProblemsRepository
 import com.jalgoarena.domain.Function
@@ -95,6 +96,12 @@ open class JavaEngineIntegrationTest {
     @Test
     fun returnsWrongAnswerForIncorrectSolution() {
         judgeSolution("fib", "FibWrongAnswer", StatusCode.WRONG_ANSWER)
+    }
+
+    @Test
+    fun returnsRuntimeExceptionForSystemExit() {
+        System.setSecurityManager(SandboxSecurityManger())
+        judgeSolution("fib", "FibSystemExit", StatusCode.RUNTIME_ERROR)
     }
 
     @Test
