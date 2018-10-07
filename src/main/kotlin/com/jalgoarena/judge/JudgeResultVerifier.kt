@@ -1,39 +1,34 @@
 package com.jalgoarena.judge
 
-import java.math.RoundingMode
-import java.text.DecimalFormat
+import com.jalgoarena.type.Pair
 import java.util.*
-import com.jalgoarena.type.*
 
 class JudgeResultVerifier {
-    fun isValidAnswer(a: Any?, b: Any?): Boolean {
-        return equalForObjectsOrArrays(a, b)
+    fun isValidAnswer(expected: Any?, toCheck: Any?): Boolean {
+        return equalForObjectsOrArrays(expected, toCheck)
     }
 
-    private fun equalForObjectsOrArrays(a: Any?, b: Any?): Boolean {
+    private fun equalForObjectsOrArrays(expected: Any?, toCheck: Any?): Boolean {
         return when {
-            a === b -> return true
-            a == null || b == null -> return false
-            a is Pair && b is Pair -> return comparePairs(a, b)
-            a is Array<*> && b is Array<*> -> return Arrays.deepEquals(a, b)
-            a is IntArray && b is IntArray -> Arrays.equals(a, b)
-            a is Double && b is Double -> equalDouble(a, b)
-            a is Int && b is Double -> equalDouble(a.toDouble(), b)
-            a is Double && b is Int -> equalDouble(a, b.toDouble())
-            a == b -> return true
-            else -> return a.toString() == b.toString()
+            expected === toCheck -> return true
+            expected == null || toCheck == null -> return false
+            expected is Pair && toCheck is Pair -> return comparePairs(expected, toCheck)
+            expected is Array<*> && toCheck is Array<*> -> return Arrays.deepEquals(expected, toCheck)
+            expected is IntArray && toCheck is IntArray -> Arrays.equals(expected, toCheck)
+            expected is Double && toCheck is Double -> equalDouble(expected, toCheck)
+            expected is Int && toCheck is Double -> equalDouble(expected.toDouble(), toCheck)
+            expected is Double && toCheck is Int -> equalDouble(expected, toCheck.toDouble())
+            expected == toCheck -> return true
+            else -> return expected.toString() == toCheck.toString()
         }
     }
 
-    private fun comparePairs(a: Pair, b: Pair): Boolean {
-        return equalForObjectsOrArrays(a.first, b.first) &&
-                equalForObjectsOrArrays(a.second, b.second)
+    private fun comparePairs(expected: Pair, toCheck: Pair): Boolean {
+        return equalForObjectsOrArrays(expected.first, toCheck.first) &&
+                equalForObjectsOrArrays(expected.second, toCheck.second)
     }
 
-    private fun equalDouble(a: Double, b: Double): Boolean {
-        val df = DecimalFormat("#.#####")
-        df.roundingMode = RoundingMode.HALF_UP
-
-        return df.format(a) == df.format(b)
+    private fun equalDouble(expected: Double, toCheck: Double): Boolean {
+        return Math.abs(toCheck - expected) / Math.max(1.0, expected) < 1e-5
     }
 }
